@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طبخة على الجاهز | أكل بيتي وجهز على التسوية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d35400;
+            --secondary-color: #e67e22;
+            --dark-color: #2c3e50;
+            --light-bg: #fdfbf7;
+            --white: #ffffff;
+            --accent-green: #27ae60;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #d35400, #b94000);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .categories-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+        .categories-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .cat-btn {
+            background: var(--white);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        h2.section-title {
+            color: var(--primary-color);
+            margin: 30px 0 15px;
+            border-bottom: 2px dashed var(--primary-color);
+            padding-bottom: 5px;
+            font-size: 1.5rem;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .menu-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #eee;
+        }
+        .item-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+        .item-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .add-btn {
+            background: var(--accent-green);
+            color: var(--white);
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            transition: 0.2s;
+        }
+        .add-btn:hover {
+            opacity: 0.9;
+        }
+        /* Floating Cart Bar */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-color);
+            color: var(--white);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .cart-bar button {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .close-modal {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            float: left;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>طبخة على الجاهز</h1>
+        <p>أكل بيتي.. كل الأكل بيتي وبلمسة حب 🍲</p>
+    </header>
+
+    <div class="container">
+        <!-- تصفية الأقسام -->
+        <div class="categories-nav">
+            <button class="cat-btn active" onclick="filterCategory('all')">الكل</button>
+            <button class="cat-btn" onclick="filterCategory('ready')">أكلات جاهزة على التسوية</button>
+            <button class="cat-btn" onclick="filterCategory('family')">وجبات العيلة (أكل مستوي)</button>
+            <button class="cat-btn" onclick="filterCategory('school')">وجبات بعد المدرسة</button>
+            <button class="cat-btn" onclick="filterCategory('veggies')">الخضار الجاهز</button>
+            <button class="cat-btn" onclick="filterCategory('trays')">صواني العيلة</button>
+            <button class="cat-btn" onclick="filterCategory('sandwiches')">سندوتشات المدرسة</button>
+            <button class="cat-btn" onclick="filterCategory('extras')">الإضافات والصصوص</button>
+        </div>
+
+        <div id="menu-container"></div>
+    </div>
+
+    <!-- شريط السلة العائم -->
+    <div class="cart-bar" id="cartBar" style="display:none;">
+        <div>
+            <span>السلة: <b id="cartCount">0</b> أصناف</span> | 
+            <span>الإجمالي: <b id="cartTotal">0</b> ج</span>
+        </div>
+        <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
+    </div>
+
+    <!-- نافذة إتمام الطلب -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeCheckout()">إغلاق</button>
+            <h3>تأكيد الطلب</h3>
+            <div id="cartItemsList" style="margin-bottom: 15px;"></div>
+            <div class="form-group">
+                <label>الاسم:</label>
+                <input type="text" id="clientName" placeholder="اكتب اسمك">
+            </div>
+            <div class="form-group">
+                <label>العنوان بالتفصيل:</label>
+                <textarea id="clientAddress" placeholder="المنطقة، الشارع، رقم العمارة..."></textarea>
+            </div>
+            <button class="add-btn" style="background:#25d366; font-size: 1.1rem; padding: 12px;" onclick="sendToWhatsApp()">إرسال الأوردر عبر واتساب 📱</button>
+        </div>
+    </div>
+
+    <script>
+        const menuData = [
+            // أكلات جاهزة على التسوية
+            { id: 1, name: "محشي كرنب", price: 100, category: "ready" },
+            { id: 2, name: "محشي باذنجان", price: 100, category: "ready" },
+            { id: 3, name: "محشي كوسة", price: 100, category: "ready" },
+            { id: 4, name: "محشي مشكل", price: 100, category: "ready" },
+            { id: 5, name: "محشي ورق عنب", price: 110, category: "ready" },
+            { id: 6, name: "ممبار جاهز للقلي", price: 230, category: "ready" },
+            { id: 7, name: "فرخة متبلة (كاملة)", price: 250, category: "ready" },
+            { id: 8, name: "كيلو أوراك دجاج متبلة", price: 150, category: "ready" },
+            { id: 9, name: "كيلو حمام كذاب", price: 140, category: "ready" },
+            { id: 10, name: "جوز حمام محشي بالخلطة", price: 280, category: "ready" },
+            { id: 11, name: "بانيه دجاج", price: 240, category: "ready" },
+            { id: 12, name: "استريس دجاج", price: 240, category: "ready" },
+            { id: 13, name: "شيش دجاج", price: 240, category: "ready" },
+            { id: 14, name: "شاورما فراخ متبلة", price: 240, category: "ready" },
+            { id: 15, name: "أجنحة بروستد للقلي", price: 120, category: "ready" },
+            { id: 16, name: "دبابيس بروستد للقلي", price: 150, category: "ready" },
+            { id: 17, name: "مكرونة بشاميل (حجم كبير)", price: 250, category: "ready" },
+            { id: 18, name: "مكرونة بشاميل (حجم وسط)", price: 200, category: "ready" },
+            { id: 19, name: "سمبوسك جين", price: 250, category: "ready" },
+            { id: 20, name: "سمبوسك لحم", price: 380, category: "ready" },
+            { id: 21, name: "سمك بلطي متبل للقلي", price: 110, category: "ready" },
+            { id: 22, name: "كفته بيتي لحم بناتي", price: 400, category: "ready" },
+            { id: 23, name: "كفته شوي لحم بناتي متبلة", price: 420, category: "ready" },
+            { id: 24, name: "كفته شوي خليط (لحم مع دجاج)", price: 350, category: "ready" },
+            { id: 25, name: "شاورما لحم بناتي", price: 420, category: "ready" },
+            { id: 26, name: "برجر لحم بناتي", price: 380, category: "ready" },
+            { id: 27, name: "كبدة بلدي بناتي متبلة", price: 420, category: "ready" },
+            { id: 28, name: "كبدة برازيلي متبلة درجة أولى", price: 300, category: "ready" },
+
+            // وجبات العيلة (أكل مستوي)
+            { id: 29, name: "كيلو محشي مشكل", price: 120, category: "family" },
+            { id: 30, name: "كيلو محشي كرنب", price: 120, category: "family" },
+            { id: 31, name: "كيلو محشي باذنجان", price: 120, category: "family" },
+            { id: 32, name: "كيلو محشي كوسة", price: 120, category: "family" },
+            { id: 33, name: "كيلو محشي فلفل", price: 110, category: "family" },
+            { id: 34, name: "كيلو بانيه", price: 250, category: "family" },
+            { id: 35, name: "كيلو استريس", price: 250, category: "family" },
+            { id: 36, name: "كيلو كفته بيتي بناتي", price: 420, category: "family" },
+            { id: 37, name: "فرخة محمرة", price: 275, category: "family" },
+            { id: 38, name: "فرخة مشوية فرن", price: 275, category: "family" },
+            { id: 39, name: "كيلو رز بسمتي", price: 100, category: "family" },
+            { id: 40, name: "كيلو رز أبيض", price: 60, category: "family" },
+            { id: 41, name: "كيلو رز بالكبد والقوانص", price: 100, category: "family" },
+            { id: 42, name: "جوز حمام محشي", price: 300, category: "family" },
+            { id: 43, name: "كيلو بانيه مشوي بالزبدة", price: 280, category: "family" },
+            { id: 44, name: "كيلو أوراك دجاج محمرة", price: 160, category: "family" },
+            { id: 45, name: "صينية بطاطس بالفراخ (فرخة كاملة)", price: 330, category: "family" },
+            { id: 46, name: "كيلو لحمة محمرا بناتي", price: 430, category: "family" },
+            { id: 47, name: "كيلو سلطة رنجة", price: 250, category: "family" },
+
+            // وجبات بعد المدرسة
+            { id: 48, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 70, category: "school" },
+            { id: 49, name: "2 قطعة استريس + رز بسمتي + سلطة", price: 70, category: "school" },
+            { id: 50, name: "2 قطعة كفته بيتي + رز أبيض + سلطة", price: 80, category: "school" },
+            { id: 51, name: "1/2 محشي كرنب + 1/4 فرخة", price: 130, category: "school" },
+            { id: 52, name: "1/2 محشي باذنجان + 1/4 فرخة", price: 130, category: "school" },
+            { id: 53, name: "سمكة بلطي + رز صيادية + سلطة", price: 90, category: "school" },
+            { id: 54, name: "محشي كرنب + قطعتين لحم + شوربة", price: 160, category: "school" },
+            { id: 55, name: "فتة شاورما حجم صغير", price: 50, category: "school" },
+            { id: 56, name: "فتة شاورما حجم كبير", price: 70, category: "school" },
+            { id: 57, name: "فرد بشاميل + قطعتين بانيه", price: 80, category: "school" },
+
+            // الخضار الجاهز
+            { id: 58, name: "باذنجان متقور", price: 25, category: "veggies" },
+            { id: 59, name: "كوسة متقورة", price: 40, category: "veggies" },
+            { id: 60, name: "فلفل حشو", price: 30, category: "veggies" },
+            { id: 61, name: "فلفل ألوان حشو", price: 40, category: "veggies" },
+            { id: 62, name: "بامية زيرو", price: 70, category: "veggies" },
+            { id: 63, name: "بامية ممتاز", price: 70, category: "veggies" },
+            { id: 64, name: "بسلة", price: 70, category: "veggies" },
+            { id: 65, name: "ملوخية مخرطة", price: 45, category: "veggies" },
+            { id: 66, name: "نصف كيلو ثوم مفروم", price: 65, category: "veggies" },
+            { id: 67, name: "نصف كيلو ثوم فصوص", price: 65, category: "veggies" },
+            { id: 68, name: "بصل جوليان", price: 35, category: "veggies" },
+            { id: 69, name: "بصل مفروم", price: 40, category: "veggies" },
+            { id: 70, name: "مكعبات جزر", price: 35, category: "veggies" },
+            { id: 71, name: "شوربة خضار", price: 60, category: "veggies" },
+            { id: 72, name: "صلصة متسبكة", price: 35, category: "veggies" },
+            { id: 73, name: "كرنب مسلوق وسط", price: 70, category: "veggies" },
+            { id: 74, name: "كرنب مسلوق صغير", price: 50, category: "veggies" },
+
+            // صواني العيلة
+            { id: 75, name: "الصينية الأولى (1/2 ممبار + 1/2 سمبوسك + 1/2 كفته + محشي مشكل + فرخة فرن)", price: 800, category: "trays" },
+            { id: 76, name: "الصينية الثانية (1/2 ممبار + 1/2 سمبوسك + كفته + رز بسمتي + شوربة + فرخة فرن)", price: 900, category: "trays" },
+            { id: 77, name: "الصينية الثالثة (3 أفراد حمام + 1/2 ممبار + 1/2 سمبوسك + 1/2 كفته لحم + رز بالكبد والقوانص + شوربة + سلطة)", price: 1000, category: "trays" },
+            { id: 78, name: "الصينية الرابعة (رز بسمتي + كفته بيتي + 1/2 سجق + 1/2 شيش + سلطة)", price: 850, category: "trays" },
+
+            // سندوتشات المدرسة
+            { id: 79, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches" },
+            { id: 80, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches" },
+            { id: 81, name: "سندوتش كفته بيتي + طحينة", price: 40, category: "sandwiches" },
+            { id: 82, name: "سندوتش كبدة + طحينة", price: 30, category: "sandwiches" },
+            { id: 83, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches" },
+            { id: 84, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches" },
+            { id: 85, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches" },
+
+            // الإضافات والصصوص
+            { id: 86, name: "علبة كولسلو", price: 25, category: "extras" },
+            { id: 87, name: "علبة صوص رانش", price: 50, category: "extras" },
+            { id: 88, name: "علبة صوص شيدر", price: 70, category: "extras" },
+            { id: 89, name: "علبة صوص جينة رومي", price: 40, category: "extras" },
+            { id: 90, name: "علبة صوص تومية", price: 20, category: "extras" },
+            { id: 91, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras" },
+            { id: 92, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras" }
+        ];
+
+        let cart = [];
+
+        function renderMenu(category = 'all') {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+            
+            const filtered = category === 'all' ? menuData : menuData.filter(item => item.category === category);
+            
+            filtered.forEach(item => {
+                container.innerHTML += `
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <h3>${item.name}</h3>
+                            <div class="item-price">${item.price} ج</div>
+                        </div>
+                        <button class="add-btn" onclick="addToCart(${item.id})">أضف للأوردر 🛒</button>
+                    </div>
+                `;
+            });
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderMenu(cat);
+        }
+
+        function addToCart(id) {
+            const item = menuData.find(i => i.id === id);
+            const found = cart.find(i => i.id === id);
+            if (found) {
+                found.qty++;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartBar = document.getElementById('cartBar');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+
+            const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
+            const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+            if (totalCount > 0) {
+                cartBar.style.display = 'flex';
+                cartCount.innerText = totalCount;
+                cartTotal.innerText = totalPrice;
+            } else {
+                cartBar.style.display = 'none';
+            }
+        }
+
+        function openCheckout() {
+            const modal = document.getElementById('checkoutModal');
+            const list = document.getElementById('cartItemsList');
+            list.innerHTML = '';
+
+            cart.forEach(item => {
+                list.innerHTML += `
+                    <div class="cart-item-row">
+                        <span>${item.name} (x${item.qty})</span>
+                        <span>${item.price * item.qty} ج</span>
+                    </div>
+                `;
+            });
+            modal.style.display = 'flex';
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('clientName').value;
+            const address = document.getElementById('clientAddress').value;
+
+            if (!name || !address) {
+                alert('من فضلك اكتب الاسم والعنوان لتأكيد الأوردر.');
+                return;
+            }
+
+            let message = `السلام عليكم، عوز أطلب الأوردر ده من ع الحلة:\n\n`;
+            cart.forEach(item => {
+                message += `- ${item.name} (عدد: ${item.qty}) = ${item.price * item.qty} ج\n`;
+            });
+
+            const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            message += `\n*الإجمالي الكلي:* ${totalPrice} جنيه\n\n`;
+            message += `*اسم العميل:* ${name}\n`;
+            message += `*العنوان:* ${address}`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/201129933758?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // تشغيل المنيو عند فتح الصفحة
+        renderMenu('all');
+    </script>
+</body>
+</html>
