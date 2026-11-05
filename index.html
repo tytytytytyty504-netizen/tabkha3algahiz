@@ -54,6 +54,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #ff9f43;
+            background: #fff;
         }
         .brand-title h2 {
             font-size: 1rem;
@@ -157,11 +158,23 @@
         .menu-item {
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 15px;
+            overflow: hidden;
             border: 1px solid #333;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+        .menu-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .item-details {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
         }
         .item-info h3 {
             font-size: 1rem;
@@ -313,8 +326,8 @@
 
     <header>
         <div class="brand-info">
-            <!-- الشعار الرسمي بتاعك -->
-            <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300" alt="طبخة على الجاهز" class="brand-logo" id="customLogo">
+            <!-- يقرأ صورة اللوجو المرفوعة بنفس اسم logo.jpg -->
+            <img src="logo.jpg" alt="طبخة على الجاهز" class="brand-logo" onerror="this.onerror=null; this.src='logo.png';">
             <div class="brand-title">
                 <h2>طبخة على الجاهز</h2>
                 <p>أكل بيتي.. جاهز على التسوية</p>
@@ -407,34 +420,18 @@
 
     <script>
         const menuData = [
-            { id: 1, name: "محشي كرنب", price: 100, category: "ready" },
-            { id: 2, name: "محشي باذنجان", price: 100, category: "ready" },
-            { id: 3, name: "محشي كوسة", price: 100, category: "ready" },
-            { id: 4, name: "محشي مشكل", price: 100, category: "ready" },
-            { id: 5, name: "محشي ورق عنب", price: 110, category: "ready" },
-            { id: 6, name: "ممبار جاهز للقلي", price: 230, category: "ready" },
-            { id: 7, name: "فرخة متبلة (كاملة)", price: 250, category: "ready" },
-            { id: 11, name: "بانيه دجاج", price: 240, category: "ready" },
-            { id: 17, name: "مكرونة بشاميل (حجم كبير)", price: 250, category: "ready" },
-            { id: 22, name: "كفته بيتي لحم بناتي", price: 400, category: "ready" },
-            { id: 29, name: "كيلو محشي مشكل", price: 120, category: "family" },
-            { id: 30, name: "كيلو محشي كرنب", price: 120, category: "family" },
-            { id: 34, name: "كيلو بانيه", price: 250, category: "family" },
-            { id: 36, name: "كيلو كفته بيتي بناتي", price: 420, category: "family" },
-            { id: 37, name: "فرخة محمرة", price: 275, category: "family" },
-            { id: 38, name: "فرخة مشوية فرن", price: 275, category: "family" },
-            { id: 45, name: "صينية بطاطس بالفراخ", price: 330, category: "family" },
-            { id: 48, name: "وجبة بانيه + رز بسمتي + سلطة", price: 70, category: "school" },
-            { id: 51, name: "1/2 محشي كرنب + 1/4 فرخة", price: 130, category: "school" },
-            { id: 55, name: "فتة شاورما حجم كبير", price: 70, category: "school" },
-            { id: 58, name: "باذنجان متقور", price: 25, category: "veggies" },
-            { id: 62, name: "بامية ممتاز", price: 70, category: "veggies" },
-            { id: 65, name: "ملوخية مخرطة", price: 45, category: "veggies" },
-            { id: 75, name: "الصينية الأولى الكبرى (ممبار وكفته ومحشي وفرخة)", price: 800, category: "trays" },
-            { id: 76, name: "الصينية الثانية (محشي ومشويات ورز)", price: 900, category: "trays" },
-            { id: 79, name: "سندوتش بانيه بصوص الجبنة", price: 50, category: "sandwiches" },
-            { id: 81, name: "سندوتش كفته بيتي + طحينة", price: 40, category: "sandwiches" },
-            { id: 85, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches" }
+            { id: 1, name: "محشي كرنب", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            { id: 2, name: "محشي باذنجان", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            { id: 3, name: "محشي ورق عنب", price: 110, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            { id: 6, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
+            { id: 7, name: "فرخة متبلة (كاملة)", price: 250, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
+            { id: 11, name: "بانيه دجاج", price: 240, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
+            { id: 17, name: "مكرونة بشاميل (حجم كبير)", price: 250, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
+            { id: 22, name: "كفته بيتي لحم بناتي", price: 400, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
+            { id: 29, name: "كيلو محشي مشكل", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            { id: 37, name: "فرخة محمرة", price: 275, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
+            { id: 45, name: "صينية بطاطس بالفراخ", price: 330, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
+            { id: 75, name: "الصينية الأولى الكبرى", price: 800, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" }
         ];
 
         let cart = [];
@@ -452,18 +449,21 @@
             }
             
             if (filtered.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888;">عذراً، لم نجد نتائج مطابقة لبحثك.</p>';
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج مطابقة لبحثك.</p>';
                 return;
             }
 
             filtered.forEach(item => {
                 container.innerHTML += `
                     <div class="menu-item">
-                        <div class="item-info">
-                            <h3>${item.name}</h3>
-                            <div class="item-price">${item.price} ج</div>
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="item-details">
+                            <div class="item-info">
+                                <h3>${item.name}</h3>
+                                <div class="item-price">${item.price} ج</div>
+                            </div>
+                            <button class="add-btn" onclick="addToCart(${item.id})">أضف للأوردر 🛒</button>
                         </div>
-                        <button class="add-btn" onclick="addToCart(${item.id})">أضف للأوردر 🛒</button>
                     </div>
                 `;
             });
