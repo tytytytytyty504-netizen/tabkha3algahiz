@@ -25,7 +25,7 @@
         body {
             background-color: var(--bg);
             color: var(--text-color);
-            padding-bottom: 70px;
+            padding-bottom: 80px;
         }
         .announcement-bar {
             background: #b94000;
@@ -39,7 +39,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 15px;
             background: var(--dark);
             border-bottom: 1px solid #333;
         }
@@ -49,28 +49,23 @@
             gap: 10px;
         }
         .brand-logo {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: #ff9f43;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            color: #121212;
             object-fit: cover;
+            border: 2px solid #ff9f43;
         }
         .brand-title h2 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #ff9f43;
         }
         .brand-title p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
         .header-icons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         .icon-btn {
             background: #2c2c2c;
@@ -318,14 +313,14 @@
 
     <header>
         <div class="brand-info">
-            <div class="brand-logo">طبخة</div>
+            <!-- الشعار الرسمي بتاعك -->
+            <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300" alt="طبخة على الجاهز" class="brand-logo" id="customLogo">
             <div class="brand-title">
                 <h2>طبخة على الجاهز</h2>
-                <p>أكل بيتي.. كل أكل بيتي وبلمسة حب</p>
+                <p>أكل بيتي.. جاهز على التسوية</p>
             </div>
         </div>
         <div class="header-icons">
-            <!-- زر الفيسبوك برابط صفحتك المباشر -->
             <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="icon-btn" title="صفحتنا على الفيسبوك">📘</a>
             <a href="https://wa.me/201129933758" target="_blank" class="icon-btn" title="واتساب">💬</a>
         </div>
@@ -554,7 +549,7 @@
         }
 
         function sendToWhatsApp() {
-            const name = document.getElementById('clientName'].value;
+            const name = document.getElementById('clientName').value;
             const address = document.getElementById('clientAddress').value;
 
             if (!name || !address) {
@@ -562,7 +557,7 @@
                 return;
             }
 
-            let message = `السلام عليكم، عوز أطلب الأوردر ده من *طبخة على الجاهز*:\n\n`;
+            let message = `السلام عليكم، عاوز أطلب الأوردر ده من *طبخة على الجاهز*:\n\n`;
             cart.forEach(item => {
                 message += `- ${item.name} (عدد: ${item.qty}) = ${item.price * item.qty} ج\n`;
             });
