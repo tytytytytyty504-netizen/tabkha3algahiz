@@ -27,7 +27,6 @@
             color: var(--text-color);
             padding-bottom: 70px;
         }
-        /* شريط الإعلانات المتحرك فوق */
         .announcement-bar {
             background: #b94000;
             color: white;
@@ -36,7 +35,6 @@
             padding: 8px;
             font-weight: 600;
         }
-        /* الهيدر العلوي */
         header {
             display: flex;
             justify-content: space-between;
@@ -54,7 +52,12 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: #fff;
+            background: #ff9f43;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #121212;
             object-fit: cover;
         }
         .brand-title h2 {
@@ -67,7 +70,7 @@
         }
         .header-icons {
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
         .icon-btn {
             background: #2c2c2c;
@@ -81,13 +84,13 @@
             color: white;
             cursor: pointer;
             font-size: 1.1rem;
+            text-decoration: none;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 15px;
         }
-        /* قسم البحث */
         .search-box {
             margin: 15px 0;
         }
@@ -100,7 +103,6 @@
             color: white;
             font-size: 0.95rem;
         }
-        /* بانر العروض */
         .promo-banner {
             background: linear-gradient(135deg, #d35400, #c0392b);
             border-radius: 15px;
@@ -118,14 +120,10 @@
             font-size: 0.9rem;
             opacity: 0.9;
         }
-        /* الأقسام السريعة بالصور */
         .section-title {
             font-size: 1.2rem;
             margin: 20px 0 10px;
             color: #ff9f43;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         .categories-grid {
             display: grid;
@@ -156,7 +154,6 @@
             font-size: 0.85rem;
             font-weight: 600;
         }
-        /* قائمة المنيو والأصناف */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -195,7 +192,6 @@
         .add-btn:hover {
             background: #b94000;
         }
-        /* شريط التنقل السفلي الثابت */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -217,6 +213,7 @@
             flex-direction: column;
             align-items: center;
             cursor: pointer;
+            text-decoration: none;
         }
         .nav-item.active, .nav-item:hover {
             color: #ff9f43;
@@ -225,7 +222,6 @@
             font-size: 1.2rem;
             margin-bottom: 2px;
         }
-        /* سلة الطلبات العائمة */
         .cart-floating {
             position: fixed;
             bottom: 65px;
@@ -250,7 +246,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-        /* نافذة الطلب */
         .modal {
             display: none;
             position: fixed;
@@ -296,42 +291,56 @@
             float: left;
             cursor: pointer;
         }
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+        .delete-item-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 
-    <!-- شريط الإعلانات -->
     <div class="announcement-bar">
         🚚 توصيل مجاني لأي أوردر فوق 1000 ج ومع عروض الفراخ - الطلب قبلها بيوم 🍲
     </div>
 
-    <!-- الهيدر -->
     <header>
         <div class="brand-info">
-            <div class="brand-logo" style="background:#ff9f43; display:flex; align-items:center; justify-content:center; font-weight:900; color:#121212;">طبخة</div>
+            <div class="brand-logo">طبخة</div>
             <div class="brand-title">
                 <h2>طبخة على الجاهز</h2>
                 <p>أكل بيتي.. كل أكل بيتي وبلمسة حب</p>
             </div>
         </div>
         <div class="header-icons">
-            <button class="icon-btn" onclick="window.open('https://wa.me/201129933758', '_blank')">💬</button>
+            <!-- زر الفيسبوك برابط صفحتك المباشر -->
+            <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="icon-btn" title="صفحتنا على الفيسبوك">📘</a>
+            <a href="https://wa.me/201129933758" target="_blank" class="icon-btn" title="واتساب">💬</a>
         </div>
     </header>
 
     <div class="container">
-        <!-- خانة البحث -->
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="ابحث عن أي أكلة نفسك فيها..." oninput="searchMenu()">
         </div>
 
-        <!-- بانر العروض -->
         <div class="promo-banner">
             🔥 العروض والبوكسات الكبرى
             <p>وفر أكثر واطلب وجبات العيلة المتكاملة بأسعار ممتازة</p>
         </div>
 
-        <!-- الأقسام السريعة بالصور -->
         <div class="section-title">الأقسام الرئيسية</div>
         <div class="categories-grid">
             <div class="cat-card" onclick="filterCategory('ready')">
@@ -360,18 +369,15 @@
             </div>
         </div>
 
-        <!-- عرض المنتجات -->
         <div class="section-title" id="menuTitle">المنيو الكامل</div>
         <div class="menu-grid" id="menu-container"></div>
     </div>
 
-    <!-- سلة الطلبات العائمة -->
     <div class="cart-floating" id="cartBar" style="display:none;">
         <div>السلة: <span id="cartCount">0</span> أصناف | الإجمالي: <span id="cartTotal">0</span> ج</div>
         <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
     </div>
 
-    <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="filterCategory('all')">
             <span class="icon">🏠</span>الرئيسية
@@ -382,16 +388,15 @@
         <button class="nav-item" onclick="openCheckout()">
             <span class="icon">🛒</span>السلة
         </button>
-        <button class="nav-item" onclick="window.open('https://wa.me/201129933758', '_blank')">
+        <a href="https://wa.me/201129933758" target="_blank" class="nav-item">
             <span class="icon">💬</span>واتساب
-        </button>
+        </a>
     </div>
 
-    <!-- نافذة إتمام الطلب -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeCheckout()">إغلاق</button>
-            <h3 style="margin-bottom: 15px; color: #ff9f43;">تأكيد الأوردر</h3>
+            <h3 style="margin-bottom: 15px; color: #ff9f43;">مراجعة السلة وإتمام الأوردر</h3>
             <div id="cartItemsList" style="margin-bottom: 15px; font-size: 0.9rem;"></div>
             <div class="form-group">
                 <label>اسمك:</label>
@@ -486,13 +491,22 @@
 
         function addToCart(id) {
             const item = menuData.find(i => i.id === id);
-            const found = cart.pipe ? null : cart.find(i => i.id === id);
+            const found = cart.find(i => i.id === id);
             if (found) {
                 found.qty++;
             } else {
                 cart.push({ ...item, qty: 1 });
             }
             updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+            openCheckout();
+            if(cart.length === 0) {
+                closeCheckout();
+            }
         }
 
         function updateCartUI() {
@@ -523,9 +537,12 @@
 
             cart.forEach(item => {
                 list.innerHTML += `
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 5px;">
-                        <span>${item.name} (x${item.qty})</span>
-                        <span>${item.price * item.qty} ج</span>
+                    <div class="cart-item-row">
+                        <div>
+                            <strong>${item.name}</strong> (x${item.qty})<br>
+                            <span style="color: #ff9f43; font-size: 0.85rem;">${item.price * item.qty} ج</span>
+                        </div>
+                        <button class="delete-item-btn" onclick="removeFromCart(${item.id})">حذف 🗑️</button>
                     </div>
                 `;
             });
@@ -537,7 +554,7 @@
         }
 
         function sendToWhatsApp() {
-            const name = document.getElementById('clientName').value;
+            const name = document.getElementById('clientName'].value;
             const address = document.getElementById('clientAddress').value;
 
             if (!name || !address) {
