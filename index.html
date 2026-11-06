@@ -183,11 +183,12 @@
             flex-direction: column;
             justify-content: space-between;
         }
+        /* ضبط الصورة بحيث تركز على الأكلة وتملأ الإطار بشكل احترافي متناسق */
         .menu-item img {
             width: 100%;
-            height: 150px;
+            height: 160px;
             object-fit: cover;
-            background: #2a2a2a;
+            background: #181818;
         }
         .item-details {
             padding: 15px;
@@ -382,15 +383,15 @@
 
         <div class="slideshow-container">
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=600" alt="بانيه دجاج">
+                <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="slide-text">✨ متوفر فوري: بانيه دجاج متبل وجهز للقلي</div>
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600" alt="كفتة لحم بناتي">
+                <img src="kofta_raw.jpg" alt="كفتة لحم بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
                 <div class="slide-text">🔥 متوفر فوري: كفتة بيتي لحم بناتي أصلي</div>
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600" alt="أوراك دجاج متبلة">
+                <img src="owrak_motabala.jpg" alt="أوراك دجاج متبلة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
                 <div class="slide-text">🍗 متوفر فوري: كيلو أوراك دجاج متبلة ومجهزة</div>
             </div>
         </div>
@@ -467,7 +468,7 @@
             </div>
             <div class="form-group">
                 <label>المنطقة:</label>
-                <input type="text" id="clientArea" placeholder="مثال: المصرف، الشون، سنباط...">
+                <input type="text" id="clientArea" placeholder="مثال: الشون، المصرف، سنباط...">
             </div>
             <div class="form-group">
                 <label>العنوان بالتفصيل:</label>
@@ -507,103 +508,111 @@
 
     <script>
         const menuData = [
-            { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            // العروض
+            { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg" },
             
-            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 7, name: "كيلو أوراك دجاج متبلة", price: 160, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 11, name: "مكرونة بشاميل (حجم كبير) علي التسويه", price: 230, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
-            { id: 12, name: "مكرونة بشاميل (حجم وسط) علي التسويه", price: 180, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
-            { id: 13, name: "سمبوسك جبن جاهزة للقلي", price: 250, category: "ready", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400" },
-            { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400" },
-            { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 16, name: "كبدة برازيلي متبلة (درجة أولى)", price: 300, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" },
+            // أكلات للتسوية
+            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg" },
+            { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "mahshi_badengan.jpg" },
+            { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "mahshi_kousa.jpg" },
+            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg" },
+            { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "mahshi_warag_enab.jpg" },
+            { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "farkha_motabala.jpg" },
+            { id: 7, name: "كيلو أوراك دجاج متبلة", price: 160, category: "ready", img: "owrak_motabala.jpg" },
+            { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "hamam_kadab.jpg" },
+            { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "goz_hamam.jpg" },
+            { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "mombar.jpg" },
+            { id: 11, name: "مكرونة بشاميل (حجم كبير) علي التسويه", price: 230, category: "ready", img: "bchamel_big.jpg" },
+            { id: 12, name: "مكرونة بشاميل (حجم وسط) علي التسويه", price: 180, category: "ready", img: "bchamel_medium.jpg" },
+            { id: 13, name: "سمبوسك جبن جاهزة للقلي", price: 250, category: "ready", img: "sambousak_cheese.jpg" },
+            { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "sambousak_meat.jpg" },
+            { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "kebda_baladi.jpg" },
+            { id: 16, name: "كبدة برازيلي متبلة (درجة أولى)", price: 300, category: "ready", img: "kebda_brazili.jpg" },
+            { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "shish_tawook.jpg" },
+            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg" },
+            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg" },
+            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg" },
+            { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "shawarma_chicken.jpg" },
+            { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "shawarma_meat.jpg" },
+            { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "samak_bolti.jpg" },
+            { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "wings_broasted.jpg" },
+            { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "drumsticks_broasted.jpg" },
+            { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "burger_meat.jpg" },
 
-            { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 30, name: "فلفل ألوان حشو", price: 40, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 31, name: "بامية زيرو", price: 100, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 32, name: "بامية ممتاز", price: 100, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 33, name: "بسلة", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 34, name: "ملوخية مخرطة", price: 50, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 35, name: "نصف كيلو ثوم مفروم", price: 75, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 36, name: "نصف كيلو ثوم فصوص", price: 75, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 37, name: "بصل جوليان", price: 35, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 38, name: "بصل مفروم", price: 35, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 39, name: "مكعبات جزر", price: 35, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            // الخضار الجاهز
+            { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "badengan_cleared.jpg" },
+            { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "kousa_cleared.jpg" },
+            { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "felafel_hashw.jpg" },
+            { id: 30, name: "فلفل ألوان حشو", price: 40, category: "veggies", img: "felafel_colors.jpg" },
+            { id: 31, name: "بامية زيرو", price: 100, category: "veggies", img: "bamya_zero.jpg" },
+            { id: 32, name: "بامية ممتاز", price: 100, category: "veggies", img: "bamya_mumtaz.jpg" },
+            { id: 33, name: "بسلة", price: 70, category: "veggies", img: "besella.jpg" },
+            { id: 34, name: "ملوخية مخرطة", price: 50, category: "veggies", img: "molokhia.jpg" },
+            { id: 35, name: "نصف كيلو ثوم مفروم", price: 75, category: "veggies", img: "garlic_minced.jpg" },
+            { id: 36, name: "نصف كيلو ثوم فصوص", price: 75, category: "veggies", img: "garlic_cloves.jpg" },
+            { id: 37, name: "بصل جوليان", price: 35, category: "veggies", img: "onion_julienne.jpg" },
+            { id: 38, name: "بصل مفروم", price: 35, category: "veggies", img: "onion_chopped.jpg" },
+            { id: 39, name: "مكعبات جزر", price: 35, category: "veggies", img: "carrots_diced.jpg" },
+            { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "veg_soup.jpg" },
+            { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "tomato_sauce.jpg" },
+            { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "kromb_boiled.jpg" },
 
-            { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
-            { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
-            { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
-            { id: 46, name: "½ محشي كرنب + ¼ فرخة", price: 140, category: "school", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 47, name: "محشي باذنجان + ¼ فرخة", price: 140, category: "school", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 48, name: "سمكة بلطي + رز صيادية + سلطة", price: 90, category: "school", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 49, name: "محشي كرنب + قطعتين لحم + شوربة", price: 160, category: "school", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
-            { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
-            { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
+            // وجبات المدرسة
+            { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg" },
+            { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg" },
+            { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg" },
+            { id: 46, name: "½ محشي كرنب + ¼ فرخة", price: 140, category: "school", img: "meal_kromb_chicken.jpg" },
+            { id: 47, name: "محشي باذنجان + ¼ فرخة", price: 140, category: "school", img: "meal_badengan_chicken.jpg" },
+            { id: 48, name: "سمكة بلطي + رز صيادية + سلطة", price: 90, category: "school", img: "meal_fish_sayadia.jpg" },
+            { id: 49, name: "محشي كرنب + قطعتين لحم + شوربة", price: 160, category: "school", img: "meal_kromb_meat.jpg" },
+            { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "fatta_shawarma_small.jpg" },
+            { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "fatta_shawarma_big.jpg" },
+            { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "meal_bchamel_paneer.jpg" },
 
-            { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 56, name: "كيلو محشي كوسة", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 57, name: "كيلو محشي فلفل", price: 110, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 58, name: "كيلو بانيه", price: 300, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 59, name: "كيلو استربس", price: 300, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 60, name: "كيلو كفتة بيتي بناتي", price: 500, category: "family", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 61, name: "فرخة محمرة", price: 300, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 62, name: "فرخة مشوية فرن", price: 300, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 63, name: "كيلو رز بسمتي", price: 100, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 64, name: "كيلو رز أبيض", price: 60, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 65, name: "كيلو رز بالكبد والقوانص", price: 100, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 66, name: "جوز حمام محشي", price: 300, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 67, name: "كيلو بانيه مشوي بالزبدة", price: 280, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 68, name: "كيلو أوراك دجاج محمره", price: 180, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 69, name: "صينية بطاطس بالفراخ (فرخة كاملة)", price: 330, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
+            // وجبات العيلة
+            { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "fam_mahshi_meshakal.jpg" },
+            { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "fam_mahshi_kromb.jpg" },
+            { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "fam_mahshi_badengan.jpg" },
+            { id: 56, name: "كيلو محشي كوسة", price: 120, category: "family", img: "fam_mahshi_kousa.jpg" },
+            { id: 57, name: "كيلو محشي فلفل", price: 110, category: "family", img: "fam_mahshi_felafel.jpg" },
+            { id: 58, name: "كيلو بانيه", price: 300, category: "family", img: "fam_paneer.jpg" },
+            { id: 59, name: "كيلو استربس", price: 300, category: "family", img: "fam_strips.jpg" },
+            { id: 60, name: "كيلو كفتة بيتي بناتي", price: 500, category: "family", img: "fam_kofta.jpg" },
+            { id: 61, name: "فرخة محمرة", price: 300, category: "family", img: "fam_chicken_fried.jpg" },
+            { id: 62, name: "فرخة مشوية فرن", price: 300, category: "family", img: "fam_chicken_grilled.jpg" },
+            { id: 63, name: "كيلو رز بسمتي", price: 100, category: "family", img: "fam_basmati.jpg" },
+            { id: 64, name: "كيلو رز أبيض", price: 60, category: "family", img: "fam_white_rice.jpg" },
+            { id: 65, name: "كيلو رز بالكبد والقوانص", price: 100, category: "family", img: "fam_kebda_rice.jpg" },
+            { id: 66, name: "جوز حمام محشي", price: 300, category: "family", img: "fam_hamam.jpg" },
+            { id: 67, name: "كيلو بانيه مشوي بالزبدة", price: 280, category: "family", img: "fam_paneer_butter.jpg" },
+            { id: 68, name: "كيلو أوراك دجاج محمره", price: 180, category: "family", img: "fam_owrak_fried.jpg" },
+            { id: 69, name: "صينية بطاطس بالفراخ (فرخة كاملة)", price: 330, category: "family", img: "fam_potatoes_chicken.jpg" },
+            { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "fam_meat_fried.jpg" },
+            { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "fam_rengah.jpg" },
 
-            { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
+            // صواني العيلة
+            { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "tray_1.jpg" },
+            { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "tray_2.jpg" },
+            { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "tray_3.jpg" },
+            { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "tray_4.jpg" },
 
-            { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 79, name: "سندوتش كبدة + طحينة", price: 30, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
+            // السندوتشات
+            { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_paneer.jpg" },
+            { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_strips.jpg" },
+            { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "sand_kofta.jpg" },
+            { id: 79, name: "سندوتش كبدة + طحينة", price: 30, category: "sandwiches", img: "sand_kebda.jpg" },
+            { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "sand_steak.jpg" },
+            { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "sand_shish.jpg" },
+            { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "sand_shawarma.jpg" },
 
-            { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 86, name: "علبة صوص رانش", price: 50, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" }
+            // الإضافات
+            { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "sauce_toumya.jpg" },
+            { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "sauce_romi.jpg" },
+            { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "sauce_cheddar.jpg" },
+            { id: 86, name: "علبة صوص رانش", price: 50, category: "extras", img: "sauce_ranch.jpg" },
+            { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "coleslaw.jpg" },
+            { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "mix_mahshi.jpg" },
+            { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "mix_hamam.jpg" }
         ];
 
         let cart = [];
@@ -816,6 +825,7 @@
             message += `العنوان: ${address}%0A`;
             message += `طريقة الدفع: ${payment}%0A`;
             
+            if,
             if (isWeekly) {
                 message += `*اشترك في شنطة الأسبوع:* نعم%0A`;
             }
