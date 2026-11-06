@@ -67,6 +67,15 @@
         .header-icons {
             display: flex;
             gap: 8px;
+            align-items: center;
+        }
+        .icon-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 1px solid #444;
         }
         .icon-btn {
             background: #2c2c2c;
@@ -335,7 +344,10 @@
             </div>
         </div>
         <div class="header-icons">
-            <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="icon-btn" title="صفحتنا على الفيسبوك">📘</a>
+            <!-- أيقونة الفيسبوك بالصورة الجديدة -->
+            <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحتنا على الفيسبوك">
+                <img src="https://i.ibb.co/3yk7v82/17939731841907829418790338683388.png" alt="Facebook" class="icon-img" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100';">
+            </a>
             <a href="https://wa.me/201129933758" target="_blank" class="icon-btn" title="واتساب">💬</a>
         </div>
     </header>
@@ -350,7 +362,7 @@
             <p>أكل بيتي جاهز ومضمون لعيلتك ولمدريتك</p>
         </div>
 
-        <div class="section-title">الأقسام الرئيسية</div>
+        <div class="section-title" id="categoriesSection">الأقسام الرئيسية</div>
         <div class="cat-tabs">
             <button class="cat-tab-btn active" onclick="filterCategory('all')">الكل ✨</button>
             <button class="cat-tab-btn" onclick="filterCategory('offers')">🔥 العروض</button>
@@ -372,12 +384,13 @@
         <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
     </div>
 
+    <!-- شريط الحالة أو التنقل السفلي المتكامل (الرئيسية، الأقسام، السلة، الواتساب) -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="filterCategory('all')">
             <span class="icon">🏠</span>الرئيسية
         </button>
-        <button class="nav-item" onclick="filterCategory('offers')">
-            <span class="icon">🔥</span>العروض
+        <button class="nav-item" onclick="scrollToCategories()">
+            <span class="icon">📋</span>الأقسام
         </button>
         <button class="nav-item" onclick="openCheckout()">
             <span class="icon">🛒</span>السلة
@@ -419,7 +432,7 @@
             </div>
             <div class="form-group">
                 <label>المنطقة:</label>
-                <input type="text" id="clientArea" placeholder="مثال: سموحة، سيدي جابر، سنباط...">
+                <input type="text" id="clientArea" placeholder="مثال: الشون، المصرف، سنباط...">
             </div>
             <div class="form-group">
                 <label>العنوان بالتفصيل:</label>
@@ -596,9 +609,23 @@
         function filterCategory(cat) {
             document.getElementById('searchInput').value = '';
             document.querySelectorAll('.cat-tab-btn').forEach(btn => btn.classList.remove('active'));
-            event && event.target.classList.add('active');
+            
+            // تحديد الزر النشط في التبويبات العلوية لو موجود
+            document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+                if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(cat)) {
+                    btn.classList.add('active');
+                }
+            });
+
             renderMenu(cat);
             window.scrollTo({ top: 350, behavior: 'smooth' });
+        }
+
+        function scrollToCategories() {
+            const section = document.getElementById('categoriesSection');
+            if(section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         function searchMenu() {
