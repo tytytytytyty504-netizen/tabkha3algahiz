@@ -108,14 +108,37 @@
             color: white;
             font-size: 0.95rem;
         }
-        .promo-banner {
-            background: linear-gradient(135deg, #d35400, #c0392b);
-            border-radius: 15px;
-            padding: 20px;
-            color: white;
+        /* سلايدر الصور المتحركة بدلاً من البانر الثابت */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            height: 180px;
             margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .slide-text {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.3);
+            padding: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
         .section-title {
             font-size: 1.2rem;
@@ -195,6 +218,7 @@
             width: 100%;
             transition: 0.2s;
         }
+        /* شريط التنقل السفلي يضم الكل بجانب بعضهم */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -344,9 +368,9 @@
             </div>
         </div>
         <div class="header-icons">
-            <!-- أيقونة الفيسبوك بالصورة الجديدة -->
+            <!-- أيقونة الفيسبوك بالرابط المباشر الصحيح -->
             <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحتنا على الفيسبوك">
-                <img src="https://i.ibb.co/3yk7v82/17939731841907829418790338683388.png" alt="Facebook" class="icon-img" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100';">
+                <img src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100';">
             </a>
             <a href="https://wa.me/201129933758" target="_blank" class="icon-btn" title="واتساب">💬</a>
         </div>
@@ -357,9 +381,20 @@
             <input type="text" id="searchInput" placeholder="ابحث عن أي أكلة نفسك فيها..." oninput="searchMenu()">
         </div>
 
-        <div class="promo-banner">
-            🔥 رجوع المدارس أسهل مع طبخة على الجاهز!
-            <p>أكل بيتي جاهز ومضمون لعيلتك ولمدريتك</p>
+        <!-- سلايدر الصور المتحركة (مجموعة صور تعرض تباعاً) -->
+        <div class="slideshow-container">
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600" alt="أكل بيتي">
+                <div class="slide-text">أكل بيتي مضمون ومجهز بأعلى جودة 🍲</div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" alt="عروض ووجبات">
+                <div class="slide-text">وفر وقتك واستمتع بأحلى الأكلات العائلية 🔥</div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" alt="وجبات سريعة">
+                <div class="slide-text">وجبات جاهزة على التسوية لعيلتك ولكل وقت 🎒</div>
+            </div>
         </div>
 
         <div class="section-title" id="categoriesSection">الأقسام الرئيسية</div>
@@ -384,13 +419,16 @@
         <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
     </div>
 
-    <!-- شريط الحالة أو التنقل السفلي المتكامل (الرئيسية، الأقسام، السلة، الواتساب) -->
+    <!-- شريط التنقل السفلي يضم الجميع (الرئيسية، الأقسام، العروض، السلة، واتساب) -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="filterCategory('all')">
             <span class="icon">🏠</span>الرئيسية
         </button>
         <button class="nav-item" onclick="scrollToCategories()">
             <span class="icon">📋</span>الأقسام
+        </button>
+        <button class="nav-item" onclick="filterCategory('offers')">
+            <span class="icon">🔥</span>العروض
         </button>
         <button class="nav-item" onclick="openCheckout()">
             <span class="icon">🛒</span>السلة
@@ -432,7 +470,7 @@
             </div>
             <div class="form-group">
                 <label>المنطقة:</label>
-                <input type="text" id="clientArea" placeholder="مثال: الشون، المصرف، سنباط...">
+                <input type="text" id="clientArea" placeholder="مثال: سموحة، سيدي جابر، سنباط...">
             </div>
             <div class="form-group">
                 <label>العنوان بالتفصيل:</label>
@@ -472,7 +510,6 @@
 
     <script>
         const menuData = [
-            { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 1, name: "محشي كرنب", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 2, name: "محشي باذنجان", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 3, name: "محشي كوسة", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
@@ -573,6 +610,21 @@
         let cart = [];
         const deliveryFee = 20;
 
+        // تشغيل السلايدر المتحرك
+        let slideIndex = 0;
+        function showSlides() {
+            let slides = document.getElementsByClassName("slide");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }    
+            if (slides[slideIndex - 1]) {
+                slides[slideIndex - 1].style.display = "block";  
+            }
+            setTimeout(showSlides, 3500); // تتغير الصورة كل 3.5 ثانية
+        }
+
         function renderMenu(category = 'all', query = '') {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
@@ -610,7 +662,6 @@
             document.getElementById('searchInput').value = '';
             document.querySelectorAll('.cat-tab-btn').forEach(btn => btn.classList.remove('active'));
             
-            // تحديد الزر النشط في التبويبات العلوية لو موجود
             document.querySelectorAll('.cat-tab-btn').forEach(btn => {
                 if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(cat)) {
                     btn.classList.add('active');
@@ -781,6 +832,7 @@
         }
 
         renderMenu('all');
+        showSlides();
     </script>
 </body>
 </html>
