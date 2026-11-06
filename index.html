@@ -108,14 +108,6 @@
             text-align: center;
             box-shadow: 0 4px 15px rgba(211, 84, 0, 0.3);
         }
-        .promo-banner h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-        .promo-banner p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
         .section-title {
             font-size: 1.2rem;
             margin: 20px 0 10px;
@@ -194,9 +186,6 @@
             width: 100%;
             transition: 0.2s;
         }
-        .add-btn:hover {
-            background: #b94000;
-        }
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -255,11 +244,11 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
         .modal-content {
             background: var(--dark);
@@ -272,46 +261,62 @@
             border: 1px solid #444;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            color: #ff9f43;
         }
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 10px;
             background: #2a2a2a;
             border: 1px solid #444;
             border-radius: 8px;
             color: white;
+            font-size: 0.9rem;
         }
         .close-modal {
             background: #e74c3c;
             color: white;
             border: none;
-            padding: 5px 12px;
+            padding: 6px 12px;
             border-radius: 5px;
             float: left;
             cursor: pointer;
+            font-weight: bold;
         }
         .cart-item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
+            background: #252525;
+            padding: 10px;
+            border-radius: 8px;
         }
-        .delete-item-btn {
-            background: #e74c3c;
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .qty-btn {
+            background: #333;
             color: white;
             border: none;
-            padding: 4px 8px;
-            border-radius: 5px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .delete-item-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -367,7 +372,6 @@
         <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
     </div>
 
-    <!-- شريط التنقل السفلي المعدل ليضم العروض -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="filterCategory('all')">
             <span class="icon">🏠</span>الرئيسية
@@ -385,27 +389,77 @@
 
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeCheckout()">إغلاق</button>
-            <h3 style="margin-bottom: 15px; color: #ff9f43;">مراجعة السلة وإتمام الأوردر</h3>
-            <div id="cartItemsList" style="margin-bottom: 15px; font-size: 0.9rem;"></div>
+            <button class="close-modal" onclick="closeCheckout()">إغلاق ✕</button>
+            <h3 style="margin-bottom: 15px; color: #ff9f43;">أوردرك</h3>
+            
+            <div id="cartItemsList" style="margin-bottom: 10px; font-size: 0.9rem;"></div>
+            
+            <div style="border-top: 1px solid #444; padding-top: 10px; margin-bottom: 15px; font-size: 0.95rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>الأصناف:</span>
+                    <span><span id="subTotal">0</span> ج</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>التوصيل:</span>
+                    <span>20 ج</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #ff9f43; font-size: 1.1rem; margin-top: 8px;">
+                    <span>الإجمالي بالتوصيل:</span>
+                    <span><span id="grandTotal">20</span> ج</span>
+                </div>
+            </div>
+
             <div class="form-group">
-                <label>اسمك:</label>
-                <input type="text" id="clientName" placeholder="اكتب اسمك هنا">
+                <label>الاسم:</label>
+                <input type="text" id="clientName" placeholder="مثال: منى أحمد">
+            </div>
+            <div class="form-group">
+                <label>رقم الموبايل:</label>
+                <input type="tel" id="clientPhone" placeholder="01xxxxxxxxxx">
+            </div>
+            <div class="form-group">
+                <label>المنطقة:</label>
+                <input type="text" id="clientArea" placeholder="مثال: سموحة، سيدي جابر، سنباط...">
             </div>
             <div class="form-group">
                 <label>العنوان بالتفصيل:</label>
-                <textarea id="clientAddress" placeholder="مثال: سنباط شارع سالم العزب البيت الرابع شقه 3"></textarea>
+                <textarea id="clientAddress" rows="2" placeholder="سنباط شارع سالم العزب البيت الرابع شقه 3"></textarea>
             </div>
-            <button class="add-btn" style="background:#25d366; font-size: 1.1rem; padding: 12px;" onclick="sendToWhatsApp()">إرسال عبر الواتساب 📱</button>
+            <div class="form-group">
+                <label>طريقة الدفع:</label>
+                <select id="paymentMethod" onchange="togglePaymentInfo()">
+                    <option value="كاش عند الاستلام">كاش عند الاستلام</option>
+                    <option value="إنستاباي">إنستاباي (InstaPay)</option>
+                    <option value="محفظة">محفظة إلكترونية</option>
+                </select>
+            </div>
+
+            <div id="paymentInstructions" style="background:#252525; padding:10px; border-radius:8px; margin-bottom:12px; display:none; border: 1px solid var(--primary);">
+                <p id="payText" style="margin:0; font-size:0.85rem; color:#ffcc00; line-height: 1.4;"></p>
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; gap: 8px; background: #252525; padding: 10px; border-radius: 8px;">
+                <input type="checkbox" id="weeklyBox" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                <label for="weeklyBox" style="margin: 0; color: white; font-size: 0.85rem; cursor: pointer;">اشترك في شنطة الأسبوع (يوصلك كل أسبوع في نفس اليوم)</label>
+            </div>
+
+            <div class="form-group">
+                <label>مين رشحك؟ (اختياري)</label>
+                <input type="text" id="clientReferral" placeholder="اسم أو رقم صديقتك اللي قالتلك علينا">
+            </div>
+
+            <div class="form-group">
+                <label>ملاحظات (اختياري)</label>
+                <input type="text" id="clientNotes" placeholder="مستوي ولا على التسوية، معاد معين، أي طلب خاص">
+            </div>
+
+            <button class="add-btn" style="background:#25d366; font-size: 1.1rem; padding: 12px; margin-top: 10px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
         </div>
     </div>
 
     <script>
         const menuData = [
-            // عروض خاصة
             { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            
-            // 1. قسم الأكلات الجاهزة على التسوية والقلي
             { id: 1, name: "محشي كرنب", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 2, name: "محشي باذنجان", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 3, name: "محشي كوسة", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
@@ -433,7 +487,6 @@
             { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
             { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" },
 
-            // 2. قسم الخضار الجاهز
             { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
@@ -451,7 +504,6 @@
             { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
 
-            // 3. قسم وجبات بعد المدرسة
             { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
             { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
             { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
@@ -463,7 +515,6 @@
             { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
             { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
 
-            // 4. قسم وجبات العيلة
             { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
@@ -484,13 +535,11 @@
             { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
             { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
 
-            // 5. قسم صواني العيلة
             { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
 
-            // 6. قسم سندوتشات المدرسة
             { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
             { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
             { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 40, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
@@ -499,7 +548,6 @@
             { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
             { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
 
-            // 7. الإضافات والصوصات والخلطات
             { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
@@ -510,6 +558,7 @@
         ];
 
         let cart = [];
+        const deliveryFee = 20;
 
         function renderMenu(category = 'all', query = '') {
             const container = document.getElementById('menu-container');
@@ -549,16 +598,12 @@
             document.querySelectorAll('.cat-tab-btn').forEach(btn => btn.classList.remove('active'));
             event && event.target.classList.add('active');
             renderMenu(cat);
-            scrollToMenu();
+            window.scrollTo({ top: 350, behavior: 'smooth' });
         }
 
         function searchMenu() {
             const query = document.getElementById('searchInput').value;
             renderMenu('all', query);
-        }
-
-        function scrollToMenu() {
-            window.scrollTo({ top: 350, behavior: 'smooth' });
         }
 
         function addToCart(id) {
@@ -572,11 +617,17 @@
             updateCartUI();
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
+        function changeQty(id, delta) {
+            const found = cart.find(i => i.id === id);
+            if (found) {
+                found.qty += delta;
+                if (found.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
             updateCartUI();
             openCheckout();
-            if(cart.length === 0) {
+            if (cart.length === 0) {
                 closeCheckout();
             }
         }
@@ -587,7 +638,8 @@
             const cartTotal = document.getElementById('cartTotal');
 
             const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
-            const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const subTotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const totalPrice = subTotal > 0 ? subTotal + deliveryFee : 0;
 
             if (totalCount > 0) {
                 cartBar.style.display = 'flex';
@@ -607,17 +659,28 @@
             const list = document.getElementById('cartItemsList');
             list.innerHTML = '';
 
+            let subTotal = 0;
+
             cart.forEach(item => {
+                subTotal += item.price * item.qty;
                 list.innerHTML += `
                     <div class="cart-item-row">
                         <div>
-                            <strong>${item.name}</strong> (x${item.qty})<br>
-                            <span style="color: #ff9f43; font-size: 0.85rem;">${item.price * item.qty} ج</span>
+                            <strong>${item.name}</strong><br>
+                            <span style="color: #ff9f43; font-size: 0.85rem; font-weight: bold;">${item.price * item.qty} ج</span>
                         </div>
-                        <button class="delete-item-btn" onclick="removeFromCart(${item.id})">حذف 🗑️</button>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span style="font-weight: bold; min-width: 15px; text-align: center;">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                            <button class="delete-item-btn" onclick="changeQty(${item.id}, -${item.qty})" title="حذف">🗑️</button>
+                        </div>
                     </div>
                 `;
             });
+
+            document.getElementById('subTotal').innerText = subTotal;
+            document.getElementById('grandTotal').innerText = subTotal + deliveryFee;
             modal.style.display = 'flex';
         }
 
@@ -625,27 +688,69 @@
             document.getElementById('checkoutModal').style.display = 'none';
         }
 
+        function togglePaymentInfo() {
+            let method = document.getElementById('paymentMethod').value;
+            let box = document.getElementById('paymentInstructions');
+            let text = document.getElementById('payText');
+            
+            if (method === 'إنستاباي') {
+                box.style.display = 'block';
+                text.innerHTML = 'حول على إنستاباي: <b>01155499777</b><br>وابعت صورة التحويل في نفس شات الواتساب.';
+            } else if (method === 'محفظة') {
+                box.style.display = 'block';
+                text.innerHTML = 'حول على المحفظة: <b>01288372467</b><br>وابعت صورة التحويل في نفس شات الواتساب.';
+            } else {
+                box.style.display = 'none';
+            }
+        }
+
         function sendToWhatsApp() {
             const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const area = document.getElementById('clientArea').value;
             const address = document.getElementById('clientAddress').value;
+            const payment = document.getElementById('paymentMethod').value;
+            const isWeekly = document.getElementById('weeklyBox').checked;
+            const referral = document.getElementById('clientReferral').value;
+            const notes = document.getElementById('clientNotes').value;
 
-            if (!name || !address) {
-                alert('من فضلك اكتب اسمك وعنوانك بالكامل.');
+            if (!name || !phone || !area || !address) {
+                alert('من فضلك اكتب الاسم، رقم الموبايل، المنطقة، والعنوان بالتفصيل.');
                 return;
             }
 
-            let message = `السلام عليكم، عاوز أطلب الأوردر ده من *طبخة على الجاهز*:\n\n`;
+            let message = `*أوردر جديد من طبخة على الجاهز*%0A`;
+            message += `------------------%0A`;
             cart.forEach(item => {
-                message += `- ${item.name} (عدد: ${item.qty}) = ${item.price * item.qty} ج\n`;
+                message += `- ${item.name} (×${item.qty}) : ${item.price * item.qty} ج%0A`;
             });
+            message += `------------------%0A`;
+            
+            let subTotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            let total = subTotal + deliveryFee;
 
-            const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            message += `\n*الإجمالي الكلي:* ${totalPrice} جنيه\n\n`;
-            message += `*اسم العميل:* ${name}\n`;
-            message += `*العنوان:* ${address}`;
+            message += `الأصناف: ${subTotal} ج%0A`;
+            message += `التوصيل: ${deliveryFee} ج%0A`;
+            message += `*الإجمالي الكلي: ${total} ج*%0A%0A`;
+            message += `*بيانات العميل:*%0A`;
+            message += `الاسم: ${name}%0A`;
+            message += `الموبايل: ${phone}%0A`;
+            message += `المنطقة: ${area}%0A`;
+            message += `العنوان: ${address}%0A`;
+            message += `طريقة الدفع: ${payment}%0A`;
+            
+            if (isWeekly) {
+                message += `*اشترك في شنطة الأسبوع:* نعم%0A`;
+            }
+            if (referral) {
+                message += `مين رشحك: ${referral}%0A`;
+            }
+            if (notes) {
+                message += `ملاحظات: ${notes}%0A`;
+            }
 
             const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/201129933758?text=${encodedMessage}`, '_blank');
+            window.open(`https://wa.me/201155499777?text=${encodedMessage}`, '_blank');
         }
 
         renderMenu('all');
