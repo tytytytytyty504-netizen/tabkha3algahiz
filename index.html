@@ -27,14 +27,27 @@
             color: var(--text-color);
             padding-bottom: 80px;
         }
-        .announcement-bar {
-            background: #b94000;
+        /* الشريط المتحرك للتنبيه بموعد الحجز */
+        .marquee-bar {
+            background: #c0392b;
             color: white;
-            font-size: 0.85rem;
-            text-align: center;
-            padding: 8px;
-            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 0;
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 1px solid #e74c3c;
         }
+        .marquee-bar span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -77,20 +90,6 @@
             cursor: pointer;
             border: 1px solid #444;
         }
-        .icon-btn {
-            background: #2c2c2c;
-            border: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            font-size: 1.1rem;
-            text-decoration: none;
-        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -108,11 +107,11 @@
             color: white;
             font-size: 0.95rem;
         }
-        /* سلايدر الصور المتحركة بدلاً من البانر الثابت */
+        /* سلايدر الصور المتحركة للمنتجات الفورية */
         .slideshow-container {
             position: relative;
             max-width: 100%;
-            height: 180px;
+            height: 190px;
             margin-bottom: 20px;
             border-radius: 15px;
             overflow: hidden;
@@ -132,12 +131,12 @@
         .slide-text {
             position: absolute;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
+            background: rgba(0, 0, 0, 0.75);
+            color: #ff9f43;
             width: 100%;
             text-align: center;
             padding: 8px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: bold;
         }
         .section-title {
@@ -218,7 +217,6 @@
             width: 100%;
             transition: 0.2s;
         }
-        /* شريط التنقل السفلي يضم الكل بجانب بعضهم */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -355,8 +353,9 @@
 </head>
 <body>
 
-    <div class="announcement-bar">
-        🚚 طبخة على الجاهز | أكل بيتي يوفر وقتك ومجهودك 🍲
+    <!-- الشريط المتحرك للتنبيه بموعد الحجز -->
+    <div class="marquee-bar">
+        <span>  🍽تنبيه هـام: الحجز يكون قبلها بيوم على الأقل لضمان تحضير أجود الأكل البيتي الطازج ! 🍲</span>
     </div>
 
     <header>
@@ -368,11 +367,13 @@
             </div>
         </div>
         <div class="header-icons">
-            <!-- أيقونة الفيسبوك بالرابط المباشر الصحيح -->
             <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحتنا على الفيسبوك">
                 <img src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=100';">
             </a>
-            <a href="https://wa.me/201129933758" target="_blank" class="icon-btn" title="واتساب">💬</a>
+            <!-- أيقونة الواتساب بالرابط الجديد -->
+            <a href="https://wa.me/201129933758" target="_blank" title="واتساب">
+                <img src="https://store-images.s-microsoft.com/image/apps.8453.13518859748920827.4d7dd838-9f34-4ad2-9cd7-b861c6398fc1.11cbb3d4-ffd9-42c1-82bd-e3f305d562b1?h=210" alt="WhatsApp" class="icon-img">
+            </a>
         </div>
     </header>
 
@@ -381,19 +382,19 @@
             <input type="text" id="searchInput" placeholder="ابحث عن أي أكلة نفسك فيها..." oninput="searchMenu()">
         </div>
 
-        <!-- سلايدر الصور المتحركة (مجموعة صور تعرض تباعاً) -->
+        <!-- سلايدر المنتجات الفورية في الواجهة -->
         <div class="slideshow-container">
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600" alt="أكل بيتي">
-                <div class="slide-text">أكل بيتي مضمون ومجهز بأعلى جودة 🍲</div>
+                <img src="https://edamfarms.com/product/pane-marinated-eggs-rusk/?srsltid=AYCX9vLmR-alUhoBAt9xJPovklXkk0va4NuzSqiLa4hXQT6VeHx_0Mz7" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
+                <div class="slide-text">✨ متوفر فوري: بانيه دجاج متبل وجهز للقلي</div>
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600" alt="عروض ووجبات">
-                <div class="slide-text">وفر وقتك واستمتع بأحلى الأكلات العائلية 🔥</div>
+                <img src="https://neatmeat.net/product/%D9%83%D9%81%D8%AA%D8%A9-%D8%AD%D8%A7%D8%AA%D9%8A/" alt="كفتة لحم بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
+                <div class="slide-text">🔥 متوفر فوري: كفتة بيتي لحم بناتي أصلي</div>
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" alt="وجبات سريعة">
-                <div class="slide-text">وجبات جاهزة على التسوية لعيلتك ولكل وقت 🎒</div>
+                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600" alt="أوراك دجاج متبلة">
+                <div class="slide-text">🍗 متوفر فوري: كيلو أوراك دجاج متبلة ومجهزة</div>
             </div>
         </div>
 
@@ -419,7 +420,7 @@
         <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
     </div>
 
-    <!-- شريط التنقل السفلي يضم الجميع (الرئيسية، الأقسام، العروض، السلة، واتساب) -->
+    <!-- شريط التنقل السفلي المتكامل -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="filterCategory('all')">
             <span class="icon">🏠</span>الرئيسية
@@ -470,7 +471,7 @@
             </div>
             <div class="form-group">
                 <label>المنطقة:</label>
-                <input type="text" id="clientArea" placeholder="مثال: سموحة، سيدي جابر، سنباط...">
+                <input type="text" id="clientArea" placeholder="مثال: الشون، المصرف، سنباط...">
             </div>
             <div class="form-group">
                 <label>العنوان بالتفصيل:</label>
@@ -480,8 +481,8 @@
                 <label>طريقة الدفع:</label>
                 <select id="paymentMethod" onchange="togglePaymentInfo()">
                     <option value="كاش عند الاستلام">كاش عند الاستلام</option>
-                    <option value="إنستاباي">إنستاباي (InstaPay)</option>
-                    <option value="محفظة">محفظة إلكترونية</option>
+                    <option value="إنستاباي">إنستاباي (01155499777)</option>
+                    <option value="محفظة">محفظة إلكترونية (01288372467)</option>
                 </select>
             </div>
 
@@ -510,50 +511,56 @@
 
     <script>
         const menuData = [
-            { id: 1, name: "محشي كرنب", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 2, name: "محشي باذنجان", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 3, name: "محشي كوسة", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 4, name: "محشي مشكل", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 5, name: "محشي ورق عنب", price: 140, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            // العروض
+            { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "https://saudifreshfood.com/en/%D8%AB%D9%88%D9%85-%D9%85%D9%82%D8%B4%D8%B1-100-%D8%AC%D8%B1%D8%A7%D9%85/p1372577729" },
+            
+            // أكلات للتسوية
+            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
+            { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "https://mahshihub.com/product/635" },
+            { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "https://mahshihub.com/product/571" },
+            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "https://mahshihub.com/product/575" },
+            { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
             { id: 7, name: "كيلو أوراك دجاج متبلة", price: 160, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
             { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
-            { id: 9, name: "جوز حمام محشي بالخلطة", price: 280, category: "ready", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
+            { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 11, name: "مكرونة بشاميل (حجم كبير)", price: 250, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
-            { id: 12, name: "مكرونة بشاميل (حجم وسط)", price: 200, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
-            { id: 13, name: "سمبوسك جبن", price: 250, category: "ready", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400" },
-            { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400" },
-            { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
+            { id: 11, name: "مكرونة بشاميل (حجم كبير) علي التسويه", price: 230, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
+            { id: 12, name: "مكرونة بشاميل (حجم وسط) علي التسويه", price: 180, category: "ready", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
+            { id: 13, name: "سمبوسك جبن جاهزة للقلي", price: 250, category: "ready", img: "https://neatmeat.net/product/%D8%B7%D8%A8%D9%82-%D8%B3%D9%85%D8%A8%D9%88%D8%B3%D9%83-%D8%A7%D9%84%D8%AC%D8%A8%D9%86/" },
+            { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "https://neatmeat.net/wp-content/uploads/2020/09/neatmeat-bee-samosa.webp" },
+            { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "https://radifarms.com/wp-content/uploads/2020/03/C1B4086-2-scaled.jpg" },
             { id: 16, name: "كبدة برازيلي متبلة (درجة أولى)", price: 300, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 17, name: "شيش دجاج", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 18, name: "بانيه دجاج", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 19, name: "استربس دجاج", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
-            { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
+            { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
+            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
+            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
+            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "https://neatmeat.net/product/%D9%83%D9%81%D8%AA%D8%A9-%D8%AD%D8%A7%D8%AA%D9%8A/" },
+            { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "https://neatmeat.net/product/%D8%B4%D8%A7%D9%88%D8%B1%D9%85%D8%A7-%D9%81%D8%B1%D8%A7%D8%AE/" },
             { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
             { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
-            { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" },
+            { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "https://neatmeat.net/product/marinated-chicken-wings/" },
+            { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "https://neatmeat.net/product/%D8%AF%D8%A8%D8%A7%D8%A8%D9%8A%D8%B3-%D8%AF%D8%AC%D8%A7%D8%AC-%D9%85%D8%AA%D8%A8%D9%84/" },
+            { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "https://neatmeat.net/product/%D8%A8%D8%B1%D9%8A%D9%85%D9%8A%D9%88%D9%85-%D8%A8%D8%B1%D8%AC%D8%B1-%D8%A8%D9%82%D8%B1%D9%89/" },
 
-            { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            // الخضار الجاهز
+            { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "https://cdn.mafrservices.com/sys-master-root/h7c/he8/61634588377118/308455_main.jpg" },
             { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 30, name: "فلفل ألوان حشو", price: 40, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 31, name: "بامية زيرو", price: 100, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            { id: 31, name: "بامية زيرو", price: 100, category: "veggies", img: "https://palmyraorders.com/ar/products/okra-zero-500g" },
             { id: 32, name: "بامية ممتاز", price: 100, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 33, name: "بسلة", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 34, name: "ملوخية مخرطة", price: 50, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 35, name: "نصف كيلو ثوم مفروم", price: 75, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 36, name: "نصف كيلو ثوم فصوص", price: 75, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            { id: 35, name: "نصف كيلو ثوم مفروم", price: 75, category: "veggies", img: "https://krmfruit.com/%D8%AB%D9%88%D9%85-%D9%85%D9%81%D8%B1%D9%88%D9%85/p1714017479" },
+            { id: 36, name: "نصف كيلو ثوم فصوص", price: 75, category: "veggies", img: "https://saudifreshfood.com/en/%D8%AB%D9%88%D9%85-%D9%85%D9%82%D8%B4%D8%B1-100-%D8%AC%D8%B1%D8%A7%D9%85/p1372577729" },
             { id: 37, name: "بصل جوليان", price: 35, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 38, name: "بصل مفروم", price: 35, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 39, name: "مكعبات جزر", price: 35, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            { id: 38, name: "بصل مفروم", price: 35, category: "veggies", img: "https://gulffruits.com/ar/products/onion-red-chopped" },
+            { id: 39, name: "مكعبات جزر", price: 35, category: "veggies", img: "https://gulffruits.com/ar/products/carrot-diced" },
             { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
 
+            // وجبات المدرسة
             { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
             { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
             { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
@@ -565,44 +572,48 @@
             { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" },
             { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
 
+            // وجبات العيلة
             { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 56, name: "كيلو محشي كوسة", price: 120, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
             { id: 57, name: "كيلو محشي فلفل", price: 110, category: "family", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=400" },
-            { id: 58, name: "كيلو بانيه", price: 260, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
-            { id: 59, name: "كيلو استربس", price: 260, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
+            { id: 58, name: "كيلو بانيه", price: 300, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
+            { id: 59, name: "كيلو استربس", price: 300, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
             { id: 60, name: "كيلو كفتة بيتي بناتي", price: 500, category: "family", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400" },
             { id: 61, name: "فرخة محمرة", price: 300, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
             { id: 62, name: "فرخة مشوية فرن", price: 300, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
             { id: 63, name: "كيلو رز بسمتي", price: 100, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 64, name: "كيلو رز أبيض", price: 60, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 65, name: "كيلو رز بالكبد والقوانص", price: 100, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
-            { id: 66, name: "جوز حمام محشي", price: 300, category: "family", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
+            { id: 66, name: "جوز حمام محشي", price: 300, category: "family", img: "https://neatmeat.net/product/rice-stuffed-pigeon-pair/" },
             { id: 67, name: "كيلو بانيه مشوي بالزبدة", price: 280, category: "family", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" },
             { id: 68, name: "كيلو أوراك دجاج محمره", price: 180, category: "family", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400" },
             { id: 69, name: "صينية بطاطس بالفراخ (فرخة كاملة)", price: 330, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
             { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
             { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400" },
 
+            // صواني العيلة
             { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
             { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400" },
 
-            { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
+            // السندوتشات
+            { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "https://bmzag.com/products/%D8%B3%D9%86%D8%AF%D9%88%D8%AA%D8%B4-%D9%81%D8%B1%D8%A7%D8%AE-%D8%A8%D8%A7%D9%86%D9%8A%D9%87?srsltid=AYCX9vIcoH9n9IH9pESPAYTVZ6D2HcZByzHyfaFxKZgN4WZ_DgxHEzwo" },
             { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 40, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
+            { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
             { id: 79, name: "سندوتش كبدة + طحينة", price: 30, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
-            { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
+            { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "https://www.puckarabia.com/ar/recipes/baguette-with-steak-pickles-and-caramelized-onions/" },
             { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
             { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400" },
 
+            // الإضافات
             { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 86, name: "علبة صوص رانش", price: 50, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
-            { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
+            { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "https://mrkoko-eg.com/product/%D9%83%D9%88%D9%84-%D8%B3%D9%84%D9%88/" },
             { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" },
             { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" }
         ];
@@ -610,7 +621,7 @@
         let cart = [];
         const deliveryFee = 20;
 
-        // تشغيل السلايدر المتحرك
+        // تشغيل السلايدر المتحرك في الواجهة
         let slideIndex = 0;
         function showSlides() {
             let slides = document.getElementsByClassName("slide");
@@ -622,7 +633,7 @@
             if (slides[slideIndex - 1]) {
                 slides[slideIndex - 1].style.display = "block";  
             }
-            setTimeout(showSlides, 3500); // تتغير الصورة كل 3.5 ثانية
+            setTimeout(showSlides, 3500); 
         }
 
         function renderMenu(category = 'all', query = '') {
@@ -645,7 +656,7 @@
             filtered.forEach(item => {
                 container.innerHTML += `
                     <div class="menu-item">
-                        <img src="${item.img}" alt="${item.name}">
+                        <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
@@ -663,7 +674,7 @@
             document.querySelectorAll('.cat-tab-btn').forEach(btn => btn.classList.remove('active'));
             
             document.querySelectorAll('.cat-tab-btn').forEach(btn => {
-                if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(cat)) {
+                if(btn.getAttribute('onclick') && btn.getAttribute('onclick'].includes(cat)) {
                     btn.classList.add('active');
                 }
             });
@@ -828,7 +839,7 @@
             }
 
             const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/201155499777?text=${encodedMessage}`, '_blank');
+            window.open(`https://wa.me/201129933758?text=${encodedMessage}`, '_blank');
         }
 
         renderMenu('all');
