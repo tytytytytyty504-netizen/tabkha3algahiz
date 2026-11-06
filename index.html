@@ -33,8 +33,52 @@
             object-fit: cover;
             border: 2px solid var(--primary);
         }
+        .search-box {
+            padding: 10px;
+            background: #181818;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: #2a2a2a;
+            color: white;
+            box-sizing: border-box;
+            text-align: right;
+        }
+        .categories-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 10px;
+            background: #161616;
+            white-space: nowrap;
+        }
+        .cat-btn {
+            background: #2a2a2a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .cat-btn.active {
+            background: var(--primary);
+        }
         .container {
             padding: 10px;
+        }
+        .section-title {
+            color: var(--primary);
+            font-size: 18px;
+            margin: 15px 0 10px 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
         }
         .item-card {
             background: var(--card-bg);
@@ -51,13 +95,14 @@
             padding-right: 10px;
         }
         .item-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             margin-bottom: 5px;
         }
         .item-price {
             color: var(--primary);
             font-weight: bold;
+            font-size: 14px;
         }
         .cart-bar {
             position: fixed;
@@ -69,10 +114,11 @@
             padding: 12px;
             text-align: center;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
+            box-sizing: border-box;
+            z-index: 999;
         }
-        /* نافذة السلة */
         #cartModal {
             display: none;
             position: fixed;
@@ -124,13 +170,46 @@
     <h2>طبخة على الجاهز</h2>
 </header>
 
-<div class="container">
-    <div class="item-card">
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="دور على أي صنف... ورق عنب، بانيه، ملوخية" oninput="filterItems()">
+</div>
+
+<div class="categories-nav">
+    <button class="cat-btn active" onclick="filterCategory('all')">كل الأقسام</button>
+    <button class="cat-btn" onclick="filterCategory('offers')">🔥 العروض</button>
+    <button class="cat-btn" onclick="filterCategory('ready')">أكلات للتسوية</button>
+    <button class="cat-btn" onclick="filterCategory('veggies')">خضار جاهز</button>
+    <button class="cat-btn" onclick="filterCategory('school')">وجبات المدرسة</button>
+    <button class="cat-btn" onclick="filterCategory('family')">وجبات العيلة</button>
+    <button class="cat-btn" onclick="filterCategory('trays')">صواني العيلة</button>
+    <button class="cat-btn" onclick="filterCategory('extras')">الإضافات</button>
+</div>
+
+<div class="container" id="menuContainer">
+    <!-- الأقسام والمنتجات -->
+    <div class="section-title" data-cat="offers">🔥 العروض الخاصة</div>
+    <div class="item-card" data-cat="offers">
         <div class="item-info">
             <div class="item-title">عرض ثوم مفروم صافي - 4 كيلو</div>
             <div class="item-price">450 جنيه</div>
         </div>
         <button class="btn" style="width: auto;" onclick="addToCart('عرض ثوم مفروم صافي - 4 كيلو', 450)">أضف للأوردر</button>
+    </div>
+
+    <div class="section-title" data-cat="ready">🍲 أكلات للتسوية</div>
+    <div class="item-card" data-cat="ready">
+        <div class="item-info">
+            <div class="item-title">محشي كرنب محشي مسلوق</div>
+            <div class="item-price">130 ج / كيلو</div>
+        </div>
+        <button class="btn" style="width: auto;" onclick="addToCart('محشي كرنب مسلوق', 130)">أضف للأوردر</button>
+    </div>
+    <div class="item-card" data-cat="ready">
+        <div class="item-info">
+            <div class="item-title">ورق عنب محشي</div>
+            <div class="item-price">140 ج / كيلو</div>
+        </div>
+        <button class="btn" style="width: auto;" onclick="addToCart('ورق عنب محشي', 140)">أضف للأوردر</button>
     </div>
 </div>
 
@@ -139,7 +218,7 @@
     🛒 السلة (<span id="cartCount">0</span> أصناف) - <span id="cartTotal">0</span> ج
 </div>
 
-<!-- تفاصيل السلة والأوردر -->
+<!-- نافذة السلة -->
 <div id="cartModal">
     <div class="modal-content">
         <h3>أوردرك</h3>
@@ -167,11 +246,11 @@
         <label>طريقة الدفع:</label>
         <select id="paymentMethod" onchange="togglePaymentInfo()">
             <option value="كاش عند الاستلام">كاش عند الاستلام</option>
-            <option value="إنستاباي">إنستاباي (01155499777)</option>
-            <option value="محفظة">محفظة إلكترونية (01288372467)</option>
+            <option value="إنستاباي">إنستاباي (InstaPay)</option>
+            <option value="محفظة">محفظة إلكترونية</option>
         </select>
 
-        <div id="paymentInstructions" style="background:#2a2a2a; padding:10px; border-radius:5px; margin-bottom:15px; display:none;">
+        <div id="paymentInstructions" style="background:#2a2a2a; padding:10px; border-radius:5px; margin-bottom:15px; display:none; border: 1px solid var(--primary);">
             <p id="payText" style="margin:0; font-size:14px; color:#ffcc00;"></p>
         </div>
 
@@ -216,9 +295,9 @@
                         <div style="color:var(--primary);">${item.price * item.qty} ج</div>
                     </div>
                     <div style="display:flex; align-items:center; gap:5px;">
-                        <button onclick="changeQty(${index}, -1)" style="padding:5px 10px; background:#444; color:white; border:none; border-radius:3px;">-</button>
+                        <button onclick="changeQty(${index}, -1)" style="padding:5px 10px; background:#444; color:white; border:none; border-radius:3px; cursor:pointer;">-</button>
                         <span>${item.qty}</span>
-                        <button onclick="changeQty(${index}, 1)" style="padding:5px 10px; background:var(--primary); color:white; border:none; border-radius:3px;">+</button>
+                        <button onclick="changeQty(${index}, 1)" style="padding:5px 10px; background:var(--primary); color:white; border:none; border-radius:3px; cursor:pointer;">+</button>
                     </div>
                 </div>
             `;
@@ -243,13 +322,50 @@
         
         if (method === 'إنستاباي') {
             box.style.display = 'block';
-            text.innerText = 'حول على إنستاباي: 01155499777 وابعث صورة التحويل في نفس شات الواتساب.';
+            text.innerHTML = 'حول على إنستاباي: <b>01155499777</b><br>وابعت صورة التحويل في نفس شات الواتساب.';
         } else if (method === 'محفظة') {
             box.style.display = 'block';
-            text.innerText = 'حول على المحفظة: 01288372467 وابعث صورة التحويل في نفس شات الواتساب.';
+            text.innerHTML = 'حول على المحفظة: <b>01288372467</b><br>وابعت صورة التحويل في نفس شات الواتساب.';
         } else {
             box.style.display = 'none';
         }
+    }
+
+    function filterCategory(cat) {
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        let sections = document.querySelectorAll('.section-title');
+        let items = document.querySelectorAll('.item-card');
+
+        sections.forEach(sec => {
+            if (cat === 'all' || sec.getAttribute('data-cat') === cat) {
+                sec.style.display = 'block';
+            } else {
+                sec.style.display = 'none';
+            }
+        });
+
+        items.forEach(item => {
+            if (cat === 'all' || item.getAttribute('data-cat') === cat) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function filterItems() {
+        let query = document.getElementById('searchInput').value.toLowerCase();
+        let items = document.querySelectorAll('.item-card');
+        items.forEach(item => {
+            let text = item.innerText.toLowerCase();
+            if (text.includes(query)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 
     function sendOrderToWhatsApp() {
