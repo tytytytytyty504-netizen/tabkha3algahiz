@@ -109,7 +109,7 @@
             font-size: 0.95rem;
         }
 
-        /* بانر العرض (سحب يدوي + أوتوماتيكي) */
+        /* بانر العرض (سحب يدوي + أوتوماتيكي يشمل المصنعات والوجبات) */
         .swipe-banner-container {
             display: flex;
             overflow-x: auto;
@@ -224,6 +224,41 @@
             font-size: 0.95rem;
             font-weight: 700;
             color: #fff;
+        }
+
+        /* قسم عرض صورة الصفحة tabka.jpg وزر المتابعة */
+        .page-banner-section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .page-banner-section img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #444;
+        }
+        .follow-fb-btn {
+            display: inline-block;
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(24, 119, 242, 0.4);
+        }
+        .follow-fb-btn:hover {
+            background: #145dbf;
+            transform: translateY(-2px);
         }
 
         .menu-grid {
@@ -456,7 +491,7 @@
     </header>
 
     <div class="container">
-        <!-- بانر صور العرض (سحب يدوي + أوتوماتيكي مع عرض صور الوجبات) -->
+        <!-- بانر صور العرض (يشمل المصنعات والوجبات مع سحب يدوي وحركة أوتوماتيكية) -->
         <div class="swipe-banner-container" id="swipeBanner">
             <div class="banner-card">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
@@ -465,27 +500,37 @@
                         <h3>تشكيلة المصنعات الفورية</h3>
                         <p>بانيه دجاج متبل وجهز للقلي فوراً</p>
                     </div>
-                    <button class="banner-btn" onclick="addToCart(18, 1, 'وِرك')">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="addToCart(18, 1, 'وِرك', 0)">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
-                <img src="kofta_raw.jpg" alt="كفتة لحم بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
+                <img src="meal_badengan_chicken.jpg" alt="محشي مع ربع فرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
+                <div class="banner-overlay">
+                    <div class="banner-text">
+                        <h3>الوجبات المميزة</h3>
+                        <p>محشي باذنجان طازج مع ربع فرخة</p>
+                    </div>
+                    <button class="banner-btn" onclick="addToCart(47, 1, 'وِرك', 0)">اطلب دلوقتي</button>
+                </div>
+            </div>
+            <div class="banner-card">
+                <img src="meal_kromb_chicken.jpg" alt="محشي كرنب وفرخة" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
+                <div class="banner-overlay">
+                    <div class="banner-text">
+                        <h3>وجبة محشي كرنب وفرخة</h3>
+                        <p>أكل بيتي على أصوله مخدوم بحب</p>
+                    </div>
+                    <button class="banner-btn" onclick="addToCart(46, 1, 'وِرك', 0)">اطلب دلوقتي</button>
+                </div>
+            </div>
+            <div class="banner-card">
+                <img src="kofta_raw.jpg" alt="كفتة لحم بناتي" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
                 <div class="banner-overlay">
                     <div class="banner-text">
                         <h3>كفتة بيتي لحم بناتي</h3>
-                        <p>أصل اللحم البلدي المخدوم بحب</p>
+                        <p>أصل اللحم البلدي الطازج</p>
                     </div>
-                    <button class="banner-btn" onclick="addToCart(20, 1, 'عادي')">اطلب دلوقتي</button>
-                </div>
-            </div>
-            <div class="banner-card">
-                <img src="meal_badengan_chicken.jpg" alt="وجبة دجاج" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
-                <div class="banner-overlay">
-                    <div class="banner-text">
-                        <h3>وجبات العيلة الفاخرة</h3>
-                        <p>محشي مع ربع فرخة طازجة</p>
-                    </div>
-                    <button class="banner-btn" onclick="addToCart(47, 1, 'وِرك')">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="addToCart(20, 1, 'عادي', 0)">اطلب دلوقتي</button>
                 </div>
             </div>
         </div>
@@ -532,6 +577,16 @@
             <div class="category-card" onclick="selectCategory('extras')">
                 <span class="cat-icon">🥫</span>
                 <span class="cat-name">الإضافات</span>
+            </div>
+        </div>
+
+        <!-- صورة الصفحة tabka.jpg وزر متابعة الفيسبوك (تظهر في الواجهة الرئيسية فقط) -->
+        <div class="page-banner-section" id="pageBannerView">
+            <img src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
+            <div>
+                <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
+                    👍 متابعة صفحة الفيسبوك
+                </a>
             </div>
         </div>
 
@@ -636,7 +691,7 @@
 
     <script>
         const menuData = [
-            // أكلات للتسوية (بها خيار كيلو ونصف كيلو)
+            // أكلات للتسوية
             { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg", hasWeight: true, hasChicken: false },
             { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "mahshi_badengan.jpg", hasWeight: true, hasChicken: false },
             { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "mahshi_kousa.jpg", hasWeight: true, hasChicken: false },
@@ -682,7 +737,7 @@
             { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "tomato_sauce.jpg", hasWeight: false, hasChicken: false },
             { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "kromb_boiled.jpg", hasWeight: false, hasChicken: false },
 
-            // الوجبات (تسمى سابقا وجبات المدرسة)
+            // الوجبات (تضم وجبات تحتوي جزئية صدر وورك بزيادة 10ج)
             { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg", hasWeight: false, hasChicken: true },
             { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg", hasWeight: false, hasChicken: true },
             { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg", hasWeight: false, hasChicken: false },
@@ -778,6 +833,7 @@
 
         function selectCategory(catKey) {
             document.getElementById('categories-container').style.display = 'none';
+            document.getElementById('pageBannerView').style.display = 'none'; // إخفاء صورة tabka.jpg عند الدخول للأقسام
             document.getElementById('menu-container').style.display = 'grid';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
             document.getElementById('sectionHeadingText').innerText = catNamesMap[catKey] || 'المنيو';
@@ -787,6 +843,7 @@
 
         function showCategoriesView() {
             document.getElementById('categories-container').style.display = 'grid';
+            document.getElementById('pageBannerView').style.display = 'block'; // إظهار صورة tabka.jpg في الواجهة الرئيسية
             document.getElementById('menu-container').style.display = 'none';
             document.getElementById('backToCatsBtn').style.display = 'none';
             document.getElementById('sectionHeadingText').innerText = 'أقسام المنيو';
@@ -856,6 +913,7 @@
             const query = document.getElementById('searchInput').value;
             if(query.trim() !== '') {
                 document.getElementById('categories-container').style.display = 'none';
+                document.getElementById('pageBannerView').style.display = 'none';
                 document.getElementById('menu-container').style.display = 'grid';
                 document.getElementById('backToCatsBtn').style.display = 'inline-block';
                 document.getElementById('sectionHeadingText').innerText = 'نتائج البحث';
