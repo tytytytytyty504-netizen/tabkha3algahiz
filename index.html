@@ -86,17 +86,17 @@
             color: white;
             font-size: 0.95rem;
         }
-        /* شاشة عرض صور الفوري مع إمكانية التقليب اليدوي والتلقائي */
+        /* شاشة عرض صور الفوري مع النقاط بالأسفل */
         .slideshow-container {
             position: relative;
             max-width: 100%;
-            height: 220px;
-            margin-bottom: 20px;
+            height: 210px;
+            margin-bottom: 15px;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid #333;
-            background: #181818;
+            background: #000;
         }
         .slide {
             display: none;
@@ -104,7 +104,6 @@
             height: 100%;
             position: relative;
         }
-        /* إظهار الصورة كاملة 100% بدون قص */
         .slide img {
             width: 100%;
             height: 100%;
@@ -113,66 +112,93 @@
         }
         .slide-text {
             position: absolute;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
+            bottom: 25px;
+            background: rgba(0, 0, 0, 0.75);
             color: #ff9f43;
             width: 100%;
             text-align: center;
-            padding: 8px;
-            font-size: 0.9rem;
+            padding: 6px;
+            font-size: 0.85rem;
             font-weight: bold;
         }
-        .slide-btn {
+        /* تصميم النقاط أسفل السلايد */
+        .dots-container {
+            text-align: center;
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: none;
-            padding: 10px 14px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border-radius: 50%;
-            user-select: none;
+            bottom: 6px;
+            width: 100%;
             z-index: 10;
         }
-        .slide-btn:hover {
-            background: var(--primary);
+        .dot {
+            cursor: pointer;
+            height: 10px;
+            width: 10px;
+            margin: 0 4px;
+            background-color: #777;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s, transform 0.2s;
         }
-        .prev-btn { right: 10px; }
-        .next-btn { left: 10px; }
+        .dot.active, .dot:hover {
+            background-color: #ff9f43;
+            transform: scale(1.2);
+        }
 
         .section-title {
             font-size: 1.2rem;
-            margin: 20px 0 10px;
+            margin: 20px 0 15px;
             color: #ff9f43;
-        }
-        .cat-tabs {
             display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            scrollbar-width: none;
+            justify-content: space-between;
+            align-items: center;
         }
-        .cat-tabs::-webkit-scrollbar {
+        .back-btn {
+            font-size: 0.85rem;
+            background: #333;
+            color: #ff9f43;
+            border: 1px solid #ff9f43;
+            padding: 4px 12px;
+            border-radius: 15px;
+            cursor: pointer;
             display: none;
         }
-        .cat-tab-btn {
-            background: #2a2a2a;
-            color: white;
-            border: 1px solid #444;
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            white-space: nowrap;
+
+        /* تصميم كروت الأقسام الشبكية */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .category-card {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        .cat-tab-btn.active, .cat-tab-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
+        .category-card:hover, .category-card.active {
+            background: #2a1a0e;
+            border-color: #ff9f43;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(211, 84, 0, 0.3);
         }
+        .category-card .cat-icon {
+            font-size: 2.2rem;
+        }
+        .category-card .cat-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -187,7 +213,6 @@
             flex-direction: column;
             justify-content: space-between;
         }
-        /* إظهار صورة المنتج كاملة بدون تقريب أو قص */
         .menu-item img {
             width: 100%;
             height: 180px;
@@ -389,22 +414,25 @@
     </header>
 
     <div class="container">
-        <!-- شاشة العرض الفورية مع التقليب اليدوي والتلقائي -->
+        <!-- شاشة عرض صور الفوري مع النقاط بالأسفل -->
         <div class="slideshow-container">
-            <button class="slide-btn prev-btn" onclick="moveSlide(1)">❯</button>
-            <button class="slide-btn next-btn" onclick="moveSlide(-1)">❮</button>
-
             <div class="slide">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onclick="orderCurrentSlide(18)" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
-                <div class="slide-text">✨ متوفر فوري: بانيه دجاج متبل (اضغط على الصورة للطلب)</div>
+                <div class="slide-text">✨ متوفر فوري: بانيه دجاج متبل (اضغط للطلب)</div>
             </div>
             <div class="slide">
                 <img src="kofta_raw.jpg" alt="كفتة لحم بناتي" onclick="orderCurrentSlide(20)" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
-                <div class="slide-text">🔥 متوفر فوري: كفتة بيتي لحم بناتي (اضغط على الصورة للطلب)</div>
+                <div class="slide-text">🔥 متوفر فوري: كفتة بيتي لحم بناتي (اضغط للطلب)</div>
             </div>
             <div class="slide">
                 <img src="owrak_motabala.jpg" alt="أوراك دجاج متبلة" onclick="orderCurrentSlide(7)" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
-                <div class="slide-text">🍗 متوفر فوري: أوراك دجاج متبلة (اضغط على الصورة للطلب)</div>
+                <div class="slide-text">🍗 متوفر فوري: أوراك دجاج متبلة (اضغط للطلب)</div>
+            </div>
+
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
             </div>
         </div>
 
@@ -412,20 +440,49 @@
             <input type="text" id="searchInput" placeholder="ابحث عن أي أكلة نفسك فيها..." oninput="searchMenu()">
         </div>
 
-        <div class="section-title" id="categoriesSection">الأقسام الرئيسية</div>
-        <div class="cat-tabs">
-            <button class="cat-tab-btn active" onclick="filterCategory('ready')">🥘 أكلات للتسوية</button>
-            <button class="cat-tab-btn" onclick="filterCategory('offers')">🔥 العروض</button>
-            <button class="cat-tab-btn" onclick="filterCategory('veggies')">🥬 خضار جاهز</button>
-            <button class="cat-tab-btn" onclick="filterCategory('school')">🎒 وجبات المدرسة</button>
-            <button class="cat-tab-btn" onclick="filterCategory('family')">👨‍👩‍👧‍👦 وجبات العيلة</button>
-            <button class="cat-tab-btn" onclick="filterCategory('trays')">🍲 صواني العيلة</button>
-            <button class="cat-tab-btn" onclick="filterCategory('sandwiches')">🥖 سندوتشات</button>
-            <button class="cat-tab-btn" onclick="filterCategory('extras')">🥫 الإضافات</button>
+        <div class="section-title">
+            <span id="sectionHeadingText">أقسام المنيو</span>
+            <button class="back-btn" id="backToCatsBtn" onclick="showCategoriesView()">⬅️ رجوع للأقسام</button>
         </div>
 
-        <div class="section-title" id="menuTitle">أكلات للتسوية</div>
-        <div class="menu-grid" id="menu-container"></div>
+        <!-- شبكة كروت الأقسام الرئيسية -->
+        <div class="categories-grid" id="categories-container">
+            <div class="category-card" onclick="selectCategory('ready')">
+                <span class="cat-icon">🥘</span>
+                <span class="cat-name">أكلات للتسوية</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('offers')">
+                <span class="cat-icon">🔥</span>
+                <span class="cat-name">العروض</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('veggies')">
+                <span class="cat-icon">🥬</span>
+                <span class="cat-name">خضار جاهز</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('school')">
+                <span class="cat-icon">🎒</span>
+                <span class="cat-name">وجبات المدرسة</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('family')">
+                <span class="cat-icon">👨‍👩‍👧‍👦</span>
+                <span class="cat-name">وجبات العيلة</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('trays')">
+                <span class="cat-icon">🍲</span>
+                <span class="cat-name">صواني العيلة</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('sandwiches')">
+                <span class="cat-icon">🥖</span>
+                <span class="cat-name">سندوتشات</span>
+            </div>
+            <div class="category-card" onclick="selectCategory('extras')">
+                <span class="cat-icon">🥫</span>
+                <span class="cat-name">الإضافات</span>
+            </div>
+        </div>
+
+        <!-- شبكة المنتجات (تظهر فقط عند اختيار قسم) -->
+        <div class="menu-grid" id="menu-container" style="display: none;"></div>
     </div>
 
     <div class="cart-floating" id="cartBar" style="display:none;">
@@ -434,13 +491,13 @@
     </div>
 
     <div class="bottom-nav">
-        <button class="nav-item active" onclick="scrollToCategories()">
+        <button class="nav-item active" onclick="showCategoriesView()">
             <span class="icon">🏠</span>الرئيسية
         </button>
-        <button class="nav-item" onclick="scrollToCategories()">
+        <button class="nav-item" onclick="showCategoriesView()">
             <span class="icon">📋</span>الأقسام
         </button>
-        <button class="nav-item" onclick="filterCategory('offers')">
+        <button class="nav-item" onclick="selectCategory('offers')">
             <span class="icon">🔥</span>العروض
         </button>
         <button class="nav-item" onclick="openCheckout()">
@@ -506,11 +563,6 @@
                 <p id="payText" style="margin:0; font-size:0.85rem; color:#ffcc00; line-height: 1.4;"></p>
             </div>
 
-            <div class="form-group" style="display: flex; align-items: center; gap: 8px; background: #252525; padding: 10px; border-radius: 8px;">
-                <input type="checkbox" id="weeklyBox" style="width: 18px; height: 18px; accent-color: var(--primary);">
-                <label for="weeklyBox" style="margin: 0; color: white; font-size: 0.85rem; cursor: pointer;">اشترك في شنطة الأسبوع (يوصلك كل أسبوع في نفس اليوم)</label>
-            </div>
-
             <div class="form-group">
                 <label>مين رشحك؟ (اختياري)</label>
                 <input type="text" id="clientReferral" placeholder="اسم أو رقم صديقتك اللي قالتلك علينا">
@@ -534,7 +586,7 @@
             { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true },
             { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "mahshi_warag_enab.jpg", hasWeight: true },
             { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "farkha_motabala.jpg", hasWeight: false },
-            { id: 7, name: "كيلو أوراك دجاج متبلة", price: 160, category: "ready", img: "owrak_motabala.jpg", hasWeight: true },
+            { id: 7, name: "كيلو أوراك دجاج متبلة", price: 140, category: "ready", img: "owrak_motabala.jpg", hasWeight: true },
             { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "hamam_kadab.jpg", hasWeight: true },
             { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "goz_hamam.jpg", hasWeight: false },
             { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "mombar.jpg", hasWeight: true },
@@ -637,32 +689,39 @@
         let cart = [];
         const deliveryFee = 20;
 
-        let slideIndex = 0;
+        let slideIndex = 1;
         let slideTimer = null;
 
-        function showSlides() {
+        function showSlides(n) {
+            let i;
             let slides = document.getElementsByClassName("slide");
-            if (slides.length === 0) return;
-            for (let i = 0; i < slides.length; i++) {
+            let dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";  
             }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }    
-            slides[slideIndex - 1].style.display = "block";  
-            slideTimer = setTimeout(showSlides, 3500); 
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
         }
 
-        function moveSlide(n) {
+        function autoSlides() {
+            slideIndex++;
+            showSlides(slideIndex);
+            slideTimer = setTimeout(autoSlides, 4000);
+        }
+
+        function currentSlide(n) {
             clearTimeout(slideTimer);
-            let slides = document.getElementsByClassName("slide");
-            slideIndex += n;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-            if (slideIndex < 1) { slideIndex = slides.length; }
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";  
-            }
-            slides[slideIndex - 1].style.display = "block";
-            slideTimer = setTimeout(showSlides, 3500);
+            slideIndex = n;
+            showSlides(slideIndex);
+            slideTimer = setTimeout(autoSlides, 4000);
         }
 
         function orderCurrentSlide(itemId) {
@@ -681,16 +740,26 @@
             'extras': '🥫 الإضافات'
         };
 
+        function selectCategory(catKey) {
+            document.getElementById('categories-container').style.display = 'none';
+            document.getElementById('menu-container').style.display = 'grid';
+            document.getElementById('backToCatsBtn').style.display = 'inline-block';
+            document.getElementById('sectionHeadingText').innerText = catNamesMap[catKey] || 'المنيو';
+            
+            renderMenu(catKey);
+        }
+
+        function showCategoriesView() {
+            document.getElementById('categories-container').style.display = 'grid';
+            document.getElementById('menu-container').style.display = 'none';
+            document.getElementById('backToCatsBtn').style.display = 'none';
+            document.getElementById('sectionHeadingText').innerText = 'أقسام المنيو';
+            document.getElementById('searchInput').value = '';
+        }
+
         function renderMenu(category = 'ready', query = '') {
             const container = document.getElementById('menu-container');
-            const titleElem = document.getElementById('menuTitle');
             container.innerHTML = '';
-            
-            if (catNamesMap[category]) {
-                titleElem.innerText = catNamesMap[category];
-            } else if (query.trim() !== '') {
-                titleElem.innerText = 'نتائج البحث';
-            }
 
             let filtered = menuData;
             if (query.trim() !== '') {
@@ -733,30 +802,17 @@
             });
         }
 
-        function filterCategory(cat) {
-            document.getElementById('searchInput').value = '';
-            document.querySelectorAll('.cat-tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.querySelectorAll('.cat-tab-btn').forEach(btn => {
-                const clickAttr = btn.getAttribute('onclick');
-                if(clickAttr && clickAttr.includes("'" + cat + "'")) {
-                    btn.classList.add('active');
-                }
-            });
-
-            renderMenu(cat);
-        }
-
-        function scrollToCategories() {
-            const section = document.getElementById('categoriesSection');
-            if(section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
         function searchMenu() {
             const query = document.getElementById('searchInput').value;
-            renderMenu('ready', query);
+            if(query.trim() !== '') {
+                document.getElementById('categories-container').style.display = 'none';
+                document.getElementById('menu-container').style.display = 'grid';
+                document.getElementById('backToCatsBtn').style.display = 'inline-block';
+                document.getElementById('sectionHeadingText').innerText = 'نتائج البحث';
+                renderMenu('', query);
+            } else {
+                showCategoriesView();
+            }
         }
 
         function addToCartFromUI(id) {
@@ -888,7 +944,6 @@
             const area = document.getElementById('clientArea').value;
             const address = document.getElementById('clientAddress').value;
             const payment = document.getElementById('paymentMethod').value;
-            const isWeekly = document.getElementById('weeklyBox').checked;
             const referral = document.getElementById('clientReferral').value;
             const notes = document.getElementById('clientNotes').value;
 
@@ -917,9 +972,6 @@
             message += `🏠 العنوان: ${address}\n`;
             message += `💳 طريقة الدفع: ${payment}\n`;
             
-            if (isWeekly) {
-                message += `🌟 *اشترك في شنطة الأسبوع:* نعم\n`;
-            }
             if (referral) {
                 message += `🤝 مين رشحك: ${referral}\n`;
             }
@@ -931,8 +983,9 @@
             window.open(`https://wa.me/201129933758?text=${encodedMessage}`, '_blank');
         }
 
-        renderMenu('ready');
-        showSlides();
+        // تشغيل أولي
+        showSlides(slideIndex);
+        slideTimer = setTimeout(autoSlides, 4000);
     </script>
 </body>
 </html>
