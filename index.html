@@ -76,37 +76,65 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* بانر متحرك بالكامل أوتوماتيك وسريع */
-        .swipe-banner-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 15px;
-            padding-bottom: 5px;
-            margin-bottom: 20px;
-            scrollbar-width: none;
-        }
-        .swipe-banner-container::-webkit-scrollbar { display: none; }
-        .banner-card {
-            flex: 0 0 100%;
-            scroll-snap-align: center;
+        /* السلايدر الجديد الثابت والمتحرك بسلاسة تامة */
+        .slider-container {
+            position: relative;
+            width: 100%;
             height: 205px;
             border-radius: 15px;
             overflow: hidden;
-            position: relative;
+            margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #333;
             background: #000;
-            cursor: pointer;
         }
-        .banner-card img { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        .banner-overlay {
+        .slides-wrapper {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide-card {
+            width: 25%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .slide-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+        .slide-overlay {
             position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
             padding: 12px 15px; display: flex; justify-content: space-between; align-items: flex-end;
         }
-        .banner-text h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 2px; }
-        .banner-text p { color: #fff; font-size: 0.75rem; }
+        .slide-text h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 2px; }
+        .slide-text p { color: #fff; font-size: 0.75rem; }
+
+        /* أزرار التنقل اليدوي للسلايدر عشان يتحكم فيها براحته */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .slider-btn.prev { right: 10px; }
+        .slider-btn.next { left: 10px; }
 
         .section-title {
             font-size: 1.15rem; margin: 22px 0 12px; color: var(--gold);
@@ -246,32 +274,36 @@
     </header>
 
     <div class="container">
-        <!-- البانر المتحرك السريع أوتوماتيك بدون تعليق -->
-        <div class="swipe-banner-container" id="swipeBanner">
-            <div class="banner-card" onclick="updateCardQty(18, 1)">
-                <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
-                <div class="banner-overlay">
-                    <div class="banner-text"><h3>تشكيلة المصنعات الفورية</h3><p>بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)</p></div>
+        <!-- السلايدر المتحرك بإحترافية (أوتوماتيكي وأزرار يمين ويسار) -->
+        <div class="slider-container">
+            <div class="slides-wrapper" id="slidesWrapper">
+                <div class="slide-card" onclick="updateCardQty(18, 1)">
+                    <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
+                    <div class="slide-overlay">
+                        <div class="slide-text"><h3>تشكيلة المصنعات الفورية</h3><p>بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)</p></div>
+                    </div>
+                </div>
+                <div class="slide-card" onclick="updateCardQty(19, 1)">
+                    <img src="strips_raw.jpg" alt="استربس دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
+                    <div class="slide-overlay">
+                        <div class="slide-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً (اضغط للطلب)</p></div>
+                    </div>
+                </div>
+                <div class="slide-card" onclick="updateCardQty(20, 1)">
+                    <img src="kofta_raw.jpg" alt="كفتة بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
+                    <div class="slide-overlay">
+                        <div class="slide-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي (اضغط للطلب)</p></div>
+                    </div>
+                </div>
+                <div class="slide-card" onclick="updateCardQty(46, 1)">
+                    <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
+                    <div class="slide-overlay">
+                        <div class="slide-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً (اضغط للطلب)</p></div>
+                    </div>
                 </div>
             </div>
-            <div class="banner-card" onclick="updateCardQty(19, 1)">
-                <img src="strips_raw.jpg" alt="استربس دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
-                <div class="banner-overlay">
-                    <div class="banner-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً (اضغط للطلب)</p></div>
-                </div>
-            </div>
-            <div class="banner-card" onclick="updateCardQty(20, 1)">
-                <img src="kofta_raw.jpg" alt="كفتة بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
-                <div class="banner-overlay">
-                    <div class="banner-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي (اضغط للطلب)</p></div>
-                </div>
-            </div>
-            <div class="banner-card" onclick="updateCardQty(46, 1)">
-                <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
-                <div class="banner-overlay">
-                    <div class="banner-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً (اضغط للطلب)</p></div>
-                </div>
-            </div>
+            <button class="slider-btn prev" onclick="moveSlide(1)">❮</button>
+            <button class="slider-btn next" onclick="moveSlide(-1)">❯</button>
         </div>
 
         <div class="search-box">
@@ -324,8 +356,13 @@
             <div class="section-title">🔥 الأكثر مبيعاً والأجواء الحالية</div>
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
+            <!-- آراء العملاء بعد التحديث وإضافة رأي الاسترتش -->
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
             <div class="reviews-container">
+                <div class="review-card">
+                    <div class="review-stars">★★★★☆</div>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل."</p>
+                </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
                     <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية."</p>
@@ -345,10 +382,6 @@
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
                     <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد."</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"تجهيز الخضار بيوفر وقت مهول، وكل حاجة فريش ونضيفة."</p>
                 </div>
             </div>
 
@@ -393,7 +426,6 @@
 
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
             
-            <!-- خانة القسيمة الذكية مع أزرار التطبيق وإلغاء الخصم -->
             <div class="coupon-box">
                 <input type="text" id="couponInput" placeholder="ادخل رمز القسيمة هنا">
                 <button class="coupon-btn" id="applyCouponBtn" onclick="applyCoupon()">تطبيق</button>
@@ -540,16 +572,37 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // كود تحريك البانر أوتوماتيك وسريع بدون توقف
-        const banner = document.getElementById('swipeBanner');
-        setInterval(() => {
-            if (!banner) return;
-            if (banner.scrollLeft + banner.clientWidth >= banner.scrollWidth - 10) {
-                banner.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                banner.scrollBy({ left: banner.clientWidth, behavior: 'smooth' });
+        // كود تحريك السلايدر بثبات (أوتوماتيكي مع أزرار التحكم)
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const wrapper = document.getElementById('slidesWrapper');
+
+        function updateSlider() {
+            if(wrapper) {
+                wrapper.style.transform = `translateX(${currentSlide * 100}%)`;
             }
-        }, 1800);
+        }
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            updateSlider();
+        }
+
+        // تقليب تلقائي للصور كل 3 ثواني
+        let slideInterval = setInterval(() => {
+            moveSlide(-1);
+        }, 3000);
+
+        // إيقاف التقليب التلقائي مؤقتاً لو الماوس فوق السلايدر
+        const sliderContainer = document.querySelector('.slider-container');
+        if(sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            sliderContainer.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(() => { moveSlide(-1); }, 3000);
+            });
+        }
 
         const catNamesMap = {
             'ready': '🥘 أكلات للتسوية', 'offers': '🔥 العروض', 'veggies': '🥬 خضار جاهز',
@@ -645,7 +698,6 @@
             });
         }
 
-        // تفعيل الخيارات المنسدلة في الأكثر مبيعا بطلاقة
         function renderTopProducts() {
             const container = document.getElementById('top-products-container');
             if(!container) return;
@@ -819,7 +871,6 @@
             }
         }
 
-        // كود تطبيق القسيمة الذكي (مع إمكانية التأجيل والإلغاء)
         function applyCoupon() {
             const codeInput = document.getElementById('couponInput').value.trim();
             const msgElem = document.getElementById('couponMsg');
@@ -839,7 +890,6 @@
             }
         }
 
-        // زرار إلغاء الخصم لإعادة التوصيل وتأجيل الكود للمرة الجاية
         function removeCoupon() {
             currentDeliveryFee = baseDeliveryFee;
             isCouponApplied = false;
@@ -894,7 +944,6 @@
                 return;
             }
 
-            // تسجيل استهلاك الكود مرة واحدة فقط عند إتمام ومغادرة الشراء
             if(isCouponApplied) {
                 const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
                 usedCoupons["AMMAR01"] = true;
