@@ -14,7 +14,6 @@
             --card-bg: #161616;
             --text-color: #ffffff;
             --text-muted: #9e9e9e;
-            --accent: #27ae60;
             --gold: #ff9f43;
         }
         * {
@@ -29,7 +28,6 @@
             padding-bottom: 90px;
         }
         
-        /* الشريط العلوي المتحرك */
         .marquee-bar {
             background: #c0392b;
             color: white;
@@ -50,7 +48,6 @@
             100% { transform: translate(-100%, 0); }
         }
 
-        /* الهيدر الفخم */
         header {
             display: flex;
             justify-content: space-between;
@@ -62,64 +59,24 @@
             top: 0;
             z-index: 100;
         }
-        .brand-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .brand-info { display: flex; align-items: center; gap: 10px; }
         .brand-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--gold);
-            background: #fff;
+            width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); background: #fff;
         }
-        .brand-title h1 {
-            font-size: 1rem;
-            color: var(--gold);
-        }
-        .brand-title p {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-        }
-        .header-icons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .icon-img {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid #444;
-        }
+        .brand-title h1 { font-size: 1rem; color: var(--gold); }
+        .brand-title p { font-size: 0.65rem; color: var(--text-muted); }
+        .header-icons { display: flex; gap: 8px; align-items: center; }
+        .icon-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
         
-        .search-box {
-            margin: 15px 0;
-        }
+        .search-box { margin: 15px 0; }
         .search-box input {
-            width: 100%;
-            padding: 12px 18px;
-            background: var(--card-bg);
-            border: 1px solid #2a2a2a;
-            border-radius: 25px;
-            color: white;
-            font-size: 0.9rem;
-            outline: none;
+            width: 100%; padding: 12px 18px; background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 25px; color: white; font-size: 0.9rem; outline: none;
         }
-        .search-box input:focus {
-            border-color: var(--gold);
-        }
+        .search-box input:focus { border-color: var(--gold); }
 
-        /* البانر المتحرك (سلايدر احترافي بيتحرك لوحده وسحب يدوي) */
+        /* بانر متحرك بالكامل أوتوماتيك وسريع */
         .swipe-banner-container {
             display: flex;
             overflow-x: auto;
@@ -128,7 +85,6 @@
             padding-bottom: 5px;
             margin-bottom: 20px;
             scrollbar-width: none;
-            scroll-behavior: smooth;
         }
         .swipe-banner-container::-webkit-scrollbar { display: none; }
         .banner-card {
@@ -141,135 +97,52 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #333;
             background: #000;
+            cursor: pointer;
         }
-        .banner-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #000;
-        }
+        .banner-card img { width: 100%; height: 100%; object-fit: contain; background: #000; }
         .banner-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
+            position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            padding: 12px 15px; display: flex; justify-content: space-between; align-items: flex-end;
         }
         .banner-text h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 2px; }
         .banner-text p { color: #fff; font-size: 0.75rem; }
-        .banner-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
 
         .section-title {
-            font-size: 1.15rem;
-            margin: 22px 0 12px;
-            color: var(--gold);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-right: 4px solid var(--primary);
-            padding-right: 8px;
+            font-size: 1.15rem; margin: 22px 0 12px; color: var(--gold);
+            display: flex; justify-content: space-between; align-items: center;
+            border-right: 4px solid var(--primary); padding-right: 8px;
         }
         .back-btn {
-            font-size: 0.8rem;
-            background: #222;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 4px 12px;
-            border-radius: 15px;
-            cursor: pointer;
-            display: none;
+            font-size: 0.8rem; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 4px 12px; border-radius: 15px; cursor: pointer; display: none;
         }
 
-        /* الأقسام بصور دائرية عصرية */
         .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 10px;
-            margin-bottom: 25px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-bottom: 25px;
         }
         .category-card {
-            background: var(--card-bg);
-            border: 1px solid #252525;
-            border-radius: 14px;
-            padding: 12px 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
+            background: var(--card-bg); border: 1px solid #252525; border-radius: 14px; padding: 12px 8px;
+            text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 6px;
         }
-        .category-card img {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid #444;
-        }
-        .category-card .cat-name {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .category-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-        }
+        .category-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
+        .category-card .cat-name { font-size: 0.8rem; font-weight: 700; color: #fff; }
+        .category-card:hover { border-color: var(--gold); transform: translateY(-2px); }
 
-        /* كروت المنتجات الاحترافية (تفاعل مباشر بـ + و -) */
         .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 15px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px;
         }
         .menu-item {
-            background: var(--card-bg);
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid #222;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            position: relative;
+            background: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222;
+            display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; cursor: pointer;
         }
         .item-status {
-            position: absolute;
-            top: 10px; right: 10px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            z-index: 2;
+            position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; z-index: 2;
         }
         .status-available { background: rgba(39, 174, 96, 0.85); color: white; }
         .status-unavailable { background: rgba(192, 57, 43, 0.85); color: white; }
 
-        .menu-item img {
-            width: 100%;
-            height: 175px;
-            object-fit: contain;
-            background: #000;
-        }
-        .item-details {
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-grow: 1;
-        }
+        .menu-item img { width: 100%; height: 175px; object-fit: contain; background: #000; }
+        .item-details { padding: 14px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
         .item-info h3 { font-size: 0.95rem; margin-bottom: 4px; color: #fff; }
         .item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
         .item-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -277,139 +150,57 @@
         .item-weight { font-size: 0.75rem; color: var(--text-muted); background: #222; padding: 2px 6px; border-radius: 4px; }
         
         .options-box {
-            margin-bottom: 10px;
-            background: #202020;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #333;
+            margin-bottom: 10px; background: #202020; padding: 8px; border-radius: 8px; border: 1px solid #333;
         }
         .options-box label { display: block; font-size: 0.75rem; color: #ffcc00; margin-bottom: 3px; }
         .options-box select {
             width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem;
         }
         
-        /* أزرار التحكم الفوري (+ و -) */
         .card-qty-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #202020;
-            padding: 6px 10px;
-            border-radius: 8px;
-            border: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between; background: #202020; padding: 6px 10px; border-radius: 8px; border: 1px solid #333;
         }
         .card-qty-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1.1rem;
+            background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem;
         }
-        .card-qty-num {
-            font-weight: bold;
-            font-size: 0.95rem;
-            color: #fff;
-        }
+        .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* آراء العملاء */
         .reviews-container {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            scrollbar-width: none;
+            display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;
         }
         .reviews-container::-webkit-scrollbar { display: none; }
         .review-card {
-            background: var(--card-bg);
-            border: 1px solid #222;
-            border-radius: 12px;
-            padding: 14px;
-            min-width: 250px;
-            flex: 0 0 250px;
+            background: var(--card-bg); border: 1px solid #222; border-radius: 12px; padding: 14px; min-width: 250px; flex: 0 0 250px;
         }
         .review-stars { color: #f1c40f; margin-bottom: 5px; font-size: 0.85rem; }
 
-        /* صورة الصفحة tabka.jpg */
         .page-banner-section {
-            background: var(--card-bg);
-            border: 1px solid #2a2a2a;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            margin-top: 35px;
-            margin-bottom: 25px;
+            background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; text-align: center; margin-top: 35px; margin-bottom: 25px;
         }
-        .page-banner-section img {
-            width: 100%;
-            max-height: 230px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #444;
-        }
+        .page-banner-section img { width: 100%; max-height: 230px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; border: 1px solid #444; }
         .follow-fb-btn {
-            display: inline-block;
-            background: #1877f2;
-            color: white;
-            text-decoration: none;
-            padding: 9px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 0.85rem;
+            display: inline-block; background: #1877f2; color: white; text-decoration: none; padding: 9px 25px; border-radius: 25px; font-weight: bold; font-size: 0.85rem;
         }
 
         footer {
-            background: #111;
-            padding: 20px 15px;
-            text-align: center;
-            border-top: 1px solid #222;
-            margin-top: 30px;
-            color: var(--text-muted);
-            font-size: 0.75rem;
+            background: #111; padding: 20px 15px; text-align: center; border-top: 1px solid #222; margin-top: 30px; color: var(--text-muted); font-size: 0.75rem;
         }
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: #111;
-            border-top: 1px solid #222;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; right: 0; background: #111; border-top: 1px solid #222; display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000;
         }
         .nav-item {
-            background: none; border: none; color: var(--text-muted); font-size: 0.7rem;
-            display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none;
+            background: none; border: none; color: var(--text-muted); font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none;
         }
         .nav-item.active, .nav-item:hover { color: var(--gold); }
         .nav-item span.icon { font-size: 1.1rem; margin-bottom: 2px; }
 
         .cart-floating {
-            position: fixed;
-            bottom: 60px; left: 15px; right: 15px;
-            background: var(--gold);
-            color: #121212;
-            padding: 10px 18px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            z-index: 999;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            position: fixed; bottom: 60px; left: 15px; right: 15px; background: var(--gold); color: #121212; padding: 10px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; z-index: 999; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
-        .cart-floating button {
-            background: #121212; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
-        }
+        .cart-floating button { background: #121212; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
 
         .modal {
-            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-content {
             background: var(--dark); width: 100%; max-width: 480px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333;
@@ -424,9 +215,10 @@
         .qty-controls { display: flex; align-items: center; gap: 6px; }
         .qty-btn { background: #333; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
         
-        .coupon-box { display: flex; gap: 6px; margin-bottom: 10px; }
+        .coupon-box { display: flex; gap: 6px; margin-bottom: 6px; }
         .coupon-box input { flex: 1; padding: 7px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.8rem; }
         .coupon-btn { background: var(--secondary); color: white; border: none; padding: 0 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .remove-coupon-btn { background: #c0392b; color: white; border: none; padding: 0 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
     </style>
 </head>
 <body>
@@ -454,34 +246,30 @@
     </header>
 
     <div class="container">
-        <!-- البانر المتحرك (سلايدر ذكي يتحرك تلقائياً وبسلاسة) -->
+        <!-- البانر المتحرك السريع أوتوماتيك بدون تعليق -->
         <div class="swipe-banner-container" id="swipeBanner">
-            <div class="banner-card">
+            <div class="banner-card" onclick="updateCardQty(18, 1)">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="banner-overlay">
-                    <div class="banner-text"><h3>تشكيلة المصنعات الفورية</h3><p>بانيه متبل وجاهز للقلي فوراً</p></div>
-                    <button class="banner-btn" onclick="updateCardQty(18, 1)">اطلب دلوقتي</button>
+                    <div class="banner-text"><h3>تشكيلة المصنعات الفورية</h3><p>بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)</p></div>
                 </div>
             </div>
-            <div class="banner-card">
+            <div class="banner-card" onclick="updateCardQty(19, 1)">
                 <img src="strips_raw.jpg" alt="استربس دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="banner-overlay">
-                    <div class="banner-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً</p></div>
-                    <button class="banner-btn" onclick="updateCardQty(19, 1)">اطلب دلوقتي</button>
+                    <div class="banner-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً (اضغط للطلب)</p></div>
                 </div>
             </div>
-            <div class="banner-card">
+            <div class="banner-card" onclick="updateCardQty(20, 1)">
                 <img src="kofta_raw.jpg" alt="كفتة بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
                 <div class="banner-overlay">
-                    <div class="banner-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي المخدوم بحب</p></div>
-                    <button class="banner-btn" onclick="updateCardQty(20, 1)">اطلب دلوقتي</button>
+                    <div class="banner-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي (اضغط للطلب)</p></div>
                 </div>
             </div>
-            <div class="banner-card">
+            <div class="banner-card" onclick="updateCardQty(46, 1)">
                 <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
                 <div class="banner-overlay">
-                    <div class="banner-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً</p></div>
-                    <button class="banner-btn" onclick="updateCardQty(46, 1)">اطلب دلوقتي</button>
+                    <div class="banner-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً (اضغط للطلب)</p></div>
                 </div>
             </div>
         </div>
@@ -495,7 +283,6 @@
             <button class="back-btn" id="backToCatsBtn" onclick="showCategoriesView()">⬅️ رجوع للأقسام</button>
         </div>
 
-        <!-- الأقسام بصور احترافية -->
         <div class="categories-grid" id="categories-container">
             <div class="category-card" onclick="selectCategory('ready')">
                 <img src="mahshi_kromb.jpg" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
@@ -531,15 +318,12 @@
             </div>
         </div>
 
-        <!-- شبكة المنتجات المستقلة في كروت -->
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- سكشن المحتوى الرئيسي للواجهة -->
         <div id="homeExtraSections">
             <div class="section-title">🔥 الأكثر مبيعاً والأجواء الحالية</div>
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
-            <!-- آراء العملاء (6 آراء مصرية بالعامية) -->
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
             <div class="reviews-container">
                 <div class="review-card">
@@ -568,7 +352,6 @@
                 </div>
             </div>
 
-            <!-- صورة الصفحة tabka.jpg والمتابعة (في آخر الواجهة بعد الأقسام كلها) -->
             <div class="page-banner-section">
                 <img src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
                 <div>
@@ -586,13 +369,11 @@
         <p>سنباط - الغربية | للتواصل: 01129933758</p>
     </footer>
 
-    <!-- السلة العائمة -->
     <div class="cart-floating" id="cartBar" style="display:none;">
         <div>السلة: <span id="cartCount">0</span> أصناف | الإجمالي: <span id="cartTotal">0</span> ج</div>
         <button onclick="openCheckout()">إتمام الأوردر 🛒</button>
     </div>
 
-    <!-- شريط التنقل السفلي -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="showCategoriesView()"><span class="icon">🏠</span>الرئيسية</button>
         <button class="nav-item" onclick="showCategoriesView()"><span class="icon">📋</span>الأقسام</button>
@@ -601,7 +382,6 @@
         <a href="https://wa.me/201129933758" target="_blank" class="nav-item"><span class="icon">💬</span>واتساب</a>
     </div>
 
-    <!-- مودال إتمام الأوردر وسلة المشتريات -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeCheckout()">إغلاق ✕</button>
@@ -613,12 +393,13 @@
 
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
             
-            <!-- خانة القسيمة فارغة وقابلة للكتابة مع تلميح خفيف -->
+            <!-- خانة القسيمة الذكية مع أزرار التطبيق وإلغاء الخصم -->
             <div class="coupon-box">
                 <input type="text" id="couponInput" placeholder="ادخل رمز القسيمة هنا">
-                <button class="coupon-btn" onclick="applyCoupon()">تطبيق</button>
+                <button class="coupon-btn" id="applyCouponBtn" onclick="applyCoupon()">تطبيق</button>
+                <button class="remove-coupon-btn" id="removeCouponBtn" style="display:none;" onclick="removeCoupon()">إلغاء الخصم</button>
             </div>
-            <div id="couponMsg" style="font-size:0.7rem; margin-bottom:8px;"></div>
+            <div id="couponMsg" style="font-size:0.75rem; margin-bottom:8px; font-weight:bold;"></div>
 
             <div style="border-top: 1px solid #444; padding-top: 8px; margin-bottom: 12px; font-size: 0.85rem;">
                 <div style="display: flex; justify-content: space-between;"><span>الأصناف:</span><span><span id="subTotal">0</span> ج</span></div>
@@ -642,12 +423,11 @@
             </div>
             <div class="form-group"><label>ملاحظات (اختياري):</label><input type="text" id="clientNotes" placeholder="أي طلب خاص أو معاد التسليم..."></div>
 
-            <button class="card-qty-btn" style="width:100%; height:42px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
+            <button class="card-qty-btn" style="width:100%; height:44px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
         </div>
     </div>
 
     <script>
-        // قاعدة البيانات الكاملة للمنيو (الفوري في المقدمة)
         const menuData = [
             { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -760,35 +540,21 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // بانر متحرك أوتوماتيكي بالكامل وسحب يدوي تفاعلي سلس
-        let autoScrollInterval;
+        // كود تحريك البانر أوتوماتيك وسريع بدون توقف
         const banner = document.getElementById('swipeBanner');
-        function startAutoScroll() {
-            autoScrollInterval = setInterval(() => {
-                if (!banner) return;
-                const maxScrollLeft = banner.scrollWidth - banner.clientWidth;
-                if (banner.scrollLeft >= maxScrollLeft - 5) {
-                    banner.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    banner.scrollBy({ left: banner.clientWidth, behavior: 'smooth' });
-                }
-            }, 2500);
-        }
-        if(banner) {
-            banner.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
-            banner.addEventListener('mouseleave', startAutoScroll);
-            startAutoScroll();
-        }
+        setInterval(() => {
+            if (!banner) return;
+            if (banner.scrollLeft + banner.clientWidth >= banner.scrollWidth - 10) {
+                banner.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                banner.scrollBy({ left: banner.clientWidth, behavior: 'smooth' });
+            }
+        }, 1800);
 
         const catNamesMap = {
-            'ready': '🥘 أكلات للتسوية',
-            'offers': '🔥 العروض',
-            'veggies': '🥬 خضار جاهز',
-            'school': '🎒 الوجبات',
-            'family': '👨‍👩‍👧‍👦 وجبات العيلة',
-            'trays': '🍲 صواني العيلة',
-            'sandwiches': '🥖 سندوتشات',
-            'extras': '🥫 الإضافات'
+            'ready': '🥘 أكلات للتسوية', 'offers': '🔥 العروض', 'veggies': '🥬 خضار جاهز',
+            'school': '🎒 الوجبات', 'family': '👨‍👩‍👧‍👦 وجبات العيلة', 'trays': '🍲 صواني العيلة',
+            'sandwiches': '🥖 سندوتشات', 'extras': '🥫 الإضافات'
         };
 
         function selectCategory(catKey) {
@@ -826,31 +592,23 @@
             }
 
             filtered.forEach(item => {
-                let weightHTML = '';
-                if (item.hasWeight) {
-                    weightHTML = `
-                        <div class="options-box" style="margin-bottom:8px;">
-                            <label>اختر الوزن المطلوب:</label>
-                            <select id="weight-${item.id}">
-                                <option value="1">كيلو (${item.price} ج)</option>
-                                <option value="0.5">نصف كيلو (${Math.round(item.price / 2)} ج)</option>
-                            </select>
-                        </div>
-                    `;
-                }
+                let weightHTML = item.hasWeight ? `
+                    <div class="options-box" onclick="event.stopPropagation();">
+                        <label>اختر الوزن:</label>
+                        <select id="weight-${item.id}">
+                            <option value="1">كيلو (${item.price} ج)</option>
+                            <option value="0.5">نصف كيلو (${Math.round(item.price / 2)} ج)</option>
+                        </select>
+                    </div>` : '';
 
-                let chickenHTML = '';
-                if (item.hasChickenOption) {
-                    chickenHTML = `
-                        <div class="options-box">
-                            <label>اختر قطعة الدجاج (الصدر +10ج):</label>
-                            <select id="chicken-${item.id}">
-                                <option value="وِرك">وِرك (بدون زيادة)</option>
-                                <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
-                            </select>
-                        </div>
-                    `;
-                }
+                let chickenHTML = item.hasChickenOption ? `
+                    <div class="options-box" onclick="event.stopPropagation();">
+                        <label>قطعة الدجاج (الصدر +10ج):</label>
+                        <select id="chicken-${item.id}">
+                            <option value="وِرك">وِرك (بدون زيادة)</option>
+                            <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
+                        </select>
+                    </div>` : '';
 
                 let statusBadge = item.available ? 
                     `<span class="item-status status-available">🟢 متاح</span>` : 
@@ -860,17 +618,14 @@
                 const currentQty = cartItem ? cartItem.qty : 0;
 
                 let actionArea = currentQty > 0 ? `
-                    <div class="card-qty-row">
+                    <div class="card-qty-row" onclick="event.stopPropagation();">
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
                         <span class="card-qty-num">${currentQty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>
-                ` : `
-                    <button class="card-qty-btn" style="width:100%; border-radius:8px;" onclick="addToCartFromUI(${item.id})">+ إضافة سريعة للسلة 🛒</button>
-                `;
+                    </div>` : ``;
 
                 container.innerHTML += `
-                    <div class="menu-item" id="card-${item.id}">
+                    <div class="menu-item" onclick="addToCartFromUI(${item.id})">
                         ${statusBadge}
                         <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
@@ -884,37 +639,49 @@
                             </div>
                             ${weightHTML}
                             ${chickenHTML}
-                            <div id="action-${item.id}">
-                                ${actionArea}
-                            </div>
+                            <div id="action-${item.id}">${actionArea}</div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
-        // عرض الأكثر مبيعا في الصفحة الرئيسية
+        // تفعيل الخيارات المنسدلة في الأكثر مبيعا بطلاقة
         function renderTopProducts() {
             const container = document.getElementById('top-products-container');
             if(!container) return;
             container.innerHTML = '';
             let topItems = menuData.filter(i => i.top);
             topItems.forEach(item => {
+                let weightHTML = item.hasWeight ? `
+                    <div class="options-box" onclick="event.stopPropagation();">
+                        <label>اختر الوزن:</label>
+                        <select id="weight-${item.id}">
+                            <option value="1">كيلو (${item.price} ج)</option>
+                            <option value="0.5">نصف كيلو (${Math.round(item.price / 2)} ج)</option>
+                        </select>
+                    </div>` : '';
+
+                let chickenHTML = item.hasChickenOption ? `
+                    <div class="options-box" onclick="event.stopPropagation();">
+                        <label>قطعة الدجاج (الصدر +10ج):</label>
+                        <select id="chicken-${item.id}">
+                            <option value="وِرك">وِرك (بدون زيادة)</option>
+                            <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
+                        </select>
+                    </div>` : '';
+
                 const cartItem = cart.find(i => i.id === item.id);
                 const currentQty = cartItem ? cartItem.qty : 0;
 
                 let actionArea = currentQty > 0 ? `
-                    <div class="card-qty-row">
+                    <div class="card-qty-row" onclick="event.stopPropagation();">
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
                         <span class="card-qty-num">${currentQty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>
-                ` : `
-                    <button class="card-qty-btn" style="width:100%; border-radius:8px;" onclick="addToCart(${item.id}, 1)">+ إضافة سريعة للسلة 🛒</button>
-                `;
+                    </div>` : ``;
 
                 container.innerHTML += `
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="addToCartFromUI(${item.id})">
                         <span class="item-status status-available">🟢 متاح</span>
                         <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
@@ -926,12 +693,11 @@
                                     <div class="item-weight">${item.weight}</div>
                                 </div>
                             </div>
-                            <div id="action-top-${item.id}">
-                                ${actionArea}
-                            </div>
+                            ${weightHTML}
+                            ${chickenHTML}
+                            <div id="action-top-${item.id}">${actionArea}</div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
@@ -1053,30 +819,35 @@
             }
         }
 
-        // تطبيق قسيمة AMMAR01
+        // كود تطبيق القسيمة الذكي (مع إمكانية التأجيل والإلغاء)
         function applyCoupon() {
             const codeInput = document.getElementById('couponInput').value.trim();
             const msgElem = document.getElementById('couponMsg');
-            const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
 
             if (codeInput === "AMMAR01") {
-                if (usedCoupons["AMMAR01"]) {
-                    msgElem.style.color = "#e74c3c";
-                    msgElem.innerText = "⚠️ لقد استخدمت هذا الكود من قبل (يستخدم مرة واحدة لكل مستخدم).";
-                    return;
-                }
                 currentDeliveryFee = 0;
                 isCouponApplied = true;
-                usedCoupons["AMMAR01"] = true;
-                localStorage.setItem('tabkha_used_coupons', JSON.stringify(usedCoupons));
                 
                 msgElem.style.color = "#27ae60";
-                msgElem.innerText = "🎉 مبروك! تم تطبيق قسيمة AMMAR01 وإلغاء مصاريف التوصيل.";
+                msgElem.innerText = "🎉 تم تطبيق القسيمة وإلغاء مصاريف التوصيل!";
+                document.getElementById('applyCouponBtn').style.display = 'none';
+                document.getElementById('removeCouponBtn').style.display = 'inline-block';
                 openCheckout();
             } else {
                 msgElem.style.color = "#e74c3c";
                 msgElem.innerText = "❌ الكود غير صحيح.";
             }
+        }
+
+        // زرار إلغاء الخصم لإعادة التوصيل وتأجيل الكود للمرة الجاية
+        function removeCoupon() {
+            currentDeliveryFee = baseDeliveryFee;
+            isCouponApplied = false;
+            document.getElementById('couponInput').value = '';
+            document.getElementById('couponMsg').innerText = '';
+            document.getElementById('applyCouponBtn').style.display = 'inline-block';
+            document.getElementById('removeCouponBtn').style.display = 'none';
+            openCheckout();
         }
 
         function openCheckout() {
@@ -1099,8 +870,7 @@
                             <span style="font-size: 0.85rem; font-weight: bold;">${item.qty}</span>
                             <button class="qty-btn" onclick="changeQty('${item.cartKey}', 1)">+</button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
 
             document.getElementById('subTotal').innerText = subTotal;
@@ -1122,6 +892,13 @@
             if (!name || !phone || !area || !address) {
                 alert('من فضلك أكمل بيانات الاسم، رقم الموبايل، المنطقة، والعنوان.');
                 return;
+            }
+
+            // تسجيل استهلاك الكود مرة واحدة فقط عند إتمام ومغادرة الشراء
+            if(isCouponApplied) {
+                const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
+                usedCoupons["AMMAR01"] = true;
+                localStorage.setItem('tabkha_used_coupons', JSON.stringify(usedCoupons));
             }
 
             let message = "🛒 *أوردر جديد من طبخة على الجاهز*\n";
@@ -1146,7 +923,6 @@
             window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
         }
 
-        // تشغيل بَدئي
         saveAndUpdateCart();
         renderTopProducts();
     </script>
