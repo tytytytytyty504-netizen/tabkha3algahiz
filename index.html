@@ -9,11 +9,11 @@
         :root {
             --primary: #d35400;
             --secondary: #e67e22;
-            --dark: #161616;
-            --bg: #0d0d0d;
-            --card-bg: #1a1a1a;
+            --dark: #141414;
+            --bg: #0a0a0a;
+            --card-bg: #161616;
             --text-color: #ffffff;
-            --text-muted: #a0a0a0;
+            --text-muted: #9e9e9e;
             --accent: #27ae60;
             --gold: #ff9f43;
         }
@@ -57,7 +57,7 @@
             align-items: center;
             padding: 12px 15px;
             background: var(--dark);
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #222;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -109,7 +109,7 @@
             width: 100%;
             padding: 12px 18px;
             background: var(--card-bg);
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
             border-radius: 25px;
             color: white;
             font-size: 0.9rem;
@@ -119,7 +119,7 @@
             border-color: var(--gold);
         }
 
-        /* البانر المتحرك (تقليب أوتوماتيكي كل ثانية + سحب يدوي) */
+        /* البانر المتحرك (أوتوماتيكي بالكامل وسحب يدوي) */
         .swipe-banner-container {
             display: flex;
             overflow-x: auto;
@@ -128,12 +128,13 @@
             padding-bottom: 5px;
             margin-bottom: 20px;
             scrollbar-width: none;
+            scroll-behavior: smooth;
         }
         .swipe-banner-container::-webkit-scrollbar { display: none; }
         .banner-card {
             flex: 0 0 100%;
             scroll-snap-align: center;
-            height: 200px;
+            height: 205px;
             border-radius: 15px;
             overflow: hidden;
             position: relative;
@@ -171,11 +172,13 @@
 
         .section-title {
             font-size: 1.15rem;
-            margin: 20px 0 12px;
+            margin: 22px 0 12px;
             color: var(--gold);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-right: 4px solid var(--primary);
+            padding-right: 8px;
         }
         .back-btn {
             font-size: 0.8rem;
@@ -193,11 +196,11 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 10px;
-            margin-bottom: 22px;
+            margin-bottom: 25px;
         }
         .category-card {
             background: var(--card-bg);
-            border: 1px solid #2d2d2d;
+            border: 1px solid #252525;
             border-radius: 14px;
             padding: 12px 8px;
             text-align: center;
@@ -235,7 +238,7 @@
             background: var(--card-bg);
             border-radius: 14px;
             overflow: hidden;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #222;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -271,18 +274,18 @@
         .item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
         .item-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .item-price { color: var(--gold); font-weight: 700; font-size: 1.05rem; }
-        .item-weight { font-size: 0.75rem; color: var(--text-muted); background: #252525; padding: 2px 6px; border-radius: 4px; }
+        .item-weight { font-size: 0.75rem; color: var(--text-muted); background: #222; padding: 2px 6px; border-radius: 4px; }
         
         .options-box {
             margin-bottom: 10px;
-            background: #222;
+            background: #202020;
             padding: 8px;
             border-radius: 8px;
-            border: 1px solid #444;
+            border: 1px solid #333;
         }
         .options-box label { display: block; font-size: 0.75rem; color: #ffcc00; margin-bottom: 3px; }
         .options-box select {
-            width: 100%; padding: 6px; background: #151515; border: 1px solid #555; border-radius: 5px; color: white; font-size: 0.8rem;
+            width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem;
         }
         .add-btn {
             background: var(--primary);
@@ -298,44 +301,7 @@
         }
         .add-btn:hover { background: #b54600; }
 
-        /* سكشن صورة الصفحة tabka.jpg (في آخر الوجبة) */
-        .page-banner-section {
-            background: var(--card-bg);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-        .page-banner-section img {
-            width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #444;
-        }
-        .follow-fb-btn {
-            display: inline-block;
-            background: #1877f2;
-            color: white;
-            text-decoration: none;
-            padding: 9px 22px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        /* سكشن آراء العملاء بالعامية وبدون أسماء */
-        .section-block { margin-top: 35px; margin-bottom: 25px; }
-        .section-header {
-            color: var(--gold);
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            border-right: 4px solid var(--primary);
-            padding-right: 8px;
-        }
+        /* سكشن آراء العملاء بالعامية وبدون أسماء (6 آراء) */
         .reviews-container {
             display: flex;
             gap: 12px;
@@ -346,17 +312,46 @@
         .reviews-container::-webkit-scrollbar { display: none; }
         .review-card {
             background: var(--card-bg);
-            border: 1px solid #2a2a2a;
+            border: 1px solid #222;
             border-radius: 12px;
-            padding: 12px;
-            min-width: 240px;
-            flex: 0 0 240px;
+            padding: 14px;
+            min-width: 250px;
+            flex: 0 0 250px;
         }
         .review-stars { color: #f1c40f; margin-bottom: 5px; font-size: 0.85rem; }
 
-        /* الفوتر والتنقل السفلي */
+        /* سكشن صورة الصفحة tabka.jpg (في آخر الأقسام/الوجهة) */
+        .page-banner-section {
+            background: var(--card-bg);
+            border: 1px solid #2a2a2a;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 35px;
+            margin-bottom: 25px;
+        }
+        .page-banner-section img {
+            width: 100%;
+            max-height: 230px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #444;
+        }
+        .follow-fb-btn {
+            display: inline-block;
+            background: #1877f2;
+            color: white;
+            text-decoration: none;
+            padding: 9px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        /* الفوتر وتوثيق التنقل السفلي */
         footer {
-            background: #141414;
+            background: #111;
             padding: 20px 15px;
             text-align: center;
             border-top: 1px solid #222;
@@ -367,8 +362,8 @@
         .bottom-nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            background: #141414;
-            border-top: 1px solid #2a2a2a;
+            background: #111;
+            border-top: 1px solid #222;
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
@@ -411,17 +406,15 @@
         .form-group { margin-bottom: 10px; }
         .form-group label { display: block; margin-bottom: 3px; font-size: 0.75rem; color: var(--gold); }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 8px; background: #222; border: 1px solid #444; border-radius: 6px; color: white; font-size: 0.85rem;
+            width: 100%; padding: 8px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.85rem;
         }
         .close-modal { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; float: left; cursor: pointer; font-size: 0.75rem; }
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #222; padding: 8px; border-radius: 6px; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #1c1c1c; padding: 8px; border-radius: 6px; }
         .qty-controls { display: flex; align-items: center; gap: 6px; }
         .qty-btn { background: #333; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
         
-        .coupon-box {
-            display: flex; gap: 6px; margin-bottom: 10px;
-        }
-        .coupon-box input { flex: 1; padding: 7px; background: #222; border: 1px solid #444; border-radius: 6px; color: white; font-size: 0.8rem; }
+        .coupon-box { display: flex; gap: 6px; margin-bottom: 10px; }
+        .coupon-box input { flex: 1; padding: 7px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.8rem; }
         .coupon-btn { background: var(--secondary); color: white; border: none; padding: 0 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
     </style>
 </head>
@@ -450,7 +443,7 @@
     </header>
 
     <div class="container">
-        <!-- بانر العروض المتحرك (تقليب كل ثانية أوتوماتيك) -->
+        <!-- البانر المتحرك (أوتوماتيكي بالكامل كل ثانية + سحب يدوي) -->
         <div class="swipe-banner-container" id="swipeBanner">
             <div class="banner-card">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
@@ -523,34 +516,51 @@
         <!-- شبكة المنتجات المستقلة في كروت -->
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- سكشن صورة الصفحة tabka.jpg (يظهر في الواجهة في آخر المنيو/الأقسام) -->
-        <div class="page-banner-section" id="pageBannerView">
-            <img src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
-            <div>
-                <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
-                    👍 متابعة صفحة الفيسبوك
-                </a>
-            </div>
-        </div>
+        <!-- سكشن الأكثر مبيعا في الصفحة الرئيسية -->
+        <div id="homeExtraSections">
+            <div class="section-title">🔥 الأكثر مبيعاً والأجواء الحالية</div>
+            <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
-        <!-- آراء العملاء بالعامية وبدون أسماء -->
-        <div class="section-block" id="homeExtraSections">
-            <div class="section-header">🗣️ كلام حبايبنا اللي جربونا</div>
+            <!-- آراء العملاء (6 آراء مصرية بالعامية) -->
+            <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
             <div class="reviews-container">
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.75rem; color:#ddd;">"الأكل زي عمايل البيت بالظبط ونضيف جداً، والمحشي جه مظبوط على الشعرة تسلم الأيادي."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.75rem; color:#ddd;">"تجهيز الخضار والمصنعات بيوفر وقت مهول في اليوم، والطعم طازة كأنه لسه معمول."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.75rem; color:#ddd;">"خدمة ممتازة وأكل بيتي حقيقي مخدوم بحب، والأوردر وصل في المعاد تمام."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل وصل بجد تسلم ايديكم، سخن وطازة ومظبوط."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p style="font-size:0.8rem; color:#ddd;">"البانيه تحفه بجد والتتبيله تحفه، عيالى حبوه جداً."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p style="font-size:0.8rem; color:#ddd;">"تجهيز الخضار بيوفر وقت مهول، وكل حاجة فريش ونضيفة."</p>
+                </div>
+            </div>
+
+            <!-- صورة الصفحة tabka.jpg والمتابعة (في آخر الواجهة بعد الأقسام كلها) -->
+            <div class="page-banner-section">
+                <img src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
+                <div>
+                    <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
+                        👍 متابعة صفحة الفيسبوك
+                    </a>
                 </div>
             </div>
         </div>
+
     </div>
 
     <footer>
@@ -585,9 +595,9 @@
 
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
             
-            <!-- خانة كود القسيمة -->
+            <!-- خانة كود القسيمة الخاص (AMMAR01) -->
             <div class="coupon-box">
-                <input type="text" id="couponInput" placeholder="أدخل كود القسيمة (مثال: TABKA2026)">
+                <input type="text" id="couponInput" placeholder="أدخل كود القسيمة (مثال: AMMAR01)">
                 <button class="coupon-btn" onclick="applyCoupon()">تطبيق</button>
             </div>
             <div id="couponMsg" style="font-size:0.7rem; margin-bottom:8px;"></div>
@@ -619,29 +629,29 @@
     </div>
 
     <script>
-        // قاعدة بيانات المنيو كاملة بكل المنتجات
+        // قاعدة البيانات الكاملة للمنيو
         const menuData = [
             // أكلات للتسوية
-            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
+            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "mahshi_badengan.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "mahshi_kousa.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
+            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "mahshi_warag_enab.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "farkha_motabala.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "قطعة كاملة" },
             { id: 7, name: "كيلو أوراك دجاج متبلة", price: 140, category: "ready", img: "owrak_motabala.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "hamam_kadab.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "goz_hamam.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "جوز (2 قطعة)" },
             { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "mombar.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 11, name: "مكرونة بشاميل (حجم كبير)", price: 230, category: "ready", img: "bchamel_big.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية كبيرة" },
+            { id: 11, name: "مكرونة بشاميل (حجم كبير)", price: 230, category: "ready", img: "bchamel_big.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية كبيرة", top: true },
             { id: 12, name: "مكرونة بشاميل (حجم وسط)", price: 180, category: "ready", img: "bchamel_medium.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية وسط" },
             { id: 13, name: "سمبوسك جبن جاهزة للقلي", price: 250, category: "ready", img: "sambousak_cheese.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "sambousak_meat.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "kebda_baladi.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 16, name: "كبدة برازيلي متبلة", price: 300, category: "ready", img: "kebda_brazili.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "shish_tawook.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
+            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
+            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "shawarma_chicken.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "shawarma_meat.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "samak_bolti.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -671,8 +681,8 @@
             { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
-            { id: 46, name: "½ محشي كرنب + ¼ فرخة", price: 140, category: "school", img: "meal_kromb_chicken.jpg", hasWeight: false, hasChickenOption: true, available: true, weight: "وجبة مع ربع فرخة" },
-            { id: 47, name: "محشي باذنجان + ¼ فرخة", price: 140, category: "school", img: "meal_badengan_chicken.jpg", hasWeight: false, hasChickenOption: true, available: true, weight: "وجبة مع ربع فرخة" },
+            { id: 46, name: "½ محشي كرنب + ¼ فرخة", price: 140, category: "school", img: "meal_kromb_chicken.jpg", hasWeight: false, hasChickenOption: true, available: true, weight: "وجبة مع ربع فرخة", top: true },
+            { id: 47, name: "محشي باذنجان + ¼ فرخة", price: 140, category: "school", img: "meal_badengan_chicken.jpg", hasWeight: false, hasChickenOption: true, available: true, weight: "وجبة مع ربع فرخة", top: true },
             { id: 48, name: "سمكة بلطي + رز صيادية + سلطة", price: 90, category: "school", img: "meal_fish_sayadia.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 49, name: "محشي كرنب + قطعتين لحم + شوربة", price: 160, category: "school", img: "meal_kromb_meat.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة مع لحم" },
             { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "fatta_shawarma_small.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حجم صغير" },
@@ -733,7 +743,7 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // بانر متحرك أوتوماتيك كل ثانية (1000ms) وسحب يدوي سلس
+        // بانر متحرك أوتوماتيك وسحب يدوي سلس (يعمل فوراً كل ثانية وبدون توقف)
         let autoScrollInterval;
         const banner = document.getElementById('swipeBanner');
         function startAutoScroll() {
@@ -765,18 +775,15 @@
 
         function selectCategory(catKey) {
             document.getElementById('categories-container').style.display = 'none';
-            document.getElementById('pageBannerView').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'none';
             document.getElementById('menu-container').style.display = 'grid';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
             document.getElementById('sectionHeadingText').innerText = catNamesMap[catKey] || 'المنيو';
-            
             renderMenu(catKey);
         }
 
         function showCategoriesView() {
             document.getElementById('categories-container').style.display = 'grid';
-            document.getElementById('pageBannerView').style.display = 'block';
             document.getElementById('homeExtraSections').style.display = 'block';
             document.getElementById('menu-container').style.display = 'none';
             document.getElementById('backToCatsBtn').style.display = 'none';
@@ -853,11 +860,37 @@
             });
         }
 
+        // عرض الأكثر مبيعا في الصفحة الرئيسية
+        function renderTopProducts() {
+            const container = document.getElementById('top-products-container');
+            if(!container) return;
+            container.innerHTML = '';
+            let topItems = menuData.filter(i => i.top);
+            topItems.forEach(item => {
+                container.innerHTML += `
+                    <div class="menu-item">
+                        <span class="item-status status-available">🟢 متاح</span>
+                        <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                        <div class="item-details">
+                            <div class="item-info">
+                                <h3>${item.name}</h3>
+                                <div class="item-desc">الأكثر طلباً ومفضلة حبايبنا</div>
+                                <div class="item-meta">
+                                    <div class="item-price">${item.price} ج</div>
+                                    <div class="item-weight">${item.weight}</div>
+                                </div>
+                            </div>
+                            <button class="add-btn" onclick="addToCart(${item.id}, 1)">أضف للسلة 🛒</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
         function searchMenu() {
             const query = document.getElementById('searchInput').value;
             if(query.trim() !== '') {
                 document.getElementById('categories-container').style.display = 'none';
-                document.getElementById('pageBannerView').style.display = 'none';
                 document.getElementById('homeExtraSections').style.display = 'none';
                 document.getElementById('menu-container').style.display = 'grid';
                 document.getElementById('backToCatsBtn').style.display = 'inline-block';
@@ -871,18 +904,14 @@
         function addToCartFromUI(id) {
             let weightMultiplier = 1;
             const selectElem = document.getElementById(`weight-${id}`);
-            if (selectElem) {
-                weightMultiplier = parseFloat(selectElem.value);
-            }
+            if (selectElem) weightMultiplier = parseFloat(selectElem.value);
 
             let chickenChoice = "";
             let extraPrice = 0;
             const chickenElem = document.getElementById(`chicken-${id}`);
             if (chickenElem) {
                 chickenChoice = chickenElem.value;
-                if (chickenChoice.includes("+10")) {
-                    extraPrice = 10;
-                }
+                if (chickenChoice.includes("+10")) extraPrice = 10;
             }
 
             addToCart(id, weightMultiplier, chickenChoice, extraPrice);
@@ -900,23 +929,13 @@
 
             let finalUnitPrice = basePrice + extraPrice;
             let descriptiveName = item.name + (item.hasWeight ? ` (${sizeName})` : '');
-            if (chickenChoice) {
-                descriptiveName += ` [${chickenChoice}]`;
-            }
+            if (chickenChoice) descriptiveName += ` [${chickenChoice}]`;
 
             const cartKey = `${id}-${weightMultiplier}-${chickenChoice}`;
             const found = cart.find(i => i.cartKey === cartKey);
 
-            if (found) {
-                found.qty++;
-            } else {
-                cart.push({
-                    cartKey: cartKey,
-                    id: item.id,
-                    name: descriptiveName,
-                    unitPrice: finalUnitPrice,
-                    qty: 1
-                });
+            if (found) { found.qty++; } else {
+                cart.push({ cartKey: cartKey, id: item.id, name: descriptiveName, unitPrice: finalUnitPrice, qty: 1 });
             }
             saveAndUpdateCart();
             alert('تمت الإضافة للسلة بنجاح! 🛒');
@@ -926,15 +945,11 @@
             const found = cart.find(i => i.cartKey === cartKey);
             if (found) {
                 found.qty += delta;
-                if (found.qty <= 0) {
-                    cart = cart.filter(i => i.cartKey !== cartKey);
-                }
+                if (found.qty <= 0) cart = cart.filter(i => i.cartKey !== cartKey);
             }
             saveAndUpdateCart();
             openCheckout();
-            if (cart.length === 0) {
-                closeCheckout();
-            }
+            if (cart.length === 0) closeCheckout();
         }
 
         function saveAndUpdateCart() {
@@ -956,43 +971,39 @@
             }
         }
 
-        // نظام القسيمة (كود الخصم)
+        // تطبيق كود القسيمة الخاص (AMMAR01)
         function applyCoupon() {
             const codeInput = document.getElementById('couponInput').value.trim();
             const msgElem = document.getElementById('couponMsg');
             const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
 
-            if (codeInput === "TABKA2026") {
-                if (usedCoupons["TABKA2026"]) {
+            if (codeInput === "AMMAR01") {
+                if (usedCoupons["AMMAR01"]) {
                     msgElem.style.color = "#e74c3c";
                     msgElem.innerText = "⚠️ لقد استخدمت هذا الكود من قبل (يستخدم مرة واحدة لكل مستخدم).";
                     return;
                 }
                 currentDeliveryFee = 0;
                 isCouponApplied = true;
-                usedCoupons["TABKA2026"] = true;
+                usedCoupons["AMMAR01"] = true;
                 localStorage.setItem('tabkha_used_coupons', JSON.stringify(usedCoupons));
                 
                 msgElem.style.color = "#27ae60";
-                msgElem.innerText = "🎉 مبروك! تم تطبيق القسيمة بنجاح وإلغاء تكلفة التوصيل.";
-                openCheckout(); // تحديث الحسابات
+                msgElem.innerText = "🎉 مبروك! تم تطبيق قسيمة العملاء المميزين وإلغاء تكلفة التوصيل.";
+                openCheckout();
             } else {
                 msgElem.style.color = "#e74c3c";
-                msgElem.innerText = "❌ الكود غير صحيح أو منتهي الصلاحية.";
+                msgElem.innerText = "❌ الكود غير صحيح أو غير مخصص لك.";
             }
         }
 
         function openCheckout() {
-            if(cart.length === 0) {
-                alert('السلة فارغة!');
-                return;
-            }
+            if(cart.length === 0) { alert('السلة فارغة!'); return; }
             const modal = document.getElementById('checkoutModal');
             const list = document.getElementById('cartItemsList');
             list.innerHTML = '';
 
             let subTotal = 0;
-
             cart.forEach(item => {
                 subTotal += item.unitPrice * item.qty;
                 list.innerHTML += `
@@ -1016,9 +1027,7 @@
             modal.style.display = 'flex';
         }
 
-        function closeCheckout() {
-            document.getElementById('checkoutModal').style.display = 'none';
-        }
+        function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
 
         function sendToWhatsApp() {
             const name = document.getElementById('clientName').value;
@@ -1035,16 +1044,14 @@
 
             let message = "🛒 *أوردر جديد من طبخة على الجاهز*\n";
             message += "----------------------------------\n";
-            cart.forEach(item => {
-                message += `▪️ ${item.name} (×${item.qty}) : ${item.unitPrice * item.qty} ج\n`;
-            });
+            cart.forEach(item => { message += `▪️ ${item.name} (×${item.qty}) : ${item.unitPrice * item.qty} ج\n`; });
             message += "----------------------------------\n";
             
             let subTotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
             let total = subTotal + currentDeliveryFee;
 
             message += `📦 الأصناف: ${subTotal} ج\n`;
-            message += `🛵 التوصيل: ${currentDeliveryFee} ج ${isCouponApplied ? '(تم استخدام قسيمة إعفاء التوصيل)' : '(داخل سنباط)'}\n`;
+            message += `🛵 التوصيل: ${currentDeliveryFee} ج ${isCouponApplied ? '(تم تفعيل قسيمة AMMAR01 المعفاة)' : '(داخل سنباط)'}\n`;
             message += `💰 *الإجمالي النهائي: ${total} ج*\n\n`;
             message += "📋 *بيانات العميل:*\n";
             message += `👤 الاسم: ${name}\n`;
@@ -1057,8 +1064,9 @@
             window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
         }
 
-        // تشغيل السلة عند الفتح
+        // تشغيل بَدئي
         saveAndUpdateCart();
+        renderTopProducts();
     </script>
 </body>
 </html>
