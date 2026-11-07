@@ -119,7 +119,7 @@
             border-color: var(--gold);
         }
 
-        /* البانر المتحرك (أوتوماتيكي بالكامل وسحب يدوي تفاعلي) */
+        /* البانر المتحرك (سلايدر احترافي بيتحرك لوحده وسحب يدوي) */
         .swipe-banner-container {
             display: flex;
             overflow-x: auto;
@@ -228,7 +228,7 @@
             transform: translateY(-2px);
         }
 
-        /* كروت المنتجات الاحترافية (بمجرد الضغط يظهر + و - مباشرة) */
+        /* كروت المنتجات الاحترافية (تفاعل مباشر بـ + و -) */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -288,7 +288,7 @@
             width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem;
         }
         
-        /* أزرار التحكم في الكمية مباشرة على الكارت */
+        /* أزرار التحكم الفوري (+ و -) */
         .card-qty-row {
             display: flex;
             align-items: center;
@@ -314,19 +314,6 @@
             font-size: 0.95rem;
             color: #fff;
         }
-        .initial-add-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 9px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.85rem;
-            width: 100%;
-            transition: 0.2s;
-        }
-        .initial-add-btn:hover { background: #b54600; }
 
         /* آراء العملاء */
         .reviews-container {
@@ -467,34 +454,34 @@
     </header>
 
     <div class="container">
-        <!-- البانر المتحرك (يقلب تلقائياً كل ثانية وبسلاسة تامة مع إمكانية السحب اليدوي) -->
+        <!-- البانر المتحرك (سلايدر ذكي يتحرك تلقائياً وبسلاسة) -->
         <div class="swipe-banner-container" id="swipeBanner">
             <div class="banner-card">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="banner-overlay">
                     <div class="banner-text"><h3>تشكيلة المصنعات الفورية</h3><p>بانيه متبل وجاهز للقلي فوراً</p></div>
-                    <button class="banner-btn" onclick="addToCart(18, 1)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="updateCardQty(18, 1)">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
                 <img src="strips_raw.jpg" alt="استربس دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="banner-overlay">
                     <div class="banner-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً</p></div>
-                    <button class="banner-btn" onclick="addToCart(19, 1)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="updateCardQty(19, 1)">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
                 <img src="kofta_raw.jpg" alt="كفتة بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
                 <div class="banner-overlay">
                     <div class="banner-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي المخدوم بحب</p></div>
-                    <button class="banner-btn" onclick="addToCart(20, 1)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="updateCardQty(20, 1)">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
                 <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
                 <div class="banner-overlay">
                     <div class="banner-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً</p></div>
-                    <button class="banner-btn" onclick="addToCart(46, 1, 'وِرك', 0)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="updateCardQty(46, 1)">اطلب دلوقتي</button>
                 </div>
             </div>
         </div>
@@ -626,9 +613,9 @@
 
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
             
-            <!-- خانة كود القسيمة فارغة تماماً بدون أمثلة -->
+            <!-- خانة القسيمة فارغة وقابلة للكتابة مع تلميح خفيف -->
             <div class="coupon-box">
-                <input type="text" id="couponInput" placeholder="">
+                <input type="text" id="couponInput" placeholder="ادخل رمز القسيمة هنا">
                 <button class="coupon-btn" onclick="applyCoupon()">تطبيق</button>
             </div>
             <div id="couponMsg" style="font-size:0.7rem; margin-bottom:8px;"></div>
@@ -655,7 +642,7 @@
             </div>
             <div class="form-group"><label>ملاحظات (اختياري):</label><input type="text" id="clientNotes" placeholder="أي طلب خاص أو معاد التسليم..."></div>
 
-            <button class="initial-add-btn" style="background:#25d366; font-size: 1rem; padding: 10px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
+            <button class="card-qty-btn" style="width:100%; height:42px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
         </div>
     </div>
 
@@ -773,18 +760,19 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // بانر متحرك أوتوماتيكي بالكامل وسحب يدوي تفاعلي وسلس
+        // بانر متحرك أوتوماتيكي بالكامل وسحب يدوي تفاعلي سلس
         let autoScrollInterval;
         const banner = document.getElementById('swipeBanner');
         function startAutoScroll() {
             autoScrollInterval = setInterval(() => {
                 if (!banner) return;
-                if (banner.scrollLeft + banner.clientWidth >= banner.scrollWidth - 10) {
+                const maxScrollLeft = banner.scrollWidth - banner.clientWidth;
+                if (banner.scrollLeft >= maxScrollLeft - 5) {
                     banner.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {
                     banner.scrollBy({ left: banner.clientWidth, behavior: 'smooth' });
                 }
-            }, 1000);
+            }, 2500);
         }
         if(banner) {
             banner.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
@@ -868,7 +856,6 @@
                     `<span class="item-status status-available">🟢 متاح</span>` : 
                     `<span class="item-status status-unavailable">🔴 غير متاح</span>`;
 
-                // الفحص والتحقق من الكمية داخل السلة لعرض أزرار + و - مباشرة على الكارت
                 const cartItem = cart.find(i => i.id === item.id);
                 const currentQty = cartItem ? cartItem.qty : 0;
 
@@ -879,7 +866,7 @@
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
                     </div>
                 ` : `
-                    <button class="initial-add-btn" onclick="addToCartFromUI(${item.id})">أضف للسلة 🛒</button>
+                    <button class="card-qty-btn" style="width:100%; border-radius:8px;" onclick="addToCartFromUI(${item.id})">+ إضافة سريعة للسلة 🛒</button>
                 `;
 
                 container.innerHTML += `
@@ -906,7 +893,7 @@
             });
         }
 
-        // عرض الأكثر مبيعا في الصفحة الرئيسية مع أزرار التحكم الفوري
+        // عرض الأكثر مبيعا في الصفحة الرئيسية
         function renderTopProducts() {
             const container = document.getElementById('top-products-container');
             if(!container) return;
@@ -923,7 +910,7 @@
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
                     </div>
                 ` : `
-                    <button class="initial-add-btn" onclick="addToCart(${item.id}, 1)">أضف للسلة 🛒</button>
+                    <button class="card-qty-btn" style="width:100%; border-radius:8px;" onclick="addToCart(${item.id}, 1)">+ إضافة سريعة للسلة 🛒</button>
                 `;
 
                 container.innerHTML += `
@@ -1011,7 +998,6 @@
             }
         }
 
-        // تحديث الكمية مباشرة من الكارت
         function updateCardQty(id, delta) {
             const found = cart.find(i => i.id === id);
             if (found) {
@@ -1160,7 +1146,7 @@
             window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
         }
 
-        // تشغيل الأكواد أول ما الصفحة تفتح
+        // تشغيل بَدئي
         saveAndUpdateCart();
         renderTopProducts();
     </script>
