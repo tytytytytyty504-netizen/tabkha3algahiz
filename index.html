@@ -27,6 +27,28 @@
             color: var(--text-color);
             padding-bottom: 80px;
         }
+        
+        /* الشريط التفاعلي المتحرك الدائم */
+        .marquee-bar {
+            background: #c0392b;
+            color: white;
+            font-size: 0.85rem;
+            padding: 7px 0;
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 1px solid #e74c3c;
+        }
+        .marquee-bar span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -87,7 +109,7 @@
             font-size: 0.95rem;
         }
 
-        /* بانر صور العرض بالسحب اليدوي (Swipeable Banner) */
+        /* بانر العرض (سحب يدوي + أوتوماتيكي) */
         .swipe-banner-container {
             display: flex;
             overflow-x: auto;
@@ -95,10 +117,10 @@
             gap: 15px;
             padding-bottom: 10px;
             margin-bottom: 20px;
-            scrollbar-width: none; /* إخفاء شريط التمرير لمتصفحات فايرفوكس */
+            scrollbar-width: none;
         }
         .swipe-banner-container::-webkit-scrollbar {
-            display: none; /* إخفاء شريط التمرير لمتصفحات كروم وسفاري */
+            display: none;
         }
         .banner-card {
             flex: 0 0 100%;
@@ -114,7 +136,8 @@
         .banner-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background: #000;
         }
         .banner-overlay {
             position: absolute;
@@ -167,7 +190,7 @@
             display: none;
         }
 
-        /* شبكة كروت الأقسام الرئيسية */
+        /* كروت الأقسام الرئيسية */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -240,14 +263,24 @@
             font-size: 1.1rem;
             margin-bottom: 10px;
         }
-        .weight-select {
+        .options-box {
             margin-bottom: 10px;
+            background: #252525;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #444;
         }
-        .weight-select select {
+        .options-box label {
+            display: block;
+            font-size: 0.8rem;
+            color: #ffcc00;
+            margin-bottom: 4px;
+        }
+        .options-box select {
             width: 100%;
             padding: 6px;
-            background: #2a2a2a;
-            border: 1px solid #444;
+            background: #1e1e1e;
+            border: 1px solid #555;
             border-radius: 6px;
             color: white;
             font-size: 0.85rem;
@@ -399,6 +432,11 @@
 </head>
 <body>
 
+    <!-- الشريط التفاعلي المتحرك الدائم -->
+    <div class="marquee-bar">
+        <span>⏰ تنبيه هـام: نرحب بطلباتكم وحجزها قبلها بيوم على الأقل لضمان تحضير أجود الأكل البيتي الطازج خصيصاً لسفرتكم! 🍲</span>
+    </div>
+
     <header>
         <div class="brand-info">
             <img src="logo.png" alt="طبخة على الجاهز" class="brand-logo" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300';">
@@ -418,8 +456,8 @@
     </header>
 
     <div class="container">
-        <!-- بانر صور العرض بالسحب اليدوي (Swipeable) -->
-        <div class="swipe-banner-container">
+        <!-- بانر صور العرض (سحب يدوي + أوتوماتيكي مع عرض صور الوجبات) -->
+        <div class="swipe-banner-container" id="swipeBanner">
             <div class="banner-card">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="banner-overlay">
@@ -427,7 +465,7 @@
                         <h3>تشكيلة المصنعات الفورية</h3>
                         <p>بانيه دجاج متبل وجهز للقلي فوراً</p>
                     </div>
-                    <button class="banner-btn" onclick="addToCart(18, 1)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="addToCart(18, 1, 'وِرك')">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
@@ -437,17 +475,17 @@
                         <h3>كفتة بيتي لحم بناتي</h3>
                         <p>أصل اللحم البلدي المخدوم بحب</p>
                     </div>
-                    <button class="banner-btn" onclick="addToCart(20, 1)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="addToCart(20, 1, 'عادي')">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
-                <img src="owrak_motabala.jpg" alt="أوراك دجاج متبلة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
+                <img src="meal_badengan_chicken.jpg" alt="وجبة دجاج" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
                 <div class="banner-overlay">
                     <div class="banner-text">
-                        <h3>أوراك دجاج متبلة</h3>
-                        <p>تتبيلة خاصة جاهزة على الفرن</p>
+                        <h3>وجبات العيلة الفاخرة</h3>
+                        <p>محشي مع ربع فرخة طازجة</p>
                     </div>
-                    <button class="banner-btn" onclick="addToCart(7, 1)">اطلب دلوقتي</button>
+                    <button class="banner-btn" onclick="addToCart(47, 1, 'وِرك')">اطلب دلوقتي</button>
                 </div>
             </div>
         </div>
@@ -477,7 +515,7 @@
             </div>
             <div class="category-card" onclick="selectCategory('school')">
                 <span class="cat-icon">🎒</span>
-                <span class="cat-name">وجبات المدرسة</span>
+                <span class="cat-name">الوجبات</span>
             </div>
             <div class="category-card" onclick="selectCategory('family')">
                 <span class="cat-icon">👨‍👩‍👧‍👦</span>
@@ -544,7 +582,6 @@
                     <span>التوصيل:</span>
                     <span>20 ج</span>
                 </div>
-                <!-- ملحوظة التوصيل داخل سنباط -->
                 <div style="font-size: 0.75rem; color: #ffcc00; margin-bottom: 5px; text-align: left;">
                     * التوصيل داخل سنباط
                 </div>
@@ -600,120 +637,139 @@
     <script>
         const menuData = [
             // أكلات للتسوية (بها خيار كيلو ونصف كيلو)
-            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg", hasWeight: true },
-            { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "mahshi_badengan.jpg", hasWeight: true },
-            { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "mahshi_kousa.jpg", hasWeight: true },
-            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true },
-            { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "mahshi_warag_enab.jpg", hasWeight: true },
-            { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "farkha_motabala.jpg", hasWeight: false },
-            { id: 7, name: "كيلو أوراك دجاج متبلة", price: 160, category: "ready", img: "owrak_motabala.jpg", hasWeight: true },
-            { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "hamam_kadab.jpg", hasWeight: true },
-            { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "goz_hamam.jpg", hasWeight: false },
-            { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "mombar.jpg", hasWeight: true },
-            { id: 11, name: "مكرونة بشاميل (حجم كبير)", price: 230, category: "ready", img: "bchamel_big.jpg", hasWeight: false },
-            { id: 12, name: "مكرونة بشاميل (حجم وسط)", price: 180, category: "ready", img: "bchamel_medium.jpg", hasWeight: false },
-            { id: 13, name: "سمبوسك جبن جاهزة للقلي", price: 250, category: "ready", img: "sambousak_cheese.jpg", hasWeight: true },
-            { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "sambousak_meat.jpg", hasWeight: true },
-            { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "kebda_baladi.jpg", hasWeight: true },
-            { id: 16, name: "كبدة برازيلي متبلة", price: 300, category: "ready", img: "kebda_brazili.jpg", hasWeight: true },
-            { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "shish_tawook.jpg", hasWeight: true },
-            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true },
-            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true },
-            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true },
-            { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "shawarma_chicken.jpg", hasWeight: true },
-            { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "shawarma_meat.jpg", hasWeight: true },
-            { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "samak_bolti.jpg", hasWeight: true },
-            { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "wings_broasted.jpg", hasWeight: true },
-            { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "drumsticks_broasted.jpg", hasWeight: true },
-            { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "burger_meat.jpg", hasWeight: true },
+            { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg", hasWeight: true, hasChicken: false },
+            { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "mahshi_badengan.jpg", hasWeight: true, hasChicken: false },
+            { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "mahshi_kousa.jpg", hasWeight: true, hasChicken: false },
+            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true, hasChicken: false },
+            { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "mahshi_warag_enab.jpg", hasWeight: true, hasChicken: false },
+            { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "farkha_motabala.jpg", hasWeight: false, hasChicken: true },
+            { id: 7, name: "كيلو أوراك دجاج متبلة", price: 140, category: "ready", img: "owrak_motabala.jpg", hasWeight: true, hasChicken: true },
+            { id: 8, name: "كيلو حمام كداب", price: 140, category: "ready", img: "hamam_kadab.jpg", hasWeight: true, hasChicken: false },
+            { id: 9, name: "جوز حمام محشي بالخلطة جاهز للتسويه", price: 280, category: "ready", img: "goz_hamam.jpg", hasWeight: false, hasChicken: false },
+            { id: 10, name: "ممبار جاهز للقلي", price: 230, category: "ready", img: "mombar.jpg", hasWeight: true, hasChicken: false },
+            { id: 11, name: "مكرونة بشاميل (حجم كبير)", price: 230, category: "ready", img: "bchamel_big.jpg", hasWeight: false, hasChicken: false },
+            { id: 12, name: "مكرونة بشاميل (حجم وسط)", price: 180, category: "ready", img: "bchamel_medium.jpg", hasWeight: false, hasChicken: false },
+            { id: 13, name: "سمبوسك جبن جاهزة للقلي", price: 250, category: "ready", img: "sambousak_cheese.jpg", hasWeight: true, hasChicken: false },
+            { id: 14, name: "سمبوسك لحم", price: 350, category: "ready", img: "sambousak_meat.jpg", hasWeight: true, hasChicken: false },
+            { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "kebda_baladi.jpg", hasWeight: true, hasChicken: false },
+            { id: 16, name: "كبدة برازيلي متبلة", price: 300, category: "ready", img: "kebda_brazili.jpg", hasWeight: true, hasChicken: false },
+            { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "shish_tawook.jpg", hasWeight: true, hasChicken: true },
+            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChicken: true },
+            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChicken: true },
+            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true, hasChicken: false },
+            { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "shawarma_chicken.jpg", hasWeight: true, hasChicken: true },
+            { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "shawarma_meat.jpg", hasWeight: true, hasChicken: false },
+            { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "samak_bolti.jpg", hasWeight: true, hasChicken: false },
+            { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "wings_broasted.jpg", hasWeight: true, hasChicken: true },
+            { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "drumsticks_broasted.jpg", hasWeight: true, hasChicken: true },
+            { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "burger_meat.jpg", hasWeight: true, hasChicken: false },
 
             // الخضار الجاهز
-            { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "badengan_cleared.jpg", hasWeight: true },
-            { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "kousa_cleared.jpg", hasWeight: true },
-            { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "felafel_hashw.jpg", hasWeight: true },
-            { id: 30, name: "فلفل ألوان حشو", price: 40, category: "veggies", img: "felafel_colors.jpg", hasWeight: true },
-            { id: 31, name: "بامية زيرو", price: 100, category: "veggies", img: "bamya_zero.jpg", hasWeight: true },
-            { id: 32, name: "بامية ممتاز", price: 100, category: "veggies", img: "bamya_mumtaz.jpg", hasWeight: true },
-            { id: 33, name: "بسلة", price: 70, category: "veggies", img: "besella.jpg", hasWeight: true },
-            { id: 34, name: "ملوخية مخرطة", price: 50, category: "veggies", img: "molokhia.jpg", hasWeight: true },
-            { id: 35, name: "نصف كيلو ثوم مفروم", price: 75, category: "veggies", img: "garlic_minced.jpg", hasWeight: false },
-            { id: 36, name: "نصف كيلو ثوم فصوص", price: 75, category: "veggies", img: "garlic_cloves.jpg", hasWeight: false },
-            { id: 37, name: "بصل جوليان", price: 35, category: "veggies", img: "onion_julienne.jpg", hasWeight: true },
-            { id: 38, name: "بصل مفروم", price: 35, category: "veggies", img: "onion_chopped.jpg", hasWeight: true },
-            { id: 39, name: "مكعبات جزر", price: 35, category: "veggies", img: "carrots_diced.jpg", hasWeight: true },
-            { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "veg_soup.jpg", hasWeight: true },
-            { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "tomato_sauce.jpg", hasWeight: false },
-            { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "kromb_boiled.jpg", hasWeight: false },
+            { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "badengan_cleared.jpg", hasWeight: true, hasChicken: false },
+            { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "kousa_cleared.jpg", hasWeight: true, hasChicken: false },
+            { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "felafel_hashw.jpg", hasWeight: true, hasChicken: false },
+            { id: 30, name: "فلفل ألوان حشو", price: 40, category: "veggies", img: "felafel_colors.jpg", hasWeight: true, hasChicken: false },
+            { id: 31, name: "بامية زيرو", price: 100, category: "veggies", img: "bamya_zero.jpg", hasWeight: true, hasChicken: false },
+            { id: 32, name: "بامية ممتاز", price: 100, category: "veggies", img: "bamya_mumtaz.jpg", hasWeight: true, hasChicken: false },
+            { id: 33, name: "بسلة", price: 70, category: "veggies", img: "besella.jpg", hasWeight: true, hasChicken: false },
+            { id: 34, name: "ملوخية مخرطة", price: 50, category: "veggies", img: "molokhia.jpg", hasWeight: true, hasChicken: false },
+            { id: 35, name: "نصف كيلو ثوم مفروم", price: 75, category: "veggies", img: "garlic_minced.jpg", hasWeight: false, hasChicken: false },
+            { id: 36, name: "نصف كيلو ثوم فصوص", price: 75, category: "veggies", img: "garlic_cloves.jpg", hasWeight: false, hasChicken: false },
+            { id: 37, name: "بصل جوليان", price: 35, category: "veggies", img: "onion_julienne.jpg", hasWeight: true, hasChicken: false },
+            { id: 38, name: "بصل مفروم", price: 35, category: "veggies", img: "onion_chopped.jpg", hasWeight: true, hasChicken: false },
+            { id: 39, name: "مكعبات جزر", price: 35, category: "veggies", img: "carrots_diced.jpg", hasWeight: true, hasChicken: false },
+            { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "veg_soup.jpg", hasWeight: true, hasChicken: false },
+            { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "tomato_sauce.jpg", hasWeight: false, hasChicken: false },
+            { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "kromb_boiled.jpg", hasWeight: false, hasChicken: false },
 
-            // وجبات المدرسة
-            { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg", hasWeight: false },
-            { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg", hasWeight: false },
-            { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg", hasWeight: false },
-            { id: 46, name: "½ محشي كرنب + ¼ فرخة", price: 140, category: "school", img: "meal_kromb_chicken.jpg", hasWeight: false },
-            { id: 47, name: "محشي باذنجان + ¼ فرخة", price: 140, category: "school", img: "meal_badengan_chicken.jpg", hasWeight: false },
-            { id: 48, name: "سمكة بلطي + رز صيادية + سلطة", price: 90, category: "school", img: "meal_fish_sayadia.jpg", hasWeight: false },
-            { id: 49, name: "محشي كرنب + قطعتين لحم + شوربة", price: 160, category: "school", img: "meal_kromb_meat.jpg", hasWeight: false },
-            { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "fatta_shawarma_small.jpg", hasWeight: false },
-            { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "fatta_shawarma_big.jpg", hasWeight: false },
-            { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "meal_bchamel_paneer.jpg", hasWeight: false },
+            // الوجبات (تسمى سابقا وجبات المدرسة)
+            { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg", hasWeight: false, hasChicken: true },
+            { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg", hasWeight: false, hasChicken: true },
+            { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg", hasWeight: false, hasChicken: false },
+            { id: 46, name: "½ محشي كرنب + ¼ فرخة", price: 140, category: "school", img: "meal_kromb_chicken.jpg", hasWeight: false, hasChicken: true },
+            { id: 47, name: "محشي باذنجان + ¼ فرخة", price: 140, category: "school", img: "meal_badengan_chicken.jpg", hasWeight: false, hasChicken: true },
+            { id: 48, name: "سمكة بلطي + رز صيادية + سلطة", price: 90, category: "school", img: "meal_fish_sayadia.jpg", hasWeight: false, hasChicken: false },
+            { id: 49, name: "محشي كرنب + قطعتين لحم + شوربة", price: 160, category: "school", img: "meal_kromb_meat.jpg", hasWeight: false, hasChicken: false },
+            { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "fatta_shawarma_small.jpg", hasWeight: false, hasChicken: true },
+            { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "fatta_shawarma_big.jpg", hasWeight: false, hasChicken: true },
+            { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "meal_bchamel_paneer.jpg", hasWeight: false, hasChicken: true },
 
             // وجبات العيلة
-            { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "fam_mahshi_meshakal.jpg", hasWeight: true },
-            { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "fam_mahshi_kromb.jpg", hasWeight: true },
-            { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "fam_mahshi_badengan.jpg", hasWeight: true },
-            { id: 56, name: "كيلو محشي كوسة", price: 120, category: "family", img: "fam_mahshi_kousa.jpg", hasWeight: true },
-            { id: 57, name: "كيلو محشي فلفل", price: 110, category: "family", img: "fam_mahshi_felafel.jpg", hasWeight: true },
-            { id: 58, name: "كيلو بانيه", price: 300, category: "family", img: "fam_paneer.jpg", hasWeight: true },
-            { id: 59, name: "كيلو استربس", price: 300, category: "family", img: "fam_strips.jpg", hasWeight: true },
-            { id: 60, name: "كيلو كفتة بيتي بناتي", price: 500, category: "family", img: "fam_kofta.jpg", hasWeight: true },
-            { id: 61, name: "فرخة محمرة", price: 300, category: "family", img: "fam_chicken_fried.jpg", hasWeight: false },
-            { id: 62, name: "فرخة مشوية فرن", price: 300, category: "family", img: "fam_chicken_grilled.jpg", hasWeight: false },
-            { id: 63, name: "كيلو رز بسمتي", price: 100, category: "family", img: "fam_basmati.jpg", hasWeight: true },
-            { id: 64, name: "كيلو رز أبيض", price: 60, category: "family", img: "fam_white_rice.jpg", hasWeight: true },
-            { id: 65, name: "كيلو رز بالكبد والقوانص", price: 100, category: "family", img: "fam_kebda_rice.jpg", hasWeight: true },
-            { id: 66, name: "جوز حمام محشي", price: 300, category: "family", img: "fam_hamam.jpg", hasWeight: false },
-            { id: 67, name: "كيلو بانيه مشوي بالزبدة", price: 280, category: "family", img: "fam_paneer_butter.jpg", hasWeight: true },
-            { id: 68, name: "كيلو أوراك دجاج محمره", price: 180, category: "family", img: "fam_owrak_fried.jpg", hasWeight: true },
-            { id: 69, name: "صينية بطاطس بالفراخ", price: 330, category: "family", img: "fam_potatoes_chicken.jpg", hasWeight: false },
-            { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "fam_meat_fried.jpg", hasWeight: true },
-            { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "fam_rengah.jpg", hasWeight: true },
+            { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "fam_mahshi_meshakal.jpg", hasWeight: true, hasChicken: false },
+            { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "fam_mahshi_kromb.jpg", hasWeight: true, hasChicken: false },
+            { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "fam_mahshi_badengan.jpg", hasWeight: true, hasChicken: false },
+            { id: 56, name: "كيلو محشي كوسة", price: 120, category: "family", img: "fam_mahshi_kousa.jpg", hasWeight: true, hasChicken: false },
+            { id: 57, name: "كيلو محشي فلفل", price: 110, category: "family", img: "fam_mahshi_felafel.jpg", hasWeight: true, hasChicken: false },
+            { id: 58, name: "كيلو بانيه", price: 300, category: "family", img: "fam_paneer.jpg", hasWeight: true, hasChicken: true },
+            { id: 59, name: "كيلو استربس", price: 300, category: "family", img: "fam_strips.jpg", hasWeight: true, hasChicken: true },
+            { id: 60, name: "كيلو كفتة بيتي بناتي", price: 500, category: "family", img: "fam_kofta.jpg", hasWeight: true, hasChicken: false },
+            { id: 61, name: "فرخة محمرة", price: 300, category: "family", img: "fam_chicken_fried.jpg", hasWeight: false, hasChicken: true },
+            { id: 62, name: "فرخة مشوية فرن", price: 300, category: "family", img: "fam_chicken_grilled.jpg", hasWeight: false, hasChicken: true },
+            { id: 63, name: "كيلو رز بسمتي", price: 100, category: "family", img: "fam_basmati.jpg", hasWeight: true, hasChicken: false },
+            { id: 64, name: "كيلو رز أبيض", price: 60, category: "family", img: "fam_white_rice.jpg", hasWeight: true, hasChicken: false },
+            { id: 65, name: "كيلو رز بالكبد والقوانص", price: 100, category: "family", img: "fam_kebda_rice.jpg", hasWeight: true, hasChicken: false },
+            { id: 66, name: "جوز حمام محشي", price: 300, category: "family", img: "fam_hamam.jpg", hasWeight: false, hasChicken: false },
+            { id: 67, name: "كيلو بانيه مشوي بالزبدة", price: 280, category: "family", img: "fam_paneer_butter.jpg", hasWeight: true, hasChicken: true },
+            { id: 68, name: "كيلو أوراك دجاج محمره", price: 180, category: "family", img: "fam_owrak_fried.jpg", hasWeight: true, hasChicken: true },
+            { id: 69, name: "صينية بطاطس بالفراخ", price: 330, category: "family", img: "fam_potatoes_chicken.jpg", hasWeight: false, hasChicken: true },
+            { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "fam_meat_fried.jpg", hasWeight: true, hasChicken: false },
+            { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "fam_rengah.jpg", hasWeight: true, hasChicken: false },
 
             // صواني العيلة
-            { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "tray_1.jpg", hasWeight: false },
-            { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "tray_2.jpg", hasWeight: false },
-            { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "tray_3.jpg", hasWeight: false },
-            { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "tray_4.jpg", hasWeight: false },
+            { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "tray_1.jpg", hasWeight: false, hasChicken: true },
+            { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "tray_2.jpg", hasWeight: false, hasChicken: true },
+            { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "tray_3.jpg", hasWeight: false, hasChicken: true },
+            { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "tray_4.jpg", hasWeight: false, hasChicken: true },
 
             // السندوتشات
-            { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_paneer.jpg", hasWeight: false },
-            { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_strips.jpg", hasWeight: false },
-            { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "sand_kofta.jpg", hasWeight: false },
-            { id: 79, name: "سندوتش كبدة + طحينة", price: 30, category: "sandwiches", img: "sand_kebda.jpg", hasWeight: false },
-            { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "sand_steak.jpg", hasWeight: false },
-            { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "sand_shish.jpg", hasWeight: false },
-            { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "sand_shawarma.jpg", hasWeight: false },
+            { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_paneer.jpg", hasWeight: false, hasChicken: true },
+            { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_strips.jpg", hasWeight: false, hasChicken: true },
+            { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "sand_kofta.jpg", hasWeight: false, hasChicken: false },
+            { id: 79, name: "سندوتش كبدة + طحينة", price: 30, category: "sandwiches", img: "sand_kebda.jpg", hasWeight: false, hasChicken: false },
+            { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "sand_steak.jpg", hasWeight: false, hasChicken: false },
+            { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "sand_shish.jpg", hasWeight: false, hasChicken: true },
+            { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "sand_shawarma.jpg", hasWeight: false, hasChicken: true },
 
             // الإضافات
-            { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "sauce_toumya.jpg", hasWeight: false },
-            { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "sauce_romi.jpg", hasWeight: false },
-            { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "sauce_cheddar.jpg", hasWeight: false },
-            { id: 86, name: "علبة صوص رانش", price: 50, category: "extras", img: "sauce_ranch.jpg", hasWeight: false },
-            { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "coleslaw.jpg", hasWeight: false },
-            { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "mix_mahshi.jpg", hasWeight: true },
-            { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "mix_hamam.jpg", hasWeight: true },
+            { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "sauce_toumya.jpg", hasWeight: false, hasChicken: false },
+            { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "sauce_romi.jpg", hasWeight: false, hasChicken: false },
+            { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "sauce_cheddar.jpg", hasWeight: false, hasChicken: false },
+            { id: 86, name: "علبة صوص رانش", price: 50, category: "extras", img: "sauce_ranch.jpg", hasWeight: false, hasChicken: false },
+            { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "coleslaw.jpg", hasWeight: false, hasChicken: false },
+            { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "mix_mahshi.jpg", hasWeight: true, hasChicken: false },
+            { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "mix_hamam.jpg", hasWeight: true, hasChicken: false },
 
             // العروض
-            { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg", hasWeight: false }
+            { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg", hasWeight: false, hasChicken: false }
         ];
 
         let cart = [];
         const deliveryFee = 20;
 
+        // بانر متحرك أوتوماتيك وفي نفس الوقت سحب يدوي سلس
+        let autoScrollInterval;
+        const banner = document.getElementById('swipeBanner');
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                if (!banner) return;
+                if (banner.scrollLeft + banner.clientWidth >= banner.scrollWidth - 10) {
+                    banner.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    banner.scrollBy({ left: banner.clientWidth, behavior: 'smooth' });
+                }
+            }, 4000);
+        }
+        if(banner) {
+            banner.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
+            banner.addEventListener('mouseleave', startAutoScroll);
+            startAutoScroll();
+        }
+
         const catNamesMap = {
             'ready': '🥘 أكلات للتسوية',
             'offers': '🔥 العروض',
             'veggies': '🥬 خضار جاهز',
-            'school': '🎒 وجبات المدرسة',
+            'school': '🎒 الوجبات',
             'family': '👨‍👩‍👧‍👦 وجبات العيلة',
             'trays': '🍲 صواني العيلة',
             'sandwiches': '🥖 سندوتشات',
@@ -757,10 +813,23 @@
                 let weightHTML = '';
                 if (item.hasWeight) {
                     weightHTML = `
-                        <div class="weight-select">
+                        <div class="weight-select" style="margin-bottom:8px;">
                             <select id="weight-${item.id}">
                                 <option value="1">كيلو (${item.price} ج)</option>
                                 <option value="0.5">نصف كيلو (${Math.round(item.price / 2)} ج)</option>
+                            </select>
+                        </div>
+                    `;
+                }
+
+                let chickenHTML = '';
+                if (item.hasChicken) {
+                    chickenHTML = `
+                        <div class="options-box">
+                            <label>اختر قطعة الدجاج (الصدر بزيادة 10ج):</label>
+                            <select id="chicken-${item.id}">
+                                <option value="وِرك">وِرك (بدون زيادة)</option>
+                                <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
                             </select>
                         </div>
                     `;
@@ -775,6 +844,7 @@
                                 <div class="item-price">${item.price} ج ${item.hasWeight ? '<span style="font-size:0.75rem; color:#aaa;">(للكيلو)</span>' : ''}</div>
                             </div>
                             ${weightHTML}
+                            ${chickenHTML}
                             <button class="add-btn" onclick="addToCartFromUI(${item.id})">أضف للأوردر 🛒</button>
                         </div>
                     </div>
@@ -801,20 +871,37 @@
             if (selectElem) {
                 weightMultiplier = parseFloat(selectElem.value);
             }
-            addToCart(id, weightMultiplier);
+
+            let chickenChoice = "";
+            let extraPrice = 0;
+            const chickenElem = document.getElementById(`chicken-${id}`);
+            if (chickenElem) {
+                chickenChoice = chickenElem.value;
+                if (chickenChoice.includes("+10")) {
+                    extraPrice = 10;
+                }
+            }
+
+            addToCart(id, weightMultiplier, chickenChoice, extraPrice);
         }
 
-        function addToCart(id, weightMultiplier) {
+        function addToCart(id, weightMultiplier, chickenChoice = "", extraPrice = 0) {
             const item = menuData.find(i => i.id === id);
-            let finalPrice = item.price;
+            let basePrice = item.price;
             let sizeName = "كيلو";
 
             if (weightMultiplier === 0.5) {
-                finalPrice = Math.round(item.price / 2);
+                basePrice = Math.round(item.price / 2);
                 sizeName = "نصف كيلو";
             }
 
-            const cartKey = `${id}-${weightMultiplier}`;
+            let finalUnitPrice = basePrice + extraPrice;
+            let descriptiveName = item.name + (item.hasWeight ? ` (${sizeName})` : '');
+            if (chickenChoice) {
+                descriptiveName += ` [${chickenChoice}]`;
+            }
+
+            const cartKey = `${id}-${weightMultiplier}-${chickenChoice}`;
             const found = cart.find(i => i.cartKey === cartKey);
 
             if (found) {
@@ -823,8 +910,8 @@
                 cart.push({
                     cartKey: cartKey,
                     id: item.id,
-                    name: item.name + (item.hasWeight ? ` (${sizeName})` : ''),
-                    unitPrice: finalPrice,
+                    name: descriptiveName,
+                    unitPrice: finalUnitPrice,
                     qty: 1
                 });
             }
