@@ -86,62 +86,66 @@
             color: white;
             font-size: 0.95rem;
         }
-        /* شاشة عرض صور الفوري مع النقاط بالأسفل */
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
-            height: 210px;
-            margin-bottom: 15px;
+
+        /* بانر صور العرض بالسحب اليدوي (Swipeable Banner) */
+        .swipe-banner-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 15px;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: none; /* إخفاء شريط التمرير لمتصفحات فايرفوكس */
+        }
+        .swipe-banner-container::-webkit-scrollbar {
+            display: none; /* إخفاء شريط التمرير لمتصفحات كروم وسفاري */
+        }
+        .banner-card {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            height: 220px;
             border-radius: 15px;
             overflow: hidden;
+            position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid #333;
             background: #000;
         }
-        .slide {
-            display: none;
+        .banner-card img {
             width: 100%;
             height: 100%;
-            position: relative;
+            object-fit: cover;
         }
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #000;
-        }
-        .slide-text {
+        .banner-overlay {
             position: absolute;
-            bottom: 25px;
-            background: rgba(0, 0, 0, 0.75);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .banner-text h3 {
             color: #ff9f43;
-            width: 100%;
-            text-align: center;
-            padding: 6px;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .banner-text p {
+            color: #fff;
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        .banner-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-weight: bold;
-        }
-        /* تصميم النقاط أسفل السلايد */
-        .dots-container {
-            text-align: center;
-            position: absolute;
-            bottom: 6px;
-            width: 100%;
-            z-index: 10;
-        }
-        .dot {
             cursor: pointer;
-            height: 10px;
-            width: 10px;
-            margin: 0 4px;
-            background-color: #777;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .dot.active, .dot:hover {
-            background-color: #ff9f43;
-            transform: scale(1.2);
         }
 
         .section-title {
@@ -163,7 +167,7 @@
             display: none;
         }
 
-        /* تصميم كروت الأقسام الشبكية */
+        /* شبكة كروت الأقسام الرئيسية */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -414,25 +418,37 @@
     </header>
 
     <div class="container">
-        <!-- شاشة عرض صور الفوري مع النقاط بالأسفل -->
-        <div class="slideshow-container">
-            <div class="slide">
-                <img src="paneer_raw.jpg" alt="بانيه دجاج" onclick="orderCurrentSlide(18)" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
-                <div class="slide-text">✨ متوفر فوري: بانيه دجاج متبل (اضغط للطلب)</div>
+        <!-- بانر صور العرض بالسحب اليدوي (Swipeable) -->
+        <div class="swipe-banner-container">
+            <div class="banner-card">
+                <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
+                <div class="banner-overlay">
+                    <div class="banner-text">
+                        <h3>تشكيلة المصنعات الفورية</h3>
+                        <p>بانيه دجاج متبل وجهز للقلي فوراً</p>
+                    </div>
+                    <button class="banner-btn" onclick="addToCart(18, 1)">اطلب دلوقتي</button>
+                </div>
             </div>
-            <div class="slide">
-                <img src="kofta_raw.jpg" alt="كفتة لحم بناتي" onclick="orderCurrentSlide(20)" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
-                <div class="slide-text">🔥 متوفر فوري: كفتة بيتي لحم بناتي (اضغط للطلب)</div>
+            <div class="banner-card">
+                <img src="kofta_raw.jpg" alt="كفتة لحم بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
+                <div class="banner-overlay">
+                    <div class="banner-text">
+                        <h3>كفتة بيتي لحم بناتي</h3>
+                        <p>أصل اللحم البلدي المخدوم بحب</p>
+                    </div>
+                    <button class="banner-btn" onclick="addToCart(20, 1)">اطلب دلوقتي</button>
+                </div>
             </div>
-            <div class="slide">
-                <img src="owrak_motabala.jpg" alt="أوراك دجاج متبلة" onclick="orderCurrentSlide(7)" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
-                <div class="slide-text">🍗 متوفر فوري: أوراك دجاج متبلة (اضغط للطلب)</div>
-            </div>
-
-            <div class="dots-container">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
+            <div class="banner-card">
+                <img src="owrak_motabala.jpg" alt="أوراك دجاج متبلة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
+                <div class="banner-overlay">
+                    <div class="banner-text">
+                        <h3>أوراك دجاج متبلة</h3>
+                        <p>تتبيلة خاصة جاهزة على الفرن</p>
+                    </div>
+                    <button class="banner-btn" onclick="addToCart(7, 1)">اطلب دلوقتي</button>
+                </div>
             </div>
         </div>
 
@@ -460,8 +476,8 @@
                 <span class="cat-name">خضار جاهز</span>
             </div>
             <div class="category-card" onclick="selectCategory('school')">
-                <span class="cat-icon">🎒</span>
-                <span class="cat-name">وجبات المدرسة</span>
+                <span class="cat-icon">🍽</span>
+                <span class="cat-name">الوجبات </span>
             </div>
             <div class="category-card" onclick="selectCategory('family')">
                 <span class="cat-icon">👨‍👩‍👧‍👦</span>
@@ -481,7 +497,7 @@
             </div>
         </div>
 
-        <!-- شبكة المنتجات (تظهر فقط عند اختيار قسم) -->
+        <!-- شبكة المنتجات -->
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
     </div>
 
@@ -514,7 +530,7 @@
             <h3 style="margin-bottom: 10px; color: #ff9f43;">أوردرك</h3>
             
             <div style="background: #c0392b; color: white; padding: 10px; border-radius: 8px; margin-bottom: 12px; font-size: 0.85rem; font-weight: bold; text-align: center;">
-                ⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل لضمان تحضير أجود الأكل البيتي الطازج!
+                ⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. !
             </div>
 
             <div id="cartItemsList" style="margin-bottom: 10px; font-size: 0.9rem;"></div>
@@ -524,9 +540,13 @@
                     <span>الأصناف:</span>
                     <span><span id="subTotal">0</span> ج</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                     <span>التوصيل:</span>
                     <span>20 ج</span>
+                </div>
+                <!-- ملحوظة التوصيل داخل سنباط -->
+                <div style="font-size: 0.75rem; color: #ffcc00; margin-bottom: 5px; text-align: left;">
+                    * التوصيل داخل سنباط
                 </div>
                 <div style="display: flex; justify-content: space-between; font-weight: bold; color: #ff9f43; font-size: 1.1rem; margin-top: 8px;">
                     <span>الإجمالي بالتوصيل:</span>
@@ -544,7 +564,7 @@
             </div>
             <div class="form-group">
                 <label>المنطقة:</label>
-                <input type="text" id="clientArea" placeholder="مثال: سموحة، سيدي جابر، سنباط...">
+                <input type="text" id="clientArea" placeholder="مثال: سنباط...">
             </div>
             <div class="form-group">
                 <label>العنوان بالتفصيل:</label>
@@ -689,51 +709,11 @@
         let cart = [];
         const deliveryFee = 20;
 
-        let slideIndex = 1;
-        let slideTimer = null;
-
-        function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("slide");
-            let dots = document.getElementsByClassName("dot");
-            
-            if (n > slides.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = slides.length}
-            
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";  
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            
-            slides[slideIndex-1].style.display = "block";  
-            dots[slideIndex-1].className += " active";
-        }
-
-        function autoSlides() {
-            slideIndex++;
-            showSlides(slideIndex);
-            slideTimer = setTimeout(autoSlides, 4000);
-        }
-
-        function currentSlide(n) {
-            clearTimeout(slideTimer);
-            slideIndex = n;
-            showSlides(slideIndex);
-            slideTimer = setTimeout(autoSlides, 4000);
-        }
-
-        function orderCurrentSlide(itemId) {
-            addToCart(itemId, 1);
-            alert('تمت إضافة الوجبة للسلة بنجاح!');
-        }
-
         const catNamesMap = {
             'ready': '🥘 أكلات للتسوية',
             'offers': '🔥 العروض',
             'veggies': '🥬 خضار جاهز',
-            'school': '🎒 وجبات المدرسة',
+            'school': 🍽 الوجبات ',
             'family': '👨‍👩‍👧‍👦 وجبات العيلة',
             'trays': '🍲 صواني العيلة',
             'sandwiches': '🥖 سندوتشات',
@@ -849,6 +829,7 @@
                 });
             }
             updateCartUI();
+            alert('تمت الإضافة للسلة بنجاح! 🛒');
         }
 
         function changeQty(cartKey, delta) {
@@ -963,7 +944,7 @@
             let total = subTotal + deliveryFee;
 
             message += `📦 الأصناف: ${subTotal} ج\n`;
-            message += `🛵 التوصيل: ${deliveryFee} ج\n`;
+            message += `🛵 التوصيل: ${deliveryFee} ج (داخل سنباط)\n`;
             message += `💰 *الإجمالي الكلي: ${total} ج*\n\n`;
             message += "📋 *بيانات العميل:*\n";
             message += `👤 الاسم: ${name}\n`;
@@ -982,10 +963,6 @@
             const encodedMessage = encodeURI(message);
             window.open(`https://wa.me/201129933758?text=${encodedMessage}`, '_blank');
         }
-
-        // تشغيل أولي
-        showSlides(slideIndex);
-        slideTimer = setTimeout(autoSlides, 4000);
     </script>
 </body>
 </html>
