@@ -76,14 +76,14 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر الجديد الثابت والمتحرك بسلاسة تامة */
+        /* السلايدر الجديد (انسيابي بتمعن بدون أسهم وبنقاط تفاعلية زي التطبيقات الكبرى) */
         .slider-container {
             position: relative;
             width: 100%;
             height: 205px;
             border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #333;
             background: #000;
@@ -92,7 +92,7 @@
             display: flex;
             width: 400%;
             height: 100%;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* حركة انسيابية بطيئة وناعمة جداً */
         }
         .slide-card {
             width: 25%;
@@ -115,26 +115,26 @@
         .slide-text h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 2px; }
         .slide-text p { color: #fff; font-size: 0.75rem; }
 
-        /* أزرار التنقل اليدوي للسلايدر عشان يتحكم فيها براحته */
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
+        /* نقاط التفاعل (Dots) تحت البانر زي الصورة بالضبط */
+        .slider-dots {
             display: flex;
-            align-items: center;
             justify-content: center;
-            z-index: 10;
+            gap: 6px;
+            margin-bottom: 20px;
         }
-        .slider-btn.prev { right: 10px; }
-        .slider-btn.next { left: 10px; }
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #444;
+            transition: background 0.3s, width 0.3s;
+            cursor: pointer;
+        }
+        .dot.active {
+            background: var(--gold);
+            width: 18px;
+            border-radius: 4px;
+        }
 
         .section-title {
             font-size: 1.15rem; margin: 22px 0 12px; color: var(--gold);
@@ -274,8 +274,8 @@
     </header>
 
     <div class="container">
-        <!-- السلايدر المتحرك بإحترافية (أوتوماتيكي وأزرار يمين ويسار) -->
-        <div class="slider-container">
+        <!-- السلايدر الانسيابي بتمعن مع النقاط (Dots) التفاعلية -->
+        <div class="slider-container" id="sliderContainer">
             <div class="slides-wrapper" id="slidesWrapper">
                 <div class="slide-card" onclick="updateCardQty(18, 1)">
                     <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
@@ -302,8 +302,13 @@
                     </div>
                 </div>
             </div>
-            <button class="slider-btn prev" onclick="moveSlide(1)">❮</button>
-            <button class="slider-btn next" onclick="moveSlide(-1)">❯</button>
+        </div>
+        <!-- نقاط التفاعل (Dots) -->
+        <div class="slider-dots" id="sliderDots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+            <span class="dot" onclick="goToSlide(3)"></span>
         </div>
 
         <div class="search-box">
@@ -356,32 +361,31 @@
             <div class="section-title">🔥 الأكثر مبيعاً والأجواء الحالية</div>
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
-            <!-- آراء العملاء بعد التحديث وإضافة رأي الاسترتش -->
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
             <div class="reviews-container">
                 <div class="review-card">
                     <div class="review-stars">★★★★☆</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل.[span_0](start_span)"[span_0](end_span)</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية.[span_1](start_span)"[span_1](end_span)</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي.[span_2](start_span)"[span_2](end_span)</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل وصل بجد تسلم ايديكم، سخن وطازة ومظبوط."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل وصل بجد تسلم ايديكم، سخن وطازة ومظبوط.[span_3](start_span)"[span_3](end_span)</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"البانيه تحفه بجد والتتبيله تحفه، عيالى حبوه جداً."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"البانيه تحفه بجد والتتبيله تحفه، عيالى حبوه جداً.[span_4](start_span)"[span_4](end_span)</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد."</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد.[span_5](start_span)"[span_5](end_span)</p>
                 </div>
             </div>
 
@@ -572,35 +576,45 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // كود تحريك السلايدر بثبات (أوتوماتيكي مع أزرار التحكم)
+        // إدارة السلايدر الانسيابي (أوتوماتيكي كل 4 ثواني مع النقاط وتحديثها)
         let currentSlide = 0;
         const totalSlides = 4;
         const wrapper = document.getElementById('slidesWrapper');
+        const dots = document.querySelectorAll('.dot');
 
         function updateSlider() {
-            if(wrapper) {
+            if (wrapper) {
                 wrapper.style.transform = `translateX(${currentSlide * 100}%)`;
             }
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
         }
 
-        function moveSlide(direction) {
-            currentSlide += direction;
-            if (currentSlide >= totalSlides) currentSlide = 0;
-            if (currentSlide < 0) currentSlide = totalSlides - 1;
+        function goToSlide(index) {
+            currentSlide = index;
             updateSlider();
         }
 
-        // تقليب تلقائي للصور كل 3 ثواني
+        // تقليب تلقائي بتمعن وانسيابية كل 4 ثواني
         let slideInterval = setInterval(() => {
-            moveSlide(-1);
-        }, 3000);
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }, 4000);
 
-        // إيقاف التقليب التلقائي مؤقتاً لو الماوس فوق السلايدر
-        const sliderContainer = document.querySelector('.slider-container');
-        if(sliderContainer) {
+        // إيقاف مؤقت لو الماوس فوق البانر
+        const sliderContainer = document.getElementById('sliderContainer');
+        if (sliderContainer) {
             sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
             sliderContainer.addEventListener('mouseleave', () => {
-                slideInterval = setInterval(() => { moveSlide(-1); }, 3000);
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateSlider();
+                }, 4000);
             });
         }
 
@@ -958,7 +972,7 @@
             let subTotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
             let total = subTotal + currentDeliveryFee;
 
-            message += `📦 الأصناف: ${subTotal} ج\n`;
+            message += `📦 الأصناف: `${subTotal} ج\n`;
             message += `🛵 التوصيل: ${currentDeliveryFee} ج ${isCouponApplied ? '(تم تفعيل قسيمة AMMAR01 المعفاة)' : '(داخل سنباط)'}\n`;
             message += `💰 *الإجمالي النهائي: ${total} ج*\n\n`;
             message += "📋 *بيانات العميل:*\n";
@@ -967,7 +981,7 @@
             message += `📍 المنطقة: ${area}\n`;
             message += `🏠 العنوان: ${address}\n`;
             message += `💳 الدفع: ${payment}\n`;
-            if (notes) message += `📝 ملاحظات: ${notes}\n`;
+            if (notes) message += `📝 ملاحظات: `${notes}\n`;
 
             window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
         }
