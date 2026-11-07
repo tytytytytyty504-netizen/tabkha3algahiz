@@ -228,7 +228,7 @@
             transform: translateY(-2px);
         }
 
-        /* كروت المنتجات الاحترافية المستقلة */
+        /* كروت المنتجات الاحترافية المستقلة مع التحكم في الكمية مباشرة */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -287,21 +287,35 @@
         .options-box select {
             width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem;
         }
-        .add-btn {
+        
+        /* أزرار التحكم في الكمية مباشرة في الكارت زي الصورة 2 */
+        .card-qty-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #202020;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .card-qty-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 9px;
-            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            font-weight: bold;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 0.85rem;
-            width: 100%;
-            transition: 0.2s;
+            font-size: 1rem;
         }
-        .add-btn:hover { background: #b54600; }
+        .card-qty-num {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: #fff;
+        }
 
-        /* سكشن آراء العملاء بالعامية وبدون أسماء (6 آراء) */
+        /* آراء العملاء */
         .reviews-container {
             display: flex;
             gap: 12px;
@@ -320,7 +334,7 @@
         }
         .review-stars { color: #f1c40f; margin-bottom: 5px; font-size: 0.85rem; }
 
-        /* سكشن صورة الصفحة tabka.jpg (في آخر الأقسام/الوجهة) */
+        /* صورة الصفحة tabka.jpg */
         .page-banner-section {
             background: var(--card-bg);
             border: 1px solid #2a2a2a;
@@ -349,7 +363,6 @@
             font-size: 0.85rem;
         }
 
-        /* الفوتر وتوثيق التنقل السفلي */
         footer {
             background: #111;
             padding: 20px 15px;
@@ -376,7 +389,6 @@
         .nav-item.active, .nav-item:hover { color: var(--gold); }
         .nav-item span.icon { font-size: 1.1rem; margin-bottom: 2px; }
 
-        /* السلة العائمة */
         .cart-floating {
             position: fixed;
             bottom: 60px; left: 15px; right: 15px;
@@ -395,7 +407,6 @@
             background: #121212; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
         }
 
-        /* المودالات */
         .modal {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
@@ -421,7 +432,7 @@
 <body>
 
     <div class="marquee-bar">
-        <span>⏰ تنبيه هـام: نرحب بطلباتكم وحجزها قبلها بيوم على الأقل لضمان تحضير أجود الأكل البيتي الطازج خصيصاً لسفرتكم! 🍲</span>
+        <span>⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل لضمان يجيلك فريش وطازة.. 🍲</span>
     </div>
 
     <header>
@@ -443,7 +454,7 @@
     </header>
 
     <div class="container">
-        <!-- البانر المتحرك (أوتوماتيكي بالكامل كل ثانية + سحب يدوي) -->
+        <!-- البانر المتحرك (يبدأ بالمنتجات الفورية ويقلب تلقائياً كل ثانية بدون توقف مع سحب يدوي) -->
         <div class="swipe-banner-container" id="swipeBanner">
             <div class="banner-card">
                 <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
@@ -453,10 +464,10 @@
                 </div>
             </div>
             <div class="banner-card">
-                <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
+                <img src="strips_raw.jpg" alt="استربس دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
                 <div class="banner-overlay">
-                    <div class="banner-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً</p></div>
-                    <button class="banner-btn" onclick="addToCart(46, 1, 'وِرك', 0)">اطلب دلوقتي</button>
+                    <div class="banner-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً</p></div>
+                    <button class="banner-btn" onclick="addToCart(19, 1)">اطلب دلوقتي</button>
                 </div>
             </div>
             <div class="banner-card">
@@ -464,6 +475,13 @@
                 <div class="banner-overlay">
                     <div class="banner-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي المخدوم بحب</p></div>
                     <button class="banner-btn" onclick="addToCart(20, 1)">اطلب دلوقتي</button>
+                </div>
+            </div>
+            <div class="banner-card">
+                <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
+                <div class="banner-overlay">
+                    <div class="banner-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً</p></div>
+                    <button class="banner-btn" onclick="addToCart(46, 1, 'وِرك', 0)">اطلب دلوقتي</button>
                 </div>
             </div>
         </div>
@@ -516,7 +534,7 @@
         <!-- شبكة المنتجات المستقلة في كروت -->
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- سكشن الأكثر مبيعا في الصفحة الرئيسية -->
+        <!-- سكشن المحتوى الرئيسي للواجهة -->
         <div id="homeExtraSections">
             <div class="section-title">🔥 الأكثر مبيعاً والأجواء الحالية</div>
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
@@ -590,12 +608,12 @@
             <h3 style="margin-bottom: 10px; color: var(--gold); font-size: 1rem;">أوردرك</h3>
             
             <div style="background: #c0392b; color: white; padding: 8px; border-radius: 8px; margin-bottom: 10px; font-size: 0.75rem; font-weight: bold; text-align: center;">
-                ⏰ الحجز يكون قبلها بيوم على الأقل لضمان التحضير الطازج!
+                ⏰ الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة..
             </div>
 
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
             
-            <!-- خانة كود القسيمة الخاص (AMMAR01) -->
+            <!-- خانة كود القسيمة (TABKA2026) -->
             <div class="coupon-box">
                 <input type="text" id="couponInput" placeholder="أدخل كود القسيمة (مثال: AMMAR01)">
                 <button class="coupon-btn" onclick="applyCoupon()">تطبيق</button>
@@ -631,11 +649,14 @@
     <script>
         // قاعدة البيانات الكاملة للمنيو
         const menuData = [
-            // أكلات للتسوية
+            // أكلات للتسوية (المصنعات الفورية في المقدمة)
+            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
+            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
+            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 1, name: "محشي كرنب جاهز للتسويه", price: 100, category: "ready", img: "mahshi_kromb.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 2, name: "محشي باذنجان جاهز للتسويه", price: 100, category: "ready", img: "mahshi_badengan.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 3, name: "محشي كوسة جاهز للتسويه", price: 120, category: "ready", img: "mahshi_kousa.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
+            { id: 4, name: "محشي مشكل جاهز للتسويه", price: 100, category: "ready", img: "mahshi_meshakal.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 5, name: "محشي ورق عنب جاهز للتسويه", price: 140, category: "ready", img: "mahshi_warag_enab.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 6, name: "فرخة متبلة", price: 275, category: "ready", img: "farkha_motabala.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "قطعة كاملة" },
             { id: 7, name: "كيلو أوراك دجاج متبلة", price: 140, category: "ready", img: "owrak_motabala.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -649,9 +670,6 @@
             { id: 15, name: "كبدة بلدي بناتي متبلة", price: 450, category: "ready", img: "kebda_baladi.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 16, name: "كبدة برازيلي متبلة", price: 300, category: "ready", img: "kebda_brazili.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 17, name: "شيش دجاج جاهز للتسويه", price: 260, category: "ready", img: "shish_tawook.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
-            { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 21, name: "شاورما فراخ متبلة", price: 260, category: "ready", img: "shawarma_chicken.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 22, name: "شاورما لحم بناتي", price: 450, category: "ready", img: "shawarma_meat.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 23, name: "سمك بلطي متبل للقلي", price: 110, category: "ready", img: "samak_bolti.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -743,7 +761,7 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // بانر متحرك أوتوماتيك وسحب يدوي سلس (يعمل فوراً كل ثانية وبدون توقف)
+        // بانر متحرك أوتوماتيكي بالكامل وسحب يدوي (يقلب كل ثانية بسلاسة وبدون توقف)
         let autoScrollInterval;
         const banner = document.getElementById('swipeBanner');
         function startAutoScroll() {
@@ -838,8 +856,22 @@
                     `<span class="item-status status-available">🟢 متاح</span>` : 
                     `<span class="item-status status-unavailable">🔴 غير متاح</span>`;
 
+                // معرفة الكمية الحالية في السلة لعرضها مباشرة على الكارت (زي صورة 2)
+                const cartItem = cart.find(i => i.id === item.id);
+                const currentQty = cartItem ? cartItem.qty : 0;
+
+                let actionArea = currentQty > 0 ? `
+                    <div class="card-qty-row">
+                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
+                        <span class="card-qty-num">${currentQty} في السلة</span>
+                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
+                    </div>
+                ` : `
+                    <button class="add-btn" onclick="addToCartFromUI(${item.id})">أضف للسلة 🛒</button>
+                `;
+
                 container.innerHTML += `
-                    <div class="menu-item">
+                    <div class="menu-item" id="card-${item.id}">
                         ${statusBadge}
                         <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
@@ -853,7 +885,9 @@
                             </div>
                             ${weightHTML}
                             ${chickenHTML}
-                            <button class="add-btn" onclick="addToCartFromUI(${item.id})">أضف للسلة 🛒</button>
+                            <div id="action-${item.id}">
+                                ${actionArea}
+                            </div>
                         </div>
                     </div>
                 `;
@@ -867,6 +901,19 @@
             container.innerHTML = '';
             let topItems = menuData.filter(i => i.top);
             topItems.forEach(item => {
+                const cartItem = cart.find(i => i.id === item.id);
+                const currentQty = cartItem ? cartItem.qty : 0;
+
+                let actionArea = currentQty > 0 ? `
+                    <div class="card-qty-row">
+                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
+                        <span class="card-qty-num">${currentQty} في السلة</span>
+                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
+                    </div>
+                ` : `
+                    <button class="add-btn" onclick="addToCart(${item.id}, 1)">أضف للسلة 🛒</button>
+                `;
+
                 container.innerHTML += `
                     <div class="menu-item">
                         <span class="item-status status-available">🟢 متاح</span>
@@ -880,7 +927,9 @@
                                     <div class="item-weight">${item.weight}</div>
                                 </div>
                             </div>
-                            <button class="add-btn" onclick="addToCart(${item.id}, 1)">أضف للسلة 🛒</button>
+                            <div id="action-top-${item.id}">
+                                ${actionArea}
+                            </div>
                         </div>
                     </div>
                 `;
@@ -938,7 +987,33 @@
                 cart.push({ cartKey: cartKey, id: item.id, name: descriptiveName, unitPrice: finalUnitPrice, qty: 1 });
             }
             saveAndUpdateCart();
-            alert('تمت الإضافة للسلة بنجاح! 🛒');
+            renderTopProducts();
+        }
+
+        // تحديث الكمية مباشرة من الكارت (مثل صورة 2)
+        function updateCardQty(id, delta) {
+            const found = cart.find(i => i.id === id);
+            if (found) {
+                found.qty += delta;
+                if (found.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            } else if (delta > 0) {
+                addToCart(id, 1);
+                return;
+            }
+            saveAndUpdateCart();
+            renderTopProducts();
+            const currentCatText = document.getElementById('sectionHeadingText').innerText;
+            if(currentCatText !== 'أقسام المنيو') {
+                // نحن داخل قسم معين
+                for(let key in catNamesMap) {
+                    if(catNamesMap[key] === currentCatText) {
+                        renderMenu(key);
+                        break;
+                    }
+                }
+            }
         }
 
         function changeQty(cartKey, delta) {
@@ -948,6 +1023,7 @@
                 if (found.qty <= 0) cart = cart.filter(i => i.cartKey !== cartKey);
             }
             saveAndUpdateCart();
+            renderTopProducts();
             openCheckout();
             if (cart.length === 0) closeCheckout();
         }
@@ -971,7 +1047,7 @@
             }
         }
 
-        // تطبيق كود القسيمة الخاص (AMMAR01)
+        // تطبيق قسيمة AMMAR01
         function applyCoupon() {
             const codeInput = document.getElementById('couponInput').value.trim();
             const msgElem = document.getElementById('couponMsg');
@@ -989,11 +1065,11 @@
                 localStorage.setItem('tabkha_used_coupons', JSON.stringify(usedCoupons));
                 
                 msgElem.style.color = "#27ae60";
-                msgElem.innerText = "🎉 مبروك! تم تطبيق قسيمة العملاء المميزين وإلغاء تكلفة التوصيل.";
+                msgElem.innerText = "🎉 مبروك! تم تطبيق قسيمة AMMAR01 وإلغاء مصاريف التوصيل.";
                 openCheckout();
             } else {
                 msgElem.style.color = "#e74c3c";
-                msgElem.innerText = "❌ الكود غير صحيح أو غير مخصص لك.";
+                msgElem.innerText = "❌ الكود غير صحيح.";
             }
         }
 
