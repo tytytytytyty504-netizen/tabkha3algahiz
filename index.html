@@ -80,7 +80,6 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر المنضبط */
         .slider-container {
             position: relative;
             width: 100%;
@@ -105,6 +104,7 @@
             position: relative;
             flex-shrink: 0;
             background: #111;
+            cursor: pointer;
         }
         .slide-card img {
             width: 100%;
@@ -217,8 +217,19 @@
             background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; text-align: center; margin-top: 35px; margin-bottom: 25px;
         }
         .page-banner-section img { width: 100%; max-height: 230px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; border: 1px solid #444; }
+        
+        .social-buttons-box {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
         .follow-fb-btn {
-            display: inline-block; background: #1877f2; color: white; text-decoration: none; padding: 9px 25px; border-radius: 25px; font-weight: bold; font-size: 0.85rem;
+            display: inline-block; background: #1877f2; color: white; text-decoration: none; padding: 9px 20px; border-radius: 25px; font-weight: bold; font-size: 0.85rem;
+        }
+        .follow-wa-group-btn {
+            display: inline-block; background: #25d366; color: white; text-decoration: none; padding: 9px 20px; border-radius: 25px; font-weight: bold; font-size: 0.85rem;
         }
 
         footer {
@@ -288,13 +299,11 @@
         </div>
         <div class="header-icons">
             <button class="admin-gear-btn" onclick="openAdminLogin()" title="لوحة التحكم السرية">⚙️</button>
-            <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" title="ادخل إلى جروب الواتساب">
-                <img src="https://store-images.s-microsoft.com/image/apps.8453.13518859748920827.4d7dd838-9f34-4ad2-9cd7-b861c6398fc1.11cbb3d4-ffd9-42c1-82bd-e3f305d562b1?h=210" alt="جروب الواتساب" class="icon-img">
-            </a>
             <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحة الفيسبوك">
                 <img src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img">
             </a>
-            <a href="https://wa.me/201129933758" target="_blank" title="واتساب">
+            <!-- أيقونة الواتساب الخاصة بالطلب المباشر فقط فوق -->
+            <a href="https://wa.me/201129933758" target="_blank" title="واتساب للطلب">
                 <img src="https://store-images.s-microsoft.com/image/apps.8453.13518859748920827.4d7dd838-9f34-4ad2-9cd7-b861c6398fc1.11cbb3d4-ffd9-42c1-82bd-e3f305d562b1?h=210" alt="WhatsApp" class="icon-img">
             </a>
         </div>
@@ -373,11 +382,16 @@
                 <button class="card-qty-btn" style="width:100%; height:36px; background:var(--secondary); font-size:0.85rem; border-radius:6px;" onclick="submitClientReview()">إرسال الرأي 🚀</button>
             </div>
 
+            <!-- بانر التواصل الاجتماعي والجروب تحت خالص -->
             <div class="page-banner-section">
                 <img src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
-                <div>
+                <p style="font-size: 0.85rem; color: #ddd; margin-bottom: 10px;">تابعنا على الفيسبوك وانضم لجروب الواتساب عشان تتابع كل جديد وعروضنا أول بأول!</p>
+                <div class="social-buttons-box">
                     <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
                         👍 متابعة صفحة الفيسبوك
+                    </a>
+                    <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" class="follow-wa-group-btn">
+                        💬 انضم لجروب الواتساب
                     </a>
                 </div>
             </div>
@@ -479,11 +493,12 @@
             </div>
 
             <div id="tab-banners" class="admin-section">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">إظهار/إخفاء بانرات السلايدر، أو إضافة بانر جديد:</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">إظهار/إخفاء بانرات السلايدر، أو إضافة بانر جديد بـ **سعر خاص**:</p>
                 <div style="background:#202020; padding:10px; border-radius:8px; margin-bottom:12px;">
-                    <h4 style="color:var(--gold); font-size:0.8rem; margin-bottom:6px;">➕ إضافة بانر جديد:</h4>
+                    <h4 style="color:var(--gold); font-size:0.8rem; margin-bottom:6px;">➕ إضافة بانر جديد وسعره:</h4>
                     <div class="form-group"><input type="text" id="newBannerTitle" placeholder="عنوان البانر (مثال: عرض اليوم)"></div>
                     <div class="form-group"><input type="text" id="newBannerDesc" placeholder="الوصف القصير تحت العنوان"></div>
+                    <div class="form-group"><input type="number" id="newBannerPrice" placeholder="سعر المنتج عند الضغط عليه (بالجنيه)"></div>
                     <div class="form-group"><label style="font-size:0.7rem;">اختر صورة من جهازك:</label><input type="file" id="newBannerFile" accept="image/*" style="font-size:0.75rem;"></div>
                     <div class="form-group">
                         <label style="font-size:0.7rem;">أو ضع رابط صورة مباشر:</label>
@@ -611,10 +626,10 @@
         ];
 
         const defaultBanners = [
-            { id: 0, title: "تشكيلة المصنعات الفورية", desc: "بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 18 },
-            { id: 1, title: "استربس دجاج جاهز للقلي", desc: "طازة وعلى القلي فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 19 },
-            { id: 2, title: "كفتة بيتي لحم بناتي", desc: "أصل اللحم البلدي (اضغط للطلب)", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600", active: true, itemId: 20 },
-            { id: 3, title: "½ محشي كرنب + ¼ فرخة", desc: "طازة وعلى التسوية فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600", active: true, itemId: 46 }
+            { id: 0, title: "تشكيلة المصنعات الفورية", desc: "بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, price: 260 },
+            { id: 1, title: "استربس دجاج جاهز للقلي", desc: "طازة وعلى القلي فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, price: 260 },
+            { id: 2, title: "كفتة بيتي لحم بناتي", desc: "أصل اللحم البلدي (اضغط للطلب)", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600", active: true, price: 450 },
+            { id: 3, title: "½ محشي كرنب + ¼ فرخة", desc: "طازة وعلى التسوية فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600", active: true, price: 140 }
         ];
 
         const defaultReviews = [
@@ -652,7 +667,7 @@
                 container.innerHTML += `
                     <div class="review-card">
                         <div class="review-stars">${rev.stars}</div>
-                        <p style="font-size:0.8rem; color:#ddd;">"${rev.text}"</p>
+                        <p style="font-size:0.80rem; color:#ddd;">"${rev.text}"</p>
                     </div>`;
             });
         }
@@ -700,10 +715,10 @@
 
             activeBanners.forEach((banner, index) => {
                 wrapper.innerHTML += `
-                    <div class="slide-card" onclick="updateCardQty(${banner.itemId}, 1)">
+                    <div class="slide-card" onclick="addBannerToCart(${banner.price}, '${banner.title}')">
                         <img src="${banner.img}" alt="${banner.title}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
                         <div class="slide-overlay">
-                            <div class="slide-text"><h3>${banner.title}</h3><p>${banner.desc}</p></div>
+                            <div class="slide-text"><h3>${banner.title} - ${banner.price} ج</h3><p>${banner.desc}</p></div>
                         </div>
                     </div>`;
 
@@ -713,6 +728,18 @@
             currentSlide = 0;
             updateSliderPosition();
             startSliderInterval();
+        }
+
+        function addBannerToCart(price, title) {
+            const cartKey = `banner-${title}`;
+            const found = cart.find(i => i.cartKey === cartKey);
+            if (found) {
+                found.qty++;
+            } else {
+                cart.push({ cartKey: cartKey, id: Date.now(), name: title + " (من البانر)", unitPrice: price, qty: 1 });
+            }
+            saveAndUpdateCart();
+            openCheckout();
         }
 
         function updateSliderPosition() {
@@ -1179,7 +1206,7 @@
                 let btnText = banner.active ? 'يظهر بالبانر' : 'مخفي';
                 list.innerHTML += `
                     <div class="admin-item-row">
-                        <div style="flex:1;"><strong>${banner.title}</strong><br><span style="font-size:0.65rem; color:#888;">${banner.desc}</span></div>
+                        <div style="flex:1;"><strong>${banner.title}</strong><br><span style="font-size:0.65rem; color:#888;">السعر: ${banner.price} ج</span></div>
                         <button class="admin-toggle ${btnClass}" onclick="toggleBannerStatus(${banner.id})">${btnText}</button>
                     </div>`;
             });
@@ -1270,6 +1297,7 @@
         function addNewBanner() {
             const title = document.getElementById('newBannerTitle').value.trim();
             const desc = document.getElementById('newBannerDesc').value.trim();
+            const price = parseFloat(document.getElementById('newBannerPrice').value) || 0;
             const imgUrl = document.getElementById('newBannerImgUrl').value.trim();
             const fileInput = document.getElementById('newBannerFile');
 
@@ -1281,23 +1309,23 @@
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    saveNewBannerObject(title, desc, e.target.result);
+                    saveNewBannerObject(title, desc, price, e.target.result);
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                imageFromUrl(title, desc, imgUrl);
+                imageFromUrl(title, desc, price, imgUrl);
             }
         }
 
-        function imageFromUrl(title, desc, imgUrl) {
+        function imageFromUrl(title, desc, price, imgUrl) {
             if (imgUrl) {
-                saveNewBannerObject(title, desc, imgUrl);
+                saveNewBannerObject(title, desc, price, imgUrl);
             } else {
                 alert('من فضلك اختر صورة من جهازك أو ضع رابط صورة مباشر.');
             }
         }
 
-        function saveNewBannerObject(title, desc, imgSrc) {
+        function saveNewBannerObject(title, desc, price, imgSrc) {
             const newId = bannersData.length > 0 ? bannersData[bannersData.length - 1].id + 1 : 0;
             bannersData.push({
                 id: newId,
@@ -1305,16 +1333,17 @@
                 desc: desc || 'اضغط للطلب الفوري',
                 img: imgSrc,
                 active: true,
-                itemId: 18
+                price: price
             });
             localStorage.setItem('tabkha_banners_data', JSON.stringify(bannersData));
             document.getElementById('newBannerTitle').value = '';
             document.getElementById('newBannerDesc').value = '';
+            document.getElementById('newBannerPrice').value = '';
             document.getElementById('newBannerImgUrl').value = '';
             document.getElementById('newBannerFile').value = '';
             renderAdminBanners();
             initSlider();
-            alert('تم إضافة البانر الجديد وتفعيله بنجاح! 🌟');
+            alert('تم إضافة البانر الجديد وسعره وتفعيله بنجاح! 🌟');
         }
 
         function saveMarqueeText() {
