@@ -80,17 +80,17 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر التفاعلي الحر (سحب يمين ويسار باللمس أو الماوس) */
+        /* السلايدر المحسن تماماً لضمان عدم ظهور شاشات سوداء */
         .slider-container {
             position: relative;
             width: 100%;
-            height: 205px;
+            height: 210px;
             border-radius: 15px;
             overflow: hidden;
             margin-bottom: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #333;
-            background: #000;
+            background: #111;
             cursor: grab;
         }
         .slider-container:active { cursor: grabbing; }
@@ -104,12 +104,13 @@
             position: relative;
             flex-shrink: 0;
             width: 100%;
+            background: #111;
         }
         .slide-card img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background: #000;
+            object-fit: cover; /* تم التعديل لمنع أي فراغات سوداء وضمان ظهور الصورة واضحة وملء المكان */
+            background: #111;
             pointer-events: none;
         }
         .slide-overlay {
@@ -175,7 +176,7 @@
         .status-available { background: rgba(39, 174, 96, 0.85); color: white; }
         .status-unavailable { background: rgba(192, 57, 43, 0.85); color: white; }
 
-        .menu-item img { width: 100%; height: 175px; object-fit: contain; background: #000; }
+        .menu-item img { width: 100%; height: 175px; object-fit: cover; background: #111; }
         .item-details { padding: 14px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
         .item-info h3 { font-size: 0.95rem; margin-bottom: 4px; color: #fff; }
         .item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
@@ -207,6 +208,12 @@
             background: var(--card-bg); border: 1px solid #222; border-radius: 12px; padding: 14px; min-width: 250px; flex: 0 0 250px;
         }
         .review-stars { color: #f1c40f; margin-bottom: 5px; font-size: 0.85rem; }
+
+        /* صندوق إضافة رأي للعميل */
+        .add-review-box {
+            background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; margin-top: 25px; margin-bottom: 25px;
+        }
+        .add-review-box h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 8px; }
 
         .page-banner-section {
             background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; text-align: center; margin-top: 35px; margin-bottom: 25px;
@@ -256,7 +263,7 @@
         
         /* تنسيق لوحة التحكم */
         .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; overflow-x: auto; }
-        .admin-tab-btn { background: #222; color: #aaa; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; white-space: nowrap; }
+        .admin-tab-btn { background: #222; color: #aaa; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-weight: bold; white-space: nowrap; }
         .admin-tab-btn.active { background: var(--primary); color: white; }
         .admin-section { display: none; }
         .admin-section.active { display: block; }
@@ -294,7 +301,7 @@
     </header>
 
     <div class="container">
-        <!-- السلايدر التفاعلي الحر (سحب باللمس والماوس) -->
+        <!-- السلايدر التفاعلي المحسن -->
         <div class="slider-container" id="sliderContainer">
             <div class="slides-wrapper" id="slidesWrapper"></div>
         </div>
@@ -352,31 +359,23 @@
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
-            <div class="reviews-container">
-                <div class="review-card">
-                    <div class="review-stars">★★★★☆</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل."</p>
+            <div class="reviews-container" id="reviewsContainer">
+                <!-- آراء العملاء الديناميكية -->
+            </div>
+
+            <!-- إضافة رأي جديد للعميل -->
+            <div class="add-review-box">
+                <h4>✍️ سيب رأيك في الأكل والخدمة:</h4>
+                <div class="form-group"><input type="text" id="clientReviewName" placeholder="اسمك الكريم..."></div>
+                <div class="form-group">
+                    <select id="clientReviewStars">
+                        <option value="★★★★★">⭐⭐⭐⭐⭐ (تحفة و5 نجوم)</option>
+                        <option value="★★★★☆">⭐⭐⭐⭐ (ممتاز)</option>
+                        <option value="★★★☆☆">⭐⭐⭐ (جيد)</option>
+                    </select>
                 </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية."</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي."</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل وصل بجد تسلم ايديكم، سخن وطازة ومظبوط."</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"البانيه تحفه بجد والتتبيله تحفه، عيالى حبوه جداً."</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد."</p>
-                </div>
+                <div class="form-group"><textarea id="clientReviewText" rows="2" placeholder="اكتب رأيك بكل صراحة..."></textarea></div>
+                <button class="card-qty-btn" style="width:100%; height:36px; background:var(--secondary); font-size:0.85rem; border-radius:6px;" onclick="submitClientReview()">إرسال الرأي 🚀</button>
             </div>
 
             <div class="page-banner-section">
@@ -467,7 +466,7 @@
         </div>
     </div>
 
-    <!-- لوحة التحكم المتقدمة -->
+    <!-- لوحة التحكم الاحترافية المحدثة -->
     <div class="modal" id="adminDashboardModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeAdminDashboard()">إغلاق ✕</button>
@@ -476,6 +475,7 @@
             <div class="admin-tabs">
                 <button class="admin-tab-btn active" onclick="switchAdminTab('tab-products', this)">المنتجات والأسعار</button>
                 <button class="admin-tab-btn" onclick="switchAdminTab('tab-banners', this)">التحكم في البانر</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('tab-reviews', this)">إدارة آراء العملاء</button>
                 <button class="admin-tab-btn" onclick="switchAdminTab('tab-ticker', this)">شريط التنبيهات</button>
             </div>
 
@@ -498,6 +498,12 @@
                     <button class="card-qty-btn" style="width:100%; height:34px; background:var(--secondary); font-size:0.8rem; border-radius:5px;" onclick="addNewBanner()">إضافة البانر للسلايدر 🌟</button>
                 </div>
                 <div id="adminBannersList" style="max-height: 35vh; overflow-y: auto;"></div>
+            </div>
+
+            <!-- تبويب إدارة آراء العملاء -->
+            <div id="tab-reviews" class="admin-section">
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">الآراء التي أرسلها العملاء (وافق عليها لتظهر بالموقع أو احذفها):</p>
+                <div id="adminReviewsList" style="max-height: 50vh; overflow-y: auto;"></div>
             </div>
 
             <div id="tab-ticker" class="admin-section">
@@ -612,14 +618,21 @@
         ];
 
         const defaultBanners = [
-            { id: 0, title: "تشكيلة المصنعات الفورية", desc: "بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)", img: "paneer_raw.jpg", fallbackImg: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 18 },
-            { id: 1, title: "استربس دجاج جاهز للقلي", desc: "طازة وعلى القلي فوراً (اضغط للطلب)", img: "strips_raw.jpg", fallbackImg: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 19 },
-            { id: 2, title: "كفتة بيتي لحم بناتي", desc: "أصل اللحم البلدي (اضغط للطلب)", img: "kofta_raw.jpg", fallbackImg: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600", active: true, itemId: 20 },
-            { id: 3, title: "½ محشي كرنب + ¼ فرخة", desc: "طازة وعلى التسوية فوراً (اضغط للطلب)", img: "meal_kromb_chicken.jpg", fallbackImg: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600", active: true, itemId: 46 }
+            { id: 0, title: "تشكيلة المصنعات الفورية", desc: "بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 18 },
+            { id: 1, title: "استربس دجاج جاهز للقلي", desc: "طازة وعلى القلي فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 19 },
+            { id: 2, title: "كفتة بيتي لحم بناتي", desc: "أصل اللحم البلدي (اضغط للطلب)", img: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600", active: true, itemId: 20 },
+            { id: 3, title: "½ محشي كرنب + ¼ فرخة", desc: "طازة وعلى التسوية فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600", active: true, itemId: 46 }
+        ];
+
+        const defaultReviews = [
+            { id: 1, name: "منى أحمد", stars: "★★★★☆", text: "الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل.", approved: true },
+            { id: 2, name: "محمود حسن", stars: "★★★★★", text: "الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية.", approved: true },
+            { id: 3, name: "سارة محمد", stars: "★★★★★", text: "الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي.", approved: true }
         ];
 
         let menuData = JSON.parse(localStorage.getItem('tabkha_menu_data')) || defaultMenuData;
         let bannersData = JSON.parse(localStorage.getItem('tabkha_banners_data')) || defaultBanners;
+        let reviewsData = JSON.parse(localStorage.getItem('tabkha_reviews_data')) || defaultReviews;
         let marqueeTextVal = localStorage.getItem('tabkha_marquee_text') || "⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲";
         
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
@@ -629,7 +642,52 @@
 
         document.getElementById('marqueeText').innerText = marqueeTextVal;
 
-        // إدارة السلايدر التفاعلي الحر (سحب باللمس أو الماوس)
+        // عرض آراء العملاء المعتمدة فقط في الموقع
+        function renderCustomerReviews() {
+            const container = document.getElementById('reviewsContainer');
+            if(!container) return;
+            container.innerHTML = '';
+            let approvedReviews = reviewsData.filter(r => r.approved);
+            if(approvedReviews.length === 0) {
+                container.innerHTML = '<p style="color:#888; font-size:0.8rem;">كن أول من يترك رأياً لنا بعد التجربة!</p>';
+                return;
+            }
+            approvedReviews.forEach(rev => {
+                container.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-stars">${rev.stars}</div>
+                        <p style="font-size:0.8rem; color:#ddd;">"${rev.text}"</p>
+                        <span style="font-size:0.65rem; color:var(--gold); display:block; margin-top:6px;">- ${rev.name}</span>
+                    </div>`;
+            });
+        }
+
+        function submitClientReview() {
+            const name = document.getElementById('clientReviewName').value.trim();
+            const stars = document.getElementById('clientReviewStars').value;
+            const text = document.getElementById('clientReviewText').value.trim();
+
+            if(!name || !text) {
+                alert('من فضلك ادخل الاسم ورأيك قبل الإرسال.');
+                return;
+            }
+
+            const newRev = {
+                id: Date.now(),
+                name: name,
+                stars: stars,
+                text: text,
+                approved: false // يحتاج موافقة المشرف من لوحة التحكم
+            };
+
+            reviewsData.push(newRev);
+            localStorage.setItem('tabkha_reviews_data', JSON.stringify(reviewsData));
+            document.getElementById('clientReviewName').value = '';
+            document.getElementById('clientReviewText').value = '';
+            alert('شكراً لك! تم إرسال رأيك وسيتم عرضه بعد مراجعته من الإدارة. 🌟');
+        }
+
+        // إدارة السلايدر التفاعلي المحسن
         let currentSlide = 0;
         let slideInterval;
         let isDragging = false;
@@ -657,8 +715,8 @@
 
             activeBanners.forEach((banner, index) => {
                 wrapper.innerHTML += `
-                    <div class="slide-card" style="width: ${100 / activeBanners.length}%;" onclick="handleSlideClick(${banner.itemId})">
-                        <img src="${banner.img}" alt="${banner.title}" onerror="this.src='${banner.fallbackImg}'">
+                    <div class="slide-card" style="width: ${100 / activeBanners.length}%;" onclick="updateCardQty(${banner.itemId}, 1)">
+                        <img src="${banner.img}" alt="${banner.title}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
                         <div class="slide-overlay">
                             <div class="slide-text"><h3>${banner.title}</h3><p>${banner.desc}</p></div>
                         </div>
@@ -705,7 +763,6 @@
             }, 4000);
         }
 
-        // تفاعل السحب الحر (Touch & Mouse Drag)
         const sliderContainer = document.getElementById('sliderContainer');
         const wrapper = document.getElementById('slidesWrapper');
 
@@ -754,11 +811,6 @@
             }
             updateSliderPosition();
             startSliderInterval();
-        }
-
-        let clickedCardTime = 0;
-        function handleSlideClick(itemId) {
-            updateCardQty(itemId, 1);
         }
 
         const catNamesMap = {
@@ -1136,7 +1188,7 @@
             showCategoriesView();
         }
 
-        // دوال لوحة التحكم المتقدمة
+        // دوال لوحة التحكم
         function openAdminLogin() { document.getElementById('adminLoginModal').style.display = 'flex'; }
         function closeAdminLogin() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
         
@@ -1160,6 +1212,7 @@
         function openAdminDashboard() {
             renderAdminProducts();
             renderAdminBanners();
+            renderAdminReviews();
             document.getElementById('adminMarqueeInput').value = marqueeTextVal;
             document.getElementById('adminDashboardModal').style.display = 'flex';
         }
@@ -1195,6 +1248,47 @@
                         <button class="admin-toggle ${btnClass}" onclick="toggleBannerStatus(${banner.id})">${btnText}</button>
                     </div>`;
             });
+        }
+
+        function renderAdminReviews() {
+            const list = document.getElementById('adminReviewsList');
+            list.innerHTML = '';
+            if(reviewsData.length === 0) {
+                list.innerHTML = '<p style="color:#888; font-size:0.8rem; text-align:center;">لا توجد آراء مرسلة حتى الآن.</p>';
+                return;
+            }
+            reviewsData.forEach(rev => {
+                let btnClass = rev.approved ? 'btn-active' : 'btn-inactive';
+                let btnText = rev.approved ? 'معروض بالموقع' : 'مخفي (معلق)';
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div style="flex:1;">
+                            <strong>${rev.name} (${rev.stars})</strong><br>
+                            <span style="font-size:0.75rem; color:#ccc;">"${rev.text}"</span>
+                        </div>
+                        <button class="admin-toggle ${btnClass}" onclick="toggleReviewApproval(${rev.id})">${btnText}</button>
+                        <button class="admin-toggle" style="background:#c0392b; color:white;" onclick="deleteReview(${rev.id})">حذف</button>
+                    </div>`;
+            });
+        }
+
+        function toggleReviewApproval(id) {
+            const rev = reviewsData.find(r => r.id === id);
+            if(rev) {
+                rev.approved = !rev.approved;
+                localStorage.setItem('tabkha_reviews_data', JSON.stringify(reviewsData));
+                renderAdminReviews();
+                renderCustomerReviews();
+            }
+        }
+
+        function deleteReview(id) {
+            if(confirm('هل أنت متأكد من حذف هذا الرأي؟')) {
+                reviewsData = reviewsData.filter(r => r.id !== id);
+                localStorage.setItem('tabkha_reviews_data', JSON.stringify(reviewsData));
+                renderAdminReviews();
+                renderCustomerReviews();
+            }
         }
 
         function updateProductPrice(id, newPrice) {
@@ -1262,14 +1356,13 @@
             }
         }
 
-        function saveNewBannerObject(title, desc, imgSrc) {
+    function saveNewBannerObject(title, desc, imgSrc) {
             const newId = bannersData.length > 0 ? bannersData[bannersData.length - 1].id + 1 : 0;
             bannersData.push({
                 id: newId,
                 title: title,
                 desc: desc || 'اضغط للطلب الفوري',
                 img: imgSrc,
-                fallbackImg: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600',
                 active: true,
                 itemId: 18
             });
@@ -1295,6 +1388,7 @@
 
         // التهيئة عند فتح الموقع
         initSlider();
+        renderCustomerReviews();
         saveAndUpdateCart();
         renderTopProducts();
     </script>
