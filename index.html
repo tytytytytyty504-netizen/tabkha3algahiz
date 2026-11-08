@@ -80,7 +80,7 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر المعدل لمنع أي صور ورا بعضها أو تداخل */
+        /* السلايدر المنضبط */
         .slider-container {
             position: relative;
             width: 100%;
@@ -122,7 +122,6 @@
         .slide-text h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 2px; }
         .slide-text p { color: #fff; font-size: 0.75rem; }
 
-        /* نقاط التفاعل (Dots) */
         .slider-dots {
             display: flex;
             justify-content: center;
@@ -260,7 +259,6 @@
         .coupon-btn { background: var(--secondary); color: white; border: none; padding: 0 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
         .remove-coupon-btn { background: #c0392b; color: white; border: none; padding: 0 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
         
-        /* تنسيق لوحة التحكم */
         .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; overflow-x: auto; }
         .admin-tab-btn { background: #222; color: #aaa; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; font-weight: bold; white-space: nowrap; }
         .admin-tab-btn.active { background: var(--primary); color: white; }
@@ -303,11 +301,10 @@
     </header>
 
     <div class="container">
-        <!-- السلايدر المنضبط والمصلح تماماً -->
+        <!-- السلايدر -->
         <div class="slider-container" id="sliderContainer">
             <div class="slides-wrapper" id="slidesWrapper"></div>
         </div>
-        <!-- نقاط التفاعل (Dots) -->
         <div class="slider-dots" id="sliderDots"></div>
 
         <div class="search-box">
@@ -363,7 +360,6 @@
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
             <div class="reviews-container" id="reviewsContainer"></div>
 
-            <!-- صندوق إضافة رأي نظيف بدون أي أمثلة -->
             <div class="add-review-box">
                 <h4>✍️ سيب رأيك في الأكل والخدمة:</h4>
                 <div class="form-group">
@@ -452,7 +448,7 @@
         </div>
     </div>
 
-    <!-- مودال تسجيل دخول لوحة التحكم السرية -->
+    <!-- لوحة التحكم -->
     <div class="modal" id="adminLoginModal">
         <div class="modal-content" style="max-width: 350px; text-align: center;">
             <button class="close-modal" onclick="closeAdminLogin()">إغلاق ✕</button>
@@ -465,7 +461,6 @@
         </div>
     </div>
 
-    <!-- لوحة التحكم الاحترافية -->
     <div class="modal" id="adminDashboardModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeAdminDashboard()">إغلاق ✕</button>
@@ -499,7 +494,6 @@
                 <div id="adminBannersList" style="max-height: 35vh; overflow-y: auto;"></div>
             </div>
 
-            <!-- تبويب إدارة الآراء -->
             <div id="tab-reviews" class="admin-section">
                 <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">الآراء المرسلة من العملاء (وافق عليها لتظهر بالموقع أو احذفها):</p>
                 <div id="adminReviewsList" style="max-height: 50vh; overflow-y: auto;"></div>
@@ -543,7 +537,7 @@
             { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "wings_broasted.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "drumsticks_broasted.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "burger_meat.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            // الخضار الجاهز
+            
             { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "badengan_cleared.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "kousa_cleared.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "felafel_hashw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -560,7 +554,7 @@
             { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "veg_soup.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "tomato_sauce.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة محضرة" },
             { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "kromb_boiled.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حبة متوسطة" },
-            // الوجبات
+            
             { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
@@ -571,7 +565,7 @@
             { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "fatta_shawarma_small.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حجم صغير" },
             { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "fatta_shawarma_big.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حجم كبير" },
             { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "meal_bchamel_paneer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
-            // وجبات العيلة
+            
             { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "fam_mahshi_meshakal.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "fam_mahshi_kromb.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "fam_mahshi_badengan.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
@@ -591,12 +585,12 @@
             { id: 69, name: "صينية بطاطس بالفراخ", price: 330, category: "family", img: "fam_potatoes_chicken.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية عائلية" },
             { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "fam_meat_fried.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "fam_rengah.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
-            // صواني العيلة
+            
             { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "tray_1.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية متكاملة" },
             { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "tray_2.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية ملكية" },
             { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "tray_3.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية فاخرة" },
             { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "tray_4.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية مشكلة" },
-            // السندوتشات
+            
             { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_paneer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
             { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_strips.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
             { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "sand_kofta.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
@@ -604,7 +598,7 @@
             { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "sand_steak.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش فاخر" },
             { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "sand_shish.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
             { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "sand_shawarma.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
-            // الإضافات
+            
             { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "sauce_toumya.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
             { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "sauce_romi.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
             { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "sauce_cheddar.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
@@ -612,7 +606,7 @@
             { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "coleslaw.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
             { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "mix_mahshi.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "mix_hamam.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
-            // العروض
+            
             { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "4 كيلو" }
         ];
 
@@ -685,7 +679,6 @@
             alert('شكراً لك! تم إرسال رأيك وسيتم عرضه بعد مراجعته من الإدارة. 🌟');
         }
 
-        // إدارة السلايدر المصلح تماماً (بدون تداخل صور)
         let currentSlide = 0;
         let slideInterval;
 
@@ -726,7 +719,7 @@
             const wrapper = document.getElementById('slidesWrapper');
             const activeBanners = bannersData.filter(b => b.active);
             if (activeBanners.length === 0) return;
-            wrapper.style.transform = `translateX(${currentSlide * 100}%)`; // الاتجاه مظبوط RTL
+            wrapper.style.transform = `translateX(${currentSlide * 100}%)`;
             
             const dots = document.querySelectorAll('.slider-dots .dot');
             dots.forEach((dot, index) => {
@@ -1131,7 +1124,6 @@
             showCategoriesView();
         }
 
-        // دوال لوحة التحكم
         function openAdminLogin() { document.getElementById('adminLoginModal').style.display = 'flex'; }
         function closeAdminLogin() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
         
@@ -1292,7 +1284,9 @@
                     saveNewBannerObject(title, desc, e.target.result);
                 };
                 reader.readAsDataURL(fileInput.files[0]);
-            } else imageFromUrl(title, desc, imgUrl);
+            } else {
+                imageFromUrl(title, desc, imgUrl);
+            }
         }
 
         function imageFromUrl(title, desc, imgUrl) {
@@ -1333,7 +1327,6 @@
             }
         }
 
-        // التهيئة عند فتح الموقع
         initSlider();
         renderCustomerReviews();
         saveAndUpdateCart();
