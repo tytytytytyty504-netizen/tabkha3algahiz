@@ -79,7 +79,7 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر الانسيابي النظيف بتمعن وبدون مشاكل */
+        /* السلايدر الانسيابي */
         .slider-container {
             position: relative;
             width: 100%;
@@ -93,12 +93,10 @@
         }
         .slides-wrapper {
             display: flex;
-            width: 400%;
             height: 100%;
             transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .slide-card {
-            width: 25%;
             height: 100%;
             position: relative;
             cursor: pointer;
@@ -234,7 +232,7 @@
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-content {
-            background: var(--dark); width: 100%; max-width: 480px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333;
+            background: var(--dark); width: 100%; max-width: 520px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333;
         }
         .form-group { margin-bottom: 10px; }
         .form-group label { display: block; margin-bottom: 3px; font-size: 0.75rem; color: var(--gold); }
@@ -251,17 +249,24 @@
         .coupon-btn { background: var(--secondary); color: white; border: none; padding: 0 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
         .remove-coupon-btn { background: #c0392b; color: white; border: none; padding: 0 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
         
-        /* تنسيق لوحة التحكم السرية */
-        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #1c1c1c; padding: 8px; border-radius: 6px; margin-bottom: 6px; font-size: 0.8rem; }
-        .admin-toggle { cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; border: none; }
+        /* تنسيق لوحة التحكم المتقدمة */
+        .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .admin-tab-btn { background: #222; color: #aaa; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+        .admin-tab-btn.active { background: var(--primary); color: white; }
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
+        
+        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #1c1c1c; padding: 8px; border-radius: 6px; margin-bottom: 6px; font-size: 0.8rem; gap: 8px; }
+        .admin-toggle { cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; border: none; white-space: nowrap; }
         .btn-active { background: #27ae60; color: white; }
         .btn-inactive { background: #c0392b; color: white; }
+        .admin-price-input { width: 70px; background: #121212; border: 1px solid #444; color: var(--gold); padding: 4px; border-radius: 4px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="marquee-bar">
-        <span>⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲</span>
+        <span id="marqueeText">⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲</span>
     </div>
 
     <header>
@@ -284,42 +289,12 @@
     </header>
 
     <div class="container">
-        <!-- السلايدر الانسيابي بتمعن مع النقاط (Dots) التفاعلية -->
+        <!-- السلايدر الانسيابي الديناميكي -->
         <div class="slider-container" id="sliderContainer">
-            <div class="slides-wrapper" id="slidesWrapper">
-                <div class="slide-card" onclick="updateCardQty(18, 1)">
-                    <img src="paneer_raw.jpg" alt="بانيه دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
-                    <div class="slide-overlay">
-                        <div class="slide-text"><h3>تشكيلة المصنعات الفورية</h3><p>بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)</p></div>
-                    </div>
-                </div>
-                <div class="slide-card" onclick="updateCardQty(19, 1)">
-                    <img src="strips_raw.jpg" alt="استربس دجاج" onerror="this.src='https://images.unsplash.com/photo-1562967914-608f82629710?w=600'">
-                    <div class="slide-overlay">
-                        <div class="slide-text"><h3>استربس دجاج جاهز للقلي</h3><p>طازة وعلى القلي فوراً (اضغط للطلب)</p></div>
-                    </div>
-                </div>
-                <div class="slide-card" onclick="updateCardQty(20, 1)">
-                    <img src="kofta_raw.jpg" alt="كفتة بناتي" onerror="this.src='https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600'">
-                    <div class="slide-overlay">
-                        <div class="slide-text"><h3>كفتة بيتي لحم بناتي</h3><p>أصل اللحم البلدي (اضغط للطلب)</p></div>
-                    </div>
-                </div>
-                <div class="slide-card" onclick="updateCardQty(46, 1)">
-                    <img src="meal_kromb_chicken.jpg" alt="محشي وفرخة" onerror="this.src='https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600'">
-                    <div class="slide-overlay">
-                        <div class="slide-text"><h3>½ محشي كرنب + ¼ فرخة</h3><p>طازة وعلى التسوية فوراً (اضغط للطلب)</p></div>
-                    </div>
-                </div>
-            </div>
+            <div class="slides-wrapper" id="slidesWrapper"></div>
         </div>
         <!-- نقاط التفاعل (Dots) -->
-        <div class="slider-dots" id="sliderDots">
-            <span class="dot active" onclick="goToSlide(0)"></span>
-            <span class="dot" onclick="goToSlide(1)"></span>
-            <span class="dot" onclick="goToSlide(2)"></span>
-            <span class="dot" onclick="goToSlide(3)"></span>
-        </div>
+        <div class="slider-dots" id="sliderDots"></div>
 
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="ابحث عن أي أكلة نفسك فيها..." oninput="searchMenu()">
@@ -487,13 +462,40 @@
         </div>
     </div>
 
-    <!-- مودال لوحة التحكم الرئيسية -->
+    <!-- لوحة التحكم المتقدمة المقسمة -->
     <div class="modal" id="adminDashboardModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeAdminDashboard()">إغلاق ✕</button>
-            <h3 style="color: var(--gold); margin-bottom: 12px; font-size: 1rem;">⚙️ إدارة المنتجات والحالة</h3>
-            <p style="font-size:0.75rem; color:#aaa; margin-bottom: 10px;">تحكم في إظهار أو إخفاء أي منتج في المنيو فوراً:</p>
-            <div id="adminItemsList" style="max-height: 60vh; overflow-y: auto;"></div>
+            <h3 style="color: var(--gold); margin-bottom: 10px; font-size: 1rem;">⚙️ لوحة التحكم الاحترافية</h3>
+            
+            <!-- أقسام التبويب (Tabs) -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" onclick="switchAdminTab('tab-products', this)">المنتجات والأسعار</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('tab-banners', this)">التحكم في البانر</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('tab-ticker', this)">شريط التنبيهات المتحرك</button>
+            </div>
+
+            <!-- تبويب المنتجات (الأسعار والحالة) -->
+            <div id="tab-products" class="admin-section active">
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">تحكم في حالة المنتج (متاح/موقف) وعدل السعر مباشرة:</p>
+                <div id="adminItemsList" style="max-height: 50vh; overflow-y: auto;"></div>
+            </div>
+
+            <!-- تبويب التحكم في صور البانر السلايدر -->
+            <div id="tab-banners" class="admin-section">
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">إظهار أو إخفاء صور البانر المتحرك في الرئيسية:</p>
+                <div id="adminBannersList" style="max-height: 50vh; overflow-y: auto;"></div>
+            </div>
+
+            <!-- تبويب شريط التنبيهات المتحرك -->
+            <div id="tab-ticker" class="admin-section">
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">اكتب نص التنبيه المتحرك اللي بيظهر فوق خالص في الموقع:</p>
+                <div class="form-group">
+                    <label>نص الشريط المتحرك:</label>
+                    <textarea id="adminMarqueeInput" rows="3" placeholder="اكتب التنبيه هنا..."></textarea>
+                </div>
+                <button class="card-qty-btn" style="width:100%; height:38px; background:var(--primary); font-size:0.85rem; border-radius:6px;" onclick="saveMarqueeText()">حفظ وتحديث الشريط 📢</button>
+            </div>
         </div>
     </div>
 
@@ -605,50 +607,96 @@
             { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "4 كيلو" }
         ];
 
+        // إعدادات البانرات الافتراضية
+        const defaultBanners = [
+            { id: 0, title: "تشكيلة المصنعات الفورية", desc: "بانيه متبل وجاهز للقلي فوراً (اضغط للطلب)", img: "paneer_raw.jpg", fallbackImg: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 18 },
+            { id: 1, title: "استربس دجاج جاهز للقلي", desc: "طازة وعلى القلي فوراً (اضغط للطلب)", img: "strips_raw.jpg", fallbackImg: "https://images.unsplash.com/photo-1562967914-608f82629710?w=600", active: true, itemId: 19 },
+            { id: 2, title: "كفتة بيتي لحم بناتي", desc: "أصل اللحم البلدي (اضغط للطلب)", img: "kofta_raw.jpg", fallbackImg: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600", active: true, itemId: 20 },
+            { id: 3, title: "½ محشي كرنب + ¼ فرخة", desc: "طازة وعلى التسوية فوراً (اضغط للطلب)", img: "meal_kromb_chicken.jpg", fallbackImg: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600", active: true, itemId: 46 }
+        ];
+
         let menuData = JSON.parse(localStorage.getItem('tabkha_menu_data')) || defaultMenuData;
+        let bannersData = JSON.parse(localStorage.getItem('tabkha_banners_data')) || defaultBanners;
+        let marqueeTextVal = localStorage.getItem('tabkha_marquee_text') || "⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲";
+        
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // إدارة السلايدر الانسيابي بتمعن
-        let currentSlide = 0;
-        const totalSlides = 4;
-        const wrapper = document.getElementById('slidesWrapper');
-        const dots = document.querySelectorAll('.dot');
+        document.getElementById('marqueeText').innerText = marqueeTextVal;
 
-        function updateSlider() {
-            if (wrapper) {
-                wrapper.style.transform = `translateX(${currentSlide * 100}%)`;
+        // تهيئة السلايدر الديناميكي
+        let currentSlide = 0;
+        let slideInterval;
+
+        function initSlider() {
+            const wrapper = document.getElementById('slidesWrapper');
+            const dotsContainer = document.getElementById('sliderDots');
+            wrapper.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            const activeBanners = bannersData.filter(b => b.active);
+            if (activeBanners.length === 0) {
+                document.getElementById('sliderContainer').style.display = 'none';
+                dotsContainer.style.display = 'none';
+                return;
+            } else {
+                document.getElementById('sliderContainer').style.display = 'block';
+                dotsContainer.style.display = 'flex';
             }
+
+            wrapper.style.width = `${activeBanners.length * 100}%`;
+
+            activeBanners.forEach((banner, index) => {
+                wrapper.innerHTML += `
+                    <div class="slide-card" style="width: ${100 / activeBanners.length}%;" onclick="updateCardQty(${banner.itemId}, 1)">
+                        <img src="${banner.img}" alt="${banner.title}" onerror="this.src='${banner.fallbackImg}'">
+                        <div class="slide-overlay">
+                            <div class="slide-text"><h3>${banner.title}</h3><p>${banner.desc}</p></div>
+                        </div>
+                    </div>`;
+
+                dotsContainer.innerHTML += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
+            });
+
+            currentSlide = 0;
+            updateSliderPosition();
+            startSliderInterval();
+        }
+
+        function updateSliderPosition() {
+            const wrapper = document.getElementById('slidesWrapper');
+            const activeBanners = bannersData.filter(b => b.active);
+            if (activeBanners.length === 0) return;
+            wrapper.style.transform = `translateX(${currentSlide * (100 / activeBanners.length)}%)`;
+            
+            const dots = document.querySelectorAll('.slider-dots .dot');
             dots.forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                if (index === currentSlide) dot.classList.add('active');
+                else dot.classList.remove('active');
             });
         }
 
         function goToSlide(index) {
             currentSlide = index;
-            updateSlider();
+            updateSliderPosition();
         }
 
-        let slideInterval = setInterval(() => {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateSlider();
-        }, 4000);
+        function startSliderInterval() {
+            clearInterval(slideInterval);
+            const activeBanners = bannersData.filter(b => b.active);
+            if (activeBanners.length <= 1) return;
+            slideInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % activeBanners.length;
+                updateSliderPosition();
+            }, 4000);
+        }
 
         const sliderContainer = document.getElementById('sliderContainer');
         if (sliderContainer) {
             sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
-            sliderContainer.addEventListener('mouseleave', () => {
-                slideInterval = setInterval(() => {
-                    currentSlide = (currentSlide + 1) % totalSlides;
-                    updateSlider();
-                }, 4000);
-            });
+            sliderContainer.addEventListener('mouseleave', () => startSliderInterval());
         }
 
         const catNamesMap = {
@@ -718,7 +766,7 @@
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
                         <span class="card-qty-num">${currentQty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>` : ``;
+                    </div>` : '';
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
@@ -773,7 +821,7 @@
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
                         <span class="card-qty-num">${currentQty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>` : ``;
+                    </div>` : '';
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
@@ -1019,7 +1067,6 @@
 
             window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
 
-            // تصفير السلة بالكامل بعد إرسال الأوردر نهائياً لتبدأ من جديد
             cart = [];
             localStorage.removeItem('tabkha_cart');
             saveAndUpdateCart();
@@ -1027,7 +1074,7 @@
             showCategoriesView();
         }
 
-        // دوال لوحة التحكم السرية
+        // دوال لوحة التحكم المتقدمة السرية
         function openAdminLogin() { document.getElementById('adminLoginModal').style.display = 'flex'; }
         function closeAdminLogin() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
         
@@ -1041,44 +1088,106 @@
             }
         }
 
-        function openAdminDashboard() {
-            const modal = document.getElementById('adminDashboardModal');
-            const list = document.getElementById('adminItemsList');
-            list.innerHTML = '';
+        function switchAdminTab(tabId, btn) {
+            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn' ).forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
 
-            menuData.forEach(item => {
-                let btnClass = item.available ? 'btn-active' : 'btn-inactive';
-                let btnText = item.available ? 'نشط (متاح)' : 'غير نشط (موقف)';
-                list.innerHTML += `
-                    <div class="admin-item-row">
-                        <div><strong>${item.name}</strong> <span style="color:var(--gold);">(${item.price}ج)</span></div>
-                        <button class="admin-toggle ${btnClass}" onclick="toggleItemStatus(${item.id})">${btnText}</button>
-                    </div>`;
-            });
-            modal.style.display = 'flex';
+        function openAdminDashboard() {
+            renderAdminProducts();
+            renderAdminBanners();
+            document.getElementById('adminMarqueeInput').value = marqueeTextVal;
+            document.getElementById('adminDashboardModal').style.display = 'flex';
         }
 
         function closeAdminDashboard() { document.getElementById('adminDashboardModal').style.display = 'none'; }
+
+        function renderAdminProducts() {
+            const list = document.getElementById('adminItemsList');
+            list.innerHTML = '';
+            menuData.forEach(item => {
+                let btnClass = item.available ? 'btn-active' : 'btn-inactive';
+                let btnText = item.available ? 'نشط' : 'موقف';
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div style="flex:1;"><strong>${item.name}</strong></div>
+                        <div>
+                            <input type="number" class="admin-price-input" value="${item.price}" onchange="updateProductPrice(${item.id}, this.value)"> ج
+                        </div>
+                        <button class="admin-toggle ${btnClass}" onclick="toggleItemStatus(${item.id})">${btnText}</button>
+                    </div>`;
+            });
+        }
+
+        function renderAdminBanners() {
+            const list = document.getElementById('adminBannersList');
+            list.innerHTML = '';
+            bannersData.forEach(banner => {
+                let btnClass = banner.active ? 'btn-active' : 'btn-inactive';
+                let btnText = banner.active ? 'يظهر بالبانر' : 'مخفي';
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div style="flex:1;"><strong>${banner.title}</strong><br><span style="font-size:0.65rem; color:#888;">${banner.desc}</span></div>
+                        <button class="admin-toggle ${btnClass}" onclick="toggleBannerStatus(${banner.id})">${btnText}</button>
+                    </div>`;
+            });
+        }
+
+        function updateProductPrice(id, newPrice) {
+            const item = menuData.find(i => i.id === id);
+            if(item && !isNaN(newPrice)) {
+                item.price = parseFloat(newPrice);
+                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
+                renderTopProducts();
+                const currentCatText = document.getElementById('sectionHeadingText').innerText;
+                if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
+                    for(let key in catNamesMap) {
+                        if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
+                    }
+                }
+            }
+        }
 
         function toggleItemStatus(id) {
             const item = menuData.find(i => i.id === id);
             if (item) {
                 item.available = !item.available;
                 localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
-                openAdminDashboard();
+                renderAdminProducts();
                 renderTopProducts();
                 const currentCatText = document.getElementById('sectionHeadingText').innerText;
                 if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
                     for(let key in catNamesMap) {
-                        if(catNamesMap[key] === currentCatText) {
-                            renderMenu(key);
-                            break;
-                        }
+                        if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
                     }
                 }
             }
         }
 
+        function toggleBannerStatus(bannerId) {
+            const banner = bannersData.find(b => b.id === bannerId);
+            if(banner) {
+                banner.active = !banner.active;
+                localStorage.setItem('tabkha_banners_data', JSON.stringify(bannersData));
+                renderAdminBanners();
+                initSlider();
+            }
+        }
+
+        function saveMarqueeText() {
+            const textVal = document.getElementById('adminMarqueeInput').value.trim();
+            if(textVal) {
+                marqueeTextVal = textVal;
+                localStorage.setItem('tabkha_marquee_text', marqueeTextVal);
+                document.getElementById('marqueeText').innerText = marqueeTextVal;
+                alert('تم تحديث شريط التنبيهات بنجاح! 📢');
+            }
+        }
+
+        // التهيئة عند فتح الموقع
+        initSlider();
         saveAndUpdateCart();
         renderTopProducts();
     </script>
