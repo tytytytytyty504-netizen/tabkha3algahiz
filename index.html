@@ -67,6 +67,9 @@
         .brand-title p { font-size: 0.65rem; color: var(--text-muted); }
         .header-icons { display: flex; gap: 8px; align-items: center; }
         .icon-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
+        .admin-gear-btn {
+            background: #222; border: 1px solid #444; color: var(--gold); width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
+        }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
         
@@ -76,7 +79,7 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر الانسيابي بتمعن مع النقاط (Dots) التفاعلية */
+        /* السلايدر الانسيابي النظيف بتمعن وبدون مشاكل */
         .slider-container {
             position: relative;
             width: 100%;
@@ -247,6 +250,12 @@
         .coupon-box input { flex: 1; padding: 7px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.8rem; }
         .coupon-btn { background: var(--secondary); color: white; border: none; padding: 0 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
         .remove-coupon-btn { background: #c0392b; color: white; border: none; padding: 0 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
+        
+        /* تنسيق لوحة التحكم السرية */
+        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #1c1c1c; padding: 8px; border-radius: 6px; margin-bottom: 6px; font-size: 0.8rem; }
+        .admin-toggle { cursor: pointer; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; border: none; }
+        .btn-active { background: #27ae60; color: white; }
+        .btn-inactive { background: #c0392b; color: white; }
     </style>
 </head>
 <body>
@@ -264,6 +273,7 @@
             </div>
         </div>
         <div class="header-icons">
+            <button class="admin-gear-btn" onclick="openAdminLogin()" title="لوحة التحكم السرية">⚙️</button>
             <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحة الفيسبوك">
                 <img src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img">
             </a>
@@ -365,27 +375,27 @@
             <div class="reviews-container">
                 <div class="review-card">
                     <div class="review-stars">★★★★☆</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل.[span_0](start_span)"[span_0](end_span)</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل مشاء الله تسلم ايدك بس الاسترتش بيفك مع التوصيل."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية.[span_1](start_span)"[span_1](end_span)</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل تحفة تسلم الأيادي بجد، النظافة والطعم حكاية."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي.[span_2](start_span)"[span_2](end_span)</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"الأكل وصل بجد تسلم ايديكم، سخن وطازة ومظبوط.[span_3](start_span)"[span_3](end_span)</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"الأكل وصل بجد تسلم ايديكم، سخن وطازة ومظبوط."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"البانيه تحفه بجد والتتبيله تحفه، عيالى حبوه جداً.[span_4](start_span)"[span_4](end_span)</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"البانيه تحفه بجد والتتبيله تحفه، عيالى حبوه جداً."</p>
                 </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد.[span_5](start_span)"[span_5](end_span)</p>
+                    <p style="font-size:0.8rem; color:#ddd;">"المحشي طعمه يفتح النفس وخطير، تسلم إيدكم بجد."</p>
                 </div>
             </div>
 
@@ -419,6 +429,7 @@
         <a href="https://wa.me/201129933758" target="_blank" class="nav-item"><span class="icon">💬</span>واتساب</a>
     </div>
 
+    <!-- مودال إتمام الأوردر -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeCheckout()">إغلاق ✕</button>
@@ -463,8 +474,31 @@
         </div>
     </div>
 
+    <!-- مودال تسجيل دخول لوحة التحكم السرية -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content" style="max-width: 350px; text-align: center;">
+            <button class="close-modal" onclick="closeAdminLogin()">إغلاق ✕</button>
+            <h3 style="color: var(--gold); margin-bottom: 15px;">🔒 لوحة تحكم المشرف</h3>
+            <div class="form-group">
+                <label>أدخل كلمة سر الإدارة:</label>
+                <input type="password" id="adminPasswordInput" placeholder="كلمة السر...">
+            </div>
+            <button class="card-qty-btn" style="width:100%; height:38px; background:var(--secondary); font-size:0.9rem; border-radius:6px; margin-top:10px;" onclick="checkAdminPassword()">دخول 🚀</button>
+        </div>
+    </div>
+
+    <!-- مودال لوحة التحكم الرئيسية -->
+    <div class="modal" id="adminDashboardModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeAdminDashboard()">إغلاق ✕</button>
+            <h3 style="color: var(--gold); margin-bottom: 12px; font-size: 1rem;">⚙️ إدارة المنتجات والحالة</h3>
+            <p style="font-size:0.75rem; color:#aaa; margin-bottom: 10px;">تحكم في إظهار أو إخفاء أي منتج في المنيو فوراً:</p>
+            <div id="adminItemsList" style="max-height: 60vh; overflow-y: auto;"></div>
+        </div>
+    </div>
+
     <script>
-        const menuData = [
+        const defaultMenuData = [
             { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 20, name: "كفتة بيتي لحم بناتي", price: 450, category: "ready", img: "kofta_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
@@ -571,12 +605,13 @@
             { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "4 كيلو" }
         ];
 
+        let menuData = JSON.parse(localStorage.getItem('tabkha_menu_data')) || defaultMenuData;
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // إدارة السلايدر الانسيابي (أوتوماتيكي مع النقاط وتحديثها بتمعن)
+        // إدارة السلايدر الانسيابي بتمعن
         let currentSlide = 0;
         const totalSlides = 4;
         const wrapper = document.getElementById('slidesWrapper');
@@ -600,13 +635,11 @@
             updateSlider();
         }
 
-        // تقليب تلقائي بتمعن وانسيابية كل 4 ثواني
         let slideInterval = setInterval(() => {
             currentSlide = (currentSlide + 1) % totalSlides;
             updateSlider();
         }, 4000);
 
-        // إيقاف مؤقت لو الماوس فوق البانر
         const sliderContainer = document.getElementById('sliderContainer');
         if (sliderContainer) {
             sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
@@ -646,7 +679,7 @@
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
 
-            let filtered = menuData;
+            let filtered = menuData.filter(item => item.available);
             if (query.trim() !== '') {
                 filtered = filtered.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
             } else {
@@ -654,7 +687,7 @@
             }
             
             if (filtered.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج مطابقة لبحثك.</p>';
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج متاحة مطابقة لبحثك.</p>';
                 return;
             }
 
@@ -677,10 +710,6 @@
                         </select>
                     </div>` : '';
 
-                let statusBadge = item.available ? 
-                    `<span class="item-status status-available">🟢 متاح</span>` : 
-                    `<span class="item-status status-unavailable">🔴 غير متاح</span>`;
-
                 const cartItem = cart.find(i => i.id === item.id);
                 const currentQty = cartItem ? cartItem.qty : 0;
 
@@ -693,7 +722,7 @@
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
-                        ${statusBadge}
+                        <span class="item-status status-available">🟢 متاح</span>
                         <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
                             <div class="item-info">
@@ -716,7 +745,7 @@
             const container = document.getElementById('top-products-container');
             if(!container) return;
             container.innerHTML = '';
-            let topItems = menuData.filter(i => i.top);
+            let topItems = menuData.filter(i => i.top && i.available);
             topItems.forEach(item => {
                 let weightHTML = item.hasWeight ? `
                     <div class="options-box" onclick="event.stopPropagation();">
@@ -888,11 +917,16 @@
         function applyCoupon() {
             const codeInput = document.getElementById('couponInput').value.trim();
             const msgElem = document.getElementById('couponMsg');
+            const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
 
             if (codeInput === "AMMAR01") {
+                if (usedCoupons["AMMAR01"]) {
+                    msgElem.style.color = "#e74c3c";
+                    msgElem.innerText = "❌ لقد استخدمت هذه القسيمة من قبل ولا يمكن استخدامها مرة أخرى.";
+                    return;
+                }
                 currentDeliveryFee = 0;
                 isCouponApplied = true;
-                
                 msgElem.style.color = "#27ae60";
                 msgElem.innerText = "🎉 تم تطبيق القسيمة وإلغاء مصاريف التوصيل!";
                 document.getElementById('applyCouponBtn').style.display = 'none';
@@ -984,6 +1018,65 @@
             if (notes) message += `📝 ملاحظات: ${notes}\n`;
 
             window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
+
+            // تصفير السلة بالكامل بعد إرسال الأوردر نهائياً لتبدأ من جديد
+            cart = [];
+            localStorage.removeItem('tabkha_cart');
+            saveAndUpdateCart();
+            closeCheckout();
+            showCategoriesView();
+        }
+
+        // دوال لوحة التحكم السرية
+        function openAdminLogin() { document.getElementById('adminLoginModal').style.display = 'flex'; }
+        function closeAdminLogin() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
+        
+        function checkAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "ammar2026") {
+                closeAdminLogin();
+                openAdminDashboard();
+            } else {
+                alert('كلمة السر غير صحيحة!');
+            }
+        }
+
+        function openAdminDashboard() {
+            const modal = document.getElementById('adminDashboardModal');
+            const list = document.getElementById('adminItemsList');
+            list.innerHTML = '';
+
+            menuData.forEach(item => {
+                let btnClass = item.available ? 'btn-active' : 'btn-inactive';
+                let btnText = item.available ? 'نشط (متاح)' : 'غير نشط (موقف)';
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div><strong>${item.name}</strong> <span style="color:var(--gold);">(${item.price}ج)</span></div>
+                        <button class="admin-toggle ${btnClass}" onclick="toggleItemStatus(${item.id})">${btnText}</button>
+                    </div>`;
+            });
+            modal.style.display = 'flex';
+        }
+
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').style.display = 'none'; }
+
+        function toggleItemStatus(id) {
+            const item = menuData.find(i => i.id === id);
+            if (item) {
+                item.available = !item.available;
+                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
+                openAdminDashboard();
+                renderTopProducts();
+                const currentCatText = document.getElementById('sectionHeadingText').innerText;
+                if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
+                    for(let key in catNamesMap) {
+                        if(catNamesMap[key] === currentCatText) {
+                            renderMenu(key);
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         saveAndUpdateCart();
