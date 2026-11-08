@@ -80,7 +80,7 @@
         }
         .search-box input:focus { border-color: var(--gold); }
 
-        /* السلايدر المحسن بدون شاشات سوداء */
+        /* السلايدر المعدل لمنع أي صور ورا بعضها أو تداخل */
         .slider-container {
             position: relative;
             width: 100%;
@@ -91,19 +91,19 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #333;
             background: #111;
-            cursor: grab;
         }
-        .slider-container:active { cursor: grabbing; }
         .slides-wrapper {
             display: flex;
             height: 100%;
-            transition: transform 0.4s ease-out;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
         }
         .slide-card {
+            min-width: 100%;
+            width: 100%;
             height: 100%;
             position: relative;
             flex-shrink: 0;
-            width: 100%;
             background: #111;
         }
         .slide-card img {
@@ -290,7 +290,6 @@
         </div>
         <div class="header-icons">
             <button class="admin-gear-btn" onclick="openAdminLogin()" title="لوحة التحكم السرية">⚙️</button>
-            <!-- أيقونة جروب الواتساب الجديدة -->
             <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" title="ادخل إلى جروب الواتساب">
                 <img src="https://store-images.s-microsoft.com/image/apps.8453.13518859748920827.4d7dd838-9f34-4ad2-9cd7-b861c6398fc1.11cbb3d4-ffd9-42c1-82bd-e3f305d562b1?h=210" alt="جروب الواتساب" class="icon-img">
             </a>
@@ -304,7 +303,7 @@
     </header>
 
     <div class="container">
-        <!-- السلايدر المحسن -->
+        <!-- السلايدر المنضبط والمصلح تماماً -->
         <div class="slider-container" id="sliderContainer">
             <div class="slides-wrapper" id="slidesWrapper"></div>
         </div>
@@ -362,21 +361,19 @@
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
-            <div class="reviews-container" id="reviewsContainer">
-                <!-- الآراء الديناميكية بدون أسماء وبلهجة مصرية -->
-            </div>
+            <div class="reviews-container" id="reviewsContainer"></div>
 
-            <!-- إضافة رأي جديد للعميل -->
+            <!-- صندوق إضافة رأي نظيف بدون أي أمثلة -->
             <div class="add-review-box">
                 <h4>✍️ سيب رأيك في الأكل والخدمة:</h4>
                 <div class="form-group">
                     <select id="clientReviewStars">
-                        <option value="★★★★★">⭐⭐⭐⭐⭐ (تحفة و5 نجوم)</option>
-                        <option value="★★★★☆">⭐⭐⭐⭐ (ممتاز)</option>
-                        <option value="★★★☆☆">⭐⭐⭐ (جيد)</option>
+                        <option value="★★★★★">⭐⭐⭐⭐⭐</option>
+                        <option value="★★★★☆">⭐⭐⭐⭐</option>
+                        <option value="★★★☆☆">⭐⭐⭐</option>
                     </select>
                 </div>
-                <div class="form-group"><textarea id="clientReviewText" rows="2" placeholder="اكتب رأيك بكل صراحة بالعامية..."></textarea></div>
+                <div class="form-group"><textarea id="clientReviewText" rows="2" placeholder="اكتب رأيك هنا..."></textarea></div>
                 <button class="card-qty-btn" style="width:100%; height:36px; background:var(--secondary); font-size:0.85rem; border-radius:6px;" onclick="submitClientReview()">إرسال الرأي 🚀</button>
             </div>
 
@@ -502,7 +499,7 @@
                 <div id="adminBannersList" style="max-height: 35vh; overflow-y: auto;"></div>
             </div>
 
-            <!-- تبويب إدارة الآراء بدون أسماء -->
+            <!-- تبويب إدارة الآراء -->
             <div id="tab-reviews" class="admin-section">
                 <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">الآراء المرسلة من العملاء (وافق عليها لتظهر بالموقع أو احذفها):</p>
                 <div id="adminReviewsList" style="max-height: 50vh; overflow-y: auto;"></div>
@@ -626,7 +623,6 @@
             { id: 3, title: "½ محشي كرنب + ¼ فرخة", desc: "طازة وعلى التسوية فوراً (اضغط للطلب)", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600", active: true, itemId: 46 }
         ];
 
-        // آراء العملاء الكثيرة باللهجة المصرية وبدون أسماء
         const defaultReviews = [
             { id: 1, stars: "★★★★★", text: "الأكل يجنن وريحة البيت رجعت تاني، أحلى أكل بيتي بجد.", approved: true },
             { id: 2, stars: "★★★★★", text: "ما شاء الله البانيه كان تحفة وعجب أولادي جداً تسلم الأيادي.", approved: true },
@@ -649,7 +645,6 @@
 
         document.getElementById('marqueeText').innerText = marqueeTextVal;
 
-        // عرض آراء العملاء بدون أسماء نهائياً
         function renderCustomerReviews() {
             const container = document.getElementById('reviewsContainer');
             if(!container) return;
@@ -681,7 +676,7 @@
                 id: Date.now(),
                 stars: stars,
                 text: text,
-                approved: false // يحتاج موافقة المشرف من لوحة التحكم
+                approved: false
             };
 
             reviewsData.push(newRev);
@@ -690,13 +685,9 @@
             alert('شكراً لك! تم إرسال رأيك وسيتم عرضه بعد مراجعته من الإدارة. 🌟');
         }
 
-        // إدارة السلايدر التفاعلي المحسن
+        // إدارة السلايدر المصلح تماماً (بدون تداخل صور)
         let currentSlide = 0;
         let slideInterval;
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
 
         function initSlider() {
             const wrapper = document.getElementById('slidesWrapper');
@@ -714,11 +705,9 @@
                 dotsContainer.style.display = 'flex';
             }
 
-            wrapper.style.width = `${activeBanners.length * 100}%`;
-
             activeBanners.forEach((banner, index) => {
                 wrapper.innerHTML += `
-                    <div class="slide-card" style="width: ${100 / activeBanners.length}%;" onclick="updateCardQty(${banner.itemId}, 1)">
+                    <div class="slide-card" onclick="updateCardQty(${banner.itemId}, 1)">
                         <img src="${banner.img}" alt="${banner.title}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
                         <div class="slide-overlay">
                             <div class="slide-text"><h3>${banner.title}</h3><p>${banner.desc}</p></div>
@@ -737,10 +726,7 @@
             const wrapper = document.getElementById('slidesWrapper');
             const activeBanners = bannersData.filter(b => b.active);
             if (activeBanners.length === 0) return;
-            currentTranslate = -currentSlide * wrapper.parentElement.clientWidth;
-            prevTranslate = currentTranslate;
-            wrapper.style.transition = 'transform 0.4s ease-out';
-            wrapper.style.transform = `translateX(${currentTranslate}px)`;
+            wrapper.style.transform = `translateX(${currentSlide * 100}%)`; // الاتجاه مظبوط RTL
             
             const dots = document.querySelectorAll('.slider-dots .dot');
             dots.forEach((dot, index) => {
@@ -759,61 +745,15 @@
             const activeBanners = bannersData.filter(b => b.active);
             if (activeBanners.length <= 1) return;
             slideInterval = setInterval(() => {
-                if (!isDragging) {
-                    currentSlide = (currentSlide + 1) % activeBanners.length;
-                    updateSliderPosition();
-                }
+                currentSlide = (currentSlide + 1) % activeBanners.length;
+                updateSliderPosition();
             }, 4000);
         }
 
         const sliderContainer = document.getElementById('sliderContainer');
-        const wrapper = document.getElementById('slidesWrapper');
-
         if (sliderContainer) {
             sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
-            sliderContainer.addEventListener('mouseleave', () => { if(!isDragging) startSliderInterval(); });
-
-            sliderContainer.addEventListener('touchstart', touchStart);
-            sliderContainer.addEventListener('touchend', touchEnd);
-            sliderContainer.addEventListener('touchmove', touchMove);
-
-            sliderContainer.addEventListener('mousedown', touchStart);
-            sliderContainer.addEventListener('mouseup', touchEnd);
-            sliderContainer.addEventListener('mouseleave', () => { if(isDragging) touchEnd(); });
-            sliderContainer.addEventListener('mousemove', touchMove);
-        }
-
-        function getPositionX(event) {
-            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        }
-
-        function touchStart(event) {
-            isDragging = true;
-            startPos = getPositionX(event);
-            clearInterval(slideInterval);
-            wrapper.style.transition = 'none';
-        }
-
-        function touchMove(event) {
-            if (!isDragging) return;
-            const currentPosition = getPositionX(event);
-            const diff = currentPosition - startPos;
-            wrapper.style.transform = `translateX(${prevTranslate + diff}px)`;
-        }
-
-        function touchEnd() {
-            if (!isDragging) return;
-            isDragging = false;
-            const activeBanners = bannersData.filter(b => b.active);
-            const movedBy = currentTranslate - prevTranslate;
-
-            if (movedBy < -50 && currentSlide < activeBanners.length - 1) {
-                currentSlide++;
-            } else if (movedBy > 50 && currentSlide > 0) {
-                currentSlide--;
-            }
-            updateSliderPosition();
-            startSliderInterval();
+            sliderContainer.addEventListener('mouseleave', () => startSliderInterval());
         }
 
         const catNamesMap = {
@@ -1352,7 +1292,11 @@
                     saveNewBannerObject(title, desc, e.target.result);
                 };
                 reader.readAsDataURL(fileInput.files[0]);
-            } else if (imgUrl) {
+            } else imageFromUrl(title, desc, imgUrl);
+        }
+
+        function imageFromUrl(title, desc, imgUrl) {
+            if (imgUrl) {
                 saveNewBannerObject(title, desc, imgUrl);
             } else {
                 alert('من فضلك اختر صورة من جهازك أو ضع رابط صورة مباشر.');
