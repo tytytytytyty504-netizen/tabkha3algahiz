@@ -253,7 +253,7 @@
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
         }
         .modal-content {
-            background: var(--dark); width: 100%; max-width: 520px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333;
+            background: var(--dark); width: 100%; max-width: 540px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333;
         }
         .form-group { margin-bottom: 10px; }
         .form-group label { display: block; margin-bottom: 3px; font-size: 0.75rem; color: var(--gold); }
@@ -291,16 +291,16 @@
 
     <header>
         <div class="brand-info">
-            <img src="logo.png" alt="طبخة على الجاهز" class="brand-logo" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300';">
+            <img src="logo.png" alt="طبخة على الجاهز" class="brand-logo" id="headerLogoImg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300';">
             <div class="brand-title">
-                <h1>طبخة على الجاهز</h1>
-                <p>أكل بيتي • جاهز على التسوية</p>
+                <h1 id="headerBrandTitle">طبخة على الجاهز</h1>
+                <p id="headerBrandSub">أكل بيتي • جاهز على التسوية</p>
             </div>
         </div>
         <div class="header-icons">
             <button class="admin-gear-btn" onclick="openAdminLogin()" title="لوحة التحكم السرية">⚙️</button>
-            <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحة الفيسبوك">
-                <img src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img">
+            <a id="headerFbLink" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحة الفيسبوك">
+                <img id="headerFbImg" src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img">
             </a>
             <a href="https://wa.me/201129933758" target="_blank" title="واتساب للطلب">
                 <img src="https://store-images.s-microsoft.com/image/apps.8453.13518859748920827.4d7dd838-9f34-4ad2-9cd7-b861c6398fc1.11cbb3d4-ffd9-42c1-82bd-e3f305d562b1?h=210" alt="WhatsApp" class="icon-img">
@@ -383,10 +383,10 @@
 
             <!-- بانر التواصل الاجتماعي والجروب تحت خالص -->
             <div class="page-banner-section">
-                <img src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
+                <img id="socialBannerImg" src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
                 <p style="font-size: 0.85rem; color: #ddd; margin-bottom: 10px;">تابعنا على الفيسبوك وانضم لجروب الواتساب عشان تتابع كل جديد وعروضنا أول بأول!</p>
                 <div class="social-buttons-box">
-                    <a href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
+                    <a id="socialPageLinkBtn" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
                         👍 متابعة صفحة الفيسبوك
                     </a>
                     <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" class="follow-wa-group-btn">
@@ -481,16 +481,57 @@
             
             <div class="admin-tabs">
                 <button class="admin-tab-btn active" onclick="switchAdminTab('tab-products', this)">المنتجات والأسعار</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('tab-add-item', this)">➕ إضافة منتج جديد</button>
                 <button class="admin-tab-btn" onclick="switchAdminTab('tab-banners', this)">التحكم في البانر</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('tab-settings', this)">🛠️ إعدادات الموقع والفيسبوك</button>
                 <button class="admin-tab-btn" onclick="switchAdminTab('tab-reviews', this)">إدارة الآراء</button>
                 <button class="admin-tab-btn" onclick="switchAdminTab('tab-ticker', this)">شريط التنبيهات</button>
             </div>
 
+            <!-- تاب المنتجات والأسعار -->
             <div id="tab-products" class="admin-section active">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">حالة المنتج (متاح/موقف) وتعديل السعر مباشرة:</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">حالة المنتج (متاح/موقف)، تعديل السعر، أو حذف المنتج مباشرة:</p>
                 <div id="adminItemsList" style="max-height: 50vh; overflow-y: auto;"></div>
             </div>
 
+            <!-- تاب إضافة منتج جديد -->
+            <div id="tab-add-item" class="admin-section">
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">أضف منتجاً جديداً للمنيو بالصورة والسعر وبكل التفاصيل:</p>
+                <div style="background:#202020; padding:12px; border-radius:8px;">
+                    <div class="form-group"><label>اسم المنتج:</label><input type="text" id="newProdName" placeholder="مثال: ممبار محشي خطير"></div>
+                    <div class="form-group">
+                        <label>القسم:</label>
+                        <select id="newProdCategory">
+                            <option value="ready">🥘 أكلات للتسوية</option>
+                            <option value="offers">🔥 العروض</option>
+                            <option value="veggies">🥬 خضار جاهز</option>
+                            <option value="school">🎒 الوجبات</option>
+                            <option value="family">👨‍👩‍👧‍👦 وجبات العيلة</option>
+                            <option value="trays">🍲 صواني العيلة</option>
+                            <option value="sandwiches">🥖 سندوتشات</option>
+                            <option value="extras">🥫 الإضافات</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>السعر (بالجنيه):</label><input type="number" id="newProdPrice" placeholder="مثال: 250"></div>
+                    <div class="form-group"><label>وصف مختصر (اختياري):</label><input type="text" id="newProdDesc" placeholder="طازة ومخدوم على أصوله..."></div>
+                    <div class="form-group"><label>وصف الحجم أو الوزن:</label><input type="text" id="newProdWeight" value="كيلو / نصف كيلو" placeholder="مثال: كيلو / طبق كبير"></div>
+                    <div class="form-group">
+                        <label style="display:flex; align-items:center; gap:5px; font-size:0.8rem; cursor:pointer;">
+                            <input type="checkbox" id="newProdHasWeight" checked style="width:auto;"> يدعم اختيار الوزن (كيلو / نصف كيلو)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label style="display:flex; align-items:center; gap:5px; font-size:0.8rem; cursor:pointer;">
+                            <input type="checkbox" id="newProdTop" style="width:auto;"> عرضه في قسم الأكثر مبيعاً
+                        </label>
+                    </div>
+                    <div class="form-group"><label>صورة المنتج (من الجهاز):</label><input type="file" id="newProdFile" accept="image/*" style="font-size:0.75rem;"></div>
+                    <div class="form-group"><input type="text" id="newProdImgUrl" placeholder="أو رابط صورة مباشر https://..."></div>
+                    <button class="card-qty-btn" style="width:100%; height:38px; background:var(--secondary); font-size:0.85rem; border-radius:6px; margin-top:5px;" onclick="addNewProductToMenu()">إضافة المنتج للمنيو فوراً 🍲</button>
+                </div>
+            </div>
+
+            <!-- تاب التحكم في البانر -->
             <div id="tab-banners" class="admin-section">
                 <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">اختر منتجاً من المنيو ليظهر في البانر، أو أنشئ بانراً جديداً:</p>
                 <div style="background:#202020; padding:10px; border-radius:8px; margin-bottom:12px;">
@@ -505,19 +546,33 @@
                     <div class="form-group"><input type="text" id="newBannerDesc" placeholder="الوصف القصير"></div>
                     <div class="form-group"><input type="number" id="newBannerPrice" placeholder="السعر (بالجنيه)"></div>
                     <div class="form-group"><label style="font-size:0.7rem;">صورة مخصصة (اختياري):</label><input type="file" id="newBannerFile" accept="image/*" style="font-size:0.75rem;"></div>
-                    <div class="form-group">
-                        <input type="text" id="newBannerImgUrl" placeholder="أو رابط صورة مباشر https://...">
-                    </div>
+                    <div class="form-group"><input type="text" id="newBannerImgUrl" placeholder="أو رابط صورة مباشر https://..."></div>
                     <button class="card-qty-btn" style="width:100%; height:34px; background:var(--secondary); font-size:0.8rem; border-radius:5px;" onclick="addNewBanner()">إضافة البانر للسلايدر 🌟</button>
                 </div>
                 <div id="adminBannersList" style="max-height: 35vh; overflow-y: auto;"></div>
             </div>
 
+            <!-- تاب إعدادات الموقع والفيسبوك -->
+            <div id="tab-settings" class="admin-section">
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 12px;">تحكم في أسماء الموقع، لوجو البراند، وصورة صفحة الفيسبوك ورابطها:</p>
+                <div style="background:#202020; padding:12px; border-radius:8px;">
+                    <div class="form-group"><label>اسم البراند / الموقع:</label><input type="text" id="settingBrandTitle" value="طبخة على الجاهز"></div>
+                    <div class="form-group"><label>الوصف التحتاني في الهيدر:</label><input type="text" id="settingBrandSub" value="أكل بيتي • جاهز على التسوية"></div>
+                    <div class="form-group"><label>رابط صفحة الفيسبوك:</label><input type="text" id="settingFbLink" placeholder="https://www.facebook.com/share/..."></div>
+                    <div class="form-group"><label>رابط أو صورة أيقونة الفيسبوك الصغيرة في الهيدر:</label><input type="text" id="settingFbIconUrl" placeholder="رابط صورة الأيقونة..."></div>
+                    <div class="form-group"><label>رابط أو صورة لوجو الدائرة بالهيدر:</label><input type="text" id="settingLogoUrl" placeholder="رابط اللوجو..."></div>
+                    <div class="form-group"><label>رابط أو صورة بانر التواصل الاجتماعي (أسفل الموقع):</label><input type="text" id="settingSocialBannerUrl" placeholder="رابط صورة البانر السفلية..."></div>
+                    <button class="card-qty-btn" style="width:100%; height:40px; background:var(--primary); font-size:0.9rem; border-radius:6px; margin-top:10px;" onclick="saveSiteSettings()">حفظ وتحديث إعدادات الموقع 💾</button>
+                </div>
+            </div>
+
+            <!-- تاب إدارة الآراء -->
             <div id="tab-reviews" class="admin-section">
                 <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">الآراء المرسلة من العملاء (وافق عليها لتظهر بالموقع أو احذفها):</p>
                 <div id="adminReviewsList" style="max-height: 50vh; overflow-y: auto;"></div>
             </div>
 
+            <!-- تاب شريط التنبيهات -->
             <div id="tab-ticker" class="admin-section">
                 <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">اكتب نص التنبيه المتحرك:</p>
                 <div class="form-group">
@@ -651,12 +706,41 @@
         let reviewsData = JSON.parse(localStorage.getItem('tabkha_reviews_data')) || defaultReviews;
         let marqueeTextVal = localStorage.getItem('tabkha_marquee_text') || "⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲";
         
+        let siteSettings = JSON.parse(localStorage.getItem('tabkha_site_settings')) || {
+            brandTitle: "طبخة على الجاهز",
+            brandSub: "أكل بيتي • جاهز على التسوية",
+            fbLink: "https://www.facebook.com/share/1MVEbmtDN6/",
+            fbIconUrl: "https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600",
+            logoUrl: "logo.png",
+            socialBannerUrl: "tabka.jpg"
+        };
+        
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
         document.getElementById('marqueeText').innerText = marqueeTextVal;
+        applySiteSettingsToUI();
+
+        function applySiteSettingsToUI() {
+            document.getElementById('headerBrandTitle').innerText = siteSettings.brandTitle;
+            document.getElementById('headerBrandSub').innerText = siteSettings.brandSub;
+            document.getElementById('headerFbLink').href = siteSettings.fbLink;
+            document.getElementById('socialPageLinkBtn').href = siteSettings.fbLink;
+            
+            const logoImg = document.getElementById('headerLogoImg');
+            logoImg.src = siteSettings.logoUrl;
+            logoImg.onerror = function() { this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300'; };
+
+            const fbImg = document.getElementById('headerFbImg');
+            fbImg.src = siteSettings.fbIconUrl;
+            fbImg.onerror = function() { this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100'; };
+
+            const socBanner = document.getElementById('socialBannerImg');
+            socBanner.src = siteSettings.socialBannerUrl;
+            socBanner.onerror = function() { this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800'; };
+        }
 
         function renderCustomerReviews() {
             const container = document.getElementById('reviewsContainer');
@@ -1181,10 +1265,32 @@
             renderAdminReviews();
             populateBannerProductSelect();
             document.getElementById('adminMarqueeInput').value = marqueeTextVal;
+            
+            // تعبئة حقول إعدادات الموقع
+            document.getElementById('settingBrandTitle').value = siteSettings.brandTitle;
+            document.getElementById('settingBrandSub').value = siteSettings.brandSub;
+            document.getElementById('settingFbLink').value = siteSettings.fbLink;
+            document.getElementById('settingFbIconUrl').value = siteSettings.fbIconUrl;
+            document.getElementById('settingLogoUrl').value = siteSettings.logoUrl;
+            document.getElementById('settingSocialBannerUrl').value = siteSettings.socialBannerUrl;
+
             document.getElementById('adminDashboardModal').style.display = 'flex';
         }
 
         function closeAdminDashboard() { document.getElementById('adminDashboardModal').style.display = 'none'; }
+
+        function saveSiteSettings() {
+            siteSettings.brandTitle = document.getElementById('settingBrandTitle').value.trim() || "طبخة على الجاهز";
+            siteSettings.brandSub = document.getElementById('settingBrandSub').value.trim() || "أكل بيتي • جاهز على التسوية";
+            siteSettings.fbLink = document.getElementById('settingFbLink').value.trim() || siteSettings.fbLink;
+            siteSettings.fbIconUrl = document.getElementById('settingFbIconUrl').value.trim() || siteSettings.fbIconUrl;
+            siteSettings.logoUrl = document.getElementById('settingLogoUrl').value.trim() || siteSettings.logoUrl;
+            siteSettings.socialBannerUrl = document.getElementById('settingSocialBannerUrl').value.trim() || siteSettings.socialBannerUrl;
+
+            localStorage.setItem('tabkha_site_settings', JSON.stringify(siteSettings));
+            applySiteSettingsToUI();
+            alert('تم حفظ وتحديث إعدادات الموقع بنجاح! 🌟');
+        }
 
         function populateBannerProductSelect() {
             const select = document.getElementById('bannerProductSelect');
@@ -1206,6 +1312,65 @@
             }
         }
 
+        function addNewProductToMenu() {
+            const name = document.getElementById('newProdName').value.trim();
+            const category = document.getElementById('newProdCategory').value;
+            const price = parseFloat(document.getElementById('newProdPrice').value) || 0;
+            const desc = document.getElementById('newProdDesc').value.trim() || "طازة ومخدوم على أصوله البيتي";
+            const weight = document.getElementById('newProdWeight').value.trim() || "كيلو / نصف كيلو";
+            const hasWeight = document.getElementById('newProdHasWeight').checked;
+            const top = document.getElementById('newProdTop').checked;
+            const imgUrl = document.getElementById('newProdImgUrl').value.trim();
+            const fileInput = document.getElementById('newProdFile');
+
+            if(!name || price <= 0) {
+                alert('من فضلك ادخل اسم المنتج والسعر بشكل صحيح.');
+                return;
+            }
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveNewProductObject(name, category, price, desc, weight, hasWeight, top, e.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                let finalImg = imgUrl || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400";
+                saveNewProductObject(name, category, price, desc, weight, hasWeight, top, finalImg);
+            }
+        }
+
+        function saveNewProductObject(name, category, price, desc, weight, hasWeight, top, imgSrc) {
+            const newId = menuData.length > 0 ? Math.max(...menuData.map(i => i.id)) + 1 : 1;
+            const newItem = {
+                id: newId,
+                name: name,
+                price: price,
+                category: category,
+                img: imgSrc,
+                hasWeight: hasWeight,
+                hasChickenOption: false,
+                available: true,
+                weight: weight,
+                top: top
+            };
+
+            menuData.push(newItem);
+            localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
+            
+            // إعادة تعيين الحقول
+            document.getElementById('newProdName').value = '';
+            document.getElementById('newProdPrice').value = '';
+            document.getElementById('newProdDesc').value = '';
+            document.getElementById('newProdImgUrl').value = '';
+            document.getElementById('newProdFile').value = '';
+            
+            renderAdminProducts();
+            renderTopProducts();
+            populateBannerProductSelect();
+            alert('تم إضافة المنتج الجديد للمنيو بنجاح! 🍲');
+        }
+
         function renderAdminProducts() {
             const list = document.getElementById('adminItemsList');
             list.innerHTML = '';
@@ -1214,13 +1379,36 @@
                 let btnText = item.available ? 'نشط' : 'موقف';
                 list.innerHTML += `
                     <div class="admin-item-row">
-                        <div style="flex:1;"><strong>${item.name}</strong></div>
+                        <div style="flex:1;">
+                            <input type="text" value="${item.name}" onchange="updateProductName(${item.id}, this.value)" style="background:#121212; border:1px solid #444; color:#fff; padding:3px; border-radius:4px; width:100%; font-size:0.8rem;">
+                        </div>
                         <div>
                             <input type="number" class="admin-price-input" value="${item.price}" onchange="updateProductPrice(${item.id}, this.value)"> ج
                         </div>
                         <button class="admin-toggle ${btnClass}" onclick="toggleItemStatus(${item.id})">${btnText}</button>
+                        <button class="admin-toggle" style="background:#c0392b; color:white;" onclick="deleteMenuItem(${item.id})">حذف</button>
                     </div>`;
             });
+        }
+
+        function updateProductName(id, newName) {
+            const item = menuData.find(i => i.id === id);
+            if(item && newName.trim() !== '') {
+                item.name = newName.trim();
+                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
+                renderTopProducts();
+                populateBannerProductSelect();
+            }
+        }
+
+        function deleteMenuItem(id) {
+            if(confirm('هل أنت متأكد من حذف هذا المنتج من المنيو نهائياً؟')) {
+                menuData = menuData.filter(i => i.id !== id);
+                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
+                renderAdminProducts();
+                renderTopProducts();
+                populateBannerProductSelect();
+            }
         }
 
         function renderAdminBanners() {
