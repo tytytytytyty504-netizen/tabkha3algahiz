@@ -16,162 +16,50 @@
             --text-muted: #9e9e9e;
             --gold: #ff9f43;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            user-select: none;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text-color);
-            padding-bottom: 90px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; user-select: none; }
+        body { background-color: var(--bg); color: var(--text-color); padding-bottom: 90px; }
         
-        .marquee-bar {
-            background: #c0392b;
-            color: white;
-            font-size: 0.8rem;
-            padding: 6px 0;
-            font-weight: bold;
-            overflow: hidden;
-            white-space: nowrap;
-            border-bottom: 1px solid #e74c3c;
-        }
-        .marquee-bar span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 22s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
+        .marquee-bar { background: #c0392b; color: white; font-size: 0.8rem; padding: 6px 0; font-weight: bold; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #e74c3c; }
+        .marquee-bar span { display: inline-block; padding-left: 100%; animation: marquee 22s linear infinite; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            background: var(--dark);
-            border-bottom: 1px solid #222;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--dark); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         .brand-info { display: flex; align-items: center; gap: 10px; }
-        .brand-logo {
-            width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); background: #fff;
-        }
+        .brand-logo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); background: #fff; }
         .brand-title h1 { font-size: 1rem; color: var(--gold); }
         .brand-title p { font-size: 0.65rem; color: var(--text-muted); }
         .header-icons { display: flex; gap: 8px; align-items: center; }
         .icon-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
-        .admin-gear-btn {
-            background: #222; border: 1px solid #444; color: var(--gold); width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
-        }
+        .admin-gear-btn { background: #222; border: 1px solid #444; color: var(--gold); width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
-        
         .search-box { margin: 15px 0; }
-        .search-box input {
-            width: 100%; padding: 12px 18px; background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 25px; color: white; font-size: 0.9rem; outline: none;
-        }
+        .search-box input { width: 100%; padding: 12px 18px; background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 25px; color: white; font-size: 0.9rem; outline: none; }
         .search-box input:focus { border-color: var(--gold); }
 
-        .slider-container {
-            position: relative;
-            width: 100%;
-            height: 210px;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            border: 1px solid #333;
-            background: #111;
-        }
-        .slides-wrapper {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease-in-out;
-            width: 100%;
-        }
-        .slide-card {
-            min-width: 100%;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            flex-shrink: 0;
-            background: #111;
-            cursor: pointer;
-        }
-        .slide-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #111;
-            pointer-events: none;
-        }
-        .slide-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-            padding: 12px 15px; display: flex; justify-content: space-between; align-items: flex-end;
-            pointer-events: none;
-        }
+        .slider-container { position: relative; width: 100%; height: 210px; border-radius: 15px; overflow: hidden; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); border: 1px solid #333; background: #111; }
+        .slides-wrapper { display: flex; height: 100%; transition: transform 0.5s ease-in-out; width: 100%; }
+        .slide-card { min-width: 100%; width: 100%; height: 100%; position: relative; flex-shrink: 0; background: #111; cursor: pointer; }
+        .slide-card img { width: 100%; height: 100%; object-fit: cover; background: #111; pointer-events: none; }
+        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); padding: 12px 15px; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
         .slide-text h3 { color: var(--gold); font-size: 0.95rem; margin-bottom: 2px; }
         .slide-text p { color: #fff; font-size: 0.75rem; }
+        .slider-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 20px; }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: #444; transition: background 0.3s, width 0.3s; cursor: pointer; }
+        .dot.active { background: var(--gold); width: 18px; border-radius: 4px; }
 
-        .slider-dots {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-        .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #444;
-            transition: background 0.3s, width 0.3s;
-            cursor: pointer;
-        }
-        .dot.active {
-            background: var(--gold);
-            width: 18px;
-            border-radius: 4px;
-        }
+        .section-title { font-size: 1.15rem; margin: 22px 0 12px; color: var(--gold); display: flex; justify-content: space-between; align-items: center; border-right: 4px solid var(--primary); padding-right: 8px; }
+        .back-btn { font-size: 0.8rem; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 4px 12px; border-radius: 15px; cursor: pointer; display: none; }
 
-        .section-title {
-            font-size: 1.15rem; margin: 22px 0 12px; color: var(--gold);
-            display: flex; justify-content: space-between; align-items: center;
-            border-right: 4px solid var(--primary); padding-right: 8px;
-        }
-        .back-btn {
-            font-size: 0.8rem; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 4px 12px; border-radius: 15px; cursor: pointer; display: none;
-        }
-
-        .categories-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-bottom: 25px;
-        }
-        .category-card {
-            background: var(--card-bg); border: 1px solid #252525; border-radius: 14px; padding: 12px 8px;
-            text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 6px;
-        }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-bottom: 25px; }
+        .category-card { background: var(--card-bg); border: 1px solid #252525; border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 6px; }
         .category-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
         .category-card .cat-name { font-size: 0.8rem; font-weight: 700; color: #fff; }
         .category-card:hover { border-color: var(--gold); transform: translateY(-2px); }
 
-        .menu-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px;
-        }
-        .menu-item {
-            background: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222;
-            display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; cursor: pointer;
-        }
-        .item-status {
-            position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; z-index: 2;
-        }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
+        .menu-item { background: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; cursor: pointer; }
+        .item-status { position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; z-index: 2; }
         .status-available { background: rgba(39, 174, 96, 0.85); color: white; }
         .status-unavailable { background: rgba(192, 57, 43, 0.85); color: white; }
 
@@ -183,83 +71,41 @@
         .item-price { color: var(--gold); font-weight: 700; font-size: 1.05rem; }
         .item-weight { font-size: 0.75rem; color: var(--text-muted); background: #222; padding: 2px 6px; border-radius: 4px; }
         
-        .options-box {
-            margin-bottom: 10px; background: #202020; padding: 8px; border-radius: 8px; border: 1px solid #333;
-        }
+        .options-box { margin-bottom: 10px; background: #202020; padding: 8px; border-radius: 8px; border: 1px solid #333; }
         .options-box label { display: block; font-size: 0.75rem; color: #ffcc00; margin-bottom: 3px; }
-        .options-box select {
-            width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem;
-        }
+        .options-box select { width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem; }
         
-        .card-qty-row {
-            display: flex; align-items: center; justify-content: space-between; background: #202020; padding: 6px 10px; border-radius: 8px; border: 1px solid #333;
-        }
-        .card-qty-btn {
-            background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem;
-        }
+        .card-qty-row { display: flex; align-items: center; justify-content: space-between; background: #202020; padding: 6px 10px; border-radius: 8px; border: 1px solid #333; }
+        .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        .reviews-container {
-            display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none;
-        }
+        .reviews-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
         .reviews-container::-webkit-scrollbar { display: none; }
-        .review-card {
-            background: var(--card-bg); border: 1px solid #222; border-radius: 12px; padding: 14px; min-width: 250px; flex: 0 0 250px;
-        }
+        .review-card { background: var(--card-bg); border: 1px solid #222; border-radius: 12px; padding: 14px; min-width: 250px; flex: 0 0 250px; }
         .review-stars { color: #f1c40f; margin-bottom: 5px; font-size: 0.85rem; }
-
-        .add-review-box {
-            background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; margin-top: 25px; margin-bottom: 25px;
-        }
+        .add-review-box { background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; margin-top: 25px; margin-bottom: 25px; }
         .add-review-box h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 8px; }
 
-        .page-banner-section {
-            background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; text-align: center; margin-top: 35px; margin-bottom: 25px;
-        }
+        .page-banner-section { background: var(--card-bg); border: 1px solid #2a2a2a; border-radius: 15px; padding: 15px; text-align: center; margin-top: 35px; margin-bottom: 25px; }
         .page-banner-section img { width: 100%; max-height: 230px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; border: 1px solid #444; }
-        
-        .social-buttons-box {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        .follow-fb-btn {
-            display: inline-block; background: #1877f2; color: white; text-decoration: none; padding: 9px 20px; border-radius: 25px; font-weight: bold; font-size: 0.85rem;
-        }
-        .follow-wa-group-btn {
-            display: inline-block; background: #25d366; color: white; text-decoration: none; padding: 9px 20px; border-radius: 25px; font-weight: bold; font-size: 0.85rem;
-        }
+        .social-buttons-box { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+        .follow-fb-btn { display: inline-block; background: #1877f2; color: white; text-decoration: none; padding: 9px 20px; border-radius: 25px; font-weight: bold; font-size: 0.85rem; }
+        .follow-wa-group-btn { display: inline-block; background: #25d366; color: white; text-decoration: none; padding: 9px 20px; border-radius: 25px; font-weight: bold; font-size: 0.85rem; }
 
-        footer {
-            background: #111; padding: 20px 15px; text-align: center; border-top: 1px solid #222; margin-top: 30px; color: var(--text-muted); font-size: 0.75rem;
-        }
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: #111; border-top: 1px solid #222; display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000;
-        }
-        .nav-item {
-            background: none; border: none; color: var(--text-muted); font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none;
-        }
+        footer { background: #111; padding: 20px 15px; text-align: center; border-top: 1px solid #222; margin-top: 30px; color: var(--text-muted); font-size: 0.75rem; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; border-top: 1px solid #222; display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; }
+        .nav-item { background: none; border: none; color: var(--text-muted); font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none; }
         .nav-item.active, .nav-item:hover { color: var(--gold); }
         .nav-item span.icon { font-size: 1.1rem; margin-bottom: 2px; }
 
-        .cart-floating {
-            position: fixed; bottom: 60px; left: 15px; right: 15px; background: var(--gold); color: #121212; padding: 10px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; z-index: 999; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
+        .cart-floating { position: fixed; bottom: 60px; left: 15px; right: 15px; background: var(--gold); color: #121212; padding: 10px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; z-index: 999; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
         .cart-floating button { background: #121212; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
 
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px;
-        }
-        .modal-content {
-            background: var(--dark); width: 100%; max-width: 540px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: var(--dark); width: 100%; max-width: 540px; border-radius: 15px; padding: 18px; max-height: 90vh; overflow-y: auto; border: 1px solid #333; }
         .form-group { margin-bottom: 10px; }
         .form-group label { display: block; margin-bottom: 3px; font-size: 0.75rem; color: var(--gold); }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 8px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.85rem;
-        }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.85rem; }
         .close-modal { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; float: left; cursor: pointer; font-size: 0.75rem; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #1c1c1c; padding: 8px; border-radius: 6px; }
         .qty-controls { display: flex; align-items: center; gap: 6px; }
@@ -477,7 +323,7 @@
     <div class="modal" id="adminDashboardModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeAdminDashboard()">إغلاق ✕</button>
-            <h3 style="color: var(--gold); margin-bottom: 10px; font-size: 1rem;">⚙️ لوحة التحكم الاحترافية</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px; font-size: 1rem;">⚙️ لوحة التحكم الاحترافية السحابية</h3>
             
             <div class="admin-tabs">
                 <button class="admin-tab-btn active" onclick="switchAdminTab('tab-products', this)">المنتجات والأسعار</button>
@@ -490,7 +336,7 @@
 
             <!-- تاب المنتجات والأسعار -->
             <div id="tab-products" class="admin-section active">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">حالة المنتج (متاح/موقف)، تعديل السعر، أو حذف المنتج مباشرة:</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">حالة المنتج (متاح/موقف)، تعديل السعر، أو حذف المنتج مباشرة (تحديث سحابي لحظي):</p>
                 <div id="adminItemsList" style="max-height: 50vh; overflow-y: auto;"></div>
             </div>
 
@@ -527,7 +373,7 @@
                     </div>
                     <div class="form-group"><label>صورة المنتج (من الجهاز):</label><input type="file" id="newProdFile" accept="image/*" style="font-size:0.75rem;"></div>
                     <div class="form-group"><input type="text" id="newProdImgUrl" placeholder="أو رابط صورة مباشر https://..."></div>
-                    <button class="card-qty-btn" style="width:100%; height:38px; background:var(--secondary); font-size:0.85rem; border-radius:6px; margin-top:5px;" onclick="addNewProductToMenu()">إضافة المنتج للمنيو فوراً 🍲</button>
+                    <button class="card-qty-btn" style="width:100%; height:38px; background:var(--secondary); font-size:0.85rem; border-radius:6px; margin-top:5px;" onclick="addNewProductToMenu()">إضافة المنتج للمنيو سحابياً 🍲</button>
                 </div>
             </div>
 
@@ -547,7 +393,7 @@
                     <div class="form-group"><input type="number" id="newBannerPrice" placeholder="السعر (بالجنيه)"></div>
                     <div class="form-group"><label style="font-size:0.7rem;">صورة مخصصة (اختياري):</label><input type="file" id="newBannerFile" accept="image/*" style="font-size:0.75rem;"></div>
                     <div class="form-group"><input type="text" id="newBannerImgUrl" placeholder="أو رابط صورة مباشر https://..."></div>
-                    <button class="card-qty-btn" style="width:100%; height:34px; background:var(--secondary); font-size:0.8rem; border-radius:5px;" onclick="addNewBanner()">إضافة البانر للسلايدر 🌟</button>
+                    <button class="card-qty-btn" style="width:100%; height:34px; background:var(--secondary); font-size:0.8rem; border-radius:5px;" onclick="addNewBanner()">إضافة البانر سحابياً 🌟</button>
                 </div>
                 <div id="adminBannersList" style="max-height: 35vh; overflow-y: auto;"></div>
             </div>
@@ -578,12 +424,33 @@
                 <div class="form-group">
                     <textarea id="adminMarqueeInput" rows="3" placeholder="اكتب التنبيه هنا..."></textarea>
                 </div>
-                <button class="card-qty-btn" style="width:100%; height:38px; background:var(--primary); font-size:0.85rem; border-radius:6px;" onclick="saveMarqueeText()">حفظ وتحديث الشريط 📢</button>
+                <button class="card-qty-btn" style="width:100%; height:38px; background:var(--primary); font-size:0.85rem; border-radius:6px;" onclick="saveMarqueeText()">حفظ وتحديث الشريط سحابياً 📢</button>
             </div>
         </div>
     </div>
 
+    <!-- مكتبات فايربيز السحابية SDK (مضبوطة لتبدأ مع الصفحة) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
     <script>
+        // إعدادات فايربيز الخاصة بمشروعك الحقيقي tabkha-c460d
+        const firebaseConfig = {
+          apiKey: "AIzaSyDYtOwL1mpCJgilnx4gBJEzNbJIIK_Vh7I",
+          authDomain: "tabkha-c460d.firebaseapp.com",
+          databaseURL: "https://tabkha-c460d-default-rtdb.firebaseio.com",
+          projectId: "tabkha-c460d",
+          storageBucket: "tabkha-c460d.firebasestorage.app",
+          messagingSenderId: "415068140121",
+          appId: "1:415068140121:web:3e89f2b9e7221326abb748",
+          measurementId: "G-PK1D1TTD4L"
+        };
+
+        // تشغيل فايربيز
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // البيانات الافتراضية الأولية (التي ترفع للسحابة إن كانت فارغة)
         const defaultMenuData = [
             { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -611,7 +478,6 @@
             { id: 24, name: "أجنحة بروستد للقلي", price: 100, category: "ready", img: "wings_broasted.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 25, name: "دبابيس بروستد للقلي", price: 150, category: "ready", img: "drumsticks_broasted.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 26, name: "برجر لحم", price: 380, category: "ready", img: "burger_meat.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
-            
             { id: 27, name: "باذنجان متقور", price: 25, category: "veggies", img: "badengan_cleared.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 28, name: "كوسة متقورة", price: 45, category: "veggies", img: "kousa_cleared.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 29, name: "فلفل حشو", price: 30, category: "veggies", img: "felafel_hashw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -628,7 +494,6 @@
             { id: 40, name: "شوربة خضار كيلو", price: 70, category: "veggies", img: "veg_soup.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
             { id: 41, name: "صلصة متسبكة", price: 45, category: "veggies", img: "tomato_sauce.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة محضرة" },
             { id: 42, name: "كرنب مسلوق وسط", price: 70, category: "veggies", img: "kromb_boiled.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حبة متوسطة" },
-            
             { id: 43, name: "2 قطعة بانيه + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_paneer_basmati.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 44, name: "2 قطعة استربس + رز بسمتي + سلطة", price: 100, category: "school", img: "meal_strips_basmati.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
             { id: 45, name: "2 قطعة كفتة بيتي + رز أبيض + سلطة", price: 100, category: "school", img: "meal_kofta_rice.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
@@ -639,7 +504,6 @@
             { id: 50, name: "فتة شاورما (حجم صغير)", price: 60, category: "school", img: "fatta_shawarma_small.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حجم صغير" },
             { id: 51, name: "فتة شاورما (حجم كبير)", price: 80, category: "school", img: "fatta_shawarma_big.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "حجم كبير" },
             { id: 52, name: "فرد بشاميل + قطعتين بانيه", price: 110, category: "school", img: "meal_bchamel_paneer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "وجبة فردية" },
-            
             { id: 53, name: "كيلو محشي مشكل", price: 120, category: "family", img: "fam_mahshi_meshakal.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 54, name: "كيلو محشي كرنب", price: 120, category: "family", img: "fam_mahshi_kromb.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 55, name: "كيلو محشي باذنجان", price: 120, category: "family", img: "fam_mahshi_badengan.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
@@ -659,12 +523,10 @@
             { id: 69, name: "صينية بطاطس بالفراخ", price: 330, category: "family", img: "fam_potatoes_chicken.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية عائلية" },
             { id: 70, name: "كيلو لحمة محمرة بناتي", price: 500, category: "family", img: "fam_meat_fried.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 71, name: "كيلو سلطة رنجة", price: 250, category: "family", img: "fam_rengah.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
-            
             { id: 72, name: "🌟 الصينية الأولى الكبرى", price: 900, category: "trays", img: "tray_1.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية متكاملة" },
             { id: 73, name: "🌟 الصينية الثانية الممتازة", price: 1200, category: "trays", img: "tray_2.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية ملكية" },
             { id: 74, name: "🌟 الصينية الثالثة الفاخرة", price: 1100, category: "trays", img: "tray_3.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية فاخرة" },
             { id: 75, name: "🌟 الصينية الرابعة المشكلة", price: 950, category: "trays", img: "tray_4.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "صينية مشكلة" },
-            
             { id: 76, name: "سندوتش بانيه بيتي بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_paneer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
             { id: 77, name: "سندوتش استربس بصوص الجبنة", price: 50, category: "sandwiches", img: "sand_strips.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
             { id: 78, name: "سندوتش كفتة بيتي + طحينة", price: 50, category: "sandwiches", img: "sand_kofta.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
@@ -672,7 +534,6 @@
             { id: 80, name: "سندوتش استيك لحم بصوص الرانش", price: 150, category: "sandwiches", img: "sand_steak.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش فاخر" },
             { id: 81, name: "سندوتش شيش بصوص الجبنة", price: 60, category: "sandwiches", img: "sand_shish.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
             { id: 82, name: "سندوتش شاورما فراخ + تومية", price: 60, category: "sandwiches", img: "sand_shawarma.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "سندوتش كبير" },
-            
             { id: 83, name: "علبة صوص تومية", price: 20, category: "extras", img: "sauce_toumya.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
             { id: 84, name: "علبة صوص جبنة رومي", price: 40, category: "extras", img: "sauce_romi.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
             { id: 85, name: "علبة صوص شيدر", price: 70, category: "extras", img: "sauce_cheddar.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
@@ -680,7 +541,6 @@
             { id: 87, name: "علبة كولسلو", price: 25, category: "extras", img: "coleslaw.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "علبة" },
             { id: 88, name: "خلطة محشي (1 كيلو)", price: 80, category: "extras", img: "mix_mahshi.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
             { id: 89, name: "خلطة رز الحمام (1 كيلو)", price: 100, category: "extras", img: "mix_hamam.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو" },
-            
             { id: 100, name: "عرض توم مفروم صافي - 4 كيلو", price: 450, category: "offers", img: "garlic_offer.jpg", hasWeight: false, hasChickenOption: false, available: true, weight: "4 كيلو" }
         ];
 
@@ -701,12 +561,11 @@
             { id: 7, stars: "★★★★★", text: "أجمل أكل بيتي دوقته، كل حاجة فريش ونظيفة جداً.", approved: true }
         ];
 
-        let menuData = JSON.parse(localStorage.getItem('tabkha_menu_data')) || defaultMenuData;
-        let bannersData = JSON.parse(localStorage.getItem('tabkha_banners_data')) || defaultBanners;
-        let reviewsData = JSON.parse(localStorage.getItem('tabkha_reviews_data')) || defaultReviews;
-        let marqueeTextVal = localStorage.getItem('tabkha_marquee_text') || "⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲";
-        
-        let siteSettings = JSON.parse(localStorage.getItem('tabkha_site_settings')) || {
+        let menuData = [];
+        let bannersData = [];
+        let reviewsData = [];
+        let marqueeTextVal = "";
+        let siteSettings = {
             brandTitle: "طبخة على الجاهز",
             brandSub: "أكل بيتي • جاهز على التسوية",
             fbLink: "https://www.facebook.com/share/1MVEbmtDN6/",
@@ -720,8 +579,67 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        document.getElementById('marqueeText').innerText = marqueeTextVal;
-        applySiteSettingsToUI();
+        // --- مزامنة حية سحابية عبر Firebase ---
+        db.ref('tabkha_menu').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                db.ref('tabkha_menu').set(defaultMenuData);
+                menuData = defaultMenuData;
+            } else {
+                menuData = Object.values(data);
+            }
+            renderTopProducts();
+            const currentCatText = document.getElementById('sectionHeadingText').innerText;
+            if (currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
+                for (let key in catNamesMap) {
+                    if (catNamesMap[key] === currentCatText) { renderMenu(key); break; }
+                }
+            }
+            if(document.getElementById('adminDashboardModal').style.display === 'flex') {
+                renderAdminProducts();
+                populateBannerProductSelect();
+            }
+        });
+
+        db.ref('tabkha_banners').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                db.ref('tabkha_banners').set(defaultBanners);
+                bannersData = defaultBanners;
+            } else {
+                bannersData = Object.values(data);
+            }
+            initSlider();
+            if(document.getElementById('adminDashboardModal').style.display === 'flex') renderAdminBanners();
+        });
+
+        db.ref('tabkha_reviews').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                db.ref('tabkha_reviews').set(defaultReviews);
+                reviewsData = defaultReviews;
+            } else {
+                reviewsData = Object.values(data);
+            }
+            renderCustomerReviews();
+            if(document.getElementById('adminDashboardModal').style.display === 'flex') renderAdminReviews();
+        });
+
+        db.ref('tabkha_marquee').on('value', (snapshot) => {
+            const val = snapshot.val();
+            marqueeTextVal = val || "⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة.. 🍲";
+            document.getElementById('marqueeText').innerText = marqueeTextVal;
+        });
+
+        db.ref('tabkha_settings').on('value', (snapshot) => {
+            const val = snapshot.val();
+            if(val) siteSettings = val;
+            applySiteSettingsToUI();
+        });
+
+        function saveMenuToCloud() { db.ref('tabkha_menu').set(menuData); }
+        function saveBannersToCloud() { db.ref('tabkha_banners').set(bannersData); }
+        function saveReviewsToCloud() { db.ref('tabkha_reviews').set(reviewsData); }
 
         function applySiteSettingsToUI() {
             document.getElementById('headerBrandTitle').innerText = siteSettings.brandTitle;
@@ -763,23 +681,13 @@
         function submitClientReview() {
             const stars = document.getElementById('clientReviewStars').value;
             const text = document.getElementById('clientReviewText').value.trim();
+            if(!text) { alert('من فضلك ادخل رأيك قبل الإرسال.'); return; }
 
-            if(!text) {
-                alert('من فضلك ادخل رأيك قبل الإرسال.');
-                return;
-            }
-
-            const newRev = {
-                id: Date.now(),
-                stars: stars,
-                text: text,
-                approved: false
-            };
-
+            const newRev = { id: Date.now(), stars: stars, text: text, approved: false };
             reviewsData.push(newRev);
-            localStorage.setItem('tabkha_reviews_data', JSON.stringify(reviewsData));
+            saveReviewsToCloud();
             document.getElementById('clientReviewText').value = '';
-            alert('شكراً لك! تم إرسال رأيك وسيتم عرضه بعد مراجعته من الإدارة. 🌟');
+            alert('شكراً لك! تم إرسال رأيك وسيعرض سحابياً بعد المراجعة. 🌟');
         }
 
         let currentSlide = 0;
@@ -835,7 +743,6 @@
             const activeBanners = bannersData.filter(b => b.active);
             if (activeBanners.length === 0) return;
             wrapper.style.transform = `translateX(${currentSlide * 100}%)`;
-            
             const dots = document.querySelectorAll('.slider-dots .dot');
             dots.forEach((dot, index) => {
                 if (index === currentSlide) dot.classList.add('active');
@@ -843,10 +750,7 @@
             });
         }
 
-        function goToSlide(index) {
-            currentSlide = index;
-            updateSliderPosition();
-        }
+        function goToSlide(index) { currentSlide = index; updateSliderPosition(); }
 
         function startSliderInterval() {
             clearInterval(slideInterval);
@@ -1035,7 +939,6 @@
                 chickenChoice = chickenElem.value;
                 if (chickenChoice.includes("+10")) extraPrice = 10;
             }
-
             addToCart(id, weightMultiplier, chickenChoice, extraPrice);
         }
 
@@ -1064,10 +967,7 @@
             const currentCatText = document.getElementById('sectionHeadingText').innerText;
             if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
                 for(let key in catNamesMap) {
-                    if(catNamesMap[key] === currentCatText) {
-                        renderMenu(key);
-                        break;
-                    }
+                    if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
                 }
             }
         }
@@ -1076,9 +976,7 @@
             const found = cart.find(i => i.id === id);
             if (found) {
                 found.qty += delta;
-                if (found.qty <= 0) {
-                    cart = cart.filter(i => i.id !== id);
-                }
+                if (found.qty <= 0) cart = cart.filter(i => i.id !== id);
             } else if (delta > 0) {
                 addToCart(id, 1);
                 return;
@@ -1088,10 +986,7 @@
             const currentCatText = document.getElementById('sectionHeadingText').innerText;
             if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
                 for(let key in catNamesMap) {
-                    if(catNamesMap[key] === currentCatText) {
-                        renderMenu(key);
-                        break;
-                    }
+                    if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
                 }
             }
         }
@@ -1254,7 +1149,7 @@
 
         function switchAdminTab(tabId, btn) {
             document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.admin-tab-btn' ).forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
         }
@@ -1266,7 +1161,6 @@
             populateBannerProductSelect();
             document.getElementById('adminMarqueeInput').value = marqueeTextVal;
             
-            // تعبئة حقول إعدادات الموقع
             document.getElementById('settingBrandTitle').value = siteSettings.brandTitle;
             document.getElementById('settingBrandSub').value = siteSettings.brandSub;
             document.getElementById('settingFbLink').value = siteSettings.fbLink;
@@ -1287,9 +1181,8 @@
             siteSettings.logoUrl = document.getElementById('settingLogoUrl').value.trim() || siteSettings.logoUrl;
             siteSettings.socialBannerUrl = document.getElementById('settingSocialBannerUrl').value.trim() || siteSettings.socialBannerUrl;
 
-            localStorage.setItem('tabkha_site_settings', JSON.stringify(siteSettings));
-            applySiteSettingsToUI();
-            alert('تم حفظ وتحديث إعدادات الموقع بنجاح! 🌟');
+            db.ref('tabkha_settings').set(siteSettings);
+            alert('تم حفظ وتحديث إعدادات الموقع سحابياً بنجاح! 🌟');
         }
 
         function populateBannerProductSelect() {
@@ -1356,19 +1249,15 @@
             };
 
             menuData.push(newItem);
-            localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
+            saveMenuToCloud();
             
-            // إعادة تعيين الحقول
             document.getElementById('newProdName').value = '';
             document.getElementById('newProdPrice').value = '';
             document.getElementById('newProdDesc').value = '';
             document.getElementById('newProdImgUrl').value = '';
             document.getElementById('newProdFile').value = '';
             
-            renderAdminProducts();
-            renderTopProducts();
-            populateBannerProductSelect();
-            alert('تم إضافة المنتج الجديد للمنيو بنجاح! 🍲');
+            alert('تم إضافة المنتج الجديد سحابياً بنجاح! 🍲');
         }
 
         function renderAdminProducts() {
@@ -1395,19 +1284,14 @@
             const item = menuData.find(i => i.id === id);
             if(item && newName.trim() !== '') {
                 item.name = newName.trim();
-                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
-                renderTopProducts();
-                populateBannerProductSelect();
+                saveMenuToCloud();
             }
         }
 
         function deleteMenuItem(id) {
             if(confirm('هل أنت متأكد من حذف هذا المنتج من المنيو نهائياً؟')) {
                 menuData = menuData.filter(i => i.id !== id);
-                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
-                renderAdminProducts();
-                renderTopProducts();
-                populateBannerProductSelect();
+                saveMenuToCloud();
             }
         }
 
@@ -1452,27 +1336,21 @@
             const rev = reviewsData.find(r => r.id === id);
             if(rev) {
                 rev.approved = !rev.approved;
-                localStorage.setItem('tabkha_reviews_data', JSON.stringify(reviewsData));
-                renderAdminReviews();
-                renderCustomerReviews();
+                saveReviewsToCloud();
             }
         }
 
         function deleteReview(id) {
             if(confirm('هل أنت متأكد من حذف هذا الرأي؟')) {
                 reviewsData = reviewsData.filter(r => r.id !== id);
-                localStorage.setItem('tabkha_reviews_data', JSON.stringify(reviewsData));
-                renderAdminReviews();
-                renderCustomerReviews();
+                saveReviewsToCloud();
             }
         }
 
         function deleteBanner(bannerId) {
             if(confirm('هل أنت متأكد من حذف هذا البانر نهائياً؟')) {
                 bannersData = bannersData.filter(b => b.id !== bannerId);
-                localStorage.setItem('tabkha_banners_data', JSON.stringify(bannersData));
-                renderAdminBanners();
-                initSlider();
+                saveBannersToCloud();
             }
         }
 
@@ -1480,14 +1358,7 @@
             const item = menuData.find(i => i.id === id);
             if(item && !isNaN(newPrice)) {
                 item.price = parseFloat(newPrice);
-                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
-                renderTopProducts();
-                const currentCatText = document.getElementById('sectionHeadingText').innerText;
-                if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                    for(let key in catNamesMap) {
-                        if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
-                    }
-                }
+                saveMenuToCloud();
             }
         }
 
@@ -1495,15 +1366,7 @@
             const item = menuData.find(i => i.id === id);
             if (item) {
                 item.available = !item.available;
-                localStorage.setItem('tabkha_menu_data', JSON.stringify(menuData));
-                renderAdminProducts();
-                renderTopProducts();
-                const currentCatText = document.getElementById('sectionHeadingText').innerText;
-                if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                    for(let key in catNamesMap) {
-                        if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
-                    }
-                }
+                saveMenuToCloud();
             }
         }
 
@@ -1511,9 +1374,7 @@
             const banner = bannersData.find(b => b.id === bannerId);
             if(banner) {
                 banner.active = !banner.active;
-                localStorage.setItem('tabkha_banners_data', JSON.stringify(bannersData));
-                renderAdminBanners();
-                initSlider();
+                saveBannersToCloud();
             }
         }
 
@@ -1524,10 +1385,7 @@
             const imgUrl = document.getElementById('newBannerImgUrl').value.trim();
             const fileInput = document.getElementById('newBannerFile');
 
-            if (!title) {
-                alert('من فضلك ادخل عنوان البانر على الأقل.');
-                return;
-            }
+            if (!title) { alert('من فضلك ادخل عنوان البانر على الأقل.'); return; }
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
@@ -1558,32 +1416,25 @@
                 active: true,
                 price: price
             });
-            localStorage.setItem('tabkha_banners_data', JSON.stringify(bannersData));
+            saveBannersToCloud();
             document.getElementById('newBannerTitle').value = '';
             document.getElementById('newBannerDesc').value = '';
             document.getElementById('newBannerPrice').value = '';
             document.getElementById('newBannerImgUrl').value = '';
             document.getElementById('newBannerFile').value = '';
             document.getElementById('bannerProductSelect').value = '';
-            renderAdminBanners();
-            initSlider();
-            alert('تم إضافة البانر وتفعيله بنجاح! 🌟');
+            alert('تم إضافة البانر وتفعيله سحابياً بنجاح! 🌟');
         }
 
         function saveMarqueeText() {
             const textVal = document.getElementById('adminMarqueeInput').value.trim();
             if(textVal) {
-                marqueeTextVal = textVal;
-                localStorage.setItem('tabkha_marquee_text', marqueeTextVal);
-                document.getElementById('marqueeText').innerText = marqueeTextVal;
-                alert('تم تحديث شريط التنبيهات بنجاح! 📢');
+                db.ref('tabkha_marquee').set(textVal);
+                alert('تم تحديث شريط التنبيهات سحابياً بنجاح! 📢');
             }
         }
 
-        initSlider();
-        renderCustomerReviews();
         saveAndUpdateCart();
-        renderTopProducts();
     </script>
 </body>
 </html>
