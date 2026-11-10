@@ -208,7 +208,8 @@
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
         <div id="homeExtraSections">
-            <div class="section-title">🔥 الأكثر مبيعاً والأجواء الحالية</div>
+            <!-- تم تعديل الاسم بناء على طلبك -->
+            <div class="section-title">🔥 الأكثر طلبًا</div>
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
 
             <div class="section-title" style="margin-top: 30px;">🗣️ كلام حبايبنا اللي جربونا</div>
@@ -227,7 +228,7 @@
                 <button class="card-qty-btn" style="width:100%; height:36px; background:var(--secondary); font-size:0.85rem; border-radius:6px;" onclick="submitClientReview()">إرسال الرأي 🚀</button>
             </div>
 
-            <!-- بانر التواصل الاجتماعي والجروب تحت خالص -->
+            <!-- بانر التواصل الاجتماعي السفلي المحدث من الجهاز والسحابة -->
             <div class="page-banner-section">
                 <img id="socialBannerImg" src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
                 <p style="font-size: 0.85rem; color: #ddd; margin-bottom: 10px;">تابعنا على الفيسبوك وانضم لجروب الواتساب عشان تتابع كل جديد وعروضنا أول بأول!</p>
@@ -285,7 +286,7 @@
                 <div style="display: flex; justify-content: space-between;"><span>الأصناف:</span><span><span id="subTotal">0</span> ج</span></div>
                 <div style="display: flex; justify-content: space-between;"><span>التوصيل (داخل سنباط):</span><span><span id="deliveryCostText">20</span> ج</span></div>
                 <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--gold); font-size: 1rem; margin-top: 5px;">
-                    <span>الإجمالي النهائي:</span><span><span id="grandTotal">20</span> ج</span>
+                    <span>الإجمالي النهائي:</span><span><span id="grandTotal">0</span> ج</span>
                 </div>
             </div>
 
@@ -295,12 +296,18 @@
             <div class="form-group"><label>العنوان بالتفصيل:</label><textarea id="clientAddress" rows="2" placeholder="الشارع ورقم البيت..."></textarea></div>
             <div class="form-group">
                 <label>طريقة الدفع:</label>
-                <select id="paymentMethod">
+                <select id="paymentMethod" onchange="togglePaymentInstructions()">
                     <option value="كاش عند الاستلام">كاش عند الاستلام</option>
-                    <option value="إنستاباي">إنستاباي (01155499777)</option>
-                    <option value="محفظة">محفظة إلكترونية (01288372467)</option>
+                    <option value="إنستاباي">إنستاباي</option>
+                    <option value="محفظة">محفظة إلكترونية</option>
                 </select>
             </div>
+
+            <!-- تفاصيل وملحوظات الدفع اللي كانت مخفية وظهرت بناء على طلبك -->
+            <div id="paymentInstructions" style="display:none; background:#222; border:1px solid var(--gold); padding:10px; border-radius:6px; margin-bottom:10px; font-size:0.75rem; color:#ffcc00; text-align:center;">
+                <span id="paymentInstructionText">يرجى التحويل وإرسال صورة الشاشة لنا عبر الواتساب.</span>
+            </div>
+
             <div class="form-group"><label>ملاحظات (اختياري):</label><input type="text" id="clientNotes" placeholder="أي طلب خاص أو معاد التسليم..."></div>
 
             <button class="card-qty-btn" style="width:100%; height:44px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
@@ -336,13 +343,13 @@
 
             <!-- تاب المنتجات والأسعار -->
             <div id="tab-products" class="admin-section active">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">حالة المنتج (متاح/موقف)، تعديل السعر، أو حذف المنتج مباشرة (تحديث سحابي لحظي):</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">حالة المنتج، تعديل السعر، أو الحذف (تحديث سحابي لحظي):</p>
                 <div id="adminItemsList" style="max-height: 50vh; overflow-y: auto;"></div>
             </div>
 
             <!-- تاب إضافة منتج جديد -->
             <div id="tab-add-item" class="admin-section">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">أضف منتجاً جديداً للمنيو بالصورة والسعر وبكل التفاصيل:</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">أضف منتجاً جديداً للمنيو:</p>
                 <div style="background:#202020; padding:12px; border-radius:8px;">
                     <div class="form-group"><label>اسم المنتج:</label><input type="text" id="newProdName" placeholder="مثال: ممبار محشي خطير"></div>
                     <div class="form-group">
@@ -359,16 +366,16 @@
                         </select>
                     </div>
                     <div class="form-group"><label>السعر (بالجنيه):</label><input type="number" id="newProdPrice" placeholder="مثال: 250"></div>
-                    <div class="form-group"><label>وصف مختصر (اختياري):</label><input type="text" id="newProdDesc" placeholder="طازة ومخدوم على أصوله..."></div>
-                    <div class="form-group"><label>وصف الحجم أو الوزن:</label><input type="text" id="newProdWeight" value="كيلو / نصف كيلو" placeholder="مثال: كيلو / طبق كبير"></div>
+                    <div class="form-group"><label>وصف مختصر:</label><input type="text" id="newProdDesc" placeholder="طازة ومخدوم على أصوله..."></div>
+                    <div class="form-group"><label>وصف الحجم أو الوزن:</label><input type="text" id="newProdWeight" value="كيلو / نصف كيلو"></div>
                     <div class="form-group">
                         <label style="display:flex; align-items:center; gap:5px; font-size:0.8rem; cursor:pointer;">
-                            <input type="checkbox" id="newProdHasWeight" checked style="width:auto;"> يدعم اختيار الوزن (كيلو / نصف كيلو)
+                            <input type="checkbox" id="newProdHasWeight" checked style="width:auto;"> يدعم اختيار الوزن
                         </label>
                     </div>
                     <div class="form-group">
                         <label style="display:flex; align-items:center; gap:5px; font-size:0.8rem; cursor:pointer;">
-                            <input type="checkbox" id="newProdTop" style="width:auto;"> عرضه في قسم الأكثر مبيعاً
+                            <input type="checkbox" id="newProdTop" style="width:auto;"> عرضه في قسم «الأكثر طلبًا»
                         </label>
                     </div>
                     <div class="form-group"><label>صورة المنتج (من الجهاز):</label><input type="file" id="newProdFile" accept="image/*" style="font-size:0.75rem;"></div>
@@ -379,7 +386,7 @@
 
             <!-- تاب التحكم في البانر -->
             <div id="tab-banners" class="admin-section">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">اختر منتجاً من المنيو ليظهر في البانر، أو أنشئ بانراً جديداً:</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">اختر منتجاً أو أنشئ بانراً جديداً:</p>
                 <div style="background:#202020; padding:10px; border-radius:8px; margin-bottom:12px;">
                     <h4 style="color:var(--gold); font-size:0.8rem; margin-bottom:6px;">➕ ربط منتج من المنيو بالبانر:</h4>
                     <div class="form-group">
@@ -391,50 +398,55 @@
                     <div class="form-group"><input type="text" id="newBannerTitle" placeholder="عنوان البانر"></div>
                     <div class="form-group"><input type="text" id="newBannerDesc" placeholder="الوصف القصير"></div>
                     <div class="form-group"><input type="number" id="newBannerPrice" placeholder="السعر (بالجنيه)"></div>
-                    <div class="form-group"><label style="font-size:0.7rem;">صورة مخصصة (اختياري):</label><input type="file" id="newBannerFile" accept="image/*" style="font-size:0.75rem;"></div>
-                    <div class="form-group"><input type="text" id="newBannerImgUrl" placeholder="أو رابط صورة مباشر https://..."></div>
+                    <div class="form-group"><label style="font-size:0.7rem;">صورة مخصصة:</label><input type="file" id="newBannerFile" accept="image/*" style="font-size:0.75rem;"></div>
+                    <div class="form-group"><input type="text" id="newBannerImgUrl" placeholder="أو رابط صورة مباشر..."></div>
                     <button class="card-qty-btn" style="width:100%; height:34px; background:var(--secondary); font-size:0.8rem; border-radius:5px;" onclick="addNewBanner()">إضافة البانر سحابياً 🌟</button>
                 </div>
                 <div id="adminBannersList" style="max-height: 35vh; overflow-y: auto;"></div>
             </div>
 
-            <!-- تاب إعدادات الموقع والفيسبوك -->
+            <!-- تاب إعدادات الموقع والفيسبوك (بما فيها رفع بانر التواصل السفلي من جهازك) -->
             <div id="tab-settings" class="admin-section">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 12px;">تحكم في أسماء الموقع، لوجو البراند، وصورة صفحة الفيسبوك ورابطها:</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 12px;">تحكم في أسماء الموقع، ولتحكم الكامل في بانر الفيسبوك السفلي من جهازك:</p>
                 <div style="background:#202020; padding:12px; border-radius:8px;">
                     <div class="form-group"><label>اسم البراند / الموقع:</label><input type="text" id="settingBrandTitle" value="طبخة على الجاهز"></div>
                     <div class="form-group"><label>الوصف التحتاني في الهيدر:</label><input type="text" id="settingBrandSub" value="أكل بيتي • جاهز على التسوية"></div>
-                    <div class="form-group"><label>رابط صفحة الفيسبوك:</label><input type="text" id="settingFbLink" placeholder="https://www.facebook.com/share/..."></div>
-                    <div class="form-group"><label>رابط أو صورة أيقونة الفيسبوك الصغيرة في الهيدر:</label><input type="text" id="settingFbIconUrl" placeholder="رابط صورة الأيقونة..."></div>
-                    <div class="form-group"><label>رابط أو صورة لوجو الدائرة بالهيدر:</label><input type="text" id="settingLogoUrl" placeholder="رابط اللوجو..."></div>
-                    <div class="form-group"><label>رابط أو صورة بانر التواصل الاجتماعي (أسفل الموقع):</label><input type="text" id="settingSocialBannerUrl" placeholder="رابط صورة البانر السفلية..."></div>
-                    <button class="card-qty-btn" style="width:100%; height:40px; background:var(--primary); font-size:0.9rem; border-radius:6px; margin-top:10px;" onclick="saveSiteSettings()">حفظ وتحديث إعدادات الموقع 💾</button>
+                    <div class="form-group"><label>رابط صفحة الفيسبوك:</label><input type="text" id="settingFbLink"></div>
+                    <div class="form-group"><label>أيقونة فيسبوك الصغيرة:</label><input type="text" id="settingFbIconUrl"></div>
+                    <div class="form-group"><label>لوجو الدائرة بالهيدر:</label><input type="text" id="settingLogoUrl"></div>
+                    
+                    <!-- التحكم في صورة بانر التواصل السفلي من جهازك -->
+                    <div class="form-group" style="border-top:1px dashed #444; padding-top:10px; margin-top:10px;">
+                        <label style="color:var(--gold);">📷 رفع صورة بانر الفيسبوك السفلي من جهازك:</label>
+                        <input type="file" id="settingSocialBannerFile" accept="image/*" style="font-size:0.75rem;">
+                        <input type="text" id="settingSocialBannerUrl" placeholder="أو رابط صورة مباشر..." style="margin-top:5px;">
+                    </div>
+
+                    <button class="card-qty-btn" style="width:100%; height:40px; background:var(--primary); font-size:0.9rem; border-radius:6px; margin-top:10px;" onclick="saveSiteSettings()">حفظ وتحديث الإعدادات والبانر سحابياً 💾</button>
                 </div>
             </div>
 
             <!-- تاب إدارة الآراء -->
             <div id="tab-reviews" class="admin-section">
-                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">الآراء المرسلة من العملاء (وافق عليها لتظهر بالموقع أو احذفها):</p>
+                <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">الآراء المرسلة من العملاء:</p>
                 <div id="adminReviewsList" style="max-height: 50vh; overflow-y: auto;"></div>
             </div>
 
             <!-- تاب شريط التنبيهات -->
             <div id="tab-ticker" class="admin-section">
                 <p style="font-size:0.75rem; color:#aaa; margin-bottom: 8px;">اكتب نص التنبيه المتحرك:</p>
-                <div class="form-group">
-                    <textarea id="adminMarqueeInput" rows="3" placeholder="اكتب التنبيه هنا..."></textarea>
-                </div>
-                <button class="card-qty-btn" style="width:100%; height:38px; background:var(--primary); font-size:0.85rem; border-radius:6px;" onclick="saveMarqueeText()">حفظ وتحديث الشريط سحابياً 📢</button>
+                <div class="form-group"><textarea id="adminMarqueeInput" rows="3"></textarea></div>
+                <button class="card-qty-btn" style="width:100%; height:38px; background:var(--primary); font-size:0.85rem; border-radius:6px;" onclick="saveMarqueeText()">حفظ وتحديث الشريط 📢</button>
             </div>
         </div>
     </div>
 
-    <!-- مكتبات فايربيز السحابية SDK (مضبوطة لتبدأ مع الصفحة) -->
+    <!-- مكتبات فايربيز السحابية SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-        // إعدادات فايربيز الخاصة بمشروعك الحقيقي tabkha-c460d
+        // إعدادات مشروعك السحابي الحقيقي tabkha-c460d
         const firebaseConfig = {
           apiKey: "AIzaSyDYtOwL1mpCJgilnx4gBJEzNbJIIK_Vh7I",
           authDomain: "tabkha-c460d.firebaseapp.com",
@@ -446,11 +458,9 @@
           measurementId: "G-PK1D1TTD4L"
         };
 
-        // تشغيل فايربيز
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // البيانات الافتراضية الأولية (التي ترفع للسحابة إن كانت فارغة)
         const defaultMenuData = [
             { id: 18, name: "بانيه دجاج جاهز للقلي", price: 260, category: "ready", img: "paneer_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو", top: true },
             { id: 19, name: "استربس دجاج جاهز للقلي", price: 260, category: "ready", img: "strips_raw.jpg", hasWeight: true, hasChickenOption: false, available: true, weight: "كيلو / نصف كيلو" },
@@ -579,21 +589,15 @@
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // --- مزامنة حية سحابية عبر Firebase ---
+        // --- مزامنة سحابية لحظية ---
         db.ref('tabkha_menu').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (!data) {
-                db.ref('tabkha_menu').set(defaultMenuData);
-                menuData = defaultMenuData;
-            } else {
-                menuData = Object.values(data);
-            }
+            if (!data) { db.ref('tabkha_menu').set(defaultMenuData); menuData = defaultMenuData; }
+            else { menuData = Object.values(data); }
             renderTopProducts();
             const currentCatText = document.getElementById('sectionHeadingText').innerText;
             if (currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                for (let key in catNamesMap) {
-                    if (catNamesMap[key] === currentCatText) { renderMenu(key); break; }
-                }
+                for (let key in catNamesMap) { if (catNamesMap[key] === currentCatText) { renderMenu(key); break; } }
             }
             if(document.getElementById('adminDashboardModal').style.display === 'flex') {
                 renderAdminProducts();
@@ -603,24 +607,16 @@
 
         db.ref('tabkha_banners').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (!data) {
-                db.ref('tabkha_banners').set(defaultBanners);
-                bannersData = defaultBanners;
-            } else {
-                bannersData = Object.values(data);
-            }
+            if (!data) { db.ref('tabkha_banners').set(defaultBanners); bannersData = defaultBanners; }
+            else { bannersData = Object.values(data); }
             initSlider();
             if(document.getElementById('adminDashboardModal').style.display === 'flex') renderAdminBanners();
         });
 
         db.ref('tabkha_reviews').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (!data) {
-                db.ref('tabkha_reviews').set(defaultReviews);
-                reviewsData = defaultReviews;
-            } else {
-                reviewsData = Object.values(data);
-            }
+            if (!data) { db.ref('tabkha_reviews').set(defaultReviews); reviewsData = defaultReviews; }
+            else { reviewsData = Object.values(data); }
             renderCustomerReviews();
             if(document.getElementById('adminDashboardModal').style.display === 'flex') renderAdminReviews();
         });
@@ -682,7 +678,6 @@
             const stars = document.getElementById('clientReviewStars').value;
             const text = document.getElementById('clientReviewText').value.trim();
             if(!text) { alert('من فضلك ادخل رأيك قبل الإرسال.'); return; }
-
             const newRev = { id: Date.now(), stars: stars, text: text, approved: false };
             reviewsData.push(newRev);
             saveReviewsToCloud();
@@ -717,10 +712,8 @@
                             <div class="slide-text"><h3>${banner.title} - ${banner.price} ج</h3><p>${banner.desc}</p></div>
                         </div>
                     </div>`;
-
                 dotsContainer.innerHTML += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
             });
-
             currentSlide = 0;
             updateSliderPosition();
             startSliderInterval();
@@ -729,11 +722,8 @@
         function addBannerToCart(price, title) {
             const cartKey = `banner-${title}`;
             const found = cart.find(i => i.cartKey === cartKey);
-            if (found) {
-                found.qty++;
-            } else {
-                cart.push({ cartKey: cartKey, id: Date.now(), name: title + " (عرض البانر)", unitPrice: price, qty: 1 });
-            }
+            if (found) { found.qty++; } 
+            else { cart.push({ cartKey: cartKey, id: Date.now(), name: title + " (عرض البانر)", unitPrice: price, qty: 1 }); }
             saveAndUpdateCart();
             openCheckout();
         }
@@ -795,19 +785,16 @@
         function renderMenu(category = 'ready', query = '') {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
-
             let filtered = menuData.filter(item => item.available);
             if (query.trim() !== '') {
                 filtered = filtered.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
             } else {
                 filtered = filtered.filter(item => item.category === category);
             }
-            
             if (filtered.length === 0) {
                 container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج متاحة مطابقة لبحثك.</p>';
                 return;
             }
-
             filtered.forEach(item => {
                 let weightHTML = item.hasWeight ? `
                     <div class="options-box" onclick="event.stopPropagation();">
@@ -829,7 +816,6 @@
 
                 const cartItem = cart.find(i => i.id === item.id);
                 const currentQty = cartItem ? cartItem.qty : 0;
-
                 let actionArea = currentQty > 0 ? `
                     <div class="card-qty-row" onclick="event.stopPropagation();">
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
@@ -884,7 +870,6 @@
 
                 const cartItem = cart.find(i => i.id === item.id);
                 const currentQty = cartItem ? cartItem.qty : 0;
-
                 let actionArea = currentQty > 0 ? `
                     <div class="card-qty-row" onclick="event.stopPropagation();">
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
@@ -946,11 +931,7 @@
             const item = menuData.find(i => i.id === id);
             let basePrice = item.price;
             let sizeName = "كيلو";
-
-            if (weightMultiplier === 0.5) {
-                basePrice = Math.round(item.price / 2);
-                sizeName = "نصف كيلو";
-            }
+            if (weightMultiplier === 0.5) { basePrice = Math.round(item.price / 2); sizeName = "نصف كيلو"; }
 
             let finalUnitPrice = basePrice + extraPrice;
             let descriptiveName = item.name + (item.hasWeight ? ` (${sizeName})` : '');
@@ -958,17 +939,13 @@
 
             const cartKey = `${id}-${weightMultiplier}-${chickenChoice}`;
             const found = cart.find(i => i.cartKey === cartKey);
-
-            if (found) { found.qty++; } else {
-                cart.push({ cartKey: cartKey, id: item.id, name: descriptiveName, unitPrice: finalUnitPrice, qty: 1 });
-            }
+            if (found) { found.qty++; } 
+            else { cart.push({ cartKey: cartKey, id: item.id, name: descriptiveName, unitPrice: finalUnitPrice, qty: 1 }); }
             saveAndUpdateCart();
             renderTopProducts();
             const currentCatText = document.getElementById('sectionHeadingText').innerText;
             if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                for(let key in catNamesMap) {
-                    if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
-                }
+                for(let key in catNamesMap) { if(catNamesMap[key] === currentCatText) { renderMenu(key); break; } }
             }
         }
 
@@ -985,9 +962,7 @@
             renderTopProducts();
             const currentCatText = document.getElementById('sectionHeadingText').innerText;
             if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                for(let key in catNamesMap) {
-                    if(catNamesMap[key] === currentCatText) { renderMenu(key); break; }
-                }
+                for(let key in catNamesMap) { if(catNamesMap[key] === currentCatText) { renderMenu(key); break; } }
             }
         }
 
@@ -1011,9 +986,10 @@
 
             const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
             const subTotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
-            const totalPrice = subTotal > 0 ? subTotal + currentDeliveryFee : 0;
-
+            
+            // تم ضبط السلة لتظهر الرسوم والإجمالي فقط لو السلة فيها منتجات
             if (totalCount > 0) {
+                const totalPrice = subTotal + currentDeliveryFee;
                 cartBar.style.display = 'flex';
                 cartCount.innerText = totalCount;
                 cartTotal.innerText = totalPrice;
@@ -1083,9 +1059,27 @@
             document.getElementById('deliveryCostText').innerText = currentDeliveryFee;
             document.getElementById('grandTotal').innerText = subTotal + currentDeliveryFee;
             modal.style.display = 'flex';
+            togglePaymentInstructions();
         }
 
         function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
+
+        // إظهار تعليمات الدفع عند اختيار إنستاباي أو فودافون كاش
+        function togglePaymentInstructions() {
+            const method = document.getElementById('paymentMethod').value;
+            const box = document.getElementById('paymentInstructions');
+            const text = document.getElementById('paymentInstructionText');
+
+            if (method === "إنستاباي") {
+                box.style.display = 'block';
+                text.innerHTML = "💡 يجيب التحويل على رقم إنستاباي: <strong>01155499777</strong> وإرسال صورة التحويل هنا على الواتساب.";
+            } else if (method === "محفظة") {
+                box.style.display = 'block';
+                text.innerHTML = "💡 يرجى التحويل كاش على محفظة فودافون: <strong>01288372467</strong> وإرسال صورة التحويل هنا على الواتساب.";
+            } else {
+                box.style.display = 'none';
+            }
+        }
 
         function sendToWhatsApp() {
             const name = document.getElementById('clientName').value;
@@ -1173,16 +1167,30 @@
 
         function closeAdminDashboard() { document.getElementById('adminDashboardModal').style.display = 'none'; }
 
+        // حفظ إعدادات الموقع وبانر الفيسبوك السفلي المرفوع من جهازك وسحابياً
         function saveSiteSettings() {
             siteSettings.brandTitle = document.getElementById('settingBrandTitle').value.trim() || "طبخة على الجاهز";
             siteSettings.brandSub = document.getElementById('settingBrandSub').value.trim() || "أكل بيتي • جاهز على التسوية";
             siteSettings.fbLink = document.getElementById('settingFbLink').value.trim() || siteSettings.fbLink;
             siteSettings.fbIconUrl = document.getElementById('settingFbIconUrl').value.trim() || siteSettings.fbIconUrl;
             siteSettings.logoUrl = document.getElementById('settingLogoUrl').value.trim() || siteSettings.logoUrl;
-            siteSettings.socialBannerUrl = document.getElementById('settingSocialBannerUrl').value.trim() || siteSettings.socialBannerUrl;
 
-            db.ref('tabkha_settings').set(siteSettings);
-            alert('تم حفظ وتحديث إعدادات الموقع سحابياً بنجاح! 🌟');
+            const fileInput = document.getElementById('settingSocialBannerFile');
+            const imgUrl = document.getElementById('settingSocialBannerUrl').value.trim();
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    siteSettings.socialBannerUrl = e.target.result;
+                    db.ref('tabkha_settings').set(siteSettings);
+                    alert('تم رفع البانر من جهازك وتحديثه سحابياً عند الجميع! 🌟');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                if(imgUrl) siteSettings.socialBannerUrl = imgUrl;
+                db.ref('tabkha_settings').set(siteSettings);
+                alert('تم حفظ وتحديث إعدادات الموقع سحابياً بنجاح! 🌟');
+            }
         }
 
         function populateBannerProductSelect() {
@@ -1216,10 +1224,7 @@
             const imgUrl = document.getElementById('newProdImgUrl').value.trim();
             const fileInput = document.getElementById('newProdFile');
 
-            if(!name || price <= 0) {
-                alert('من فضلك ادخل اسم المنتج والسعر بشكل صحيح.');
-                return;
-            }
+            if(!name || price <= 0) { alert('من فضلك ادخل اسم المنتج والسعر بشكل صحيح.'); return; }
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
@@ -1236,27 +1241,16 @@
         function saveNewProductObject(name, category, price, desc, weight, hasWeight, top, imgSrc) {
             const newId = menuData.length > 0 ? Math.max(...menuData.map(i => i.id)) + 1 : 1;
             const newItem = {
-                id: newId,
-                name: name,
-                price: price,
-                category: category,
-                img: imgSrc,
-                hasWeight: hasWeight,
-                hasChickenOption: false,
-                available: true,
-                weight: weight,
-                top: top
+                id: newId, name: name, price: price, category: category, img: imgSrc,
+                hasWeight: hasWeight, hasChickenOption: false, available: true, weight: weight, top: top
             };
-
             menuData.push(newItem);
             saveMenuToCloud();
-            
             document.getElementById('newProdName').value = '';
             document.getElementById('newProdPrice').value = '';
             document.getElementById('newProdDesc').value = '';
             document.getElementById('newProdImgUrl').value = '';
             document.getElementById('newProdFile').value = '';
-            
             alert('تم إضافة المنتج الجديد سحابياً بنجاح! 🍲');
         }
 
@@ -1282,10 +1276,7 @@
 
         function updateProductName(id, newName) {
             const item = menuData.find(i => i.id === id);
-            if(item && newName.trim() !== '') {
-                item.name = newName.trim();
-                saveMenuToCloud();
-            }
+            if(item && newName.trim() !== '') { item.name = newName.trim(); saveMenuToCloud(); }
         }
 
         function deleteMenuItem(id) {
@@ -1300,7 +1291,7 @@
             list.innerHTML = '';
             bannersData.forEach(banner => {
                 let btnClass = banner.active ? 'btn-active' : 'btn-inactive';
-                let btnText = banner.active ? 'يظهر بالبانر (نشط)' : 'مخفي';
+                let btnText = banner.active ? 'نشط' : 'مخفي';
                 list.innerHTML += `
                     <div class="admin-item-row">
                         <div style="flex:1;"><strong>${banner.title}</strong><br><span style="font-size:0.65rem; color:#888;">السعر: ${banner.price} ج</span></div>
@@ -1313,10 +1304,7 @@
         function renderAdminReviews() {
             const list = document.getElementById('adminReviewsList');
             list.innerHTML = '';
-            if(reviewsData.length === 0) {
-                list.innerHTML = '<p style="color:#888; font-size:0.8rem; text-align:center;">لا توجد آراء مرسلة حتى الآن.</p>';
-                return;
-            }
+            if(reviewsData.length === 0) { list.innerHTML = '<p style="color:#888; font-size:0.8rem; text-align:center;">لا توجد آراء مرسلة حتى الآن.</p>'; return; }
             reviewsData.forEach(rev => {
                 let btnClass = rev.approved ? 'btn-active' : 'btn-inactive';
                 let btnText = rev.approved ? 'معروض بالموقع' : 'مخفي (معلق)';
@@ -1334,10 +1322,7 @@
 
         function toggleReviewApproval(id) {
             const rev = reviewsData.find(r => r.id === id);
-            if(rev) {
-                rev.approved = !rev.approved;
-                saveReviewsToCloud();
-            }
+            if(rev) { rev.approved = !rev.approved; saveReviewsToCloud(); }
         }
 
         function deleteReview(id) {
@@ -1348,7 +1333,7 @@
         }
 
         function deleteBanner(bannerId) {
-            if(confirm('هل أنت متأكد من حذف هذا البانر نهائياً؟')) {
+            if(confirm('هل أنت متأكد من حذف هذا البانر؟')) {
                 bannersData = bannersData.filter(b => b.id !== bannerId);
                 saveBannersToCloud();
             }
@@ -1356,26 +1341,17 @@
 
         function updateProductPrice(id, newPrice) {
             const item = menuData.find(i => i.id === id);
-            if(item && !isNaN(newPrice)) {
-                item.price = parseFloat(newPrice);
-                saveMenuToCloud();
-            }
+            if(item && !isNaN(newPrice)) { item.price = parseFloat(newPrice); saveMenuToCloud(); }
         }
 
         function toggleItemStatus(id) {
             const item = menuData.find(i => i.id === id);
-            if (item) {
-                item.available = !item.available;
-                saveMenuToCloud();
-            }
+            if (item) { item.available = !item.available; saveMenuToCloud(); }
         }
 
         function toggleBannerStatus(bannerId) {
             const banner = bannersData.find(b => b.id === bannerId);
-            if(banner) {
-                banner.active = !banner.active;
-                saveBannersToCloud();
-            }
+            if(banner) { banner.active = !banner.active; saveBannersToCloud(); }
         }
 
         function addNewBanner() {
@@ -1385,53 +1361,33 @@
             const imgUrl = document.getElementById('newBannerImgUrl').value.trim();
             const fileInput = document.getElementById('newBannerFile');
 
-            if (!title) { alert('من فضلك ادخل عنوان البانر على الأقل.'); return; }
+            if (!title) { alert('من فضلك ادخل عنوان البانر.'); return; }
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    saveNewBannerObject(title, desc, price, e.target.result);
-                };
+                reader.onload = function(e) { saveNewBannerObject(title, desc, price, e.target.result); };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                imageFromUrl(title, desc, price, imgUrl);
-            }
-        }
-
-        function imageFromUrl(title, desc, price, imgUrl) {
-            if (imgUrl) {
-                saveNewBannerObject(title, desc, price, imgUrl);
-            } else {
-                alert('من فضلك اختر صورة من جهازك أو ضع رابط صورة مباشر.');
+                if(imgUrl) saveNewBannerObject(title, desc, price, imgUrl);
+                else alert('اختر صورة من جهازك أو ضع رابط صورة.');
             }
         }
 
         function saveNewBannerObject(title, desc, price, imgSrc) {
             const newId = bannersData.length > 0 ? bannersData[bannersData.length - 1].id + 1 : 0;
-            bannersData.push({
-                id: newId,
-                title: title,
-                desc: desc || 'اضغط للطلب الفوري',
-                img: imgSrc,
-                active: true,
-                price: price
-            });
+            bannersData.push({ id: newId, title: title, desc: desc || 'اضغط للطلب الفوري', img: imgSrc, active: true, price: price });
             saveBannersToCloud();
             document.getElementById('newBannerTitle').value = '';
             document.getElementById('newBannerDesc').value = '';
             document.getElementById('newBannerPrice').value = '';
             document.getElementById('newBannerImgUrl').value = '';
             document.getElementById('newBannerFile').value = '';
-            document.getElementById('bannerProductSelect').value = '';
             alert('تم إضافة البانر وتفعيله سحابياً بنجاح! 🌟');
         }
 
         function saveMarqueeText() {
             const textVal = document.getElementById('adminMarqueeInput').value.trim();
-            if(textVal) {
-                db.ref('tabkha_marquee').set(textVal);
-                alert('تم تحديث شريط التنبيهات سحابياً بنجاح! 📢');
-            }
+            if(textVal) { db.ref('tabkha_marquee').set(textVal); alert('تم تحديث شريط التنبيهات سحابياً بنجاح! 📢'); }
         }
 
         saveAndUpdateCart();
