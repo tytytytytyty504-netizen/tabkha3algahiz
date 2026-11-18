@@ -77,16 +77,8 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* بوت الذكاء الاصطناعي الذكي */
-        .ai-chat-floating { position: fixed; bottom: 75px; right: 15px; background: var(--primary); color: white; padding: 8px 15px; border-radius: 20px; display: flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.85rem; font-weight: bold; border: 1px solid var(--gold); }
-        .ai-chat-box { display: none; position: fixed; bottom: 130px; right: 15px; width: 320px; background: var(--dark); border: 1px solid var(--gold); border-radius: 14px; z-index: 1999; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
-        .ai-chat-header { background: var(--primary); color: white; padding: 12px; font-weight: bold; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
-        .ai-chat-body { padding: 12px; height: 240px; overflow-y: auto; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
-        .ai-msg { background: #222; padding: 9px 12px; border-radius: 8px; max-width: 88%; line-height: 1.4; }
-        .ai-msg.user { background: var(--secondary); align-self: flex-end; color: white; }
-        .ai-chat-footer { display: flex; padding: 10px; background: #111; border-top: 1px solid #333; gap: 6px; }
-        .ai-chat-footer input { flex: 1; padding: 8px; background: #222; border: 1px solid #444; border-radius: 6px; color: white; font-size: 0.8rem; outline: none; }
-        .ai-chat-footer button { background: var(--gold); border: none; padding: 0 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; color: #000; }
+        /* زر التواصل المباشر بالواتساب بدلاً من الشات المعقد */
+        .whatsapp-float-btn { position: fixed; bottom: 75px; right: 15px; background: #25d366; color: white; padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.9rem; font-weight: bold; text-decoration: none; border: 1px solid #fff; }
 
         .reviews-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
         .reviews-container::-webkit-scrollbar { display: none; }
@@ -195,21 +187,10 @@
         </div>
     </div>
 
-    <!-- زر «تحدث معنا» وبوت الذكاء الاصطناعي -->
-    <div class="ai-chat-floating" onclick="toggleAIChat()">💬 تحدث معنا</div>
-    <div class="ai-chat-box" id="aiChatBox">
-        <div class="ai-chat-header">
-            <span>💬 خدمة العملاء الذكية | طبخة على الجاهز</span>
-            <button onclick="toggleAIChat()" style="background:none; border:none; color:white; font-weight:bold; cursor:pointer;">✕</button>
-        </div>
-        <div class="ai-chat-body" id="aiChatBody">
-            <div class="ai-msg">أهلاً بحضرتك يا فندم في «طبخة على الجاهز». تحت أمرك، اسألني عن أسعار أي أكلة في المنيو وهقول لحضرتك سعرها وتفاصيلها فوراً! 🍲</div>
-        </div>
-        <div class="ai-chat-footer">
-            <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا (مثلاً: المحشي بكام؟)..." onkeypress="if(event.key==='Enter') sendAIQuery()">
-            <button onclick="sendAIQuery()">إرسال</button>
-        </div>
-    </div>
+    <!-- زر تواصل سريع مباشر بالواتساب بدلاً من البوت المعطل -->
+    <a href="https://wa.me/201129933758" target="_blank" class="whatsapp-float-btn">
+        💬 اطلب عبر الواتساب
+    </a>
 
     <footer>
         <p>جميع الحقوق محفوظة © طبخة على الجاهز 2026</p>
@@ -634,72 +615,6 @@
 
             window.open(`https://wa.me/201129933758?text=${encodeURI(msg)}`, '_blank');
             cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
-        }
-
-        // بوت الذكاء الاصطناعي الذكي والمحدث بالكامل
-        function toggleAIChat() {
-            const box = document.getElementById('aiChatBox');
-            box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-
-        async function sendAIQuery() {
-            const input = document.getElementById('aiUserInput');
-            const q = input.value.trim();
-            if(!q) return;
-            const body = document.getElementById('aiChatBody');
-            body.innerHTML += `<div class="ai-msg user">${q}</div>`;
-            input.value = '';
-            body.scrollTop = body.scrollHeight;
-
-            const loadingId = 'loading-' + Date.now();
-            body.innerHTML += `<div class="ai-msg" id="${loadingId}">ثواني يا فنان براجع المنيو وأرد عليك... ⏳</div>`;
-            body.scrollTop = body.scrollHeight;
-
-            try {
-                let menuString = menuData.map(i => `- ${i.name}: السعر ${i.price} جنيه، الوصف: ${i.desc || 'طازة ومخدوم بيتي'} (متاح: ${i.available ? 'نعم' : 'لا'})`).join('\n');
-                let catString = categoriesData.map(c => c.name).join(', ');
-
-                const systemPrompt = `أنت مساعد ذكي وودود جداً وصاحب واجب لخدمة عملاء مطبخ «طبخة على الجاهز» في سنباط، مصر. 
-                تتعامل مع أهالينا وحبايبنا في الريف بلغة عامية مصرية دافئة، ذكية، وانسيابية مية في المية (زي الردود البشرية الطبيعية).
-                مهمتك الأساسية هي الإجابة عن أي سؤال يخص الأكل، الأسعار، الأقسام، أو المكونات بناءً على المنيو الحالي أدناه.
-                تجاهل تماماً الأخطاء الإملائية وتفاعل بطريقة مباشرة وفورية، واوعى تكرر رسالة الترحيب الثابتة أبداً، رد على صلب السؤال بأسلوب شياكة ومحترم.
-                
-                قائمة المنيو الحالية:
-                ${menuString}
-                
-                الأقسام المتاحة: ${catString}
-                معلومات التوصيل: التوصيل داخل سنباط ومصاريف التوصيل ثابتة (20 جنيه). الحجز قبلها بيوم. والدفع كاش أو إنستاباي أو أورانج كاش (مع إرسال صورة التحويل).
-                
-                سؤال العميل هو: "${q}"
-                جاوب عليه مباشرة وبدقة شديدة من واقع المنيو وبأسلوب بشري جذاب.`;
-
-                const apiKey = "AIzaSyDYtOwL1mpCJgilnx4gBJEzNbJIIK_Vh7I";
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [
-                            { role: "user", parts: [{ text: systemPrompt }] }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
-                let reply = "يا هلا بيك يا فندم، عيوني ليك، اسألني عن أي أكلة في المنيو وهقولك سعرها وتفاصيلها فوراً!";
-                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                    reply = data.candidates[0].content.parts[0].text;
-                }
-
-                body.innerHTML += `<div class="ai-msg">${reply}</div>`;
-                body.scrollTop = body.scrollHeight;
-
-            } catch (error) {
-                document.getElementById(loadingId).remove();
-                body.innerHTML += `<div class="ai-msg">يا أهلاً بيك يا فندم، تحت أمرك في أي صنف في المنيو، نورتنا! 🍲</div>`;
-                body.scrollTop = body.scrollHeight;
-            }
         }
 
         saveAndUpdateCart();
