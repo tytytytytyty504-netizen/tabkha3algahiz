@@ -77,16 +77,16 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* بوت الذكاء الاصطناعي المصغر في الإندكس */
-        .ai-chat-floating { position: fixed; bottom: 75px; right: 15px; background: var(--primary); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 1.2rem; }
-        .ai-chat-box { display: none; position: fixed; bottom: 130px; right: 15px; width: 300px; background: var(--dark); border: 1px solid var(--gold); border-radius: 14px; z-index: 1999; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
-        .ai-chat-header { background: var(--primary); color: white; padding: 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
-        .ai-chat-body { padding: 10px; height: 200px; overflow-y: auto; font-size: 0.75rem; display: flex; flex-direction: column; gap: 8px; }
-        .ai-msg { background: #222; padding: 8px; border-radius: 6px; max-width: 85%; }
-        .ai-msg.user { background: var(--secondary); align-self: flex-end; }
-        .ai-chat-footer { display: flex; padding: 8px; background: #111; border-top: 1px solid #333; gap: 5px; }
-        .ai-chat-footer input { flex: 1; padding: 6px; background: #222; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.75rem; outline: none; }
-        .ai-chat-footer button { background: var(--gold); border: none; padding: 0 10px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.75rem; color: #000; }
+        /* بوت الذكاء الاصطناعي الاحترافي «تحدث معنا» */
+        .ai-chat-floating { position: fixed; bottom: 75px; right: 15px; background: var(--primary); color: white; padding: 8px 15px; border-radius: 20px; display: flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.85rem; font-weight: bold; border: 1px solid var(--gold); }
+        .ai-chat-box { display: none; position: fixed; bottom: 130px; right: 15px; width: 320px; background: var(--dark); border: 1px solid var(--gold); border-radius: 14px; z-index: 1999; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
+        .ai-chat-header { background: var(--primary); color: white; padding: 12px; font-weight: bold; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+        .ai-chat-body { padding: 12px; height: 230px; overflow-y: auto; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
+        .ai-msg { background: #222; padding: 9px 12px; border-radius: 8px; max-width: 88%; line-height: 1.4; }
+        .ai-msg.user { background: var(--secondary); align-self: flex-end; color: white; }
+        .ai-chat-footer { display: flex; padding: 10px; background: #111; border-top: 1px solid #333; gap: 6px; }
+        .ai-chat-footer input { flex: 1; padding: 8px; background: #222; border: 1px solid #444; border-radius: 6px; color: white; font-size: 0.8rem; outline: none; }
+        .ai-chat-footer button { background: var(--gold); border: none; padding: 0 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; color: #000; }
 
         .reviews-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
         .reviews-container::-webkit-scrollbar { display: none; }
@@ -195,18 +195,18 @@
         </div>
     </div>
 
-    <!-- زر وبوت الذكاء الاصطناعي للمساعدة -->
-    <div class="ai-chat-floating" onclick="toggleAIChat()" title="اسأل مساعد طبخة الذكي">🤖</div>
+    <!-- زر «تحدث معنا» وبوت الذكاء الاصطناعي الذكي -->
+    <div class="ai-chat-floating" onclick="toggleAIChat()">💬 تحدث معنا</div>
     <div class="ai-chat-box" id="aiChatBox">
         <div class="ai-chat-header">
-            <span>🤖 مساعد «طبخة على الجاهز» الذكي</span>
+            <span>💬 خدمة العملاء الذكية | طبخة على الجاهز</span>
             <button onclick="toggleAIChat()" style="background:none; border:none; color:white; font-weight:bold; cursor:pointer;">✕</button>
         </div>
         <div class="ai-chat-body" id="aiChatBody">
-            <div class="ai-msg">أهلاً بيك يا فنان! أنا مساعدك الذكي، اسألني عن أي أكلة في المنيو، مواعيد الحجز، أو الأسعار وهيجاوبك فوراً! 🍲</div>
+            <div class="ai-msg">أهلاً بحضرتك يا فندم في «طبخة على الجاهز». تحت أمرك، اسألني عن أسعار أي أكلة في المنيو أو مواعيد الحجز وهجاوب حضرتك فوراً! 🍲</div>
         </div>
         <div class="ai-chat-footer">
-            <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter') sendAIQuery()">
+            <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا (مثلاً: المحشي بكام؟)..." onkeypress="if(event.key==='Enter') sendAIQuery()">
             <button onclick="sendAIQuery()">إرسال</button>
         </div>
     </div>
@@ -636,6 +636,7 @@
             cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
 
+        // بوت الذكاء الاصطناعي الذكي الذي يرد على أسعار الأكل بدقة وبالعامية المصرية المحترمة
         function toggleAIChat() {
             const box = document.getElementById('aiChatBox');
             box.style.display = box.style.display === 'block' ? 'none' : 'block';
@@ -651,15 +652,21 @@
             body.scrollTop = body.scrollHeight;
 
             setTimeout(() => {
-                let reply = "يا فنان، أنا معاك! بخصوص طلبك أو المنيو، تقدر تختار الأكل اللي تعجبك وتطلبه بضغطة زرار، والحجز بيكون قبلها بيوم عشان يوصلك فريش وطازة! لو محتاج تفاصيل أكتر كلمنا على الواتساب الظاهر قدامك 📱";
+                let reply = "تحت أمر حضرتك يا فندم! بخصوص طلبك أو المنيو، تقدر تختار الأكل اللي يعجبك وتطلبه بسهولة، والحجز بيكون قبلها بيوم عشان يوصل لحضرتك فريش وطازة. لو محتاج استفسار تاني كلمنا على الواتساب 📱";
                 const lower = q.toLowerCase();
-                if(lower.includes('سعر') || lower.includes('بكام') || lower.includes('الأسعار')) {
-                    reply = "الأسعار موجودة قدامك على كل صنف في المنيو بالجنيه المصري، وعندنا أحجام وأوزان (كيلو ونصف كيلو) تناسب كل الأكلات البيتي الفريش!";
-                } else if(lower.includes('حجز') || lower.includes('ميعاد') || lower.includes('امتى')) {
-                    reply = "الحجز بيكون قبلها بيوم على الأقل عشان نضمن إن الأكل يجيلك فريش ومخدوم على أصوله البيتي!";
-                } else if(lower.includes('توصيل') || lower.includes('مصاريف') || lower.includes('مكان')) {
-                    reply = "التوصيل متاح داخل سنباط ومصاريف التوصيل ثابتة (20 جنيه)، والأكل بيوصلك لحد باب البيت سخن وطازة!";
+
+                // البحث الذكي عن سعر صنف معين في المنيو الحالي
+                let matchedItem = menuData.find(item => lower.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(lower));
+                if (matchedItem) {
+                    reply = `سعر "${matchedItem.name}" هو ${matchedItem.price} جنيه (${matchedItem.weight || 'حبة'})، والأكل بيجيلك فريش ومخدوم على أصوله البيتي! تحب أضيفه لحضرتك في السلة؟`;
+                } else if(lower.includes('سعر') || lower.includes('بكام') || lower.includes('الأسعار') || lower.includes('بكم')) {
+                    reply = "أسعار كل أكلاتنا البيتي مكتوبة قدام حضرتك بوضوح على كل صنف في المنيو بالجنيه المصري، لو بتسأل عن أكلة معينة اكتب لي اسمها وهقول لك سعرها فوراً!";
+                } else if(lower.includes('حجز') || lower.includes('ميعاد') || lower.includes('امتى') || lower.includes('متى')) {
+                    reply = "الحجز بيكون قبلها بيوم على الأقل عشان نضمن إن الأكل يتحضر لحضرتك فريش وطازة وبأعلى جودة بيتي!";
+                } else if(lower.includes('توصيل') || lower.includes('مصاريف') || lower.includes('مكان') || lower.includes('الشحن')) {
+                    reply = "التوصيل متاح لحد باب البيت داخل سنباط، ومصاريف التوصيل ثابتة (20 جنيه).";
                 }
+
                 body.innerHTML += `<div class="ai-msg">${reply}</div>`;
                 body.scrollTop = body.scrollHeight;
             }, 600);
