@@ -15,7 +15,6 @@
             --admin-muted: #9ca3af;
             --danger: #ef4444;
             --success: #10b981;
-            --primary: #d35400;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--admin-bg); color: var(--admin-text); padding: 20px; min-height: 100vh; }
@@ -27,23 +26,22 @@
 
         .admin-panel { max-width: 1200px; margin: 0 auto; display: none; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; background: var(--admin-card); padding: 18px 25px; border-radius: 12px; border: 1px solid var(--admin-border); margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .admin-header h1 { font-size: 1.25rem; color: var(--admin-accent); display: flex; align-items: center; gap: 8px; }
-        .visit-site-btn { background: #3b82f6; color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: bold; transition: 0.2s; }
-        .visit-site-btn:hover { background: #2563eb; }
+        .admin-header h1 { font-size: 1.25rem; color: var(--admin-accent); }
+        .visit-site-btn { background: #3b82f6; color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: bold; }
 
         .form-group { margin-bottom: 15px; text-align: right; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 0.8rem; color: var(--admin-accent); font-weight: bold; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; background: #0b0f19; border: 1px solid var(--admin-border); border-radius: 8px; color: white; font-size: 0.9rem; outline: none; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--admin-accent); }
+        .form-group input:focus { border-color: var(--admin-accent); }
 
-        .btn-main { background: var(--admin-accent); color: #0b0f19; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem; width: 100%; transition: 0.2s; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2); }
+        .btn-main { background: var(--admin-accent); color: #0b0f19; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem; width: 100%; }
         .btn-main:hover { background: #d97706; color: white; }
 
         .admin-grid-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn { background: var(--admin-card); color: var(--admin-muted); border: 1px solid var(--admin-border); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.2s; }
+        .tab-btn { background: var(--admin-card); color: var(--admin-muted); border: 1px solid var(--admin-border); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
         .tab-btn.active { background: var(--admin-accent); color: #0b0f19; border-color: var(--admin-accent); }
 
-        .admin-section-box { display: none; background: var(--admin-card); border: 1px solid var(--admin-border); padding: 25px; border-radius: 14px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .admin-section-box { display: none; background: var(--admin-card); border: 1px solid var(--admin-border); padding: 25px; border-radius: 14px; margin-bottom: 20px; }
         .admin-section-box.active { display: block; }
         .admin-section-box h3 { font-size: 1.1rem; color: var(--admin-accent); margin-bottom: 15px; border-bottom: 1px solid var(--admin-border); padding-bottom: 10px; }
 
@@ -56,11 +54,11 @@
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول المركزية -->
+    <!-- شاشة تسجيل الدخول -->
     <div class="login-wrapper" id="loginWrapper">
         <div class="login-card">
             <h2>🛡️ لوحة التحكم المركزية</h2>
-            <p>أدخل كلمة المرور السرية للوصول لإدارة الموقع بالكامل</p>
+            <p>أدخل كلمة المرور السرية للوصول (ammar2026)</p>
             <div class="form-group">
                 <input type="password" id="adminPassword" placeholder="كلمة المرور...">
             </div>
@@ -68,7 +66,7 @@
         </div>
     </div>
 
-    <!-- واجهة الإدارة والتحكم الشاملة -->
+    <!-- واجهة الإدارة الشاملة -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
             <h1>⚙️ مركز قيادة «طبخة على الجاهز»</h1>
@@ -79,21 +77,21 @@
             <button class="tab-btn active" onclick="switchTab('tab-categories', this)">📁 إدارة الأقسام</button>
             <button class="tab-btn" onclick="switchTab('tab-menu', this)">🍲 المنتجات والأسعار</button>
             <button class="tab-btn" onclick="switchTab('tab-add', this)">➕ إضافة منتج جديد</button>
-            <button class="tab-btn" onclick="switchTab('tab-banners', this)">🌟 البانرات الإعلانية</button>
-            <button class="tab-btn" onclick="switchTab('tab-reviews', this)">🗣️ آراء العملاء</button>
+            <button class="tab-btn" onclick="switchTab('tab-banners', this)">🌟 البانرات</button>
+            <button class="tab-btn" onclick="switchTab('tab-reviews', this)">🗣️ الآراء</button>
             <button class="tab-btn" onclick="switchTab('tab-settings', this)">🛠️ إعدادات الموقع والبانر السفلي</button>
         </div>
 
-        <!-- 1. إدارة الأقسام -->
+        <!-- 1. الأقسام -->
         <div id="tab-categories" class="admin-section-box active">
-            <h3>إضافة قسم جديد بالكامل للموقع سحابياً</h3>
+            <h3>إضافة قسم جديد (بالعربي فقط)</h3>
             <div style="background: #0b0f19; padding: 18px; border-radius: 10px; border: 1px solid var(--admin-border); margin-bottom: 20px;">
-                <div class="form-group"><label>معرف القسم بالإنجليزية (بدون مسافات، مثال: sweets):</label><input type="text" id="catKeyInput" placeholder="sweets"></div>
                 <div class="form-group"><label>اسم القسم بالعربي (مثال: حلويات ومخبوزات):</label><input type="text" id="catNameInput" placeholder="حلويات ومخبوزات"></div>
-                <div class="form-group"><label>رابط صورة القسم:</label><input type="text" id="catImgInput" placeholder="https://..."></div>
+                <div class="form-group"><label>صورة القسم (من الجهاز):</label><input type="file" id="catFile" accept="image/*" style="font-size:0.8rem;"></div>
+                <div class="form-group"><input type="text" id="catImgInput" placeholder="أو رابط صورة مباشر..."></div>
                 <button class="btn-main" onclick="addNewCategoryCloud()">حفظ وإضافة القسم الجديد 📁</button>
             </div>
-            <h3>الأقسام الحالية المتاحة:</h3>
+            <h3>الأقسام الحالية:</h3>
             <div id="categoriesListContainer"></div>
         </div>
 
@@ -103,49 +101,61 @@
             <div id="menuItemsContainer" style="max-height: 55vh; overflow-y: auto;"></div>
         </div>
 
-        <!-- 3. إضافة منتج جديد -->
+        <!-- 3. إضافة منتج -->
         <div id="tab-add" class="admin-section-box">
             <h3>إضافة صنف جديد للمنيو</h3>
             <div class="form-group"><label>اسم الصنف:</label><input type="text" id="newPName" placeholder="مثال: صينية رقاق باللحمة"></div>
             <div class="form-group"><label>اختر القسم:</label><select id="newPCategorySelect"></select></div>
             <div class="form-group"><label>السعر (بالجنيه):</label><input type="number" id="newPPrice" placeholder="150"></div>
-            <div class="form-group"><label>الوصف:</label><input type="text" id="newPDesc" placeholder="طازة وساخن..."></div>
-            <div class="form-group"><label>رابط صورة الصنف:</label><input type="text" id="newPImg" placeholder="https://..."></div>
+            <div class="form-group"><label>وصف مختصر:</label><input type="text" id="newPDesc" placeholder="طازة وساخن..."></div>
+            <div class="form-group"><label>وصف الوزن:</label><input type="text" id="newPWeight" value="كيلو / نصف كيلو"></div>
+            <div class="form-group">
+                <label style="display:flex; align-items:center; gap:5px; cursor:pointer;"><input type="checkbox" id="newPHasWeight" checked style="width:auto;"> يدعم اختيار الوزن</label>
+                <label style="display:flex; align-items:center; gap:5px; cursor:pointer; margin-top:5px;"><input type="checkbox" id="newPHasChicken" style="width:auto;"> يدعم اختيار قطعة الدجاج (صدر +10ج / وِرك)</label>
+                <label style="display:flex; align-items:center; gap:5px; cursor:pointer; margin-top:5px;"><input type="checkbox" id="newPTop" style="width:auto;"> عرضه في قسم الأكثر طلباً</label>
+            </div>
+            <div class="form-group"><label>صورة المنتج (من الجهاز):</label><input type="file" id="newPFile" accept="image/*" style="font-size:0.8rem;"></div>
+            <div class="form-group"><input type="text" id="newPImg" placeholder="أو رابط صورة مباشر..."></div>
             <button class="btn-main" onclick="addNewProductCloud()">إضافة الصنف للمنيو 🍲</button>
         </div>
 
-        <!-- 4. البانرات الإعلانية -->
+        <!-- 4. البانرات -->
         <div id="tab-banners" class="admin-section-box">
-            <h3>إدارة بانرات السلايدر المتحرك</h3>
+            <h3>إدارة بانرات السلايدر</h3>
             <div style="background: #0b0f19; padding: 18px; border-radius: 10px; border: 1px solid var(--admin-border); margin-bottom: 20px;">
                 <div class="form-group"><label>عنوان البانر:</label><input type="text" id="newBannerTitle" placeholder="عرض مميز..."></div>
-                <div class="form-group"><label>الوصف القصير:</label><input type="text" id="newBannerDesc" placeholder="طازة وعلى التسوية..."></div>
+                <div class="form-group"><label>الوصف:</label><input type="text" id="newBannerDesc" placeholder="طازة وعلى التسوية..."></div>
                 <div class="form-group"><label>السعر:</label><input type="number" id="newBannerPrice" placeholder="250"></div>
-                <div class="form-group"><label>رابط الصورة:</label><input type="text" id="newBannerImg" placeholder="https://..."></div>
+                <div class="form-group"><label>صورة البانر (من الجهاز):</label><input type="file" id="newBannerFile" accept="image/*" style="font-size:0.8rem;"></div>
+                <div class="form-group"><input type="text" id="newBannerImg" placeholder="أو رابط صورة مباشر..."></div>
                 <button class="btn-main" onclick="addNewBannerCloud()">إضافة بانر جديد 🌟</button>
             </div>
             <div id="bannersListContainer"></div>
         </div>
 
-        <!-- 5. آراء العملاء -->
+        <!-- 5. الآراء -->
         <div id="tab-reviews" class="admin-section-box">
-            <h3>إدارة ومراجعة آراء العملاء المرسلة</h3>
+            <h3>إدارة ومراجعة آراء العملاء</h3>
             <div id="reviewsListContainer"></div>
         </div>
 
-        <!-- 6. إعدادات الموقع والبانر السفلي -->
+        <!-- 6. الإعدادات والبانر السفلي -->
         <div id="tab-settings" class="admin-section-box">
-            <h3>إعدادات الموقع، شريط التنبيهات، وبانر الفيسبوك السفلي</h3>
-            <div class="form-group"><label>اسم الموقع (البراند):</label><input type="text" id="settingBrandTitle"></div>
-            <div class="form-group"><label>الوصف الفرعي بالهيدر:</label><input type="text" id="settingBrandSub"></div>
-            <div class="form-group"><label>رابط صفحة الفيسبوك:</label><input type="text" id="settingFbLink"></div>
-            <div class="form-group"><label>رابط صورة بانر الفيسبوك السفلي:</label><input type="text" id="settingSocialBannerUrl" placeholder="رابط صورة البانر الكبير أسفل الموقع..."></div>
-            <div class="form-group"><label>نص شريط التنبيهات المتحرك أعلى الموقع:</label><textarea id="settingMarqueeText" rows="2"></textarea></div>
+            <h3>إعدادات الموقع، التنبيهات، وبانر الفيسبوك السفلي</h3>
+            <div class="form-group"><label>اسم البراند:</label><input type="text" id="settingBrandTitle"></div>
+            <div class="form-group"><label>الوصف الفرعي:</label><input type="text" id="settingBrandSub"></div>
+            <div class="form-group"><label>رابط الفيسبوك:</label><input type="text" id="settingFbLink"></div>
+            <div class="form-group">
+                <label>📷 بانر الفيسبوك السفلي (رفع من الجهاز):</label>
+                <input type="file" id="settingSocialBannerFile" accept="image/*" style="font-size:0.8rem;">
+                <input type="text" id="settingSocialBannerUrl" placeholder="أو رابط صورة مباشر..." style="margin-top:5px;">
+            </div>
+            <div class="form-group"><label>شريط التنبيهات المتحرك:</label><textarea id="settingMarqueeText" rows="2"></textarea></div>
             <button class="btn-main" onclick="saveSettingsCloud()">حفظ التحديثات والبانر السفلي سحابياً 💾</button>
         </div>
     </div>
 
-    <!-- مكتبات فايربيز SDK -->
+    <!-- فايربيز SDK ولوحة التحكم -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -160,7 +170,6 @@
           appId: "1:415068140121:web:3e89f2b9e7221326abb748",
           measurementId: "G-PK1D1TTD4L"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
@@ -171,51 +180,31 @@
         let siteSettings = {};
 
         function verifyLogin() {
-            const pass = document.getElementById('adminPassword').value;
-            if(pass === "ammar2026") {
+            if(document.getElementById('adminPassword').value === "ammar2026") {
                 document.getElementById('loginWrapper').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
                 initAdminData();
-            } else {
-                alert('كلمة المرور غير صحيحة!');
-            }
+            } else { alert('كلمة المرور غير صحيحة!'); }
         }
 
         function switchTab(tabId, btn) {
-            document.querySelectorAll('.admin-section-box').forEach(box => box.classList.remove('active'));
+            document.querySelectorAll('.admin-section-box').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
         }
 
         function initAdminData() {
-            db.ref('tabkha_categories').on('value', snap => {
-                categories = snap.val() ? Object.values(snap.val()) : [];
-                renderCategoriesAdmin();
-                populateSelectDropdown();
+            db.ref('tabkha_categories').on('value', s => {
+                categories = s.val() ? Object.values(s.val()) : [];
+                renderCategoriesAdmin(); populateSelectDropdown();
             });
-
-            db.ref('tabkha_menu').on('value', snap => {
-                menuItems = snap.val() ? Object.values(snap.val()) : [];
-                renderMenuAdmin();
-            });
-
-            db.ref('tabkha_banners').on('value', snap => {
-                banners = snap.val() ? Object.values(snap.val()) : [];
-                renderBannersAdmin();
-            });
-
-            db.ref('tabkha_reviews').on('value', snap => {
-                reviews = snap.val() ? Object.values(snap.val()) : [];
-                renderReviewsAdmin();
-            });
-
-            db.ref('tabkha_marquee').on('value', snap => {
-                document.getElementById('settingMarqueeText').value = snap.val() || "";
-            });
-
-            db.ref('tabkha_settings').on('value', snap => {
-                siteSettings = snap.val() || {};
+            db.ref('tabkha_menu').on('value', s => { menuItems = s.val() ? Object.values(s.val()) : []; renderMenuAdmin(); });
+            db.ref('tabkha_banners').on('value', s => { banners = s.val() ? Object.values(s.val()) : []; renderBannersAdmin(); });
+            db.ref('tabkha_reviews').on('value', s => { reviews = s.val() ? Object.values(s.val()) : []; renderReviewsAdmin(); });
+            db.ref('tabkha_marquee').on('value', s => { document.getElementById('settingMarqueeText').value = s.val() || ""; });
+            db.ref('tabkha_settings').on('value', s => {
+                siteSettings = s.val() || {};
                 document.getElementById('settingBrandTitle').value = siteSettings.brandTitle || "طبخة على الجاهز";
                 document.getElementById('settingBrandSub').value = siteSettings.brandSub || "أكل بيتي • جاهز على التسوية";
                 document.getElementById('settingFbLink').value = siteSettings.fbLink || "";
@@ -223,156 +212,157 @@
             });
         }
 
-        // الأقسام
+        // الأقسام (بالعربي فقط وتوليد الكود تلقائياً)
         function addNewCategoryCloud() {
-            const key = document.getElementById('catKeyInput').value.trim();
             const name = document.getElementById('catNameInput').value.trim();
-            const img = document.getElementById('catImgInput').value.trim() || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100";
-            if(!key || !name) { alert('أدخل المعرف والاسم.'); return; }
-            categories.push({ id: key, name: name, img: img });
+            const fileInput = document.getElementById('catFile');
+            const imgUrl = document.getElementById('catImgInput').value.trim();
+            if(!name) { alert('أدخل اسم القسم بالعربي.'); return; }
+            const key = 'cat_' + Date.now();
+
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => saveCategoryObj(key, name, e.target.result);
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveCategoryObj(key, name, imgUrl || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100");
+            }
+        }
+        function saveCategoryObj(id, name, img) {
+            categories.push({ id, name, img });
             db.ref('tabkha_categories').set(categories);
-            document.getElementById('catKeyInput').value = '';
             document.getElementById('catNameInput').value = '';
+            document.getElementById('catFile').value = '';
             document.getElementById('catImgInput').value = '';
             alert('تم إضافة القسم بنجاح!');
         }
 
         function renderCategoriesAdmin() {
-            const container = document.getElementById('categoriesListContainer');
-            container.innerHTML = '';
-            categories.forEach((cat, index) => {
-                container.innerHTML += `
-                    <div class="data-row">
-                        <div><strong>${cat.name}</strong> <span style="color:var(--admin-muted); font-size:0.75rem;">(${cat.id})</span></div>
-                        <button class="action-btn btn-danger" onclick="deleteCategoryAdmin(${index})">حذف القسم</button>
-                    </div>`;
+            const c = document.getElementById('categoriesListContainer'); c.innerHTML = '';
+            categories.forEach((cat, idx) => {
+                c.innerHTML += `<div class="data-row"><div><strong>${cat.name}</strong></div><button class="action-btn btn-danger" onclick="deleteCategoryAdmin(${idx})">حذف</button></div>`;
             });
         }
-
-        function deleteCategoryAdmin(index) {
-            if(confirm('متأكد من حذف القسم؟')) {
-                categories.splice(index, 1);
-                db.ref('tabkha_categories').set(categories);
-            }
+        function deleteCategoryAdmin(idx) {
+            if(confirm('متأكد من حذف القسم؟')) { categories.splice(idx, 1); db.ref('tabkha_categories').set(categories); }
         }
-
         function populateSelectDropdown() {
-            const sel = document.getElementById('newPCategorySelect');
-            sel.innerHTML = '';
-            categories.forEach(c => {
-                sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
-            });
+            const sel = document.getElementById('newPCategorySelect'); sel.innerHTML = '';
+            categories.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.name}</option>`);
         }
 
         // المنتجات
         function renderMenuAdmin() {
-            const container = document.getElementById('menuItemsContainer');
-            container.innerHTML = '';
+            const c = document.getElementById('menuItemsContainer'); c.innerHTML = '';
             menuItems.forEach(item => {
-                let statusBtn = item.available ? 
-                    `<button class="action-btn btn-success" onclick="toggleItemStatus(${item.id})">نشط</button>` : 
-                    `<button class="action-btn btn-danger" onclick="toggleItemStatus(${item.id})">موقف</button>`;
-
-                container.innerHTML += `
+                let btnCls = item.available ? 'btn-success' : 'btn-danger';
+                c.innerHTML += `
                     <div class="data-row">
                         <div style="flex:1;"><input type="text" value="${item.name}" onchange="updateName(${item.id}, this.value)" style="background:#0b0f19; border:1px solid var(--admin-border); color:#fff; padding:6px; width:100%; border-radius:6px;"></div>
                         <div><input type="number" class="input-edit" value="${item.price}" onchange="updatePrice(${item.id}, this.value)"> ج</div>
-                        <div>${statusBtn}</div>
-                        <button class="action-btn btn-danger" onclick="deleteMenuItem(${item.id})">حذف</button>
+                        <div><button class="action-btn ${btnCls}" onclick="toggleStatus(${item.id})">${item.available ? 'نشط' : 'موقف'}</button></div>
+                        <button class="action-btn btn-danger" onclick="deleteMenu(${item.id})">حذف</button>
                     </div>`;
             });
         }
-
-        function updateName(id, val) {
-            const item = menuItems.find(i => i.id === id);
-            if(item) { item.name = val; db.ref('tabkha_menu').set(menuItems); }
-        }
-        function updatePrice(id, val) {
-            const item = menuItems.find(i => i.id === id);
-            if(item) { item.price = parseFloat(val) || 0; db.ref('tabkha_menu').set(menuItems); }
-        }
-        function toggleItemStatus(id) {
-            const item = menuItems.find(i => i.id === id);
-            if(item) { item.available = !item.available; db.ref('tabkha_menu').set(menuItems); }
-        }
-        function deleteMenuItem(id) {
-            if(confirm('متأكد من حذف الصنف؟')) {
-                menuItems = menuItems.filter(i => i.id !== id);
-                db.ref('tabkha_menu').set(menuItems);
-            }
-        }
+        function updateName(id, val) { const i = menuItems.find(x => x.id === id); if(i) { i.name = val; db.ref('tabkha_menu').set(menuItems); } }
+        function updatePrice(id, val) { const i = menuItems.find(x => x.id === id); if(i) { i.price = parseFloat(val)||0; db.ref('tabkha_menu').set(menuItems); } }
+        function toggleStatus(id) { const i = menuItems.find(x => x.id === id); if(i) { i.available = !i.available; db.ref('tabkha_menu').set(menuItems); } }
+        function deleteMenu(id) { if(confirm('حذف الصنف؟')) { menuItems = menuItems.filter(x => x.id !== id); db.ref('tabkha_menu').set(menuItems); } }
 
         function addNewProductCloud() {
             const name = document.getElementById('newPName').value.trim();
             const category = document.getElementById('newPCategorySelect').value;
             const price = parseFloat(document.getElementById('newPPrice').value) || 0;
-            const img = document.getElementById('newPImg').value.trim() || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400";
+            const weight = document.getElementById('newPWeight').value.trim() || "كيلو / نصف كيلو";
+            const hasWeight = document.getElementById('newPHasWeight').checked;
+            const hasChickenOption = document.getElementById('newPHasChicken').checked;
+            const top = document.getElementById('newPTop').checked;
+            const fileInput = document.getElementById('newPFile');
+            const imgUrl = document.getElementById('newPImg').value.trim();
+
             if(!name || price <= 0) { alert('أدخل الاسم والسعر.'); return; }
+
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => saveProductObj(name, category, price, weight, hasWeight, hasChickenOption, top, e.target.result);
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveProductObj(name, category, price, weight, hasWeight, hasChickenOption, top, imgUrl || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400");
+            }
+        }
+        function saveProductObj(name, category, price, weight, hasWeight, hasChickenOption, top, img) {
             const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
-            menuItems.push({ id: newId, name: name, category: category, price: price, weight: 'كيلو', hasWeight: true, top: false, img: img, available: true });
+            menuItems.push({ id: newId, name, category, price, weight, hasWeight, hasChickenOption, top, img, available: true });
             db.ref('tabkha_menu').set(menuItems);
-            document.getElementById('newPName').value = '';
-            document.getElementById('newPPrice').value = '';
-            alert('تم إضافة الصنف بنجاح!');
+            document.getElementById('newPName').value = ''; document.getElementById('newPPrice').value = '';
+            document.getElementById('newPFile').value = ''; document.getElementById('newPImg').value = '';
+            alert('تم إضافة المنتج بنجاح! 🍲');
         }
 
         // البانرات
         function renderBannersAdmin() {
-            const container = document.getElementById('bannersListContainer');
-            container.innerHTML = '';
+            const c = document.getElementById('bannersListContainer'); c.innerHTML = '';
             banners.forEach((b, idx) => {
-                container.innerHTML += `
-                    <div class="data-row">
-                        <div><strong>${b.title}</strong> (${b.price} ج)</div>
-                        <button class="action-btn btn-danger" onclick="deleteBannerAdmin(${idx})">حذف</button>
-                    </div>`;
+                c.innerHTML += `<div class="data-row"><div><strong>${b.title}</strong> (${b.price} ج)</div><button class="action-btn btn-danger" onclick="deleteBanner(${idx})">حذف</button></div>`;
             });
         }
         function addNewBannerCloud() {
             const title = document.getElementById('newBannerTitle').value.trim();
             const desc = document.getElementById('newBannerDesc').value.trim();
             const price = parseFloat(document.getElementById('newBannerPrice').value) || 0;
-            const img = document.getElementById('newBannerImg').value.trim();
-            if(!title) return;
+            const fileInput = document.getElementById('newBannerFile');
+            const imgUrl = document.getElementById('newBannerImg').value.trim();
+            if(!title) { alert('أدخل عنوان البانر.'); return; }
+
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => saveBannerObj(title, desc, price, e.target.result);
+                reader.readAsDataURL(fileInput.files[0]);
+            } else { saveBannerObj(title, desc, price, imgUrl); }
+        }
+        function saveBannerObj(title, desc, price, img) {
             banners.push({ id: Date.now(), title, desc, price, img, active: true });
             db.ref('tabkha_banners').set(banners);
-            alert('تم إضافة البانر بنجاح!');
+            document.getElementById('newBannerTitle').value = ''; document.getElementById('newBannerPrice').value = '';
+            alert('تم إضافة البانر!');
         }
-        function deleteBannerAdmin(idx) {
-            banners.splice(idx, 1);
-            db.ref('tabkha_banners').set(banners);
-        }
+        function deleteBanner(idx) { banners.splice(idx, 1); db.ref('tabkha_banners').set(banners); }
 
         // الآراء
         function renderReviewsAdmin() {
-            const container = document.getElementById('reviewsListContainer');
-            container.innerHTML = '';
-            if(reviews.length === 0) { container.innerHTML = '<p style="color:var(--admin-muted)">لا توجد آراء مرسلة.</p>'; return; }
-            reviews.forEach(rev => {
-                let statusBtn = rev.approved ? 
-                    `<button class="action-btn btn-success" onclick="toggleReview(${rev.id})">معروض</button>` : 
-                    `<button class="action-btn btn-danger" onclick="toggleReview(${rev.id})">مخفي</button>`;
-                container.innerHTML += `
-                    <div class="data-row">
-                        <div><strong>${rev.stars}</strong> - "${rev.text}"</div>
-                        <div>${statusBtn}</div>
-                    </div>`;
+            const c = document.getElementById('reviewsListContainer'); c.innerHTML = '';
+            if(reviews.length === 0) { c.innerHTML = '<p style="color:var(--admin-muted)">لا توجد آراء مرسلة.</p>'; return; }
+            reviews.forEach(r => {
+                let cl = r.approved ? 'btn-success' : 'btn-danger';
+                c.innerHTML += `<div class="data-row"><div><strong>${r.stars}</strong> - "${r.text}"</div><button class="action-btn ${cl}" onclick="toggleRev(${r.id})">${r.approved ? 'معروض' : 'مخفي'}</button></div>`;
             });
         }
-        function toggleReview(id) {
-            const r = reviews.find(x => x.id === id);
-            if(r) { r.approved = !r.approved; db.ref('tabkha_reviews').set(reviews); }
-        }
+        function toggleRev(id) { const r = reviews.find(x => x.id === id); if(r) { r.approved = !r.approved; db.ref('tabkha_reviews').set(reviews); } }
 
         // الإعدادات والبانر السفلي
         function saveSettingsCloud() {
             siteSettings.brandTitle = document.getElementById('settingBrandTitle').value;
             siteSettings.brandSub = document.getElementById('settingBrandSub').value;
             siteSettings.fbLink = document.getElementById('settingFbLink').value;
-            siteSettings.socialBannerUrl = document.getElementById('settingSocialBannerUrl').value;
-            db.ref('tabkha_settings').set(siteSettings);
-            db.ref('tabkha_marquee').set(document.getElementById('settingMarqueeText').value);
-            alert('تم حفظ كافة الإعدادات والبانر السفلي سحابياً بنجاح! 🌟');
+            const fileInput = document.getElementById('settingSocialBannerFile');
+            const imgUrl = document.getElementById('settingSocialBannerUrl').value.trim();
+
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    siteSettings.socialBannerUrl = e.target.result;
+                    db.ref('tabkha_settings').set(siteSettings);
+                    db.ref('tabkha_marquee').set(document.getElementById('settingMarqueeText').value);
+                    alert('تم حفظ الإعدادات والبانر السفلي بنجاح! 🌟');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                if(imgUrl) siteSettings.socialBannerUrl = imgUrl;
+                db.ref('tabkha_settings').set(siteSettings);
+                db.ref('tabkha_marquee').set(document.getElementById('settingMarqueeText').value);
+                alert('تم حفظ الإعدادات سحابياً بنجاح! 💾');
+            }
         }
     </script>
 </body>
