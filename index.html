@@ -77,11 +77,11 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* بوت الذكاء الاصطناعي الاحترافي «تحدث معنا» */
+        /* بوت «تحدث معنا» الاحترافي */
         .ai-chat-floating { position: fixed; bottom: 75px; right: 15px; background: var(--primary); color: white; padding: 8px 15px; border-radius: 20px; display: flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.85rem; font-weight: bold; border: 1px solid var(--gold); }
         .ai-chat-box { display: none; position: fixed; bottom: 130px; right: 15px; width: 320px; background: var(--dark); border: 1px solid var(--gold); border-radius: 14px; z-index: 1999; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
         .ai-chat-header { background: var(--primary); color: white; padding: 12px; font-weight: bold; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
-        .ai-chat-body { padding: 12px; height: 230px; overflow-y: auto; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
+        .ai-chat-body { padding: 12px; height: 240px; overflow-y: auto; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
         .ai-msg { background: #222; padding: 9px 12px; border-radius: 8px; max-width: 88%; line-height: 1.4; }
         .ai-msg.user { background: var(--secondary); align-self: flex-end; color: white; }
         .ai-chat-footer { display: flex; padding: 10px; background: #111; border-top: 1px solid #333; gap: 6px; }
@@ -195,7 +195,7 @@
         </div>
     </div>
 
-    <!-- زر «تحدث معنا» وبوت الذكاء الاصطناعي الذكي -->
+    <!-- زر «تحدث معنا» وبوت الذكاء الاصطناعي الذكي والملم بكل التفاصيل -->
     <div class="ai-chat-floating" onclick="toggleAIChat()">💬 تحدث معنا</div>
     <div class="ai-chat-box" id="aiChatBox">
         <div class="ai-chat-header">
@@ -203,10 +203,10 @@
             <button onclick="toggleAIChat()" style="background:none; border:none; color:white; font-weight:bold; cursor:pointer;">✕</button>
         </div>
         <div class="ai-chat-body" id="aiChatBody">
-            <div class="ai-msg">أهلاً بحضرتك يا فندم في «طبخة على الجاهز». تحت أمرك، اسألني عن أسعار أي أكلة في المنيو أو مواعيد الحجز وهجاوب حضرتك فوراً! 🍲</div>
+            <div class="ai-msg">أهلاً بحضرتك يا فندم في «طبخة على الجاهز». تحت أمرك، اسألني عن أي أكلة في المنيو (بالاسم الصح أو الخطأ) وهقول لحضرتك سعرها، القسم بتاعها، وتفاصيلها فوراً! 🍲</div>
         </div>
         <div class="ai-chat-footer">
-            <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا (مثلاً: المحشي بكام؟)..." onkeypress="if(event.key==='Enter') sendAIQuery()">
+            <input type="text" id="aiUserInput" placeholder="اكتب سؤالك (مثلاً: المحشي بكام؟)..." onkeypress="if(event.key==='Enter') sendAIQuery()">
             <button onclick="sendAIQuery()">إرسال</button>
         </div>
     </div>
@@ -636,7 +636,7 @@
             cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
 
-        // بوت الذكاء الاصطناعي الذكي الذي يرد على أسعار الأكل بدقة وبالعامية المصرية المحترمة
+        // بوت الذكاء الاصطناعي الخبير «ملم بكل التفاصيل ومصحح الأخطاء الإملائية»
         function toggleAIChat() {
             const box = document.getElementById('aiChatBox');
             box.style.display = box.style.display === 'block' ? 'none' : 'block';
@@ -652,19 +652,33 @@
             body.scrollTop = body.scrollHeight;
 
             setTimeout(() => {
-                let reply = "تحت أمر حضرتك يا فندم! بخصوص طلبك أو المنيو، تقدر تختار الأكل اللي يعجبك وتطلبه بسهولة، والحجز بيكون قبلها بيوم عشان يوصل لحضرتك فريش وطازة. لو محتاج استفسار تاني كلمنا على الواتساب 📱";
+                let reply = "أهلاً بحضرتك يا فندم. تحت أمرك في أي استفسار عن أكلنا البيتي، مواعيد الحجز، أو مصاريف التوصيل. لو بتسأل عن أكلة معينة اكتب اسمها وهجيب لحضرتك تفاصيلها وسعرها فوراً!";
                 const lower = q.toLowerCase();
 
-                // البحث الذكي عن سعر صنف معين في المنيو الحالي
-                let matchedItem = menuData.find(item => lower.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(lower));
+                // دالة ذكية لتصحيح ومطابقة الحروف حتى لو الكاتب كتب إملاء غلط (تقارب النص)
+                let matchedItem = menuData.find(item => {
+                    let itemName = item.name.toLowerCase();
+                    // مطابقة مباشرة أو احتوائها على جزء من الكلمة
+                    if (lower.includes(itemName) || itemName.includes(lower)) return true;
+                    
+                    // معالجة بعض الأخطاء الإملائية الشائعة في الريف (مثل الهمزات والياءات والتة المربوطة)
+                    let cleanQ = lower.replace(/[أإآءةه]/g, 'ه').replace(/ى/g, 'ي');
+                    let cleanItem = itemName.replace(/[أإآءةه]/g, 'ه').replace(/ى/g, 'ي');
+                    return cleanQ.includes(cleanItem) || cleanItem.includes(cleanQ);
+                });
+
                 if (matchedItem) {
-                    reply = `سعر "${matchedItem.name}" هو ${matchedItem.price} جنيه (${matchedItem.weight || 'حبة'})، والأكل بيجيلك فريش ومخدوم على أصوله البيتي! تحب أضيفه لحضرتك في السلة؟`;
-                } else if(lower.includes('سعر') || lower.includes('بكام') || lower.includes('الأسعار') || lower.includes('بكم')) {
-                    reply = "أسعار كل أكلاتنا البيتي مكتوبة قدام حضرتك بوضوح على كل صنف في المنيو بالجنيه المصري، لو بتسأل عن أكلة معينة اكتب لي اسمها وهقول لك سعرها فوراً!";
-                } else if(lower.includes('حجز') || lower.includes('ميعاد') || lower.includes('امتى') || lower.includes('متى')) {
-                    reply = "الحجز بيكون قبلها بيوم على الأقل عشان نضمن إن الأكل يتحضر لحضرتك فريش وطازة وبأعلى جودة بيتي!";
-                } else if(lower.includes('توصيل') || lower.includes('مصاريف') || lower.includes('مكان') || lower.includes('الشحن')) {
-                    reply = "التوصيل متاح لحد باب البيت داخل سنباط، ومصاريف التوصيل ثابتة (20 جنيه).";
+                    // جلب اسم القسم المرتبط بالصنف لو متوفر
+                    let catObj = categoriesData.find(c => c.id === matchedItem.category);
+                    let catName = catObj ? catObj.name : "القسم الرئيسي";
+                    
+                    reply = `تحت أمرك يا فندم 🍲\n▪️ الصنف: <strong>${matchedItem.name}</strong>\n▪️ القسم: <strong>${catName}</strong>\n▪️ السعر: <strong>${matchedItem.price} جنيه</strong> (${matchedItem.weight || 'حبة'})\n▪️ الوصف: ${matchedItem.desc || 'مخدوم على أصوله البيتي وبأعلى جودة.'}\n\nالأكل بيجيلك فريش وطازة، تحب أضيفه لحضرتك في السلة؟`;
+                } else if(lower.includes('حجز') || lower.includes('ميعاد') || lower.includes('امتى') || lower.includes('متى') || lower.includes('الوقت')) {
+                    reply = "يا فندم الحجز بيكون قبلها بيوم على الأقل عشان نضمن إن الأكل يتحضر لحضرتك فريش وطازة وبأعلى جودة بيتي.";
+                } else if(lower.includes('توصيل') || lower.includes('مصاريف') || lower.includes('مكان') || lower.includes('الشحن') || lower.includes('سنباط')) {
+                    reply = "التوصيل متاح لحد باب البيت داخل سنباط، ومصاريف التوصيل ثابتة (20 جنيه فقط).";
+                } else if(lower.includes('دفع') || lower.includes('انستاباي') || lower.includes('فودافون') || lower.includes('ارنج') || lower.includes('كاش')) {
+                    reply = "متاح لحضرتك الدفع كاش عند الاستلام، أو تحويل عن طريق إنستاباي أو أورانج كاش (مع إرسال سكرين شوت التحويل على الواتساب).";
                 }
 
                 body.innerHTML += `<div class="ai-msg">${reply}</div>`;
