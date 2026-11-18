@@ -77,6 +77,17 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
+        /* بوت الذكاء الاصطناعي المصغر في الإندكس */
+        .ai-chat-floating { position: fixed; bottom: 75px; right: 15px; background: var(--primary); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 1.2rem; }
+        .ai-chat-box { display: none; position: fixed; bottom: 130px; right: 15px; width: 300px; background: var(--dark); border: 1px solid var(--gold); border-radius: 14px; z-index: 1999; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
+        .ai-chat-header { background: var(--primary); color: white; padding: 10px; font-weight: bold; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+        .ai-chat-body { padding: 10px; height: 200px; overflow-y: auto; font-size: 0.75rem; display: flex; flex-direction: column; gap: 8px; }
+        .ai-msg { background: #222; padding: 8px; border-radius: 6px; max-width: 85%; }
+        .ai-msg.user { background: var(--secondary); align-self: flex-end; }
+        .ai-chat-footer { display: flex; padding: 8px; background: #111; border-top: 1px solid #333; gap: 5px; }
+        .ai-chat-footer input { flex: 1; padding: 6px; background: #222; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.75rem; outline: none; }
+        .ai-chat-footer button { background: var(--gold); border: none; padding: 0 10px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.75rem; color: #000; }
+
         .reviews-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
         .reviews-container::-webkit-scrollbar { display: none; }
         .review-card { background: var(--card-bg); border: 1px solid #222; border-radius: 12px; padding: 14px; min-width: 250px; flex: 0 0 250px; }
@@ -96,7 +107,7 @@
         .nav-item.active, .nav-item:hover { color: var(--gold); }
         .nav-item span.icon { font-size: 1.1rem; margin-bottom: 2px; }
 
-        .cart-floating { position: fixed; bottom: 60px; left: 15px; right: 15px; background: var(--gold); color: #121212; padding: 10px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; z-index: 999; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        .cart-floating { position: fixed; bottom: 60px; left: 15px; right: 15px; background: var(--gold); color: #121212; padding: 10px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; z-index: 997; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
         .cart-floating button { background: #121212; color: white; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
@@ -105,16 +116,10 @@
         .form-group label { display: block; margin-bottom: 3px; font-size: 0.75rem; color: var(--gold); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.85rem; outline: none; }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
-        
         .close-modal { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; float: left; cursor: pointer; font-size: 0.75rem; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #1c1c1c; padding: 8px; border-radius: 6px; }
         .qty-controls { display: flex; align-items: center; gap: 6px; }
         .qty-btn { background: #333; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
-        
-        .coupon-box { display: flex; gap: 6px; margin-bottom: 6px; }
-        .coupon-box input { flex: 1; padding: 7px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.8rem; }
-        .coupon-btn { background: var(--secondary); color: white; border: none; padding: 0 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .remove-coupon-btn { background: #c0392b; color: white; border: none; padding: 0 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
     </style>
 </head>
 <body>
@@ -156,9 +161,7 @@
             <button class="back-btn" id="backToCatsBtn" onclick="showCategoriesView()">⬅️ رجوع للأقسام</button>
         </div>
 
-        <!-- الأقسام المتزامنة سحابياً -->
         <div class="categories-grid" id="categories-container"></div>
-
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
         <div id="homeExtraSections">
@@ -185,14 +188,26 @@
                 <img id="socialBannerImg" src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
                 <p style="font-size: 0.85rem; color: #ddd; margin-bottom: 10px;">تابعنا على الفيسبوك وانضم لجروب الواتساب عشان تتابع كل جديد وعروضنا أول بأول!</p>
                 <div class="social-buttons-box">
-                    <a id="socialPageLinkBtn" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">
-                        👍 متابعة صفحة الفيسبوك
-                    </a>
-                    <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" class="follow-wa-group-btn">
-                        💬 انضم لجروب الواتساب
-                    </a>
+                    <a id="socialPageLinkBtn" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">👍 متابعة صفحة الفيسبوك</a>
+                    <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" class="follow-wa-group-btn">💬 انضم لجروب الواتساب</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- زر وبوت الذكاء الاصطناعي للمساعدة -->
+    <div class="ai-chat-floating" onclick="toggleAIChat()" title="اسأل مساعد طبخة الذكي">🤖</div>
+    <div class="ai-chat-box" id="aiChatBox">
+        <div class="ai-chat-header">
+            <span>🤖 مساعد «طبخة على الجاهز» الذكي</span>
+            <button onclick="toggleAIChat()" style="background:none; border:none; color:white; font-weight:bold; cursor:pointer;">✕</button>
+        </div>
+        <div class="ai-chat-body" id="aiChatBody">
+            <div class="ai-msg">أهلاً بيك يا فنان! أنا مساعدك الذكي، اسألني عن أي أكلة في المنيو، مواعيد الحجز، أو الأسعار وهيجاوبك فوراً! 🍲</div>
+        </div>
+        <div class="ai-chat-footer">
+            <input type="text" id="aiUserInput" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter') sendAIQuery()">
+            <button onclick="sendAIQuery()">إرسال</button>
         </div>
     </div>
 
@@ -222,12 +237,6 @@
                 ⏰ الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة..
             </div>
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
-            <div class="coupon-box">
-                <input type="text" id="couponInput" placeholder="ادخل رمز القسيمة هنا">
-                <button class="coupon-btn" id="applyCouponBtn" onclick="applyCoupon()">تطبيق</button>
-                <button class="remove-coupon-btn" id="removeCouponBtn" style="display:none;" onclick="removeCoupon()">إلغاء الخصم</button>
-            </div>
-            <div id="couponMsg" style="font-size:0.75rem; margin-bottom:8px; font-weight:bold;"></div>
             <div style="border-top: 1px solid #444; padding-top: 8px; margin-bottom: 12px; font-size: 0.85rem;">
                 <div style="display: flex; justify-content: space-between;"><span>الأصناف:</span><span><span id="subTotal">0</span> ج</span></div>
                 <div style="display: flex; justify-content: space-between;"><span>التوصيل (داخل سنباط):</span><span><span id="deliveryCostText">20</span> ج</span></div>
@@ -248,14 +257,13 @@
                 </select>
             </div>
             <div id="paymentInstructions" style="display:none; background:#222; border:1px solid var(--gold); padding:10px; border-radius:6px; margin-bottom:10px; font-size:0.75rem; color:#ffcc00; text-align:center;">
-                <span id="paymentInstructionText">يرجى التحويل وإرسال صورة التحويل لنا عبر الواتساب.</span>
+                <span id="paymentInstructionText">يرجى تحويل المبلغ وإرسال سكرين شوت التحويل لنا عبر الواتساب مع الأوردر.</span>
             </div>
             <div class="form-group"><label>ملاحظات (اختياري):</label><input type="text" id="clientNotes" placeholder="أي طلب خاص أو معاد التسليم..."></div>
             <button class="card-qty-btn" style="width:100%; height:44px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
         </div>
     </div>
 
-    <!-- فايربيز SDK وموقع العملاء -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -280,26 +288,14 @@
         let siteSettings = {};
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
-        let currentDeliveryFee = baseDeliveryFee;
-        let isCouponApplied = false;
 
         db.ref('tabkha_menu').on('value', s => { menuData = s.val() ? Object.values(s.val()) : []; renderTopProducts(); });
         db.ref('tabkha_banners').on('value', s => { bannersData = s.val() ? Object.values(s.val()) : []; initSlider(); });
         db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()) : []; renderCustomerReviews(); });
         db.ref('tabkha_marquee').on('value', s => { document.getElementById('marqueeText').innerText = s.val() || ""; });
         db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); applySiteSettingsToUI(); } });
-        
         db.ref('tabkha_categories').on('value', s => {
-            categoriesData = s.val() ? Object.values(s.val()) : [
-                {id:'ready', name:'أكلات للتسوية', img:'mahshi_kromb.jpg'},
-                {id:'offers', name:'العروض', img:'garlic_offer.jpg'},
-                {id:'veggies', name:'خضار جاهز', img:'badengan_cleared.jpg'},
-                {id:'school', name:'الوجبات', img:'meal_paneer_basmati.jpg'},
-                {id:'family', name:'وجبات العيلة', img:'fam_mahshi_meshakal.jpg'},
-                {id:'trays', name:'صواني العيلة', img:'tray_1.jpg'},
-                {id:'sandwiches', name:'سندوتشات', img:'sand_paneer.jpg'},
-                {id:'extras', name:'الإضافات', img:'sauce_toumya.jpg'}
-            ];
+            categoriesData = s.val() ? Object.values(s.val()) : [];
             renderCategoriesGrid();
         });
 
@@ -450,7 +446,7 @@
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
-                                <div class="item-desc">طازة ومخدوم على أصوله البيتي</div>
+                                <div class="item-desc">${item.desc || 'طازة ومخدوم على أصوله البيتي'}</div>
                                 <div class="item-meta">
                                     <div class="item-price">${item.price} ج</div>
                                     <div class="item-weight">${item.weight || 'حبة'}</div>
@@ -501,7 +497,7 @@
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
-                                <div class="item-desc">الأكثر طلباً ومفضلة حبايبنا</div>
+                                <div class="item-desc">${item.desc || 'الأكثر طلباً ومفضلة حبايبنا'}</div>
                                 <div class="item-meta">
                                     <div class="item-price">${item.price} ج</div>
                                     <div class="item-weight">${item.weight || 'حبة'}</div>
@@ -574,31 +570,8 @@
             if(totalCount > 0) {
                 cartBar.style.display = 'flex';
                 document.getElementById('cartCount').innerText = totalCount;
-                document.getElementById('cartTotal').innerText = subTotal + currentDeliveryFee;
+                document.getElementById('cartTotal').innerText = subTotal + baseDeliveryFee;
             } else { cartBar.style.display = 'none'; }
-        }
-
-        function applyCoupon() {
-            const code = document.getElementById('couponInput').value.trim();
-            const msg = document.getElementById('couponMsg');
-            let used = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
-            if(code === "AMMAR01") {
-                if(used["AMMAR01"]) { msg.style.color="#e74c3c"; msg.innerText="❌ تم استخدام هذه القسيمة من قبل."; return; }
-                currentDeliveryFee = 0; isCouponApplied = true;
-                msg.style.color = "#27ae60"; msg.innerText = "🎉 تم تطبيق القسيمة وإلغاء مصاريف التوصيل!";
-                document.getElementById('applyCouponBtn').style.display = 'none';
-                document.getElementById('removeCouponBtn').style.display = 'inline-block';
-                openCheckout();
-            } else { msg.style.color = "#e74c3c"; msg.innerText = "❌ الكود غير صحيح."; }
-        }
-
-        function removeCoupon() {
-            currentDeliveryFee = baseDeliveryFee; isCouponApplied = false;
-            document.getElementById('couponInput').value = '';
-            document.getElementById('couponMsg').innerText = '';
-            document.getElementById('applyCouponBtn').style.display = 'inline-block';
-            document.getElementById('removeCouponBtn').style.display = 'none';
-            openCheckout();
         }
 
         function openCheckout() {
@@ -619,8 +592,8 @@
                     </div>`;
             });
             document.getElementById('subTotal').innerText = subTotal;
-            document.getElementById('deliveryCostText').innerText = currentDeliveryFee;
-            document.getElementById('grandTotal').innerText = subTotal + currentDeliveryFee;
+            document.getElementById('deliveryCostText').innerText = baseDeliveryFee;
+            document.getElementById('grandTotal').innerText = subTotal + baseDeliveryFee;
             modal.style.display = 'flex'; togglePaymentInstructions();
         }
 
@@ -630,9 +603,15 @@
             const method = document.getElementById('paymentMethod').value;
             const box = document.getElementById('paymentInstructions');
             const text = document.getElementById('paymentInstructionText');
-            if(method === "إنستاباي") { box.style.display='block'; text.innerHTML="💡 رقم إنستاباي: <strong>01155499777</strong>"; }
-            else if(method === "أورانج كاش") { box.style.display='block'; text.innerHTML="💡 محفظة أورانج كاش: <strong>01288372467</strong>"; }
-            else { box.style.display='none'; }
+            if(method === "إنستاباي") {
+                box.style.display = 'block';
+                text.innerHTML = "💡 رقم إنستاباي: <strong>01155499777</strong><br>⚠️ يرجى إرسال <strong>سكرين شوت التحويل</strong> لنا عبر الواتساب مع الأوردر!";
+            } else if(method === "أورانج كاش") {
+                box.style.display = 'block';
+                text.innerHTML = "💡 محفظة أورانج كاش: <strong>01288372467</strong><br>⚠️ يرجى إرسال <strong>سكرين شوت التحويل</strong> لنا عبر الواتساب مع الأوردر!";
+            } else {
+                box.style.display = 'none';
+            }
         }
 
         function sendToWhatsApp() {
@@ -644,20 +623,48 @@
             const notes = document.getElementById('clientNotes').value;
 
             if(!name || !phone || !area || !address) { alert('أكمل بيانات الاسم والموبايل والعنوان.'); return; }
-            if(isCouponApplied) {
-                let used = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
-                used["AMMAR01"] = true; localStorage.setItem('tabkha_used_coupons', JSON.stringify(used));
-            }
 
             let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
             cart.forEach(i => msg += `▪️ ${i.name} (×${i.qty}) : ${i.unitPrice * i.qty} ج\n`);
             let sub = cart.reduce((s, i) => s + (i.unitPrice * i.qty), 0);
-            msg += `----------------------------------\n💰 *الإجمالي: ${sub + currentDeliveryFee} ج*\n\n👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📍 المنطقة: ${area}\n🏠 العنوان: ${address}\n💳 الدفع: ${payment}\n`;
+            msg += `----------------------------------\n💰 *الإجمالي النهائي: ${sub + baseDeliveryFee} ج*\n\n`;
+            msg += `👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📍 المنطقة: ${area}\n🏠 العنوان: ${address}\n💳 الدفع: ${payment}\n`;
+            if(payment !== "كاش عند الاستلام") msg += `📸 *(تم التحويل وسيرسل العميل سكرين شوت التحويل)*\n`;
             if(notes) msg += `📝 ملاحظات: ${notes}\n`;
 
             window.open(`https://wa.me/201129933758?text=${encodeURI(msg)}`, '_blank');
             cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
+
+        function toggleAIChat() {
+            const box = document.getElementById('aiChatBox');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function sendAIQuery() {
+            const input = document.getElementById('aiUserInput');
+            const q = input.value.trim();
+            if(!q) return;
+            const body = document.getElementById('aiChatBody');
+            body.innerHTML += `<div class="ai-msg user">${q}</div>`;
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "يا فنان، أنا معاك! بخصوص طلبك أو المنيو، تقدر تختار الأكل اللي تعجبك وتطلبه بضغطة زرار، والحجز بيكون قبلها بيوم عشان يوصلك فريش وطازة! لو محتاج تفاصيل أكتر كلمنا على الواتساب الظاهر قدامك 📱";
+                const lower = q.toLowerCase();
+                if(lower.includes('سعر') || lower.includes('بكام') || lower.includes('الأسعار')) {
+                    reply = "الأسعار موجودة قدامك على كل صنف في المنيو بالجنيه المصري، وعندنا أحجام وأوزان (كيلو ونصف كيلو) تناسب كل الأكلات البيتي الفريش!";
+                } else if(lower.includes('حجز') || lower.includes('ميعاد') || lower.includes('امتى')) {
+                    reply = "الحجز بيكون قبلها بيوم على الأقل عشان نضمن إن الأكل يجيلك فريش ومخدوم على أصوله البيتي!";
+                } else if(lower.includes('توصيل') || lower.includes('مصاريف') || lower.includes('مكان')) {
+                    reply = "التوصيل متاح داخل سنباط ومصاريف التوصيل ثابتة (20 جنيه)، والأكل بيوصلك لحد باب البيت سخن وطازة!";
+                }
+                body.innerHTML += `<div class="ai-msg">${reply}</div>`;
+                body.scrollTop = body.scrollHeight;
+            }, 600);
+        }
+
         saveAndUpdateCart();
     </script>
 </body>
