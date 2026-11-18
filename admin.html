@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الإدارية | طبخة على الجاهز</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d35400;
+            --secondary: #e67e22;
+            --dark: #141414;
+            --bg: #0a0a0a;
+            --card-bg: #161616;
+            --text-color: #ffffff;
+            --text-muted: #9e9e9e;
+            --gold: #ff9f43;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-color); padding: 20px; }
+        
+        .login-box { max-width: 400px; margin: 80px auto; background: var(--card-bg); border: 1px solid #333; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        .dashboard-container { max-width: 1000px; margin: 0 auto; display: none; }
+        
+        h2, h3 { color: var(--gold); margin-bottom: 15px; }
+        .form-group { margin-bottom: 12px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 4px; font-size: 0.8rem; color: var(--gold); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; background: #1c1c1c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 0.9rem; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
+        
+        .btn { background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9rem; width: 100%; }
+        .btn:hover { background: var(--primary); }
+
+        .admin-tabs { display: flex; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
+        .admin-tab-btn { background: #222; color: #aaa; border: none; padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: bold; white-space: nowrap; }
+        .admin-tab-btn.active { background: var(--primary); color: white; }
+        .admin-section { display: none; background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid #333; }
+        .admin-section.active { display: block; }
+
+        .admin-item-row { display: flex; justify-content: space-between; align-items: center; background: #1c1c1c; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; gap: 10px; }
+        .admin-toggle { cursor: pointer; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; border: none; white-space: nowrap; }
+        .btn-active { background: #27ae60; color: white; }
+        .btn-inactive { background: #c0392b; color: white; }
+        .admin-price-input { width: 80px; background: #121212; border: 1px solid #444; color: var(--gold); padding: 5px; border-radius: 4px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول السرية -->
+    <div class="login-box" id="loginBox">
+        <h2>🔒 لوحة التحكم السرية</h2>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">أدخل كلمة المرور الخاصة للوصول لإدارة الموقع:</p>
+        <div class="form-group">
+            <input type="password" id="adminPasswordInput" placeholder="كلمة المرور...">
+        </div>
+        <button class="btn" onclick="checkAdminPassword()">تسجيل الدخول 🚀</button>
+    </div>
+
+    <!-- لوحة التحكم الكاملة -->
+    <div class="dashboard-container" id="dashboardContainer">
+        <h2>⚙️ لوحة التحكم الإدارية السحابية الشاملة</h2>
+        
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="switchAdminTab('tab-cats', this)">📁 الأقسام (إضافة وتعديل)</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('tab-products', this)">🍲 المنتجات والأسعار</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('tab-add-item', this)">➕ إضافة منتج جديد</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('tab-banners', this)">🌟 إدارة البانر</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('tab-reviews', this)">🗣️ إدارة الآراء</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('tab-settings', this)">🛠️ إعدادات الموقع</button>
+        </div>
+
+        <!-- تاب الأقسام الجديدة -->
+        <div id="tab-cats" class="admin-section active">
+            <h3>إضافة قسم جديد للموقع</h3>
+            <div style="background:#202020; padding:15px; border-radius:8px; margin-bottom:20px;">
+                <div class="form-group"><label>معرف القسم بالإنجليزية (مثال: sweets):</label><input type="text" id="newCatKey" placeholder="sweets"></div>
+                <div class="form-group"><label>اسم القسم بالعربي (مثال: حلويات بيتي):</label><input type="text" id="newCatName" placeholder="حلويات بيتي"></div>
+                <div class="form-group"><label>صورة القسم (رابط أو رفع):</label><input type="text" id="newCatImg" placeholder="https://..."></div>
+                <button class="btn" onclick="addNewCategory()">إضافة القسم الجديد سحابياً 📁</button>
+            </div>
+            <h3>الأقسام الحالية:</h3>
+            <div id="adminCatsList"></div>
+        </div>
+
+        <!-- تاب المنتجات -->
+        <div id="tab-products" class="admin-section">
+            <h3>المنتجات والأسعار</h3>
+            <div id="adminItemsList" style="max-height: 60vh; overflow-y: auto;"></div>
+        </div>
+
+        <!-- تاب إضافة منتج -->
+        <div id="tab-add-item" class="admin-section">
+            <h3>إضافة منتج جديد للمنيو</h3>
+            <div class="form-group"><label>اسم المنتج:</label><input type="text" id="newProdName" placeholder="مثال: صينية رقاق باللحمة"></div>
+            <div class="form-group">
+                <label>القسم:</label>
+                <select id="newProdCategory"></select>
+            </div>
+            <div class="form-group"><label>السعر (بالجنيه):</label><input type="number" id="newProdPrice" placeholder="200"></div>
+            <div class="form-group"><label>الوصف:</label><input type="text" id="newProdDesc" placeholder="طازة وساخن..."></div>
+            <div class="form-group"><label>الوزن/الحجم:</label><input type="text" id="newProdWeight" value="كيلو / صينية"></div>
+            <div class="form-group">
+                <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                    <input type="checkbox" id="newProdHasWeight" checked style="width:auto;"> يدعم اختيار الوزن (كيلو / نصف كيلو)
+                </label>
+            </div>
+            <div class="form-group">
+                <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                    <input type="checkbox" id="newProdTop" style="width:auto;"> عرضه في قسم «الأكثر طلبًا»
+                </label>
+            </div>
+            <div class="form-group"><label>رابط صورة المنتج:</label><input type="text" id="newProdImgUrl" placeholder="https://..."></div>
+            <button class="btn" onclick="addNewProductToMenu()">حفظ وإضافة المنتج 🍲</button>
+        </div>
+
+        <!-- تاب البانر -->
+        <div id="tab-banners" class="admin-section">
+            <h3>إدارة البانرات الإعلانية</h3>
+            <div style="background:#202020; padding:15px; border-radius:8px; margin-bottom:15px;">
+                <div class="form-group"><input type="text" id="newBannerTitle" placeholder="عنوان البانر"></div>
+                <div class="form-group"><input type="text" id="newBannerDesc" placeholder="الوصف القصير"></div>
+                <div class="form-group"><input type="number" id="newBannerPrice" placeholder="السعر"></div>
+                <div class="form-group"><input type="text" id="newBannerImgUrl" placeholder="رابط الصورة..."></div>
+                <button class="btn" onclick="addNewBanner()">إضافة بانر جديد 🌟</button>
+            </div>
+            <div id="adminBannersList"></div>
+        </div>
+
+        <!-- تاب الآراء -->
+        <div id="tab-reviews" class="admin-section">
+            <h3>إدارة آراء العملاء</h3>
+            <div id="adminReviewsList"></div>
+        </div>
+
+        <!-- تاب الإعدادات -->
+        <div id="tab-settings" class="admin-section">
+            <h3>إعدادات الموقع العامة</h3>
+            <div class="form-group"><label>اسم الموقع:</label><input type="text" id="settingBrandTitle" value="طبخة على الجاهز"></div>
+            <div class="form-group"><label>الوصف:</label><input type="text" id="settingBrandSub" value="أكل بيتي • جاهز على التسوية"></div>
+            <div class="form-group"><label>رابط فيسبوك:</label><input type="text" id="settingFbLink"></div>
+            <div class="form-group"><label>شريط التنبيهات المتحرك:</label><textarea id="settingMarquee" rows="2"></textarea></div>
+            <button class="btn" onclick="saveSiteSettings()">حفظ التحديثات سحابياً 💾</button>
+        </div>
+    </div>
+
+    <!-- مكتبات فايربيز SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyDYtOwL1mpCJgilnx4gBJEzNbJIIK_Vh7I",
+          authDomain: "tabkha-c460d.firebaseapp.com",
+          databaseURL: "https://tabkha-c460d-default-rtdb.firebaseio.com",
+          projectId: "tabkha-c460d",
+          storageBucket: "tabkha-c460d.firebasestorage.app",
+          messagingSenderId: "415068140121",
+          appId: "1:415068140121:web:3e89f2b9e7221326abb748",
+          measurementId: "G-PK1D1TTD4L"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let menuData = [];
+        let categoriesData = [];
+        let bannersData = [];
+        let reviewsData = [];
+        let siteSettings = {};
+        let marqueeVal = "";
+
+        function checkAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "ammar2026") {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('dashboardContainer').style.display = 'block';
+                loadAdminData();
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function switchAdminTab(tabId, btn) {
+            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function loadAdminData() {
+            db.ref('tabkha_categories').on('value', snap => {
+                categoriesData = snap.val() ? Object.values(snap.val()) : [];
+                renderAdminCategories();
+                populateCategorySelect();
+            });
+
+            db.ref('tabkha_menu').on('value', snap => {
+                menuData = snap.val() ? Object.values(snap.val()) : [];
+                renderAdminProducts();
+            });
+
+            db.ref('tabkha_banners').on('value', snap => {
+                bannersData = snap.val() ? Object.values(snap.val()) : [];
+                renderAdminBanners();
+            });
+
+            db.ref('tabkha_reviews').on('value', snap => {
+                reviewsData = snap.val() ? Object.values(snap.val()) : [];
+                renderAdminReviews();
+            });
+
+            db.ref('tabkha_marquee').on('value', snap => {
+                marqueeVal = snap.val() || "";
+                document.getElementById('settingMarquee').value = marqueeVal;
+            });
+
+            db.ref('tabkha_settings').on('value', snap => {
+                siteSettings = snap.val() || {};
+                document.getElementById('settingBrandTitle').value = siteSettings.brandTitle || "طبخة على الجاهز";
+                document.getElementById('settingBrandSub').value = siteSettings.brandSub || "أكل بيتي • جاهز على التسوية";
+                document.getElementById('settingFbLink').value = siteSettings.fbLink || "";
+            });
+        }
+
+        // --- إدارة الأقسام (إضافة قسم جديد) ---
+        function addNewCategory() {
+            const key = document.getElementById('newCatKey').value.trim();
+            const name = document.getElementById('newCatName').value.trim();
+            const img = document.getElementById('newCatImg').value.trim() || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100";
+
+            if(!key || !name) { alert('أدخل معرف القسم واسمه بالعربي.'); return; }
+            categoriesData.push({ id: key, name: name, img: img });
+            db.ref('tabkha_categories').set(categoriesData);
+            document.getElementById('newCatKey').value = '';
+            document.getElementById('newCatName').value = '';
+            document.getElementById('newCatImg').value = '';
+            alert('تم إضافة القسم الجديد سحابياً وسيظهر فوراً للعملاء!');
+        }
+
+        function renderAdminCategories() {
+            const list = document.getElementById('adminCatsList');
+            list.innerHTML = '';
+            categoriesData.forEach((cat, idx) => {
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div><strong>${cat.name}</strong> (${cat.id})</div>
+                        <button class="admin-toggle btn-inactive" onclick="deleteCategory(${idx})">حذف القسم</button>
+                    </div>`;
+            });
+        }
+
+        function deleteCategory(idx) {
+            if(confirm('هل أنت متأكد من حذف هذا القسم؟')) {
+                categoriesData.splice(idx, 1);
+                db.ref('tabkha_categories').set(categoriesData);
+            }
+        }
+
+        function populateCategorySelect() {
+            const select = document.getElementById('newProdCategory');
+            select.innerHTML = '';
+            categoriesData.forEach(cat => {
+                select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+            });
+        }
+
+        // --- إدارة المنتجات ---
+        function renderAdminProducts() {
+            const list = document.getElementById('adminItemsList');
+            list.innerHTML = '';
+            menuData.forEach(item => {
+                let btnClass = item.available ? 'btn-active' : 'btn-inactive';
+                let btnText = item.available ? 'نشط' : 'موقف';
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div style="flex:1;">
+                            <input type="text" value="${item.name}" onchange="updateProductName(${item.id}, this.value)" style="background:#121212; border:1px solid #444; color:#fff; padding:4px; width:100%; border-radius:4px;">
+                        </div>
+                        <div><input type="number" class="admin-price-input" value="${item.price}" onchange="updateProductPrice(${item.id}, this.value)"> ج</div>
+                        <button class="admin-toggle ${btnClass}" onclick="toggleItemStatus(${item.id})">${btnText}</button>
+                        <button class="admin-toggle btn-inactive" onclick="deleteMenuItem(${item.id})">حذف</button>
+                    </div>`;
+            });
+        }
+
+        function updateProductName(id, val) {
+            const item = menuData.find(i => i.id === id);
+            if(item) { item.name = val; db.ref('tabkha_menu').set(menuData); }
+        }
+        function updateProductPrice(id, val) {
+            const item = menuData.find(i => i.id === id);
+            if(item) { item.price = parseFloat(val) || 0; db.ref('tabkha_menu').set(menuData); }
+        }
+        function toggleItemStatus(id) {
+            const item = menuData.find(i => i.id === id);
+            if(item) { item.available = !item.available; db.ref('tabkha_menu').set(menuData); }
+        }
+        function deleteMenuItem(id) {
+            if(confirm('حذف هذا المنتج؟')) {
+                menuData = menuData.filter(i => i.id !== id);
+                db.ref('tabkha_menu').set(menuData);
+            }
+        }
+
+        function addNewProductToMenu() {
+            const name = document.getElementById('newProdName').value.trim();
+            const category = document.getElementById('newProdCategory').value;
+            const price = parseFloat(document.getElementById('newProdPrice').value) || 0;
+            const weight = document.getElementById('newProdWeight').value.trim() || "كيلو";
+            const hasWeight = document.getElementById('newProdHasWeight').checked;
+            const top = document.getElementById('newProdTop').checked;
+            const img = document.getElementById('newProdImgUrl').value.trim() || "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400";
+
+            if(!name || price <= 0) { alert('أدخل الاسم والسعر الصحيح للمنتج.'); return; }
+            
+            const newId = menuData.length > 0 ? Math.max(...menuData.map(i => i.id)) + 1 : 1;
+            menuData.push({ id: newId, name: name, category: category, price: price, weight: weight, hasWeight: hasWeight, top: top, img: img, available: true });
+            db.ref('tabkha_menu').set(menuData);
+            
+            document.getElementById('newProdName').value = '';
+            document.getElementById('newProdPrice').value = '';
+            alert('تم إضافة المنتج بنجاح للقائمة!');
+        }
+
+        // --- البانرات والآراء والإعدادات ---
+        function renderAdminBanners() {
+            const list = document.getElementById('adminBannersList');
+            list.innerHTML = '';
+            bannersData.forEach((b, idx) => {
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div><strong>${b.title}</strong> (${b.price} ج)</div>
+                        <button class="admin-toggle btn-inactive" onclick="deleteBanner(${idx})">حذف</button>
+                    </div>`;
+            });
+        }
+        function addNewBanner() {
+            const title = document.getElementById('newBannerTitle').value.trim();
+            const desc = document.getElementById('newBannerDesc').value.trim();
+            const price = parseFloat(document.getElementById('newBannerPrice').value) || 0;
+            const img = document.getElementById('newBannerImgUrl').value.trim();
+            if(!title) return;
+            bannersData.push({ id: Date.now(), title, desc, price, img, active: true });
+            db.ref('tabkha_banners').set(bannersData);
+            alert('تم إضافة البانر!');
+        }
+        function deleteBanner(idx) {
+            bannersData.splice(idx, 1);
+            db.ref('tabkha_banners').set(bannersData);
+        }
+
+        function renderAdminReviews() {
+            const list = document.getElementById('adminReviewsList');
+            list.innerHTML = '';
+            reviewsData.forEach(rev => {
+                let btnClass = rev.approved ? 'btn-active' : 'btn-inactive';
+                list.innerHTML += `
+                    <div class="admin-item-row">
+                        <div><strong>${rev.stars}</strong> - "${rev.text}"</div>
+                        <button class="admin-toggle ${btnClass}" onclick="toggleReview(${rev.id})">${rev.approved ? 'معروض' : 'مخفي'}</button>
+                    </div>`;
+            });
+        }
+        function toggleReview(id) {
+            const r = reviewsData.find(x => x.id === id);
+            if(r) { r.approved = !r.approved; db.ref('tabkha_reviews').set(reviewsData); }
+        }
+
+        function saveSiteSettings() {
+            siteSettings.brandTitle = document.getElementById('settingBrandTitle').value;
+            siteSettings.brandSub = document.getElementById('settingBrandSub').value;
+            siteSettings.fbLink = document.getElementById('settingFbLink').value;
+            db.ref('tabkha_settings').set(siteSettings);
+            db.ref('tabkha_marquee').set(document.getElementById('settingMarquee').value);
+            alert('تم حفظ الإعدادات بنجاح!');
+        }
+    </script>
+</body>
+</html>
