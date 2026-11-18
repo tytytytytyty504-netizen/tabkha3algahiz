@@ -3,314 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الاحترافية | طبخة على الجاهز</title>
+    <title>مركز التحكم الشامل | طبخة على الجاهز</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #d35400;
             --secondary: #e67e22;
-            --dark: #141414;
-            --bg: #0a0a0a;
-            --card-bg: #161616;
-            --card-border: #262626;
+            --dark: #0f0f0f;
+            --bg: #070707;
+            --card-bg: #141414;
+            --card-border: #222222;
             --text-color: #ffffff;
-            --text-muted: #9e9e9e;
+            --text-muted: #888888;
             --gold: #ff9f43;
             --success: #27ae60;
             --danger: #c0392b;
+            --sidebar-width: 260px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-color); padding-bottom: 50px; }
+        body { background-color: var(--bg); color: var(--text-color); display: flex; min-height: 100vh; overflow-x: hidden; }
 
         /* شاشة تسجيل الدخول */
-        #loginOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,5,5,0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .login-card { background: var(--card-bg); border: 1px solid var(--gold); border-radius: 16px; padding: 30px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .login-card h2 { color: var(--gold); margin-bottom: 15px; font-size: 1.3rem; }
+        #loginOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,5,5,0.96); z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .login-card { background: var(--card-bg); border: 1px solid var(--gold); border-radius: 18px; padding: 35px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.9); }
+        .login-card h2 { color: var(--gold); margin-bottom: 15px; font-size: 1.4rem; }
 
-        /* الهيدر الاحترافي */
-        header { background: var(--dark); border-bottom: 1px solid var(--card-border); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .admin-brand { display: flex; align-items: center; gap: 12px; }
-        .admin-brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
-        .admin-brand h1 { font-size: 1.1rem; color: var(--gold); }
-        .admin-brand p { font-size: 0.7rem; color: var(--text-muted); }
+        /* الـ Sidebar الجانبي المنظم */
+        aside { width: var(--sidebar-width); background: var(--dark); border-left: 1px solid var(--card-border); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; transition: transform 0.3s ease; }
+        .sidebar-brand { padding: 20px 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--card-border); background: #121212; }
+        .sidebar-brand img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+        .sidebar-brand h1 { font-size: 1rem; color: var(--gold); }
+        .sidebar-brand p { font-size: 0.65rem; color: var(--text-muted); }
 
-        .container { max-width: 1300px; margin: 25px auto; padding: 0 15px; }
+        .sidebar-menu { list-style: none; padding: 15px 10px; overflow-y: auto; flex-grow: 1; }
+        .sidebar-menu li { margin-bottom: 5px; }
+        .sidebar-menu button { width: 100%; background: transparent; border: none; color: #ccc; padding: 12px 15px; border-radius: 10px; text-align: right; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
+        .sidebar-menu button:hover, .sidebar-menu button.active { background: var(--primary); color: white; transform: translateX(-3px); }
 
-        /* بطاقات الإحصائيات العلوية */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 18px; display: flex; align-items: center; gap: 15px; }
-        .stat-icon { font-size: 2rem; background: #222; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid #333; }
-        .stat-info h4 { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 3px; }
-        .stat-info span { font-size: 1.25rem; font-weight: bold; color: var(--gold); }
+        /* محتوى الصفحة الرئيسي */
+        .main-content { flex-grow: 1; margin-right: var(--sidebar-width); padding: 25px; width: calc(100% - var(--sidebar-width)); }
+        @media(max-width: 900px) {
+            aside { transform: translateX(100%); }
+            aside.mobile-open { transform: translateX(0); }
+            .main-content { margin-right: 0; width: 100%; padding: 15px; }
+            .mobile-menu-btn { display: inline-block !important; }
+        }
+        .mobile-menu-btn { display: none; background: #222; border: 1px solid #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; font-size: 0.9rem; }
 
-        /* تخطيط الأقسام المستقلة (Dashboard Grid) */
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 20px; }
-        @media(max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        /* الهيدر العلوي */
+        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: var(--card-bg); padding: 15px 20px; border-radius: 14px; border: 1px solid var(--card-border); }
+        .top-header h2 { font-size: 1.2rem; color: var(--gold); }
 
+        /* بطاقات الإحصائيات (Dashboard Stats) */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .stat-icon { font-size: 1.8rem; background: #1a1a1a; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid #333; }
+        .stat-info h4 { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; }
+        .stat-info span { font-size: 1.2rem; font-weight: bold; color: var(--gold); }
+
+        /* الأقسام والمحتوى (Sections) */
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
         .admin-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); margin-bottom: 20px; }
-        .admin-card.full-width { grid-column: 1 / -1; }
-        .card-header-title { font-size: 1.1rem; color: var(--gold); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; }
+        .card-header-title { font-size: 1.1rem; color: var(--gold); margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; }
 
         /* النماذج والحقول */
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 0.8rem; color: var(--gold); margin-bottom: 5px; font-weight: 600; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; background: #111; border: 1px solid #333; border-radius: 8px; color: white; font-size: 0.85rem; outline: none; transition: border-color 0.2s; }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
-        
-        .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media(max-width: 480px) { .row-inputs { grid-template-columns: 1fr; } }
+        .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media(max-width: 600px) { .row-inputs { grid-template-columns: 1fr; } }
 
-        /* الأزرار الاحترافية */
-        .btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem; transition: background 0.2s; width: 100%; }
+        /* أزرار الإجراءات */
+        .btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.85rem; transition: background 0.2s; }
         .btn:hover { background: var(--secondary); }
         .btn-success { background: var(--success); }
         .btn-success:hover { background: #219653; }
-        .btn-danger { background: var(--danger); padding: 5px 10px; font-size: 0.75rem; width: auto; }
+        .btn-danger { background: var(--danger); padding: 5px 10px; font-size: 0.75rem; }
         .btn-danger:hover { background: #a93226; }
 
-        /* الجداول الاحترافية */
+        /* الجداول والبيانات */
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.8rem; }
-        th, td { padding: 12px 10px; border-bottom: 1px solid var(--card-border); }
+        th, td { padding: 12px 10px; border-bottom: 1px solid var(--card-border); vertical-align: middle; }
         th { color: var(--gold); background: #111; font-weight: 700; }
         tr:hover { background: rgba(255,255,255,0.02); }
 
         .badge { padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; }
         .badge-active { background: rgba(39, 174, 96, 0.2); color: #2ecc71; border: 1px solid rgba(39, 174, 96, 0.4); }
         .badge-inactive { background: rgba(192, 57, 43, 0.2); color: #e74c3c; border: 1px solid rgba(192, 57, 43, 0.4); }
+        
+        /* معاينة الصورة المختارة من الجهاز */
+        .img-preview-box { margin-top: 8px; display: flex; align-items: center; gap: 10px; }
+        .img-preview-box img { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; border: 1px solid #444; background: #222; }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول لحماية لوحة الأدمن -->
+    <!-- شاشة تسجيل الدخول -->
     <div id="loginOverlay">
         <div class="login-card">
-            <h2>🔐 لوحة تحكم الأدمن</h2>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">«طبخة على الجاهز» - أرجو إدخال كلمة المرور للوصول</p>
+            <h2>🔐 إدارة طبخة على الجاهز</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">أدخل كلمة المرور لدخول لوحة التحكم البروفيشنال</p>
             <div class="form-group">
                 <input type="password" id="adminPasswordInput" placeholder="كلمة المرور..." onkeypress="if(event.key==='Enter') checkAdminLogin()">
             </div>
-            <button class="btn" onclick="checkAdminLogin()">دخول للوحة التحكم 🚀</button>
+            <button class="btn" style="width:100%; margin-top:10px;" onclick="checkAdminLogin()">دخول للنظام 🚀</button>
         </div>
     </div>
 
-    <header>
-        <div class="admin-brand">
+    <!-- الـ Sidebar الجانبي -->
+    <aside id="sidebarNav">
+        <div class="sidebar-brand">
             <img src="logo.png" alt="Logo" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100'">
             <div>
-                <h1>إدارة طبخة على الجاهز</h1>
-                <p>لوحة التحكم الرئيسية والتحكم اللحظي</p>
+                <h1>طبخة على الجاهز</h1>
+                <p>لوحة الإدارة الشاملة</p>
             </div>
         </div>
-        <button class="btn" style="width: auto; padding: 6px 15px; background: #333; font-size:0.75rem;" onclick="logoutAdmin()">تسجيل خروج 🔒</button>
-    </header>
+        <ul class="sidebar-menu">
+            <li><button class="active" onclick="switchSection('dashboard', this)">📊 نظرة عامة (Dashboard)</button></li>
+            <li><button onclick="switchSection('menuSection', this)">🍲 إدارة المنيو والأصناف</button></li>
+            <li><button onclick="switchSection('categoriesSection', this)">📂 إدارة الأقسام</button></li>
+            <li><button onclick="switchSection('ordersSection', this)">🛒 إدارة الطلبات</button></li>
+            <li><button onclick="switchSection('bannersSection', this)">🖼️ البانرات والعروض</button></li>
+            <li><button onclick="switchSection('reviewsSection', this)">🗣️ تقييمات العملاء</button></li>
+            <li><button onclick="switchSection('settingsSection', this)">⚙️ إعدادات الموقع والهوية</button></li>
+            <li><button onclick="switchSection('securitySection', this)">🛡️ الأمان وكلمة السر</button></li>
+            <li style="margin-top: 30px;"><button style="background:rgba(192,57,43,0.2); color:#e74c3c;" onclick="logoutAdmin()">🔒 تسجيل خروج</button></li>
+        </ul>
+    </aside>
 
-    <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <button class="mobile-menu-btn" onclick="toggleMobileSidebar()">☰ القائمة الجانبية</button>
 
-        <!-- بطاقات الإحصائيات السريعة -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">🍲</div>
-                <div class="stat-info">
-                    <h4>إجمالي أصناف المنيو</h4>
-                    <span id="statMenuCount">0</span>
+        <!-- 1. نظرة عامة (Dashboard) -->
+        <div id="dashboard" class="admin-section active">
+            <div class="top-header">
+                <h2>📊 لوحة المعلومات الرئيسية</h2>
+                <span style="font-size: 0.8rem; color: var(--gold);">مرحباً بك يا فنان في نظام الإدارة الاحترافي</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🍲</div>
+                    <div class="stat-info"><h4>أصناف المنيو</h4><span id="statMenuCount">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📂</div>
+                    <div class="stat-info"><h4>الأقسام النشطة</h4><span id="statCatCount">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🖼️</div>
+                    <div class="stat-info"><h4>البانرات والعروض</h4><span id="statBannerCount">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-info"><h4>تقييمات العملاء</h4><span id="statReviewCount">0</span></div>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">🖼️</div>
-                <div class="stat-info">
-                    <h4>البانرات النشطة</h4>
-                    <span id="statBannerCount">0</span>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💬</div>
-                <div class="stat-info">
-                    <h4>آراء العملاء الواردة</h4>
-                    <span id="statReviewsCount">0</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="dashboard-grid">
-
-            <!-- 1. إعدادات الموقع والعلامة التجارية (مستقل) -->
             <div class="admin-card">
-                <div class="card-header-title">⚙️ إعدادات الموقع والهوية</div>
-                <div class="form-group">
-                    <label>عنوان المطبخ (اسم البراند):</label>
-                    <input type="text" id="settingBrandTitle" placeholder="طبخة على الجاهز">
-                </div>
-                <div class="form-group">
-                    <label>الوصفت أو السلوجان:</label>
-                    <input type="text" id="settingBrandSub" placeholder="أكل بيتي • جاهز على التسوية">
+                <div class="card-header-title">⚡ الإجراءات السريعة وحالة النظام</div>
+                <p style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">
+                    النظام يعمل بشكل سحابي ومتزامن لحظياً مع موقع العملاء عبر Firebase. يمكنك إضافة المنتجات، رفع صورها مباشرة من جهازك، ضبط الأقسام، ومتابعة كل التفاصيل بكل سهولة واحترافية.
+                </p>
+            </div>
+        </div>
+
+        <!-- 2. إدارة المنيو والأصناف -->
+        <div id="menuSection" class="admin-section">
+            <div class="top-header"><h2>🍲 إدارة المنيو والأصناف البيتي</h2></div>
+            <div class="admin-card">
+                <div class="card-header-title">➕ إضافة أكلة جديدة للمنيو</div>
+                <div class="row-inputs">
+                    <div class="form-group"><label>اسم الأكلة:</label><input type="text" id="menuName" placeholder="مثال: صينية بطاطس بالفراخ"></div>
+                    <div class="form-group"><label>القسم التابع له:</label><select id="menuCategorySelect"></select></div>
                 </div>
                 <div class="row-inputs">
-                    <div class="form-group">
-                        <label>رابط صفحة الفيسبوك:</label>
-                        <input type="text" id="settingFbLink">
-                    </div>
-                    <div class="form-group">
-                        <label>رابط الشعار (Logo URL):</label>
-                        <input type="text" id="settingLogoUrl">
-                    </div>
+                    <div class="form-group"><label>السعر الأساسي (ج):</label><input type="number" id="menuPrice" placeholder="150"></div>
+                    <div class="form-group"><label>وحدة الوزن أو الحجم:</label><input type="text" id="menuWeight" placeholder="كيلو / حبة / صينية"></div>
                 </div>
                 <div class="form-group">
-                    <label>صورة البانر الاجتماعي الكبرى:</label>
-                    <input type="text" id="settingSocialBannerUrl">
+                    <label>صورة الأكلة (اختر من الجهاز 📁):</label>
+                    <input type="file" id="menuImageFile" accept="image/*" onchange="previewImage(this, 'menuImgBase64', 'menuImgPreview')">
+                    <input type="hidden" id="menuImgBase64">
+                    <div class="img-preview-box"><img id="menuImgPreview" src="" style="display:none;" alt="معاينة"><span style="font-size:0.75rem; color:var(--text-muted);">سيتم حفظ الصورة وعرضها فوراً بالموقع</span></div>
                 </div>
-                <div class="form-group">
-                    <label>شريط التنبيه المتحرك العلوي:</label>
-                    <input type="text" id="settingMarqueeText" placeholder="⏰ الحجز يكون قبلها بيوم...">
+                <div class="form-group"><label>وصف المكونات والتحضير:</label><input type="text" id="menuDesc" placeholder="مخدوم بسمنة بلدي وطماطم فريش..."></div>
+                <div style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap;">
+                    <label><input type="checkbox" id="menuHasWeight" style="width:auto;"> يدعم اختيار (كيلو / نصف كيلو)</label>
+                    <label><input type="checkbox" id="menuHasChicken" style="width:auto;"> يدعم اختيار قطعة الدجاج (ورِك / صَدْر +10ج)</label>
+                    <label><input type="checkbox" id="menuTop" style="width:auto;"> عرض في قسم "الأكثر طلبًا"</label>
                 </div>
-                <button class="btn btn-success" onclick="saveSiteSettings()">حفظ إعدادات الموقع وتحديثه 💾</button>
+                <button class="btn btn-success" onclick="addNewMenuItem()">حفظ وإضافة الأكلة للمنيو 🚀</button>
             </div>
 
-            <!-- 2. أمان كلمة السر والحساب (مستقل تماماً بعيد عن الزحمة) -->
             <div class="admin-card">
-                <div class="card-header-title">🛡️ أمان وحماية لوحة التحكم</div>
-                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:15px;">من هنا يمكنك تغيير كلمة المرور السرية الخاصة بدخول لوحة التحكم في أي وقت.</p>
-                <div class="form-group">
-                    <label>كلمة المرور الحالية:</label>
-                    <input type="password" id="currentPassCheck" placeholder="أدخل كلمة المرور الحالية">
+                <div class="card-header-title">📋 قائمة الأصناف الحالية بالموقع</div>
+                <div class="table-responsive">
+                    <table id="adminMenuTable">
+                        <thead><tr><th>الصورة</th><th>اسم الأكلة</th><th>القسم</th><th>السعر</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. إدارة الأقسام -->
+        <div id="categoriesSection" class="admin-section">
+            <div class="top-header"><h2>📂 إدارة أقسام المنيو</h2></div>
+            <div class="admin-card">
+                <div class="card-header-title">➕ إضافة قسم جديد</div>
+                <div class="row-inputs">
+                    <div class="form-group"><label>معرف القسم (إنجليزي بدون مسافات مثل ready):</label><input type="text" id="catId" placeholder="ready"></div>
+                    <div class="form-group"><label>اسم القسم بالعربية:</label><input type="text" id="catName" placeholder="أكلات جاهزة على التسوية"></div>
                 </div>
                 <div class="form-group">
-                    <label>كلمة المرور الجديدة:</label>
-                    <input type="password" id="newPassInput" placeholder="أدخل كلمة المرور الجديدة">
+                    <label>صورة أيقونة القسم (اختر من الجهاز 📁):</label>
+                    <input type="file" id="catImageFile" accept="image/*" onchange="previewImage(this, 'catImgBase64', 'catImgPreview')">
+                    <input type="hidden" id="catImgBase64">
+                    <div class="img-preview-box"><img id="catImgPreview" src="" style="display:none;" alt="معاينة"></div>
+                </div>
+                <button class="btn" onclick="addNewCategory()">إضافة القسم الجديد 📁</button>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header-title">🗂️ الأقسام المتاحة</div>
+                <div class="table-responsive">
+                    <table id="adminCategoriesTable">
+                        <thead><tr><th>الأيقونة</th><th>اسم القسم</th><th>المعرف</th><th>إجراء</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. إدارة الطلبات -->
+        <div id="ordersSection" class="admin-section">
+            <div class="top-header"><h2>🛒 سجل الطلبات الواردة</h2></div>
+            <div class="admin-card">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">الطلبات التي يرسلها العملاء عبر السلة والواتساب تظهر هنا للمتابعة والتوثيق.</p>
+                <div class="table-responsive">
+                    <table id="adminOrdersTable">
+                        <thead><tr><th>رقم الطلب / التاريخ</th><th>العميل والموبايل</th><th>العنوان والمنطقة</th><th>الأصناف الإجمالي</th><th>حالة الطلب</th></tr></thead>
+                        <tbody><tr><td colspan="5" style="text-align: center; color: #888;">لا توجد طلبات مسجلة سحابياً حتى الآن.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. البانرات والعروض -->
+        <div id="bannersSection" class="admin-section">
+            <div class="top-header"><h2>🖼️ إدارة البانرات والعروض المتحركة</h2></div>
+            <div class="admin-card">
+                <div class="card-header-title">➕ إضافة بانر عرض جديد</div>
+                <div class="form-group"><label>عنوان البانر:</label><input type="text" id="bannerTitle" placeholder="عرض محشي فريش ساخن"></div>
+                <div class="row-inputs">
+                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="bannerPrice" placeholder="120"></div>
+                    <div class="form-group">
+                        <label>صورة البانر (اختر من الجهاز 📁):</label>
+                        <input type="file" id="bannerImageFile" accept="image/*" onchange="previewImage(this, 'bannerImgBase64', 'bannerImgPreview')">
+                        <input type="hidden" id="bannerImgBase64">
+                        <div class="img-preview-box"><img id="bannerImgPreview" src="" style="display:none;" alt="معاينة"></div>
+                    </div>
+                </div>
+                <div class="form-group"><label>وصف قصير:</label><input type="text" id="bannerDesc" placeholder="محشي كرنب وممبار مخدوم بلدي..."></div>
+                <button class="btn" onclick="addNewBanner()">إضافة البانر وتنشيطه ➕</button>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header-title">🎞️ البانرات النشطة</div>
+                <div class="table-responsive">
+                    <table id="adminBannersTable">
+                        <thead><tr><th>الصورة</th><th>العنوان</th><th>السعر</th><th>الحالة</th><th>إجراء</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. تقييمات العملاء -->
+        <div id="reviewsSection" class="admin-section">
+            <div class="top-header"><h2>🗣️ إدارة تقييمات وآراء العملاء</h2></div>
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table id="adminReviewsTable">
+                        <thead><tr><th>التقييم</th><th>النص</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. إعدادات الموقع والهوية -->
+        <div id="settingsSection" class="admin-section">
+            <div class="top-header"><h2>⚙️ إعدادات الموقع والهوية العامة</h2></div>
+            <div class="admin-card">
+                <div class="form-group"><label>عنوان المطبخ (اسم البراند):</label><input type="text" id="settingBrandTitle"></div>
+                <div class="form-group"><label>الوصف التعريفي (Slogan):</label><input type="text" id="settingBrandSub"></div>
+                <div class="row-inputs">
+                    <div class="form-group"><label>رابط صفحة الفيسبوك:</label><input type="text" id="settingFbLink"></div>
+                    <div class="form-group">
+                        <label>صورة الشعار (Logo - اختر من الجهاز 📁):</label>
+                        <input type="file" accept="image/*" onchange="previewImage(this, 'settingLogoBase64', 'settingLogoPreview')">
+                        <input type="hidden" id="settingLogoBase64">
+                        <div class="img-preview-box"><img id="settingLogoPreview" src="" style="display:none;" alt="معاينة"></div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>تأكيد كلمة المرور الجديدة:</label>
-                    <input type="password" id="confirmNewPassInput" placeholder="أعد إدخال كلمة المرور الجديدة">
+                    <label>صورة البانر الاجتماعي الرئيسي (اختر من الجهاز 📁):</label>
+                    <input type="file" accept="image/*" onchange="previewImage(this, 'settingSocialBase64', 'settingSocialPreview')">
+                    <input type="hidden" id="settingSocialBase64">
+                    <div class="img-preview-box"><img id="settingSocialPreview" src="" style="display:none;" alt="معاينة"></div>
                 </div>
+                <div class="form-group"><label>شريط التنبيهات العلوي المتحرك:</label><input type="text" id="settingMarqueeText"></div>
+                <button class="btn btn-success" onclick="saveSiteSettings()">حفظ وتحديث إعدادات الموقع فوري 💾</button>
+            </div>
+        </div>
+
+        <!-- 8. الأمان وكلمة السر -->
+        <div id="securitySection" class="admin-section">
+            <div class="top-header"><h2>🛡️ أمان وحماية لوحة التحكم</h2></div>
+            <div class="admin-card" style="max-width: 500px;">
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">قم بتغيير كلمة المرور الخاصة بدخول لوحة التحكم بأمان تام.</p>
+                <div class="form-group"><label>كلمة المرور الحالية:</label><input type="password" id="currentPassCheck" placeholder="أدخل كلمة المرور الحالية"></div>
+                <div class="form-group"><label>كلمة المرور الجديدة:</label><input type="password" id="newPassInput" placeholder="أدخل كلمة المرور الجديدة"></div>
+                <div class="form-group"><label>تأكيد كلمة المرور الجديدة:</label><input type="password" id="confirmNewPassInput" placeholder="أعد إدخال كلمة المرور الجديدة"></div>
                 <button class="btn" style="background:#8e44ad;" onclick="updateAdminPassword()">تحديث كلمة السر للأمان 🔒</button>
             </div>
-
-            <!-- 3. إدارة البانرات والعروض المتحركة (مستقل) -->
-            <div class="admin-card">
-                <div class="card-header-title">🖼️ إدارة البانرات والعروض المتحركة</div>
-                <div class="form-group">
-                    <label>عنوان العرض/البانر:</label>
-                    <input type="text" id="bannerTitle" placeholder="مثال: عرض محشي فريش">
-                </div>
-                <div class="row-inputs">
-                    <div class="form-group">
-                        <label>السعر (ج):</label>
-                        <input type="number" id="bannerPrice" placeholder="120">
-                    </div>
-                    <div class="form-group">
-                        <label>رابط الصورة:</label>
-                        <input type="text" id="bannerImg" placeholder="https://...">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>وصف قصير:</label>
-                    <input type="text" id="bannerDesc" placeholder="محشي كرنب وممبار طازة...">
-                </div>
-                <button class="btn" onclick="addNewBanner()">إضافة بانر جديد ➕</button>
-                <div class="table-responsive" style="margin-top:15px;">
-                    <table id="bannersTable">
-                        <thead><tr><th>العنوان</th><th>السعر</th><th>الحالة</th><th>إجراء</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- 4. إدارة أقسام المنيو (مستقل) -->
-            <div class="admin-card">
-                <div class="card-header-title">📂 إدارة أقسام المنيو</div>
-                <div class="row-inputs">
-                    <div class="form-group">
-                        <label>معرف القسم (ID بالإنجليزية):</label>
-                        <input type="text" id="catId" placeholder="ready أو frozen">
-                    </div>
-                    <div class="form-group">
-                        <label>اسم القسم بالعربية:</label>
-                        <input type="text" id="catName" placeholder="أكلات جاهزة على التسوية">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>صورة أيقونة القسم:</label>
-                    <input type="text" id="catImg" placeholder="https://...">
-                </div>
-                <button class="btn" onclick="addNewCategory()">إضافة قسم جديد 📁</button>
-                <div class="table-responsive" style="margin-top:15px;">
-                    <table id="categoriesTable">
-                        <thead><tr><th>القسم</th><th>المعرف</th><th>إجراء</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
         </div>
-
-        <!-- 5. إدارة المنيو والأصناف بالكامل (قسم واسع وشامل) -->
-        <div class="admin-card full-width" style="margin-top: 20px;">
-            <div class="card-header-title">🍲 إدارة أصناف المنيو والأكل البيتي</div>
-            <div class="row-inputs">
-                <div class="form-group">
-                    <label>اسم الأكلة:</label>
-                    <input type="text" id="menuName" placeholder="مثال: صينية بطاطس بالفراخ">
-                </div>
-                <div class="form-group">
-                    <label>القسم:</label>
-                    <select id="menuCategorySelect">
-                        <option value="ready">أكلات جاهزة على التسوية</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row-inputs">
-                <div class="form-group">
-                    <label>السعر الأساسي (ج):</label>
-                    <input type="number" id="menuPrice" placeholder="150">
-                </div>
-                <div class="form-group">
-                    <label>وحدة الوزن أو الحجم:</label>
-                    <input type="text" id="menuWeight" placeholder="كيلو / حبة / صينية">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>رابط صورة الأكلة:</label>
-                <input type="text" id="menuImg" placeholder="https://images.unsplash.com/...">
-            </div>
-            <div class="form-group">
-                <label>وصف المكونات:</label>
-                <input type="text" id="menuDesc" placeholder="مخدوم بسمنة بلدي وطماطم فريش...">
-            </div>
-            <div style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem;">
-                <label><input type="checkbox" id="menuHasWeight" style="width:auto;"> يدعم اختيار (كيلو / نصف كيلو)</label>
-                <label><input type="checkbox" id="menuHasChicken" style="width:auto;"> يدعم اختيار قطعة الدجاج (ورِك / صَدْر +10ج)</label>
-                <label><input type="checkbox" id="menuTop" style="width:auto;"> عرض في قسم "الأكثر طلبًا"</label>
-            </div>
-            <button class="btn btn-success" onclick="addNewMenuItem()">إضافة الأكلة الجديدة للمنيو 🚀</button>
-
-            <div class="table-responsive" style="margin-top: 20px;">
-                <table id="menuTable">
-                    <thead>
-                        <tr>
-                            <th>الصورة</th>
-                            <th>اسم الأكلة</th>
-                            <th>القسم</th>
-                            <th>السعر</th>
-                            <th>الحالة</th>
-                            <th>إجراءات التحكم</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 6. مراجعة آراء العملاء (مستقل) -->
-        <div class="admin-card full-width" style="margin-top: 20px;">
-            <div class="card-header-title">🗣️ مراجعة آراء وتقييمات العملاء</div>
-            <div class="table-responsive">
-                <table id="adminReviewsTable">
-                    <thead><tr><th>التقييم</th><th>الرأي</th><th>الحالة</th><th>إجراءات</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -335,9 +359,8 @@
         let reviewsData = [];
         let categoriesData = [];
         let siteSettings = {};
-        let adminPass = "123456"; // كلمة السر الافتراضية
+        let adminPass = "123456";
 
-        // جلب كلمة السر السحابية من فايربيس
         db.ref('tabkha_admin_pass').on('value', s => { if(s.val()) adminPass = s.val(); });
 
         function checkAdminLogin() {
@@ -355,28 +378,39 @@
             document.getElementById('loginOverlay').style.display = 'flex';
         }
 
-        function updateAdminPassword() {
-            const curr = document.getElementById('currentPassCheck').value;
-            const nw = document.getElementById('newPassInput').value;
-            const conf = document.getElementById('confirmNewPassInput').value;
+        function toggleMobileSidebar() {
+            document.getElementById('sidebarNav').classList.toggle('mobile-open');
+        }
 
-            if(curr !== adminPass) { alert('كلمة المرور الحالية غير صحيحة.'); return; }
-            if(!nw || nw.length < 4) { alert('كلمة المرور الجديدة يجب ألا تقل عن 4 أرقام/حروف.'); return; }
-            if(nw !== conf) { alert('كلمة المرور الجديدة غير متطابقة.'); return; }
+        function switchSection(sectionId, btn) {
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu button').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            btn.classList.add('active');
+            if(window.innerWidth <= 900) {
+                document.getElementById('sidebarNav').classList.remove('mobile-open');
+            }
+        }
 
-            db.ref('tabkha_admin_pass').set(nw).then(() => {
-                alert('تم تحديث كلمة المرور بنجاح 🔒');
-                document.getElementById('currentPassCheck').value = '';
-                document.getElementById('newPassInput').value = '';
-                document.getElementById('confirmNewPassInput').value = '';
-            });
+        // دالة جبارة لرفع أي صورة من الجهاز وتحويلها لـ Base64 عشان تتخزن وتتعرض فوري
+        function previewImage(input, hiddenInputId, previewImgId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(hiddenInputId).value = e.target.result;
+                    const prev = document.getElementById(previewImgId);
+                    prev.src = e.target.result;
+                    prev.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
         function initAdminPanel() {
             db.ref('tabkha_menu').on('value', s => { menuData = s.val() ? Object.values(s.val()) : []; renderMenuTable(); document.getElementById('statMenuCount').innerText = menuData.length; });
             db.ref('tabkha_banners').on('value', s => { bannersData = s.val() ? Object.values(s.val()) : []; renderBannersTable(); document.getElementById('statBannerCount').innerText = bannersData.filter(b=>b.active).length; });
-            db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()) : []; renderReviewsTable(); document.getElementById('statReviewsCount').innerText = reviewsData.length; });
-            db.ref('tabkha_categories').on('value', s => { categoriesData = s.val() ? Object.values(s.val()) : []; renderCategoriesTable(); updateCategorySelect(); });
+            db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()) : []; renderReviewsTable(); document.getElementById('statReviewCount').innerText = reviewsData.length; });
+            db.ref('tabkha_categories').on('value', s => { categoriesData = s.val() ? Object.values(s.val()) : []; renderCategoriesTable(); updateCategorySelect(); document.getElementById('statCatCount').innerText = categoriesData.length; });
             db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); fillSettingsForm(); } });
         }
 
@@ -384,8 +418,8 @@
             document.getElementById('settingBrandTitle').value = siteSettings.brandTitle || "";
             document.getElementById('settingBrandSub').value = siteSettings.brandSub || "";
             document.getElementById('settingFbLink').value = siteSettings.fbLink || "";
-            document.getElementById('settingLogoUrl').value = siteSettings.logoUrl || "";
-            document.getElementById('settingSocialBannerUrl').value = siteSettings.socialBannerUrl || "";
+            if(siteSettings.logoUrl) { document.getElementById('settingLogoPreview').src = siteSettings.logoUrl; document.getElementById('settingLogoPreview').style.display='block'; document.getElementById('settingLogoBase64').value = siteSettings.logoUrl; }
+            if(siteSettings.socialBannerUrl) { document.getElementById('settingSocialPreview').src = siteSettings.socialBannerUrl; document.getElementById('settingSocialPreview').style.display='block'; document.getElementById('settingSocialBase64').value = siteSettings.socialBannerUrl; }
             db.ref('tabkha_marquee').once('value', s => { document.getElementById('settingMarqueeText').value = s.val() || ""; });
         }
 
@@ -394,13 +428,13 @@
                 brandTitle: document.getElementById('settingBrandTitle').value,
                 brandSub: document.getElementById('settingBrandSub').value,
                 fbLink: document.getElementById('settingFbLink').value,
-                logoUrl: document.getElementById('settingLogoUrl').value,
-                socialBannerUrl: document.getElementById('settingSocialBannerUrl').value
+                logoUrl: document.getElementById('settingLogoBase64').value || siteSettings.logoUrl || "",
+                socialBannerUrl: document.getElementById('settingSocialBase64').value || siteSettings.socialBannerUrl || ""
             };
             const marquee = document.getElementById('settingMarqueeText').value;
             db.ref('tabkha_settings').set(siteSettings);
             db.ref('tabkha_marquee').set(marquee);
-            alert('تم حفظ وتحديث إعدادات الموقع بنجاح 🚀');
+            alert('تم حفظ إعدادات الموقع بنجاح وظهرت فوراً 🚀');
         }
 
         function updateCategorySelect() {
@@ -412,11 +446,12 @@
         }
 
         function renderCategoriesTable() {
-            const tbody = document.querySelector('#categoriesTable tbody');
+            const tbody = document.querySelector('#adminCategoriesTable tbody');
             tbody.innerHTML = '';
             categoriesData.forEach((cat, idx) => {
                 tbody.innerHTML += `
                     <tr>
+                        <td><img src="${cat.img}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
                         <td><strong>${cat.name}</strong></td>
                         <td><code>${cat.id}</code></td>
                         <td><button class="btn btn-danger" onclick="deleteCategory(${idx})">حذف</button></td>
@@ -427,71 +462,32 @@
         function addNewCategory() {
             const id = document.getElementById('catId').value.trim();
             const name = document.getElementById('catName').value.trim();
-            const img = document.getElementById('catImg').value.trim();
+            const img = document.getElementById('catImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';
             if(!id || !name) { alert('أدخل معرف واسم القسم.'); return; }
-            categoriesData.push({ id, name, img: img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100' });
+            categoriesData.push({ id, name, img });
             db.ref('tabkha_categories').set(categoriesData);
-            document.getElementById('catId').value = ''; document.getElementById('catName').value = ''; document.getElementById('catImg').value = '';
+            document.getElementById('catId').value = ''; document.getElementById('catName').value = '';
+            document.getElementById('catImgBase64').value = ''; document.getElementById('catImgPreview').style.display = 'none';
             alert('تم إضافة القسم بنجاح!');
         }
 
         function deleteCategory(idx) {
-            if(confirm('هل أنت متأكد من حذف هذا القسم؟')) {
-                categoriesData.splice(idx, 1);
-                db.ref('tabkha_categories').set(categoriesData);
-            }
-        }
-
-        function renderBannersTable() {
-            const tbody = document.querySelector('#bannersTable tbody');
-            tbody.innerHTML = '';
-            bannersData.forEach((b, idx) => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${b.title}</td>
-                        <td>${b.price} ج</td>
-                        <td><span class="badge ${b.active ? 'badge-active' : 'badge-inactive'}">${b.active ? 'نشط' : 'معطل'}</span></td>
-                        <td>
-                            <button class="btn" style="padding:4px 8px; font-size:0.7rem; width:auto;" onclick="toggleBanner(${idx})">${b.active ? 'إيقاف' : 'تفعيل'}</button>
-                            <button class="btn btn-danger" onclick="deleteBanner(${idx})">حذف</button>
-                        </td>
-                    </tr>`;
-            });
-        }
-
-        function addNewBanner() {
-            const title = document.getElementById('bannerTitle').value;
-            const price = parseFloat(document.getElementById('bannerPrice').value) || 0;
-            const img = document.getElementById('bannerImg').value;
-            const desc = document.getElementById('bannerDesc').value;
-            if(!title || !price) { alert('أدخل عنوان البانر والسعر.'); return; }
-            bannersData.push({ id: Date.now(), title, price, img, desc, active: true });
-            db.ref('tabkha_banners').set(bannersData);
-            document.getElementById('bannerTitle').value = ''; document.getElementById('bannerPrice').value = ''; document.getElementById('bannerImg').value = ''; document.getElementById('bannerDesc').value = '';
-        }
-
-        function toggleBanner(idx) {
-            bannersData[idx].active = !bannersData[idx].active;
-            db.ref('tabkha_banners').set(bannersData);
-        }
-
-        function deleteBanner(idx) {
-            if(confirm('حذف هذا البانر؟')) { bannersData.splice(idx, 1); db.ref('tabkha_banners').set(bannersData); }
+            if(confirm('حذف هذا القسم؟')) { categoriesData.splice(idx, 1); db.ref('tabkha_categories').set(categoriesData); }
         }
 
         function renderMenuTable() {
-            const tbody = document.querySelector('#menuTable tbody');
+            const tbody = document.querySelector('#adminMenuTable tbody');
             tbody.innerHTML = '';
             menuData.forEach((item, idx) => {
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${item.img}" style="width:36px; height:36px; border-radius:6px; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
+                        <td><img src="${item.img}" style="width:38px; height:38px; border-radius:6px; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
                         <td><strong>${item.name}</strong></td>
                         <td><code>${item.category}</code></td>
                         <td>${item.price} ج</td>
-                        <td><span class="badge ${item.available ? 'badge-active' : 'badge-inactive'}">${item.available ? 'متاح' : 'غير متاح'}</span></td>
+                        <td><span class="badge ${item.available ? 'badge-active' : 'badge-inactive'}">${item.available ? 'متاح' : 'موقف'}</span></td>
                         <td>
-                            <button class="btn" style="padding:4px 8px; font-size:0.7rem; width:auto;" onclick="toggleMenuItem(${idx})">${item.available ? 'إيقاف' : 'تفعيل'}</button>
+                            <button class="btn" style="padding:4px 8px; font-size:0.7rem;" onclick="toggleMenuItem(${idx})">${item.available ? 'إيقاف' : 'تفعيل'}</button>
                             <button class="btn btn-danger" onclick="deleteMenuItem(${idx})">حذف</button>
                         </td>
                     </tr>`;
@@ -503,34 +499,21 @@
             const category = document.getElementById('menuCategorySelect').value;
             const price = parseFloat(document.getElementById('menuPrice').value) || 0;
             const weight = document.getElementById('menuWeight').value.trim();
-            const img = document.getElementById('menuImg').value.trim();
+            const img = document.getElementById('menuImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';
             const desc = document.getElementById('menuDesc').value.trim();
             const hasWeight = document.getElementById('menuHasWeight').checked;
             const hasChickenOption = document.getElementById('menuHasChicken').checked;
             const top = document.getElementById('menuTop').checked;
 
-            if(!name || !price) { alert('من فضلك أدخل اسم الأكلة والسعر على الأقل.'); return; }
+            if(!name || !price) { alert('أدخل اسم الأكلة والسعر.'); return; }
 
-            const newItem = {
-                id: Date.now(),
-                name, category, price,
-                weight: weight || 'حبة',
-                img: img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400',
-                desc, hasWeight, hasChickenOption, top,
-                available: true
-            };
-
-            menuData.push(newItem);
+            menuData.push({ id: Date.now(), name, category, price, weight: weight || 'حبة', img, desc, hasWeight, hasChickenOption, top, available: true });
             db.ref('tabkha_menu').set(menuData);
-            alert('تم إضافة الأكلة بنجاح للمنيو 🚀');
-            document.getElementById('menuName').value = '';
-            document.getElementById('menuPrice').value = '';
-            document.getElementById('menuWeight').value = '';
-            document.getElementById('menuImg').value = '';
-            document.getElementById('menuDesc').value = '';
-            document.getElementById('menuHasWeight').checked = false;
-            document.getElementById('menuHasChicken').checked = false;
-            document.getElementById('menuTop').checked = false;
+            alert('تم إضافة الأكلة وصورتها بنجاح للمنيو 🚀');
+            document.getElementById('menuName').value = ''; document.getElementById('menuPrice').value = '';
+            document.getElementById('menuWeight').value = ''; document.getElementById('menuDesc').value = '';
+            document.getElementById('menuImgBase64').value = ''; document.getElementById('menuImgPreview').style.display = 'none';
+            document.getElementById('menuHasWeight').checked = false; document.getElementById('menuHasChicken').checked = false; document.getElementById('menuTop').checked = false;
         }
 
         function toggleMenuItem(idx) {
@@ -539,24 +522,61 @@
         }
 
         function deleteMenuItem(idx) {
-            if(confirm('هل أنت متأكد من حذف هذه الأكلة من المنيو؟')) {
-                menuData.splice(idx, 1);
-                db.ref('tabkha_menu').set(menuData);
-            }
+            if(confirm('حذف هذه الأكلة؟')) { menuData.splice(idx, 1); db.ref('tabkha_menu').set(menuData); }
+        }
+
+        function renderBannersTable() {
+            const tbody = document.querySelector('#adminBannersTable tbody');
+            tbody.innerHTML = '';
+            bannersData.forEach((b, idx) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><img src="${b.img}" style="width:40px; height:30px; border-radius:4px; object-fit:cover;"></td>
+                        <td>${b.title}</td>
+                        <td>${b.price} ج</td>
+                        <td><span class="badge ${b.active ? 'badge-active' : 'badge-inactive'}">${b.active ? 'نشط' : 'معطل'}</span></td>
+                        <td>
+                            <button class="btn" style="padding:4px 8px; font-size:0.7rem;" onclick="toggleBanner(${idx})">${b.active ? 'إيقاف' : 'تفعيل'}</button>
+                            <button class="btn btn-danger" onclick="deleteBanner(${idx})">حذف</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function addNewBanner() {
+            const title = document.getElementById('bannerTitle').value;
+            const price = parseFloat(document.getElementById('bannerPrice').value) || 0;
+            const img = document.getElementById('bannerImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600';
+            const desc = document.getElementById('bannerDesc').value;
+            if(!title || !price) { alert('أدخل عنوان البانر والسعر.'); return; }
+            bannersData.push({ id: Date.now(), title, price, img, desc, active: true });
+            db.ref('tabkha_banners').set(bannersData);
+            document.getElementById('bannerTitle').value = ''; document.getElementById('bannerPrice').value = '';
+            document.getElementById('bannerImgBase64').value = ''; document.getElementById('bannerImgPreview').style.display = 'none';
+            document.getElementById('bannerDesc').value = '';
+        }
+
+        function toggleBanner(idx) {
+            bannersData[idx].active = !bannersData[idx].active;
+            db.ref('tabkha_banners').set(bannersData);
+        }
+
+        function deleteBanner(idx) {
+            if(confirm('حذف البانر؟')) { bannersData.splice(idx, 1); db.ref('tabkha_banners').set(bannersData); }
         }
 
         function renderReviewsTable() {
             const tbody = document.querySelector('#adminReviewsTable tbody');
             tbody.innerHTML = '';
-            if(reviewsData.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888;">لا توجد آراء مسجلة حتى الآن.</td></tr>`; return; }
+            if(reviewsData.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#888;">لا توجد تقييمات.</td></tr>`; return; }
             reviewsData.forEach((rev, idx) => {
                 tbody.innerHTML += `
                     <tr>
                         <td style="color:#f1c40f;">${rev.stars}</td>
                         <td>"${rev.text}"</td>
-                        <td><span class="badge ${rev.approved ? 'badge-active' : 'badge-inactive'}">${rev.approved ? 'معروض بالموقع' : 'قيد المراجعة'}</span></td>
+                        <td><span class="badge ${rev.approved ? 'badge-active' : 'badge-inactive'}">${rev.approved ? 'معروض' : 'مخفي'}</span></td>
                         <td>
-                            <button class="btn" style="padding:4px 8px; font-size:0.7rem; width:auto;" onclick="toggleReview(${idx})">${rev.approved ? 'إخفاء' : 'اعتماد وعرض'}</button>
+                            <button class="btn" style="padding:4px 8px; font-size:0.7rem;" onclick="toggleReview(${idx})">${rev.approved ? 'إخفاء' : 'عرض'}</button>
                             <button class="btn btn-danger" onclick="deleteReview(${idx})">حذف</button>
                         </td>
                     </tr>`;
@@ -564,15 +584,27 @@
         }
 
         function toggleReview(idx) {
-            reviewsData[idx].approved = !reviewsData[idx].approved;
+            reviewsData[idx].approved = !reviewsData.approved;
             db.ref('tabkha_reviews').set(reviewsData);
         }
 
         function deleteReview(idx) {
-            if(confirm('حذف هذا الرأي؟')) {
-                reviewsData.splice(idx, 1);
-                db.ref('tabkha_reviews').set(reviewsData);
-            }
+            if(confirm('حذف التقييم؟')) { reviewsData.splice(idx, 1); db.ref('tabkha_reviews').set(reviewsData); }
+        }
+
+        function updateAdminPassword() {
+            const curr = document.getElementById('currentPassCheck').value;
+            const nw = document.getElementById('newPassInput').value;
+            const conf = document.getElementById('confirmNewPassInput').value;
+            if(curr !== adminPass) { alert('كلمة المرور الحالية غير صحيحة.'); return; }
+            if(!nw || nw.length < 4) { alert('كلمة المرور قصيرة جداً.'); return; }
+            if(nw !== conf) { alert('كلمة المرور الجديدة غير متطابقة.'); return; }
+            db.ref('tabkha_admin_pass').set(nw).then(() => {
+                alert('تم تحديث كلمة المرور بنجاح 🔒');
+                document.getElementById('currentPassCheck').value = '';
+                document.getElementById('newPassInput').value = '';
+                document.getElementById('confirmNewPassInput').value = '';
+            });
         }
     </script>
 </body>
