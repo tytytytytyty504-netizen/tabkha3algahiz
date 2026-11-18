@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>طبخة على الجاهز | أكل بيتي • جاهز على التسوية</title>
-    <meta name="description" content="اطلب أفضل أكل بيتي طازج، محشي، بانيه، ومصنعات جاهزة للتسوية في سنباط والغربية.">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -143,7 +142,6 @@
     </header>
 
     <div class="container">
-        <!-- السلايدر -->
         <div class="slider-container" id="sliderContainer">
             <div class="slides-wrapper" id="slidesWrapper"></div>
         </div>
@@ -158,7 +156,7 @@
             <button class="back-btn" id="backToCatsBtn" onclick="showCategoriesView()">⬅️ رجوع للأقسام</button>
         </div>
 
-        <!-- الأقسام التي يتم جلبها ديناميكياً سحابياً -->
+        <!-- الأقسام المتزامنة سحابياً -->
         <div class="categories-grid" id="categories-container"></div>
 
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
@@ -196,7 +194,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <footer>
@@ -221,20 +218,16 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeCheckout()">إغلاق ✕</button>
             <h3 style="margin-bottom: 10px; color: var(--gold); font-size: 1rem;">أوردرك</h3>
-            
             <div style="background: #c0392b; color: white; padding: 8px; border-radius: 8px; margin-bottom: 10px; font-size: 0.75rem; font-weight: bold; text-align: center;">
                 ⏰ الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة..
             </div>
-
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
-            
             <div class="coupon-box">
                 <input type="text" id="couponInput" placeholder="ادخل رمز القسيمة هنا">
                 <button class="coupon-btn" id="applyCouponBtn" onclick="applyCoupon()">تطبيق</button>
                 <button class="remove-coupon-btn" id="removeCouponBtn" style="display:none;" onclick="removeCoupon()">إلغاء الخصم</button>
             </div>
             <div id="couponMsg" style="font-size:0.75rem; margin-bottom:8px; font-weight:bold;"></div>
-
             <div style="border-top: 1px solid #444; padding-top: 8px; margin-bottom: 12px; font-size: 0.85rem;">
                 <div style="display: flex; justify-content: space-between;"><span>الأصناف:</span><span><span id="subTotal">0</span> ج</span></div>
                 <div style="display: flex; justify-content: space-between;"><span>التوصيل (داخل سنباط):</span><span><span id="deliveryCostText">20</span> ج</span></div>
@@ -242,7 +235,6 @@
                     <span>الإجمالي النهائي:</span><span><span id="grandTotal">0</span> ج</span>
                 </div>
             </div>
-
             <div class="form-group"><label>الاسم:</label><input type="text" id="clientName" placeholder="مثال: منى أحمد"></div>
             <div class="form-group"><label>رقم الموبايل:</label><input type="tel" id="clientPhone" placeholder="01xxxxxxxxxx"></div>
             <div class="form-group"><label>المنطقة:</label><input type="text" id="clientArea" placeholder="سنباط..."></div>
@@ -255,18 +247,15 @@
                     <option value="أورانج كاش">أورانج كاش</option>
                 </select>
             </div>
-
             <div id="paymentInstructions" style="display:none; background:#222; border:1px solid var(--gold); padding:10px; border-radius:6px; margin-bottom:10px; font-size:0.75rem; color:#ffcc00; text-align:center;">
                 <span id="paymentInstructionText">يرجى التحويل وإرسال صورة التحويل لنا عبر الواتساب.</span>
             </div>
-
             <div class="form-group"><label>ملاحظات (اختياري):</label><input type="text" id="clientNotes" placeholder="أي طلب خاص أو معاد التسليم..."></div>
-
             <button class="card-qty-btn" style="width:100%; height:44px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
         </div>
     </div>
 
-    <!-- مكتبات فايربيز السحابية SDK -->
+    <!-- فايربيز SDK وموقع العملاء -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -281,116 +270,67 @@
           appId: "1:415068140121:web:3e89f2b9e7221326abb748",
           measurementId: "G-PK1D1TTD4L"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let menuData = [];
-        let categoriesData = [];
         let bannersData = [];
         let reviewsData = [];
+        let categoriesData = [];
         let siteSettings = {};
-        
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
         let currentDeliveryFee = baseDeliveryFee;
         let isCouponApplied = false;
 
-        // --- المزامنة السحابية اللحظية للموقع الرئيسي ---
-        db.ref('tabkha_categories').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (!data) {
-                const defaultCats = [
-                    { id: 'ready', name: 'أكلات للتسوية', img: 'mahshi_kromb.jpg' },
-                    { id: 'offers', name: 'العروض', img: 'garlic_offer.jpg' },
-                    { id: 'veggies', name: 'خضار جاهز', img: 'badengan_cleared.jpg' },
-                    { id: 'school', name: 'الوجبات', img: 'meal_paneer_basmati.jpg' },
-                    { id: 'family', name: 'وجبات العيلة', img: 'fam_mahshi_meshakal.jpg' },
-                    { id: 'trays', name: 'صواني العيلة', img: 'tray_1.jpg' },
-                    { id: 'sandwiches', name: 'سندوتشات', img: 'sand_paneer.jpg' },
-                    { id: 'extras', name: 'الإضافات', img: 'sauce_toumya.jpg' }
-                ];
-                db.ref('tabkha_categories').set(defaultCats);
-                categoriesData = defaultCats;
-            } else {
-                categoriesData = Object.values(data);
-            }
-            renderCategoriesToUI();
+        db.ref('tabkha_menu').on('value', s => { menuData = s.val() ? Object.values(s.val()) : []; renderTopProducts(); });
+        db.ref('tabkha_banners').on('value', s => { bannersData = s.val() ? Object.values(s.val()) : []; initSlider(); });
+        db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()) : []; renderCustomerReviews(); });
+        db.ref('tabkha_marquee').on('value', s => { document.getElementById('marqueeText').innerText = s.val() || ""; });
+        db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); applySiteSettingsToUI(); } });
+        
+        db.ref('tabkha_categories').on('value', s => {
+            categoriesData = s.val() ? Object.values(s.val()) : [
+                {id:'ready', name:'أكلات للتسوية', img:'mahshi_kromb.jpg'},
+                {id:'offers', name:'العروض', img:'garlic_offer.jpg'},
+                {id:'veggies', name:'خضار جاهز', img:'badengan_cleared.jpg'},
+                {id:'school', name:'الوجبات', img:'meal_paneer_basmati.jpg'},
+                {id:'family', name:'وجبات العيلة', img:'fam_mahshi_meshakal.jpg'},
+                {id:'trays', name:'صواني العيلة', img:'tray_1.jpg'},
+                {id:'sandwiches', name:'سندوتشات', img:'sand_paneer.jpg'},
+                {id:'extras', name:'الإضافات', img:'sauce_toumya.jpg'}
+            ];
+            renderCategoriesGrid();
         });
 
-        db.ref('tabkha_menu').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) menuData = Object.values(data);
-            renderTopProducts();
-            const currentCatText = document.getElementById('sectionHeadingText').innerText;
-            if (currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                for (let cat of categoriesData) { if (cat.name === currentCatText) { renderMenu(cat.id); break; } }
-            }
-        });
-
-        db.ref('tabkha_banners').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) bannersData = Object.values(data);
-            initSlider();
-        });
-
-        db.ref('tabkha_reviews').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) reviewsData = Object.values(data);
-            renderCustomerReviews();
-        });
-
-        db.ref('tabkha_marquee').on('value', (snapshot) => {
-            const val = snapshot.val();
-            document.getElementById('marqueeText').innerText = val || "⏰ تنبيه هـام: الحجز يكون قبلها بيوم على الأقل.. 🍲";
-        });
-
-        db.ref('tabkha_settings').on('value', (snapshot) => {
-            const val = snapshot.val();
-            if(val) {
-                siteSettings = val;
-                applySiteSettingsToUI();
-            }
-        });
-
-        function applySiteSettingsToUI() {
-            document.getElementById('headerBrandTitle').innerText = siteSettings.brandTitle || "طبخة على الجاهز";
-            document.getElementById('headerBrandSub').innerText = siteSettings.brandSub || "أكل بيتي • جاهز على التسوية";
-            document.getElementById('headerFbLink').href = siteSettings.fbLink || "https://www.facebook.com/share/1MVEbmtDN6/";
-            document.getElementById('socialPageLinkBtn').href = siteSettings.fbLink || "https://www.facebook.com/share/1MVEbmtDN6/";
-            
-            const logoImg = document.getElementById('headerLogoImg');
-            if(siteSettings.logoUrl) logoImg.src = siteSettings.logoUrl;
-            
-            const fbImg = document.getElementById('headerFbImg');
-            if(siteSettings.fbIconUrl) fbImg.src = siteSettings.fbIconUrl;
-
-            const socBanner = document.getElementById('socialBannerImg');
-            if(siteSettings.socialBannerUrl) socBanner.src = siteSettings.socialBannerUrl;
-        }
-
-        function renderCategoriesToUI() {
+        function renderCategoriesGrid() {
             const container = document.getElementById('categories-container');
             container.innerHTML = '';
             categoriesData.forEach(cat => {
                 container.innerHTML += `
-                    <div class="category-card" onclick="selectCategory('${cat.id}', '${cat.name}')">
+                    <div class="category-card" onclick="selectCategory('${cat.id}')">
                         <img src="${cat.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
                         <span class="cat-name">${cat.name}</span>
                     </div>`;
             });
         }
 
+        function applySiteSettingsToUI() {
+            document.getElementById('headerBrandTitle').innerText = siteSettings.brandTitle || "طبخة على الجاهز";
+            document.getElementById('headerBrandSub').innerText = siteSettings.brandSub || "أكل بيتي • جاهز على التسوية";
+            document.getElementById('headerFbLink').href = siteSettings.fbLink || "#";
+            document.getElementById('socialPageLinkBtn').href = siteSettings.fbLink || "#";
+            if(siteSettings.logoUrl) document.getElementById('headerLogoImg').src = siteSettings.logoUrl;
+            if(siteSettings.socialBannerUrl) document.getElementById('socialBannerImg').src = siteSettings.socialBannerUrl;
+        }
+
         function renderCustomerReviews() {
             const container = document.getElementById('reviewsContainer');
             if(!container) return;
             container.innerHTML = '';
-            let approvedReviews = reviewsData.filter(r => r.approved);
-            if(approvedReviews.length === 0) {
-                container.innerHTML = '<p style="color:#888; font-size:0.8rem;">كن أول من يترك رأياً لنا بعد التجربة!</p>';
-                return;
-            }
-            approvedReviews.forEach(rev => {
+            let appRev = reviewsData.filter(r => r.approved);
+            if(appRev.length === 0) { container.innerHTML = '<p style="color:#888; font-size:0.8rem;">كن أول من يترك رأياً لنا بعد التجربة!</p>'; return; }
+            appRev.forEach(rev => {
                 container.innerHTML += `
                     <div class="review-card">
                         <div class="review-stars">${rev.stars}</div>
@@ -403,8 +343,7 @@
             const stars = document.getElementById('clientReviewStars').value;
             const text = document.getElementById('clientReviewText').value.trim();
             if(!text) { alert('من فضلك ادخل رأيك قبل الإرسال.'); return; }
-            const newRev = { id: Date.now(), stars: stars, text: text, approved: false };
-            reviewsData.push(newRev);
+            reviewsData.push({ id: Date.now(), stars, text, approved: false });
             db.ref('tabkha_reviews').set(reviewsData);
             document.getElementById('clientReviewText').value = '';
             alert('شكراً لك! تم إرسال رأيك وسيعرض سحابياً بعد المراجعة. 🌟');
@@ -412,76 +351,50 @@
 
         let currentSlide = 0;
         let slideInterval;
-
         function initSlider() {
             const wrapper = document.getElementById('slidesWrapper');
             const dotsContainer = document.getElementById('sliderDots');
-            wrapper.innerHTML = '';
-            dotsContainer.innerHTML = '';
-
+            wrapper.innerHTML = ''; dotsContainer.innerHTML = '';
             const activeBanners = bannersData.filter(b => b.active);
-            if (activeBanners.length === 0) {
-                document.getElementById('sliderContainer').style.display = 'none';
-                dotsContainer.style.display = 'none';
-                return;
-            } else {
-                document.getElementById('sliderContainer').style.display = 'block';
-                dotsContainer.style.display = 'flex';
-            }
-
-            activeBanners.forEach((banner, index) => {
+            if(activeBanners.length === 0) { document.getElementById('sliderContainer').style.display = 'none'; return; }
+            document.getElementById('sliderContainer').style.display = 'block';
+            activeBanners.forEach((b, idx) => {
                 wrapper.innerHTML += `
-                    <div class="slide-card" onclick="addBannerToCart(${banner.price}, '${banner.title}')">
-                        <img src="${banner.img}" alt="${banner.title}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
-                        <div class="slide-overlay">
-                            <div class="slide-text"><h3>${banner.title} - ${banner.price} ج</h3><p>${banner.desc}</p></div>
-                        </div>
+                    <div class="slide-card" onclick="addBannerToCart(${b.price}, '${b.title}')">
+                        <img src="${b.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
+                        <div class="slide-overlay"><div class="slide-text"><h3>${b.title} - ${b.price} ج</h3><p>${b.desc}</p></div></div>
                     </div>`;
-                dotsContainer.innerHTML += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
+                dotsContainer.innerHTML += `<span class="dot ${idx === 0 ? 'active' : ''}" onclick="currentSlide=${idx}; updateSliderPosition();"></span>`;
             });
-            currentSlide = 0;
-            updateSliderPosition();
-            startSliderInterval();
+            currentSlide = 0; updateSliderPosition(); startSliderInterval();
         }
 
         function addBannerToCart(price, title) {
             const cartKey = `banner-${title}`;
             const found = cart.find(i => i.cartKey === cartKey);
-            if (found) { found.qty++; } 
-            else { cart.push({ cartKey: cartKey, id: Date.now(), name: title + " (عرض البانر)", unitPrice: price, qty: 1 }); }
-            saveAndUpdateCart();
-            openCheckout();
+            if(found) found.qty++; else cart.push({ cartKey, id: Date.now(), name: title + " (عرض البانر)", unitPrice: price, qty: 1 });
+            saveAndUpdateCart(); openCheckout();
         }
 
         function updateSliderPosition() {
             const wrapper = document.getElementById('slidesWrapper');
-            const activeBanners = bannersData.filter(b => b.active);
-            if (activeBanners.length === 0) return;
             wrapper.style.transform = `translateX(${currentSlide * 100}%)`;
-            const dots = document.querySelectorAll('.slider-dots .dot');
-            dots.forEach((dot, index) => {
-                if (index === currentSlide) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
+            document.querySelectorAll('.slider-dots .dot').forEach((d, idx) => d.classList.toggle('active', idx === currentSlide));
         }
-
-        function goToSlide(index) { currentSlide = index; updateSliderPosition(); }
         function startSliderInterval() {
             clearInterval(slideInterval);
-            const activeBanners = bannersData.filter(b => b.active);
-            if (activeBanners.length <= 1) return;
-            slideInterval = setInterval(() => {
-                currentSlide = (currentSlide + 1) % activeBanners.length;
-                updateSliderPosition();
-            }, 4000);
+            const active = bannersData.filter(b => b.active);
+            if(active.length <= 1) return;
+            slideInterval = setInterval(() => { currentSlide = (currentSlide + 1) % active.length; updateSliderPosition(); }, 4000);
         }
 
-        function selectCategory(catKey, catName) {
+        function selectCategory(catKey) {
             document.getElementById('categories-container').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'none';
             document.getElementById('menu-container').style.display = 'grid';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
-            document.getElementById('sectionHeadingText').innerText = catName;
+            const catObj = categoriesData.find(c => c.id === catKey);
+            document.getElementById('sectionHeadingText').innerText = catObj ? catObj.name : 'المنيو';
             renderMenu(catKey);
         }
 
@@ -494,19 +407,15 @@
             document.getElementById('searchInput').value = '';
         }
 
-        function renderMenu(categoryKey, query = '') {
+        function renderMenu(category = 'ready', query = '') {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
             let filtered = menuData.filter(item => item.available);
-            if (query.trim() !== '') {
-                filtered = filtered.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
-            } else {
-                filtered = filtered.filter(item => item.category === categoryKey);
-            }
-            if (filtered.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج متاحة في هذا القسم حالياً.</p>';
-                return;
-            }
+            if(query.trim() !== '') filtered = filtered.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
+            else filtered = filtered.filter(item => item.category === category);
+            
+            if(filtered.length === 0) { container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج متاحة مطابقة لبحثك.</p>'; return; }
+            
             filtered.forEach(item => {
                 let weightHTML = item.hasWeight ? `
                     <div class="options-box" onclick="event.stopPropagation();">
@@ -517,29 +426,37 @@
                         </select>
                     </div>` : '';
 
+                let chickenHTML = item.hasChickenOption ? `
+                    <div class="options-box" onclick="event.stopPropagation();">
+                        <label>قطعة الدجاج (الصدر +10ج):</label>
+                        <select id="chicken-${item.id}">
+                            <option value="وِرك">وِرك (بدون زيادة)</option>
+                            <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
+                        </select>
+                    </div>` : '';
+
                 const cartItem = cart.find(i => i.id === item.id);
-                const currentQty = cartItem ? cartItem.qty : 0;
-                let actionArea = currentQty > 0 ? `
+                let actionArea = cartItem && cartItem.qty > 0 ? `
                     <div class="card-qty-row" onclick="event.stopPropagation();">
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
-                        <span class="card-qty-num">${currentQty} في السلة</span>
+                        <span class="card-qty-num">${cartItem.qty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
                     </div>` : '';
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
                         <span class="item-status status-available">🟢 متاح</span>
-                        <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                        <img src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
                                 <div class="item-desc">طازة ومخدوم على أصوله البيتي</div>
                                 <div class="item-meta">
                                     <div class="item-price">${item.price} ج</div>
-                                    <div class="item-weight">${item.weight || 'قطعة / عبوة'}</div>
+                                    <div class="item-weight">${item.weight || 'حبة'}</div>
                                 </div>
                             </div>
-                            ${weightHTML}
+                            ${weightHTML} ${chickenHTML}
                             <div id="action-${item.id}">${actionArea}</div>
                         </div>
                     </div>`;
@@ -550,8 +467,7 @@
             const container = document.getElementById('top-products-container');
             if(!container) return;
             container.innerHTML = '';
-            let topItems = menuData.filter(i => i.top && i.available);
-            topItems.forEach(item => {
+            menuData.filter(i => i.top && i.available).forEach(item => {
                 let weightHTML = item.hasWeight ? `
                     <div class="options-box" onclick="event.stopPropagation();">
                         <label>اختر الوزن:</label>
@@ -561,29 +477,37 @@
                         </select>
                     </div>` : '';
 
+                let chickenHTML = item.hasChickenOption ? `
+                    <div class="options-box" onclick="event.stopPropagation();">
+                        <label>قطعة الدجاج (الصدر +10ج):</label>
+                        <select id="chicken-${item.id}">
+                            <option value="وِرك">وِرك (بدون زيادة)</option>
+                            <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
+                        </select>
+                    </div>` : '';
+
                 const cartItem = cart.find(i => i.id === item.id);
-                const currentQty = cartItem ? cartItem.qty : 0;
-                let actionArea = currentQty > 0 ? `
+                let actionArea = cartItem && cartItem.qty > 0 ? `
                     <div class="card-qty-row" onclick="event.stopPropagation();">
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
-                        <span class="card-qty-num">${currentQty} في السلة</span>
+                        <span class="card-qty-num">${cartItem.qty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
                     </div>` : '';
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
                         <span class="item-status status-available">🟢 متاح</span>
-                        <img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                        <img src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
                                 <div class="item-desc">الأكثر طلباً ومفضلة حبايبنا</div>
                                 <div class="item-meta">
                                     <div class="item-price">${item.price} ج</div>
-                                    <div class="item-weight">${item.weight || 'قطعة / عبوة'}</div>
+                                    <div class="item-weight">${item.weight || 'حبة'}</div>
                                 </div>
                             </div>
-                            ${weightHTML}
+                            ${weightHTML} ${chickenHTML}
                             <div id="action-top-${item.id}">${actionArea}</div>
                         </div>
                     </div>`;
@@ -599,107 +523,77 @@
                 document.getElementById('backToCatsBtn').style.display = 'inline-block';
                 document.getElementById('sectionHeadingText').innerText = 'نتائج البحث';
                 renderMenu('', query);
-            } else {
-                showCategoriesView();
-            }
+            } else { showCategoriesView(); }
         }
 
         function addToCartFromUI(id) {
             let weightMultiplier = 1;
-            const selectElem = document.getElementById(`weight-${id}`);
-            if (selectElem) weightMultiplier = parseFloat(selectElem.value);
-            addToCart(id, weightMultiplier);
+            const wElem = document.getElementById(`weight-${id}`);
+            if(wElem) weightMultiplier = parseFloat(wElem.value);
+
+            let chickenChoice = "";
+            let extraPrice = 0;
+            const cElem = document.getElementById(`chicken-${id}`);
+            if(cElem) { chickenChoice = cElem.value; if(chickenChoice.includes("+10")) extraPrice = 10; }
+            addToCart(id, weightMultiplier, chickenChoice, extraPrice);
         }
 
-        function addToCart(id, weightMultiplier = 1) {
+        function addToCart(id, weightMultiplier = 1, chickenChoice = "", extraPrice = 0) {
             const item = menuData.find(i => i.id === id);
             let basePrice = item.price;
             let sizeName = "كيلو";
-            if (weightMultiplier === 0.5) { basePrice = Math.round(item.price / 2); sizeName = "نصف كيلو"; }
-
+            if(weightMultiplier === 0.5) { basePrice = Math.round(item.price / 2); sizeName = "نصف كيلو"; }
+            let finalUnitPrice = basePrice + extraPrice;
             let descriptiveName = item.name + (item.hasWeight ? ` (${sizeName})` : '');
-            const cartKey = `${id}-${weightMultiplier}`;
+            if(chickenChoice) descriptiveName += ` [${chickenChoice}]`;
+
+            const cartKey = `${id}-${weightMultiplier}-${chickenChoice}`;
             const found = cart.find(i => i.cartKey === cartKey);
-            if (found) { found.qty++; } 
-            else { cart.push({ cartKey: cartKey, id: item.id, name: descriptiveName, unitPrice: basePrice, qty: 1 }); }
-            saveAndUpdateCart();
-            renderTopProducts();
-            const currentCatText = document.getElementById('sectionHeadingText').innerText;
-            if(currentCatText !== 'أقسام المنيو' && currentCatText !== 'نتائج البحث') {
-                for(let cat of categoriesData) { if(cat.name === currentCatText) { renderMenu(cat.id); break; } }
-            }
+            if(found) found.qty++; else cart.push({ cartKey, id: item.id, name: descriptiveName, unitPrice: finalUnitPrice, qty: 1 });
+            saveAndUpdateCart(); renderTopProducts();
         }
 
         function updateCardQty(id, delta) {
             const found = cart.find(i => i.id === id);
-            if (found) {
-                found.qty += delta;
-                if (found.qty <= 0) cart = cart.filter(i => i.id !== id);
-            } else if (delta > 0) {
-                addToCart(id, 1);
-                return;
-            }
-            saveAndUpdateCart();
-            renderTopProducts();
+            if(found) { found.qty += delta; if(found.qty <= 0) cart = cart.filter(i => i.id !== id); }
+            saveAndUpdateCart(); renderTopProducts();
         }
 
         function changeQty(cartKey, delta) {
             const found = cart.find(i => i.cartKey === cartKey);
-            if (found) {
-                found.qty += delta;
-                if (found.qty <= 0) cart = cart.filter(i => i.cartKey !== cartKey);
-            }
-            saveAndUpdateCart();
-            openCheckout();
-            if (cart.length === 0) closeCheckout();
+            if(found) { found.qty += delta; if(found.qty <= 0) cart = cart.filter(i => i.cartKey !== cartKey); }
+            saveAndUpdateCart(); renderTopProducts(); openCheckout();
+            if(cart.length === 0) closeCheckout();
         }
 
         function saveAndUpdateCart() {
             localStorage.setItem('tabkha_cart', JSON.stringify(cart));
-            const cartBar = document.getElementById('cartBar');
-            const cartCount = document.getElementById('cartCount');
-            const cartTotal = document.getElementById('cartTotal');
-
             const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
             const subTotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
-            
-            if (totalCount > 0) {
-                const totalPrice = subTotal + currentDeliveryFee;
+            const cartBar = document.getElementById('cartBar');
+            if(totalCount > 0) {
                 cartBar.style.display = 'flex';
-                cartCount.innerText = totalCount;
-                cartTotal.innerText = totalPrice;
-            } else {
-                cartBar.style.display = 'none';
-            }
+                document.getElementById('cartCount').innerText = totalCount;
+                document.getElementById('cartTotal').innerText = subTotal + currentDeliveryFee;
+            } else { cartBar.style.display = 'none'; }
         }
 
         function applyCoupon() {
-            const codeInput = document.getElementById('couponInput').value.trim();
-            const msgElem = document.getElementById('couponMsg');
-            const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
-
-            if (codeInput === "AMMAR01") {
-                if (usedCoupons["AMMAR01"]) {
-                    msgElem.style.color = "#e74c3c";
-                    msgElem.innerText = "❌ لقد استخدمت هذه القسيمة من قبل.";
-                    return;
-                }
-                currentDeliveryFee = 0;
-                isCouponApplied = true;
-                msgElem.style.color = "#27ae60";
-                msgElem.innerText = "🎉 تم تطبيق القسيمة وإلغاء مصاريف التوصيل!";
+            const code = document.getElementById('couponInput').value.trim();
+            const msg = document.getElementById('couponMsg');
+            let used = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
+            if(code === "AMMAR01") {
+                if(used["AMMAR01"]) { msg.style.color="#e74c3c"; msg.innerText="❌ تم استخدام هذه القسيمة من قبل."; return; }
+                currentDeliveryFee = 0; isCouponApplied = true;
+                msg.style.color = "#27ae60"; msg.innerText = "🎉 تم تطبيق القسيمة وإلغاء مصاريف التوصيل!";
                 document.getElementById('applyCouponBtn').style.display = 'none';
                 document.getElementById('removeCouponBtn').style.display = 'inline-block';
                 openCheckout();
-            } else {
-                msgElem.style.color = "#e74c3c";
-                msgElem.innerText = "❌ الكود غير صحيح.";
-            }
+            } else { msg.style.color = "#e74c3c"; msg.innerText = "❌ الكود غير صحيح."; }
         }
 
         function removeCoupon() {
-            currentDeliveryFee = baseDeliveryFee;
-            isCouponApplied = false;
+            currentDeliveryFee = baseDeliveryFee; isCouponApplied = false;
             document.getElementById('couponInput').value = '';
             document.getElementById('couponMsg').innerText = '';
             document.getElementById('applyCouponBtn').style.display = 'inline-block';
@@ -711,30 +605,23 @@
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
             const modal = document.getElementById('checkoutModal');
             const list = document.getElementById('cartItemsList');
-            list.innerHTML = '';
-
-            let subTotal = 0;
+            list.innerHTML = ''; let subTotal = 0;
             cart.forEach(item => {
                 subTotal += item.unitPrice * item.qty;
                 list.innerHTML += `
                     <div class="cart-item-row">
-                        <div>
-                            <strong>${item.name}</strong><br>
-                            <span style="color: var(--gold); font-size: 0.75rem; font-weight: bold;">${item.unitPrice * item.qty} ج</span>
-                        </div>
+                        <div><strong>${item.name}</strong><br><span style="color:var(--gold); font-size:0.75rem;">${item.unitPrice * item.qty} ج</span></div>
                         <div class="qty-controls">
                             <button class="qty-btn" onclick="changeQty('${item.cartKey}', -1)">-</button>
-                            <span style="font-size: 0.85rem; font-weight: bold;">${item.qty}</span>
+                            <span style="font-size:0.85rem; font-weight:bold;">${item.qty}</span>
                             <button class="qty-btn" onclick="changeQty('${item.cartKey}', 1)">+</button>
                         </div>
                     </div>`;
             });
-
             document.getElementById('subTotal').innerText = subTotal;
             document.getElementById('deliveryCostText').innerText = currentDeliveryFee;
             document.getElementById('grandTotal').innerText = subTotal + currentDeliveryFee;
-            modal.style.display = 'flex';
-            togglePaymentInstructions();
+            modal.style.display = 'flex'; togglePaymentInstructions();
         }
 
         function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
@@ -743,15 +630,9 @@
             const method = document.getElementById('paymentMethod').value;
             const box = document.getElementById('paymentInstructions');
             const text = document.getElementById('paymentInstructionText');
-            if (method === "إنستاباي") {
-                box.style.display = 'block';
-                text.innerHTML = "💡 يرجى التحويل على رقم إنستاباي: <strong>01155499777</strong> وإرسال صورة التحويل هنا على الواتساب.";
-            } else if (method === "أورانج كاش") {
-                box.style.display = 'block';
-                text.innerHTML = "💡 يرجى التحويل كاش على محفظة أورانج كاش: <strong>01288372467</strong> وإرسال صورة التحويل هنا على الواتساب.";
-            } else {
-                box.style.display = 'none';
-            }
+            if(method === "إنستاباي") { box.style.display='block'; text.innerHTML="💡 رقم إنستاباي: <strong>01155499777</strong>"; }
+            else if(method === "أورانج كاش") { box.style.display='block'; text.innerHTML="💡 محفظة أورانج كاش: <strong>01288372467</strong>"; }
+            else { box.style.display='none'; }
         }
 
         function sendToWhatsApp() {
@@ -762,45 +643,21 @@
             const payment = document.getElementById('paymentMethod').value;
             const notes = document.getElementById('clientNotes').value;
 
-            if (!name || !phone || !area || !address) {
-                alert('من فضلك أكمل بيانات الاسم، رقم الموبايل، المنطقة، والعنوان.');
-                return;
-            }
-
+            if(!name || !phone || !area || !address) { alert('أكمل بيانات الاسم والموبايل والعنوان.'); return; }
             if(isCouponApplied) {
-                const usedCoupons = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
-                usedCoupons["AMMAR01"] = true;
-                localStorage.setItem('tabkha_used_coupons', JSON.stringify(usedCoupons));
+                let used = JSON.parse(localStorage.getItem('tabkha_used_coupons')) || {};
+                used["AMMAR01"] = true; localStorage.setItem('tabkha_used_coupons', JSON.stringify(used));
             }
 
-            let message = "🛒 *أوردر جديد من طبخة على الجاهز*\n";
-            message += "----------------------------------\n";
-            cart.forEach(item => { message += `▪️ ${item.name} (×${item.qty}) : ${item.unitPrice * item.qty} ج\n`; });
-            message += "----------------------------------\n";
-            
-            let subTotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
-            let total = subTotal + currentDeliveryFee;
+            let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
+            cart.forEach(i => msg += `▪️ ${i.name} (×${i.qty}) : ${i.unitPrice * i.qty} ج\n`);
+            let sub = cart.reduce((s, i) => s + (i.unitPrice * i.qty), 0);
+            msg += `----------------------------------\n💰 *الإجمالي: ${sub + currentDeliveryFee} ج*\n\n👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📍 المنطقة: ${area}\n🏠 العنوان: ${address}\n💳 الدفع: ${payment}\n`;
+            if(notes) msg += `📝 ملاحظات: ${notes}\n`;
 
-            message += `📦 الأصناف: ${subTotal} ج\n`;
-            message += `🛵 التوصيل: ${currentDeliveryFee} ج\n`;
-            message += `💰 *الإجمالي النهائي: ${total} ج*\n\n`;
-            message += "📋 *بيانات العميل:*\n";
-            message += `👤 الاسم: ${name}\n`;
-            message += `📱 الموبايل: ${phone}\n`;
-            message += `📍 المنطقة: ${area}\n`;
-            message += `🏠 العنوان: ${address}\n`;
-            message += `💳 الدفع: ${payment}\n`;
-            if (notes) message += `📝 ملاحظات: ${notes}\n`;
-
-            window.open(`https://wa.me/201129933758?text=${encodeURI(message)}`, '_blank');
-
-            cart = [];
-            localStorage.removeItem('tabkha_cart');
-            saveAndUpdateCart();
-            closeCheckout();
-            showCategoriesView();
+            window.open(`https://wa.me/201129933758?text=${encodeURI(msg)}`, '_blank');
+            cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
-
         saveAndUpdateCart();
     </script>
 </body>
