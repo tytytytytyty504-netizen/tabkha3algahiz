@@ -76,6 +76,7 @@
         .btn-danger { background: var(--danger); padding: 5px 10px; font-size: 0.75rem; }
         .btn-danger:hover { background: #a93226; }
         .btn-warning { background: var(--gold); color: #fff; padding: 5px 10px; font-size: 0.75rem; }
+        .btn-muted { background: #7f8c8d; color: #fff; padding: 5px 9px; font-size: 0.75rem; }
 
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.8rem; }
@@ -118,7 +119,7 @@
         <ul class="sidebar-menu">
             <li><button class="active" onclick="switchSection('dashboard', this)">📊 نظرة عامة (Dashboard)</button></li>
             <li><button onclick="switchSection('menuSection', this)">🍲 إدارة المنيو والأصناف</button></li>
-            <li><button onclick="switchSection('feedingSection', this)">🍱 وجبات الإطعام</button></li>
+            <li><button onclick="switchSection('feedingSection', this)">🍱 إدارة وجبات الإطعام</button></li>
             <li><button onclick="switchSection('categoriesSection', this)">📂 إدارة الأقسام</button></li>
             <li><button onclick="switchSection('bannersSection', this)">🖼️ البانرات والعروض</button></li>
             <li><button onclick="switchSection('reviewsSection', this)">🗣️ تقييمات العملاء</button></li>
@@ -151,6 +152,10 @@
                     <div class="stat-info"><h4>وجبات الإطعام</h4><span id="statFeedingCount">0</span></div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-icon">🖼️</div>
+                    <div class="stat-info"><h4>البانرات النشطة</h4><span id="statBannerCount">0</span></div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-icon">📂</div>
                     <div class="stat-info"><h4>الأقسام المتاحة</h4><span id="statCatCount">0</span></div>
                 </div>
@@ -163,7 +168,7 @@
             <div class="admin-card">
                 <div class="card-header-title">💡 مركز التحكم الشامل والمطلق</div>
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    أضف وجبات الإطعام وصورها من جهازك في قسم «وجبات الإطعام» لتظهر كأيقونات للعميل، وتابع عدد الزيارات وأدر المنيو والأقسام وواتساب الإطعام (01155499777).
+                    أدر وجبات الإطعام وتصنيفاتها وأسعارها وترتيبها وحالتها وصورها من جهازك مباشرة لتظهر فوراً للعميل مع إمكانية الإضافة للسلة وإرسال الطلب عبر الواتساب.
                 </p>
             </div>
         </div>
@@ -206,29 +211,52 @@
             </div>
         </div>
 
-        <!-- إدارة وجبات الإطعام بالصور من الجهاز -->
+        <!-- إدارة وجبات الإطعام وتصنيفاتها -->
         <div id="feedingSection" class="admin-section">
-            <div class="top-header"><h2>🍱 إدارة وجبات الإطعام وصورها</h2></div>
+            <div class="top-header"><h2>🍱 إدارة وجبات الإطعام وتصنيفاتها</h2></div>
+
             <div class="admin-card">
-                <div class="card-header-title">➕ إضافة وجبة إطعام</div>
+                <div class="card-header-title">🗂️ تصنيفات الإطعام</div>
                 <div class="row-inputs">
-                    <div class="form-group"><label>اسم الوجبة:</label><input type="text" id="feedingMealName" placeholder="مثال: وجبة فراخ وأرز"></div>
-                    <div class="form-group"><label>سعر الوجبة الأساسي (ج):</label><input type="number" id="feedingMealPrice" placeholder="65"></div>
+                    <div class="form-group"><label>اسم التصنيف:</label><input type="text" id="feedingCatNameInput" placeholder="مثال: وجبات ساخنة"></div>
+                    <div class="form-group" style="display:flex; align-items:flex-end;">
+                        <button class="btn" onclick="addFeedingCategory()">➕ إضافة تصنيف</button>
+                    </div>
+                </div>
+                <div id="feedingCatsChips" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;"></div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header-title">➕ إضافة وجبة إطعام جديدة</div>
+                <div class="row-inputs">
+                    <div class="form-group"><label>اسم الوجبة:</label><input type="text" id="feedingMealName" placeholder="مثال: وجبة فراخ وأرز بسمتي"></div>
+                    <div class="form-group"><label>التصنيف التابع له:</label><select id="feedingMealCatSelect"></select></div>
+                </div>
+                <div class="row-inputs">
+                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="feedingMealPrice" placeholder="65"></div>
+                    <div class="form-group"><label>وصف مختصر (اختياري):</label><input type="text" id="feedingMealDesc" placeholder="ربع فرخة + أرز + سلطة..."></div>
                 </div>
                 <div class="form-group">
-                    <label>صورة الوجبة (اختر من الجهاز 📁):</label>
-                    <input type="file" accept="image/*" onchange="previewCompressedImage(this, 'feedingImgBase64', 'feedingImgPreview')">
+                    <label>صورة الوجبة (من الهاتف أو الكمبيوتر — ضغط تلقائي 📁):</label>
+                    <input type="file" id="feedingMealFileInput" accept="image/*" onchange="previewCompressedImage(this, 'feedingImgBase64', 'feedingImgPreview')">
                     <input type="hidden" id="feedingImgBase64">
                     <div class="img-preview-box"><img id="feedingImgPreview" src="" style="display:none;" alt="معاينة"></div>
+                </div>
+                <div style="display:flex; gap:20px; margin-bottom:14px; font-size:0.82rem; flex-wrap:wrap;">
+                    <label><input type="checkbox" id="feedingMealAvailable" checked style="width:auto;"> متاحة للعرض</label>
+                    <label><input type="checkbox" id="feedingMealTop" style="width:auto;"> تمييز كـ "الأكثر طلبًا"</label>
                 </div>
                 <button class="btn btn-success" onclick="addFeedingMeal()">حفظ وإضافة الوجبة 🍱</button>
             </div>
 
             <div class="admin-card">
-                <div class="card-header-title">📋 وجبات الإطعام المضافة</div>
+                <div class="card-header-title">
+                    <span>📋 وجبات الإطعام</span>
+                    <input type="text" id="adminFeedingSearch" placeholder="بحث بالاسم..." oninput="renderFeedingTable()" style="width:200px; padding:6px 10px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.78rem;">
+                </div>
                 <div class="table-responsive">
                     <table id="adminFeedingTable">
-                        <thead><tr><th>الصورة</th><th>اسم الوجبة</th><th>السعر</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+                        <thead><tr><th>الصورة</th><th>الوجبة والوصف</th><th>التصنيف</th><th>السعر</th><th>الحالة</th><th>الترتيب والتحكم</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -309,10 +337,7 @@
             <div class="admin-card">
                 <div class="form-group"><label>اسم البراند:</label><input type="text" id="settingBrandTitle"></div>
                 <div class="form-group"><label>الوصف أو الشعار (Slogan):</label><input type="text" id="settingBrandSub"></div>
-                <div class="row-inputs">
-                    <div class="form-group"><label>رابط الفيسبوك:</label><input type="text" id="settingFbLink"></div>
-                    <div class="form-group"><label>رقم واتساب وجبات الإطعام:</label><input type="text" id="settingFeedingWaPhone" placeholder="01155499777"></div>
-                </div>
+                <div class="form-group"><label>رابط الفيسبوك:</label><input type="text" id="settingFbLink"></div>
                 <div class="row-inputs">
                     <div class="form-group">
                         <label>صورة الشعار (Logo - من الجهاز 📁):</label>
@@ -367,6 +392,36 @@
         </div>
     </div>
 
+    <!-- نافذة تعديل وجبة إطعام -->
+    <div class="modal" id="editFeedingModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:8px;">
+                <h3 style="color:var(--dark-sidebar); font-size:1rem;">✏️ تعديل وجبة الإطعام</h3>
+                <button class="btn btn-danger" onclick="closeEditFeedingModal()" style="padding:4px 10px;">إغلاق ✕</button>
+            </div>
+            <input type="hidden" id="editFeedingIndex">
+            <div class="row-inputs">
+                <div class="form-group"><label>اسم الوجبة:</label><input type="text" id="editFeedingName"></div>
+                <div class="form-group"><label>التصنيف:</label><select id="editFeedingCat"></select></div>
+            </div>
+            <div class="row-inputs">
+                <div class="form-group"><label>السعر (ج):</label><input type="number" id="editFeedingPrice"></div>
+                <div class="form-group"><label>وصف مختصر:</label><input type="text" id="editFeedingDesc"></div>
+            </div>
+            <div style="display:flex; gap:20px; margin-bottom:12px; font-size:0.82rem;">
+                <label><input type="checkbox" id="editFeedingAvailable" style="width:auto;"> متاحة للعرض</label>
+                <label><input type="checkbox" id="editFeedingTop" style="width:auto;"> الأكثر طلبًا</label>
+            </div>
+            <div class="form-group">
+                <label>تغيير الصورة (اختيار صورة جديدة من الجهاز 📁):</label>
+                <input type="file" accept="image/*" onchange="previewCompressedImage(this, 'editFeedingImgBase64', 'editFeedingImgPreview')">
+                <input type="hidden" id="editFeedingImgBase64">
+                <div class="img-preview-box"><img id="editFeedingImgPreview" src="" style="display:block;" alt="معاينة"></div>
+            </div>
+            <button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="saveEditedFeedingMeal()">حفظ تعديلات الوجبة 💾</button>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -384,11 +439,21 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        function parseFirebaseList(val) {
+            if (!val) return [];
+            if (Array.isArray(val)) return val.filter(Boolean);
+            return Object.keys(val)
+                .sort((a, b) => Number(a) - Number(b))
+                .map(k => val[k])
+                .filter(Boolean);
+        }
+
         let menuData = [];
         let bannersData = [];
         let reviewsData = [];
         let categoriesData = [];
         let feedingMealsData = [];
+        let feedingCatsData = [];
         let siteSettings = {};
         let adminPass = "123456";
 
@@ -460,27 +525,33 @@
                 document.getElementById('statVisitsCount').innerText = s.val() || 0;
             });
             db.ref('tabkha_menu').on('value', s => {
-                menuData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+                menuData = parseFirebaseList(s.val());
                 renderMenuTable();
                 document.getElementById('statMenuCount').innerText = menuData.length;
             });
+            db.ref('tabkha_feeding_cats').on('value', s => {
+                feedingCatsData = parseFirebaseList(s.val());
+                renderFeedingCatsChips();
+                updateFeedingCatSelects();
+                renderFeedingTable();
+            });
             db.ref('tabkha_feeding_meals').on('value', s => {
-                feedingMealsData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+                feedingMealsData = parseFirebaseList(s.val());
                 renderFeedingTable();
                 document.getElementById('statFeedingCount').innerText = feedingMealsData.length;
             });
             db.ref('tabkha_banners').on('value', s => {
-                bannersData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+                bannersData = parseFirebaseList(s.val());
                 renderBannersTable();
                 document.getElementById('statBannerCount').innerText = bannersData.filter(b => b.active).length;
             });
             db.ref('tabkha_reviews').on('value', s => {
-                reviewsData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+                reviewsData = parseFirebaseList(s.val());
                 renderReviewsTable();
                 document.getElementById('statReviewCount').innerText = reviewsData.length;
             });
             db.ref('tabkha_categories').on('value', s => {
-                categoriesData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+                categoriesData = parseFirebaseList(s.val());
                 renderCategoriesTable();
                 updateCategorySelects();
                 document.getElementById('statCatCount').innerText = categoriesData.length;
@@ -494,7 +565,6 @@
             document.getElementById('settingBrandTitle').value = siteSettings.brandTitle || "";
             document.getElementById('settingBrandSub').value = siteSettings.brandSub || "";
             document.getElementById('settingFbLink').value = siteSettings.fbLink || "";
-            document.getElementById('settingFeedingWaPhone').value = siteSettings.feedingWaPhone || "01155499777";
             if(siteSettings.logoUrl) { document.getElementById('settingLogoPreview').src = siteSettings.logoUrl; document.getElementById('settingLogoPreview').style.display='block'; document.getElementById('settingLogoBase64').value = siteSettings.logoUrl; }
             if(siteSettings.socialBannerUrl) { document.getElementById('settingSocialPreview').src = siteSettings.socialBannerUrl; document.getElementById('settingSocialPreview').style.display='block'; document.getElementById('settingSocialBase64').value = siteSettings.socialBannerUrl; }
             db.ref('tabkha_marquee').once('value', s => { document.getElementById('settingMarqueeText').value = s.val() || ""; });
@@ -505,7 +575,6 @@
                 brandTitle: document.getElementById('settingBrandTitle').value,
                 brandSub: document.getElementById('settingBrandSub').value,
                 fbLink: document.getElementById('settingFbLink').value,
-                feedingWaPhone: document.getElementById('settingFeedingWaPhone').value.trim() || "01155499777",
                 logoUrl: document.getElementById('settingLogoBase64').value || siteSettings.logoUrl || "",
                 socialBannerUrl: document.getElementById('settingSocialBase64').value || siteSettings.socialBannerUrl || ""
             };
@@ -515,46 +584,123 @@
             alert('تم حفظ وتحديث الإعدادات بنجاح 🚀');
         }
 
+        /* إدارة تصنيفات ووجبات الإطعام */
+        function addFeedingCategory() {
+            const name = document.getElementById('feedingCatNameInput').value.trim();
+            if (!name) { alert('اكتب اسم التصنيف.'); return; }
+            const id = 'fcat_' + Date.now();
+            feedingCatsData.push({ id, name });
+            db.ref('tabkha_feeding_cats').set(feedingCatsData);
+            document.getElementById('feedingCatNameInput').value = '';
+        }
+
+        function deleteFeedingCategory(idx) {
+            if (confirm('حذف هذا التصنيف؟')) {
+                feedingCatsData.splice(idx, 1);
+                db.ref('tabkha_feeding_cats').set(feedingCatsData);
+            }
+        }
+
+        function renderFeedingCatsChips() {
+            const box = document.getElementById('feedingCatsChips');
+            if (!box) return;
+            if (feedingCatsData.length === 0) {
+                box.innerHTML = '<span style="font-size:0.78rem; color:var(--text-muted);">لا توجد تصنيفات مضافة بعد.</span>';
+                return;
+            }
+            box.innerHTML = feedingCatsData.map((c, idx) => `
+                <span style="background:#f4f6f7; border:1px solid #dcdfe6; padding:5px 10px; border-radius:20px; font-size:0.78rem; display:inline-flex; align-items:center; gap:6px;">
+                    <strong>${c.name}</strong>
+                    <button onclick="deleteFeedingCategory(${idx})" style="background:none; border:none; color:#c0392b; cursor:pointer; font-weight:bold;">✕</button>
+                </span>`).join('');
+        }
+
+        function updateFeedingCatSelects() {
+            const selects = [document.getElementById('feedingMealCatSelect'), document.getElementById('editFeedingCat')];
+            selects.forEach(sel => {
+                if (!sel) return;
+                sel.innerHTML = '<option value="">بدون تصنيف</option>';
+                feedingCatsData.forEach(c => {
+                    sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                });
+            });
+        }
+
         function addFeedingMeal() {
             const name = document.getElementById('feedingMealName').value.trim();
+            const category = document.getElementById('feedingMealCatSelect').value;
             const price = parseFloat(document.getElementById('feedingMealPrice').value) || 0;
-            const img = document.getElementById('feedingImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200';
+            const desc = document.getElementById('feedingMealDesc').value.trim();
+            const available = document.getElementById('feedingMealAvailable').checked;
+            const top = document.getElementById('feedingMealTop').checked;
+            const img = document.getElementById('feedingImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';
+
             if (!name || price <= 0) {
                 alert('أدخل اسم الوجبة والسعر.');
                 return;
             }
             feedingMealsData.push({
-                id: 'f_' + Date.now(),
+                id: 'f_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
                 name,
+                category,
                 price,
+                desc,
                 img,
-                available: true
+                available,
+                top
             });
             db.ref('tabkha_feeding_meals').set(feedingMealsData);
             document.getElementById('feedingMealName').value = '';
             document.getElementById('feedingMealPrice').value = '';
+            document.getElementById('feedingMealDesc').value = '';
+            document.getElementById('feedingMealFileInput').value = '';
             document.getElementById('feedingImgBase64').value = '';
             document.getElementById('feedingImgPreview').style.display = 'none';
+            document.getElementById('feedingMealAvailable').checked = true;
+            document.getElementById('feedingMealTop').checked = false;
             alert('تم إضافة وجبة الإطعام بنجاح 🍱');
         }
 
         function renderFeedingTable() {
             const tbody = document.querySelector('#adminFeedingTable tbody');
             if (!tbody) return;
+            const q = (document.getElementById('adminFeedingSearch')?.value || '').trim().toLowerCase();
             tbody.innerHTML = '';
+
             feedingMealsData.forEach((meal, idx) => {
+                if (q && !(meal.name || '').toLowerCase().includes(q) && !(meal.desc || '').toLowerCase().includes(q)) return;
+                const catObj = feedingCatsData.find(c => String(c.id) === String(meal.category));
+                const catName = catObj ? catObj.name : 'عام';
+                const isAvail = meal.available !== false;
+
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'}" style="width:38px; height:38px; border-radius:50%; object-fit:cover;"></td>
-                        <td><strong>${meal.name}</strong></td>
-                        <td>${meal.price} ج</td>
-                        <td><span class="badge ${meal.available !== false ? 'badge-active' : 'badge-inactive'}">${meal.available !== false ? 'متاح' : 'موقف'}</span></td>
+                        <td><img src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=60'}" style="width:42px; height:42px; border-radius:6px; object-fit:cover;"></td>
                         <td>
-                            <button class="btn" style="padding:4px 8px; font-size:0.7rem;" onclick="toggleFeedingMeal(${idx})">${meal.available !== false ? 'إيقاف' : 'تفعيل'}</button>
+                            <strong>${meal.name}</strong> ${meal.top ? '<span style="color:#d35400; font-size:0.7rem;">★ الأكثر طلبًا</span>' : ''}
+                            <br><span style="font-size:0.72rem; color:var(--text-muted);">${meal.desc || ''}</span>
+                        </td>
+                        <td>${catName}</td>
+                        <td><strong>${meal.price} ج</strong></td>
+                        <td><span class="badge ${isAvail ? 'badge-active' : 'badge-inactive'}">${isAvail ? 'متاحة' : 'مخفية'}</span></td>
+                        <td style="white-space:nowrap;">
+                            <button class="btn-muted" onclick="moveFeedingMeal(${idx}, -1)" title="لأعلى">▲</button>
+                            <button class="btn-muted" onclick="moveFeedingMeal(${idx}, 1)" title="لأسفل">▼</button>
+                            <button class="btn btn-warning" onclick="openEditFeedingModal(${idx})">تعديل</button>
+                            <button class="btn" style="padding:5px 8px; font-size:0.72rem;" onclick="toggleFeedingMeal(${idx})">${isAvail ? 'إخفاء' : 'إظهار'}</button>
                             <button class="btn btn-danger" onclick="deleteFeedingMeal(${idx})">حذف</button>
                         </td>
                     </tr>`;
             });
+        }
+
+        function moveFeedingMeal(idx, dir) {
+            const target = idx + dir;
+            if (target < 0 || target >= feedingMealsData.length) return;
+            const temp = feedingMealsData[idx];
+            feedingMealsData[idx] = feedingMealsData[target];
+            feedingMealsData[target] = temp;
+            db.ref('tabkha_feeding_meals').set(feedingMealsData);
         }
 
         function toggleFeedingMeal(idx) {
@@ -567,6 +713,56 @@
                 feedingMealsData.splice(idx, 1);
                 db.ref('tabkha_feeding_meals').set(feedingMealsData);
             }
+        }
+
+        function openEditFeedingModal(idx) {
+            const meal = feedingMealsData[idx];
+            if (!meal) return;
+            updateFeedingCatSelects();
+            document.getElementById('editFeedingIndex').value = idx;
+            document.getElementById('editFeedingName').value = meal.name || '';
+            document.getElementById('editFeedingCat').value = meal.category || '';
+            document.getElementById('editFeedingPrice').value = meal.price || '';
+            document.getElementById('editFeedingDesc').value = meal.desc || '';
+            document.getElementById('editFeedingAvailable').checked = meal.available !== false;
+            document.getElementById('editFeedingTop').checked = !!meal.top;
+            document.getElementById('editFeedingImgBase64').value = meal.img || '';
+            const prev = document.getElementById('editFeedingImgPreview');
+            prev.src = meal.img || '';
+            prev.style.display = meal.img ? 'block' : 'none';
+            document.getElementById('editFeedingModal').style.display = 'flex';
+        }
+
+        function closeEditFeedingModal() {
+            document.getElementById('editFeedingModal').style.display = 'none';
+        }
+
+        function saveEditedFeedingMeal() {
+            const idx = parseInt(document.getElementById('editFeedingIndex').value);
+            const name = document.getElementById('editFeedingName').value.trim();
+            const category = document.getElementById('editFeedingCat').value;
+            const price = parseFloat(document.getElementById('editFeedingPrice').value) || 0;
+            const desc = document.getElementById('editFeedingDesc').value.trim();
+            const available = document.getElementById('editFeedingAvailable').checked;
+            const top = document.getElementById('editFeedingTop').checked;
+            const img = document.getElementById('editFeedingImgBase64').value || feedingMealsData[idx].img;
+
+            if (!name || price <= 0) { alert('أدخل اسم الوجبة والسعر.'); return; }
+
+            feedingMealsData[idx] = {
+                ...feedingMealsData[idx],
+                name,
+                category,
+                price,
+                desc,
+                available,
+                top,
+                img
+            };
+            db.ref('tabkha_feeding_meals').set(feedingMealsData).then(() => {
+                closeEditFeedingModal();
+                alert('تم حفظ تعديلات الوجبة بنجاح 💾');
+            });
         }
 
         function updateCategorySelects() {
