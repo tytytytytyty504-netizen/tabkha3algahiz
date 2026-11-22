@@ -17,6 +17,9 @@
             --text-color: #ffffff;
             --text-muted: #9e9e9e;
             --gold: #ff9f43;
+            --feeding-accent: #10b981;
+            --feeding-dark: #059669;
+            --feeding-gold: #fbbf24;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg); color: var(--text-color); padding-bottom: 90px; }
@@ -50,14 +53,18 @@
         .dot.active { background: var(--gold); width: 18px; border-radius: 4px; }
 
         .section-title { font-size: 1.15rem; margin: 22px 0 12px; color: var(--gold); display: flex; justify-content: space-between; align-items: center; border-right: 4px solid var(--primary); padding-right: 8px; }
+        .section-title.feeding-theme-title { color: var(--feeding-accent); border-right-color: var(--feeding-accent); }
         .back-btn { font-size: 0.8rem; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 4px 12px; border-radius: 15px; cursor: pointer; display: none; }
+        .back-btn.feeding-back { color: var(--feeding-accent); border-color: var(--feeding-accent); background: #0c1f19; }
 
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-bottom: 25px; }
         .category-card { background: var(--card-bg); border: 1px solid #252525; border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .category-card.feeding-cat { border-color: var(--gold); background: linear-gradient(145deg, #1b1510, #161616); }
+        .category-card.feeding-cat { border-color: var(--feeding-accent); background: linear-gradient(145deg, #0b221a, #131c18); }
         .category-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
+        .category-card.feeding-cat img { border-color: var(--feeding-accent); }
         .category-card .cat-name { font-size: 0.8rem; font-weight: 700; color: #fff; }
         .category-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .category-card.feeding-cat:hover { border-color: var(--feeding-gold); }
 
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
         .menu-item { background: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; transition: border-color 0.2s ease, transform 0.2s ease; }
@@ -84,15 +91,51 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.92rem; color: var(--gold); }
 
-        /* قسم الإطعام الاحترافي */
+        /* قسم الإطعام المميز والمدمج */
         #feeding-section { display: none; margin-bottom: 25px; }
-        .feeding-toolbar { background: var(--card-bg); border: 1px solid #262626; border-radius: 14px; padding: 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; }
-        .feeding-search-input { width: 100%; padding: 10px 14px; background: #111; border: 1px solid #2e2e2e; border-radius: 22px; color: #fff; font-size: 0.85rem; outline: none; }
-        .feeding-search-input:focus { border-color: var(--gold); }
-        .feeding-filter-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+        .feeding-calc-card { background: linear-gradient(145deg, #0b1f18, #121816); border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); }
+        .feeding-calc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: end; }
+        @media(max-width: 720px) { .feeding-calc-grid { grid-template-columns: 1fr; } }
+        .feeding-field label { display: block; font-size: 0.74rem; color: #6ee7b7; margin-bottom: 4px; font-weight: 700; }
+        .feeding-field input, .feeding-field select { width: 100%; padding: 8px 10px; background: #0a120f; border: 1px solid #1f3d32; border-radius: 8px; color: #fff; font-size: 0.84rem; outline: none; }
+        .feeding-field input:focus, .feeding-field select:focus { border-color: var(--feeding-accent); }
+        .feeding-count-box { background: #081410; border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 6px 10px; text-align: center; }
+        .feeding-count-box span { display: block; font-size: 0.68rem; color: #86efac; }
+        .feeding-count-box strong { font-size: 1.05rem; color: var(--feeding-gold); font-weight: 900; }
+        .feeding-calc-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .feeding-add-bulk-btn { flex: 1; min-width: 150px; padding: 8px 12px; background: linear-gradient(135deg, var(--feeding-dark), var(--feeding-accent)); color: #fff; border: none; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; }
+        .feeding-wa-inline-btn { padding: 8px 14px; background: #143628; color: #6ee7b7; border: 1px solid var(--feeding-accent); border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+
+        .feeding-toolbar { background: #111916; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 14px; padding: 10px 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px; }
+        .feeding-search-input { width: 100%; padding: 9px 14px; background: #0a100e; border: 1px solid #1f332c; border-radius: 20px; color: #fff; font-size: 0.84rem; outline: none; }
+        .feeding-search-input:focus { border-color: var(--feeding-accent); }
+        .feeding-filter-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
         .feeding-filter-tabs::-webkit-scrollbar { display: none; }
-        .feeding-tab-btn { background: #1e1e1e; color: #ccc; border: 1px solid #303030; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; }
-        .feeding-tab-btn.active { background: var(--gold); color: #121212; border-color: var(--gold); }
+        .feeding-tab-btn { background: #182420; color: #b7d7cc; border: 1px solid #263b34; padding: 5px 12px; border-radius: 18px; font-size: 0.76rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; }
+        .feeding-tab-btn.active { background: var(--feeding-accent); color: #06140f; border-color: var(--feeding-accent); }
+
+        /* كروت إطعام أصغر وحجم مضغوط */
+        .feeding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 11px; }
+        @media(max-width: 480px) { .feeding-grid { grid-template-columns: repeat(2, 1fr); gap: 9px; } }
+        .feeding-card { background: linear-gradient(160deg, #131c19, #161616); border: 1px solid rgba(16, 185, 129, 0.28); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: transform 0.2s ease, border-color 0.2s ease; }
+        .feeding-card:hover { transform: translateY(-2px); border-color: var(--feeding-accent); }
+        .feeding-card img { width: 100%; height: 118px; object-fit: cover; background: #0e1412; }
+        .feeding-card-body { padding: 9px 10px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+        .feeding-card-title { font-size: 0.84rem; font-weight: 700; color: #fff; margin-bottom: 2px; line-height: 1.3; }
+        .feeding-card-desc { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .feeding-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 4px; margin-bottom: 7px; }
+        .feeding-card-price { color: var(--feeding-gold); font-weight: 900; font-size: 0.92rem; }
+        .feeding-card-cat { font-size: 0.64rem; color: #6ee7b7; background: rgba(16, 185, 129, 0.14); padding: 1px 6px; border-radius: 5px; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .feeding-add-btn { width: 100%; padding: 6px 8px; background: linear-gradient(135deg, var(--feeding-dark), var(--feeding-accent)); color: #fff; border: none; border-radius: 7px; font-weight: 700; font-size: 0.74rem; cursor: pointer; }
+        .feeding-qty-row { display: flex; align-items: center; justify-content: space-between; background: #0d1915; padding: 3px 6px; border-radius: 7px; border: 1px solid var(--feeding-accent); }
+        .feeding-qty-btn { background: var(--feeding-dark); color: #fff; border: none; width: 24px; height: 24px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.95rem; }
+        .feeding-qty-num { font-size: 0.74rem; font-weight: 700; color: #6ee7b7; }
+
+        /* أيقونة واتساب جانبية تفصيلية لقسم الإطعام */
+        .feeding-side-wa { display: none; position: fixed; left: 10px; top: 44%; transform: translateY(-50%); z-index: 999; background: linear-gradient(160deg, #065f46, #10b981); color: #fff; text-decoration: none; border: 1px solid #6ee7b7; border-radius: 14px; padding: 9px 7px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55); flex-direction: column; align-items: center; gap: 4px; width: 50px; text-align: center; }
+        .feeding-side-wa.visible { display: flex; }
+        .feeding-side-wa .wa-ic { font-size: 1.25rem; line-height: 1; }
+        .feeding-side-wa .wa-lbl { font-size: 0.62rem; font-weight: 900; line-height: 1.2; }
 
         .whatsapp-float-btn { position: fixed; bottom: 75px; right: 15px; background: #25d366; color: white; padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.9rem; font-weight: bold; text-decoration: none; border: 1px solid #fff; }
 
@@ -164,7 +207,7 @@
             <input type="text" id="searchInput" placeholder="ابحث عن أي أكلة نفسك فيها..." oninput="searchMenu()">
         </div>
 
-        <div class="section-title">
+        <div class="section-title" id="mainSectionHeading">
             <span id="sectionHeadingText">أقسام المنيو</span>
             <button class="back-btn" id="backToCatsBtn" onclick="showCategoriesView()">⬅️ رجوع للأقسام</button>
         </div>
@@ -174,13 +217,35 @@
         </div>
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- قسم الإطعام الاحترافي -->
+        <!-- قسم الإطعام المميز -->
         <div id="feeding-section">
+            <div class="feeding-calc-card">
+                <div class="feeding-calc-grid">
+                    <div class="feeding-field">
+                        <label>المبلغ المتاح (ج)</label>
+                        <input type="number" id="feedingBudgetInput" min="1" placeholder="اكتب المبلغ..." oninput="calculateFeeding()">
+                    </div>
+                    <div class="feeding-field">
+                        <label>اختر الوجبة</label>
+                        <select id="feedingMealSelect" onchange="calculateFeeding()"></select>
+                    </div>
+                    <div class="feeding-count-box">
+                        <span>عدد الوجبات</span>
+                        <strong id="feedingCalcCount">0</strong>
+                    </div>
+                </div>
+                <div class="feeding-calc-actions">
+                    <button class="feeding-add-bulk-btn" onclick="addCalculatedFeedingToCart()">إضافة العدد للسلة 🛒</button>
+                    <a id="feedingDetailWaBtn" href="https://wa.me/201155499777" target="_blank" class="feeding-wa-inline-btn">💬 اختيار / تفصيل واتساب</a>
+                </div>
+            </div>
+
             <div class="feeding-toolbar">
                 <input type="text" id="feedingSearchInput" class="feeding-search-input" placeholder="ابحث في وجبات الإطعام..." oninput="renderFeedingCards()">
                 <div class="feeding-filter-tabs" id="feedingCategoryTabs"></div>
             </div>
-            <div class="menu-grid" id="feeding-cards-container"></div>
+
+            <div class="feeding-grid" id="feeding-cards-container"></div>
         </div>
 
         <div id="homeExtraSections">
@@ -213,6 +278,12 @@
             </div>
         </div>
     </div>
+
+    <!-- أيقونة واتساب جانبية تفصيلية لقسم الإطعام -->
+    <a id="feedingSideWaIcon" href="https://wa.me/201155499777" target="_blank" class="feeding-side-wa" title="طلب تفصيلي بالاختيار عبر واتساب">
+        <span class="wa-ic">💬</span>
+        <span class="wa-lbl">طلب بالاختيار</span>
+    </a>
 
     <a href="https://wa.me/201129933758" target="_blank" class="whatsapp-float-btn">
         💬 اطلب عبر الواتساب
@@ -312,7 +383,12 @@
 
         if (categoriesData.length > 0) renderCategoriesGrid();
         if (menuData.length > 0) renderTopProducts();
-        if (feedingMealsData.length > 0) { renderFeedingCategoryTabs(); renderFeedingCards(); }
+        if (feedingMealsData.length > 0) {
+            populateFeedingSelect();
+            renderFeedingCategoryTabs();
+            renderFeedingCards();
+            calculateFeeding();
+        }
 
         db.ref('tabkha_categories').on('value', s => {
             categoriesData = parseFirebaseList(s.val());
@@ -336,8 +412,10 @@
         db.ref('tabkha_feeding_meals').on('value', s => {
             feedingMealsData = parseFirebaseList(s.val());
             try { localStorage.setItem('cache_tabkha_feeding', JSON.stringify(feedingMealsData)); } catch(e) {}
+            populateFeedingSelect();
             renderFeedingCategoryTabs();
             renderFeedingCards();
+            calculateFeeding();
         });
 
         db.ref('tabkha_banners').on('value', s => { bannersData = parseFirebaseList(s.val()); initSlider(); });
@@ -350,7 +428,7 @@
             container.innerHTML = `
                 <div class="category-card feeding-cat" onclick="openFeedingSection()">
                     <img loading="lazy" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=120" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
-                    <span class="cat-name" style="color:var(--gold);">🍱 وجبات الإطعام</span>
+                    <span class="cat-name" style="color:#6ee7b7;">🍱 وجبات الإطعام</span>
                 </div>`;
 
             if (categoriesData.length === 0) return;
@@ -364,15 +442,78 @@
             });
         }
 
+        function setFeedingTheme(isFeeding) {
+            const heading = document.getElementById('mainSectionHeading');
+            const backBtn = document.getElementById('backToCatsBtn');
+            const sideWa = document.getElementById('feedingSideWaIcon');
+            if (isFeeding) {
+                heading.classList.add('feeding-theme-title');
+                backBtn.classList.add('feeding-back');
+                if (sideWa) sideWa.classList.add('visible');
+            } else {
+                heading.classList.remove('feeding-theme-title');
+                backBtn.classList.remove('feeding-back');
+                if (sideWa) sideWa.classList.remove('visible');
+            }
+        }
+
         function openFeedingSection() {
             document.getElementById('categories-container').style.display = 'none';
             document.getElementById('menu-container').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'none';
             document.getElementById('feeding-section').style.display = 'block';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
-            document.getElementById('sectionHeadingText').innerText = '🍱 وجبات الإطعام';
+            document.getElementById('sectionHeadingText').innerText = '🍱 قسم وجبات الإطعام';
+            setFeedingTheme(true);
+            populateFeedingSelect();
             renderFeedingCategoryTabs();
             renderFeedingCards();
+            calculateFeeding();
+        }
+
+        function populateFeedingSelect() {
+            const sel = document.getElementById('feedingMealSelect');
+            if (!sel) return;
+            const prevVal = sel.value;
+            const avail = feedingMealsData.filter(m => m && m.available !== false && parseFloat(m.price) > 0);
+            if (avail.length === 0) {
+                sel.innerHTML = '<option value="">لا توجد وجبات متاحة</option>';
+                return;
+            }
+            sel.innerHTML = avail.map(m => `<option value="${m.id}">${m.name} (${m.price} ج)</option>`).join('');
+            if (prevVal && avail.some(m => String(m.id) === String(prevVal))) {
+                sel.value = prevVal;
+            }
+        }
+
+        function calculateFeeding() {
+            const budget = parseFloat(document.getElementById('feedingBudgetInput')?.value) || 0;
+            const mealId = document.getElementById('feedingMealSelect')?.value;
+            const meal = feedingMealsData.find(m => m && String(m.id) === String(mealId));
+            const price = meal ? (parseFloat(meal.price) || 0) : 0;
+            const count = (budget > 0 && price > 0) ? Math.floor(budget / price) : 0;
+            const countEl = document.getElementById('feedingCalcCount');
+            if (countEl) countEl.innerText = count;
+            return { budget, meal, count };
+        }
+
+        function addCalculatedFeedingToCart() {
+            const { budget, meal, count } = calculateFeeding();
+            if (!meal) { alert('اختر وجبة متاحة أولاً.'); return; }
+            if (budget <= 0 || count <= 0) { alert('أدخل مبلغاً يكفي لوجبة واحدة على الأقل.'); return; }
+            const cartKey = `feeding-${meal.id}`;
+            const found = cart.find(i => i.cartKey === cartKey);
+            if (found) found.qty += count;
+            else cart.push({
+                cartKey,
+                id: meal.id,
+                name: `${meal.name} (إطعام)`,
+                unitPrice: parseFloat(meal.price) || 0,
+                qty: count
+            });
+            saveAndUpdateCart();
+            renderFeedingCards();
+            renderTopProducts();
         }
 
         function renderFeedingCategoryTabs() {
@@ -446,29 +587,29 @@
             grid.innerHTML = '';
             list.forEach(meal => {
                 const catObj = feedingCatsData.find(c => String(c.id) === String(meal.category));
-                const catLabel = catObj ? catObj.name : 'وجبة إطعام';
+                const catLabel = catObj ? catObj.name : 'إطعام';
                 const cartItem = cart.find(i => i.cartKey === `feeding-${meal.id}`);
 
                 const actionHtml = cartItem && cartItem.qty > 0
-                    ? `<div class="card-qty-row" onclick="event.stopPropagation();">
-                        <button class="card-qty-btn" onclick="updateFeedingCartQty('${meal.id}', -1)">-</button>
-                        <span class="card-qty-num">${cartItem.qty} في السلة</span>
-                        <button class="card-qty-btn" onclick="updateFeedingCartQty('${meal.id}', 1)">+</button>
+                    ? `<div class="feeding-qty-row" onclick="event.stopPropagation();">
+                        <button class="feeding-qty-btn" onclick="updateFeedingCartQty('${meal.id}', -1)">-</button>
+                        <span class="feeding-qty-num">${cartItem.qty}</span>
+                        <button class="feeding-qty-btn" onclick="updateFeedingCartQty('${meal.id}', 1)">+</button>
                        </div>`
-                    : `<button class="add-cart-btn" onclick="event.stopPropagation(); addFeedingMealToCart('${meal.id}')">أضف إلى السلة 🛒</button>`;
+                    : `<button class="feeding-add-btn" onclick="event.stopPropagation(); addFeedingMealToCart('${meal.id}')">أضف للسلة 🛒</button>`;
 
                 grid.innerHTML += `
-                    <div class="menu-item" onclick="addFeedingMealToCart('${meal.id}')">
+                    <div class="feeding-card" onclick="addFeedingMealToCart('${meal.id}')">
                         <span class="item-status status-available">🟢 متاح</span>
-                        ${meal.top ? '<span class="top-badge">🔥 الأكثر طلبًا</span>' : ''}
-                        <img loading="lazy" src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400'}" alt="${meal.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
-                        <div class="item-details">
-                            <div class="item-info">
-                                <h3>${meal.name}</h3>
-                                <div class="item-desc">${meal.desc || ''}</div>
-                                <div class="item-meta">
-                                    <div class="item-price">${meal.price} ج</div>
-                                    <div class="item-weight">${catLabel}</div>
+                        ${meal.top ? '<span class="top-badge">🔥 مميز</span>' : ''}
+                        <img loading="lazy" src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300'}" alt="${meal.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300';">
+                        <div class="feeding-card-body">
+                            <div>
+                                <div class="feeding-card-title">${meal.name}</div>
+                                <div class="feeding-card-desc">${meal.desc || ''}</div>
+                                <div class="feeding-card-meta">
+                                    <span class="feeding-card-price">${meal.price} ج</span>
+                                    <span class="feeding-card-cat">${catLabel}</span>
                                 </div>
                             </div>
                             ${actionHtml}
@@ -551,6 +692,7 @@
         }
 
         function selectCategory(catKey) {
+            setFeedingTheme(false);
             document.getElementById('categories-container').style.display = 'none';
             document.getElementById('feeding-section').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'none';
@@ -562,6 +704,7 @@
         }
 
         function showCategoriesView() {
+            setFeedingTheme(false);
             document.getElementById('categories-container').style.display = 'grid';
             document.getElementById('feeding-section').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'block';
@@ -681,6 +824,7 @@
         function searchMenu() {
             const query = document.getElementById('searchInput').value;
             if(query.trim() !== '') {
+                setFeedingTheme(false);
                 document.getElementById('categories-container').style.display = 'none';
                 document.getElementById('feeding-section').style.display = 'none';
                 document.getElementById('homeExtraSections').style.display = 'none';
