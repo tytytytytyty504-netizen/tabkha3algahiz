@@ -60,7 +60,7 @@
         .admin-section { display: none; }
         .admin-section.active { display: block; }
         .admin-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); margin-bottom: 20px; }
-        .card-header-title { font-size: 1.05rem; color: var(--dark-sidebar); margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: bold; }
+        .card-header-title { font-size: 1.05rem; color: var(--dark-sidebar); margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: bold; flex-wrap: wrap; gap: 10px; }
 
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 0.78rem; color: var(--dark-sidebar); margin-bottom: 5px; font-weight: 700; }
@@ -168,7 +168,7 @@
             <div class="admin-card">
                 <div class="card-header-title">💡 مركز التحكم الشامل والمطلق</div>
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    أدر وجبات الإطعام وتصنيفاتها وأسعارها وترتيبها وحالتها وصورها من جهازك مباشرة لتظهر فوراً للعميل مع حاسبة المبلغ وعدد الوجبات والإضافة للسلة والطلب عبر الواتساب.
+                    تحكم كامل في تعديل وتصنيف وترتيب وحذف وإخفاء كل وجبات الإطعام وتصنيفاتها وأصناف المنيو والأقسام والبانرات والتقييمات بشكل فوري.
                 </p>
             </div>
         </div>
@@ -216,7 +216,7 @@
             <div class="top-header"><h2>🍱 إدارة وجبات الإطعام وتصنيفاتها</h2></div>
 
             <div class="admin-card">
-                <div class="card-header-title">🗂️ تصنيفات الإطعام</div>
+                <div class="card-header-title">🗂️ تصنيفات الإطعام (إضافة / تعديل / حذف)</div>
                 <div class="row-inputs">
                     <div class="form-group"><label>اسم التصنيف:</label><input type="text" id="feedingCatNameInput" placeholder="مثال: وجبات ساخنة"></div>
                     <div class="form-group" style="display:flex; align-items:flex-end;">
@@ -251,8 +251,13 @@
 
             <div class="admin-card">
                 <div class="card-header-title">
-                    <span>📋 وجبات الإطعام</span>
-                    <input type="text" id="adminFeedingSearch" placeholder="بحث بالاسم..." oninput="renderFeedingTable()" style="width:200px; padding:6px 10px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.78rem;">
+                    <span>📋 وجبات الإطعام (تعديل الاسم والتصنيف والسعر والترتيب)</span>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <select id="adminFeedingCatFilter" onchange="renderFeedingTable()" style="padding:6px 10px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.78rem;">
+                            <option value="all">كل التصنيفات</option>
+                        </select>
+                        <input type="text" id="adminFeedingSearch" placeholder="بحث بالاسم..." oninput="renderFeedingTable()" style="width:180px; padding:6px 10px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.78rem;">
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table id="adminFeedingTable">
@@ -392,11 +397,11 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل وجبة إطعام -->
+    <!-- نافذة تعديل وجبة إطعام بالكامل -->
     <div class="modal" id="editFeedingModal">
         <div class="modal-content">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:8px;">
-                <h3 style="color:var(--dark-sidebar); font-size:1rem;">✏️ تعديل وجبة الإطعام</h3>
+                <h3 style="color:var(--dark-sidebar); font-size:1rem;">✏️ تعديل وجبة الإطعام وتصنيفها</h3>
                 <button class="btn btn-danger" onclick="closeEditFeedingModal()" style="padding:4px 10px;">إغلاق ✕</button>
             </div>
             <input type="hidden" id="editFeedingIndex">
@@ -418,7 +423,7 @@
                 <input type="hidden" id="editFeedingImgBase64">
                 <div class="img-preview-box"><img id="editFeedingImgPreview" src="" style="display:block;" alt="معاينة"></div>
             </div>
-            <button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="saveEditedFeedingMeal()">حفظ تعديلات الوجبة 💾</button>
+            <button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="saveEditedFeedingMeal()">حفظ تعديلات الوجبة والتصنيف 💾</button>
         </div>
     </div>
 
@@ -594,6 +599,17 @@
             document.getElementById('feedingCatNameInput').value = '';
         }
 
+        function editFeedingCategory(idx) {
+            const cat = feedingCatsData[idx];
+            if (!cat) return;
+            const updatedName = prompt('تعديل اسم التصنيف:', cat.name);
+            if (updatedName === null) return;
+            const trimmed = updatedName.trim();
+            if (!trimmed) { alert('اسم التصنيف لا يمكن أن يكون فارغاً.'); return; }
+            feedingCatsData[idx].name = trimmed;
+            db.ref('tabkha_feeding_cats').set(feedingCatsData);
+        }
+
         function deleteFeedingCategory(idx) {
             if (confirm('حذف هذا التصنيف؟')) {
                 feedingCatsData.splice(idx, 1);
@@ -609,9 +625,10 @@
                 return;
             }
             box.innerHTML = feedingCatsData.map((c, idx) => `
-                <span style="background:#f4f6f7; border:1px solid #dcdfe6; padding:5px 10px; border-radius:20px; font-size:0.78rem; display:inline-flex; align-items:center; gap:6px;">
+                <span style="background:#f4f6f7; border:1px solid #dcdfe6; padding:5px 10px; border-radius:20px; font-size:0.78rem; display:inline-flex; align-items:center; gap:8px;">
                     <strong>${c.name}</strong>
-                    <button onclick="deleteFeedingCategory(${idx})" style="background:none; border:none; color:#c0392b; cursor:pointer; font-weight:bold;">✕</button>
+                    <button onclick="editFeedingCategory(${idx})" title="تعديل التصنيف" style="background:none; border:none; color:#d35400; cursor:pointer; font-size:0.78rem;">✏️</button>
+                    <button onclick="deleteFeedingCategory(${idx})" title="حذف التصنيف" style="background:none; border:none; color:#c0392b; cursor:pointer; font-weight:bold;">✕</button>
                 </span>`).join('');
         }
 
@@ -619,11 +636,23 @@
             const selects = [document.getElementById('feedingMealCatSelect'), document.getElementById('editFeedingCat')];
             selects.forEach(sel => {
                 if (!sel) return;
+                const prev = sel.value;
                 sel.innerHTML = '<option value="">بدون تصنيف</option>';
                 feedingCatsData.forEach(c => {
                     sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
                 });
+                if (prev) sel.value = prev;
             });
+
+            const filterSel = document.getElementById('adminFeedingCatFilter');
+            if (filterSel) {
+                const prevFilter = filterSel.value || 'all';
+                filterSel.innerHTML = '<option value="all">كل التصنيفات</option>';
+                feedingCatsData.forEach(c => {
+                    filterSel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                });
+                filterSel.value = prevFilter;
+            }
         }
 
         function addFeedingMeal() {
@@ -665,12 +694,14 @@
             const tbody = document.querySelector('#adminFeedingTable tbody');
             if (!tbody) return;
             const q = (document.getElementById('adminFeedingSearch')?.value || '').trim().toLowerCase();
+            const catFilter = document.getElementById('adminFeedingCatFilter')?.value || 'all';
             tbody.innerHTML = '';
 
             feedingMealsData.forEach((meal, idx) => {
+                if (catFilter !== 'all' && String(meal.category || '') !== String(catFilter)) return;
                 if (q && !(meal.name || '').toLowerCase().includes(q) && !(meal.desc || '').toLowerCase().includes(q)) return;
                 const catObj = feedingCatsData.find(c => String(c.id) === String(meal.category));
-                const catName = catObj ? catObj.name : 'عام';
+                const catName = catObj ? catObj.name : 'بدون تصنيف';
                 const isAvail = meal.available !== false;
 
                 tbody.innerHTML += `
@@ -680,13 +711,13 @@
                             <strong>${meal.name}</strong> ${meal.top ? '<span style="color:#d35400; font-size:0.7rem;">★ الأكثر طلبًا</span>' : ''}
                             <br><span style="font-size:0.72rem; color:var(--text-muted);">${meal.desc || ''}</span>
                         </td>
-                        <td>${catName}</td>
+                        <td><span class="badge badge-active">${catName}</span></td>
                         <td><strong>${meal.price} ج</strong></td>
                         <td><span class="badge ${isAvail ? 'badge-active' : 'badge-inactive'}">${isAvail ? 'متاحة' : 'مخفية'}</span></td>
                         <td style="white-space:nowrap;">
                             <button class="btn-muted" onclick="moveFeedingMeal(${idx}, -1)" title="لأعلى">▲</button>
                             <button class="btn-muted" onclick="moveFeedingMeal(${idx}, 1)" title="لأسفل">▼</button>
-                            <button class="btn btn-warning" onclick="openEditFeedingModal(${idx})">تعديل</button>
+                            <button class="btn btn-warning" onclick="openEditFeedingModal(${idx})">✏️ تعديل</button>
                             <button class="btn" style="padding:5px 8px; font-size:0.72rem;" onclick="toggleFeedingMeal(${idx})">${isAvail ? 'إخفاء' : 'إظهار'}</button>
                             <button class="btn btn-danger" onclick="deleteFeedingMeal(${idx})">حذف</button>
                         </td>
@@ -761,7 +792,7 @@
             };
             db.ref('tabkha_feeding_meals').set(feedingMealsData).then(() => {
                 closeEditFeedingModal();
-                alert('تم حفظ تعديلات الوجبة بنجاح 💾');
+                alert('تم حفظ تعديلات الوجبة والتصنيف بنجاح 💾');
             });
         }
 
