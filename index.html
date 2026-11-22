@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>طبخة على الجاهز | أكل بيتي • جاهز على التسوية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -78,18 +80,15 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* قسم وجبات الإطعام */
+        /* قسم وجبات الإطعام المربوط بالمنيو الحقيقي */
         #feeding-section { display: none; margin-bottom: 25px; }
         .feeding-box { background: var(--card-bg); border: 1px solid #2e2a24; border-radius: 16px; padding: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.45); }
-        .feeding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 18px; }
-        .feeding-meal-card { background: #1d1d1d; border: 1px solid #333; border-radius: 12px; padding: 12px; cursor: pointer; transition: all 0.2s; }
-        .feeding-meal-card.selected { border-color: var(--gold); background: #261d14; }
-        .feeding-meal-card h4 { color: #fff; font-size: 0.92rem; margin-bottom: 4px; }
-        .feeding-meal-card p { color: var(--text-muted); font-size: 0.75rem; margin-bottom: 8px; line-height: 1.4; }
-        .feeding-meal-price { color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+        .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media(max-width: 600px) { .row-inputs { grid-template-columns: 1fr; } }
         .feeding-summary-box { background: #111; border: 1px solid var(--gold); border-radius: 12px; padding: 14px; margin-top: 12px; margin-bottom: 14px; }
         .feeding-summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
-        .feeding-wa-btn { width: 100%; height: 46px; background: #25d366; color: #fff; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: bold; cursor: pointer; }
+        .feeding-wa-btn { width: 100%; height: 46px; background: #25d366; color: #fff; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .feeding-custom-btn { width: 100%; height: 42px; background: #222; color: var(--gold); border: 1px solid var(--gold); border-radius: 10px; font-size: 0.88rem; font-weight: bold; cursor: pointer; }
 
         .whatsapp-float-btn { position: fixed; bottom: 75px; right: 15px; background: #25d366; color: white; padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.9rem; font-weight: bold; text-decoration: none; border: 1px solid #fff; }
 
@@ -152,7 +151,7 @@
     </header>
 
     <div class="container">
-        <div class="slider-container" id="sliderContainer">
+        <div class="slider-container" id="sliderContainer" style="display:none;">
             <div class="slides-wrapper" id="slidesWrapper"></div>
         </div>
         <div class="slider-dots" id="sliderDots"></div>
@@ -166,27 +165,27 @@
             <button class="back-btn" id="backToCatsBtn" onclick="showCategoriesView()">⬅️ رجوع للأقسام</button>
         </div>
 
-        <div class="categories-grid" id="categories-container"></div>
+        <div class="categories-grid" id="categories-container">
+            <p style="grid-column:1/-1; text-align:center; color:#888; font-size:0.85rem;">جاري تحميل الأقسام...</p>
+        </div>
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- قسم وجبات الإطعام -->
+        <!-- قسم وجبات الإطعام المربوط بمنيوك الفعلي -->
         <div id="feeding-section">
             <div class="feeding-box">
-                <h3 style="color: var(--gold); margin-bottom: 6px; font-size: 1.05rem;">🍱 حاسبة وجبات الإطعام</h3>
+                <h3 style="color: var(--gold); margin-bottom: 6px; font-size: 1.05rem;">🍱 حاسبة وجبات الإطعام من المنيو</h3>
                 <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px;">
-                    اختر نوع الوجبة أو اختار «وجبات من اختيارك»، وحدد المبلغ اللي معاك ونوع الطبق، وهنحسب لك عدد الوجبات وتفاصيلها فوراً.
+                    أدخل المبلغ اللي معاك واختر الصنف من المنيو ونوع الطبق، وهنحسب لك عدد الوجبات وتفاصيلها وسعرها الفعلي فوراً.
                 </p>
-
-                <div class="feeding-grid" id="feedingMealsList"></div>
 
                 <div class="row-inputs">
                     <div class="form-group">
                         <label>المبلغ المتاح مع حضرتك (جنيه):</label>
-                        <input type="number" id="feedingBudgetInput" min="1" placeholder="مثال: 1000" oninput="calculateFeedingMeals()">
+                        <input type="number" id="feedingBudgetInput" min="1" placeholder="مثال: 1000" oninput="calculateFeedingFromMenu()">
                     </div>
                     <div class="form-group">
                         <label>نوع الطبق:</label>
-                        <select id="feedingTrayType" onchange="calculateFeedingMeals()">
+                        <select id="feedingTrayType" onchange="calculateFeedingFromMenu()">
                             <option value="فويل" data-extra="0">طبق فويل (السعر الأساسي)</option>
                             <option value="بلاستيك أسود" data-extra="8">طبق بلاستيك أسود (+8 جنيه للوجبة)</option>
                         </select>
@@ -194,31 +193,31 @@
                 </div>
 
                 <div class="form-group">
-                    <label>اختيار الوجبات:</label>
-                    <select id="feedingSelectionMode" onchange="calculateFeedingMeals()">
-                        <option value="meal">حسب الوجبة المحددة من المنيو</option>
-                        <option value="chef_choice">وجبات من اختيارك (تشكيلة/اختيار المطبخ)</option>
-                    </select>
+                    <label>اختر الصنف من المنيو:</label>
+                    <select id="feedingMenuSelect" onchange="calculateFeedingFromMenu()"></select>
                 </div>
 
                 <div class="form-group">
-                    <label>ملاحظات أو جهة/مكان التسليم (اختياري):</label>
+                    <label>ملاحظات أو ميعاد/مكان التسليم (اختياري):</label>
                     <input type="text" id="feedingNotesInput" placeholder="مثال: تسليم الساعة 4 عصراً...">
                 </div>
 
-                <div class="feeding-summary-box" id="feedingSummaryBox">
-                    <div class="feeding-summary-row"><span>الوجبة المختارة:</span><strong id="feedingSelectedName">-</strong></div>
+                <div class="feeding-summary-box">
+                    <div class="feeding-summary-row"><span>الصنف المختار من المنيو:</span><strong id="feedingSelectedName">-</strong></div>
                     <div class="feeding-summary-row"><span>سعر الوجبة شامل نوع الطبق:</span><strong style="color:var(--gold);"><span id="feedingUnitPrice">0</span> ج</strong></div>
                     <div class="feeding-summary-row"><span>عدد الوجبات بالمبلغ المدخل:</span><strong style="color:#2ecc71; font-size:1rem;"><span id="feedingMealsCount">0</span> وجبة</strong></div>
                     <div class="feeding-summary-row"><span>إجمالي تكلفة الوجبات:</span><strong><span id="feedingUsedAmount">0</span> ج</strong></div>
                     <div class="feeding-summary-row" style="margin-bottom:0;"><span>المتبقي من المبلغ:</span><span><span id="feedingRemainingAmount">0</span> ج</span></div>
                     <div id="feedingMealDetailsText" style="margin-top:10px; padding-top:8px; border-top:1px solid #2a2a2a; font-size:0.78rem; color:#ddd; line-height:1.5;">
-                        تفاصيل الوجبة ستظهر هنا فور اختيار وجبة وإدخال المبلغ.
+                        تفاصيل الوجبة من المنيو ستظهر هنا فور إدخال المبلغ.
                     </div>
                 </div>
 
-                <button class="feeding-wa-btn" onclick="sendFeedingOrderToWhatsApp()">
-                    إرسال طلب وجبات الإطعام على واتساب (01155499777) 📱
+                <button class="feeding-wa-btn" onclick="sendFeedingOrderToWhatsApp(false)">
+                    طلب هذه الوجبات على واتساب الإطعام (01155499777) 📱
+                </button>
+                <button class="feeding-custom-btn" onclick="sendFeedingOrderToWhatsApp(true)">
+                    ✨ لو عايز وجبات من اختيارك — تواصل مباشرة على واتساب (01155499777)
                 </button>
             </div>
         </div>
@@ -244,7 +243,7 @@
             </div>
 
             <div class="page-banner-section">
-                <img id="socialBannerImg" src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
+                <img id="socialBannerImg" loading="lazy" src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
                 <p style="font-size: 0.85rem; color: #ddd; margin-bottom: 10px;">تابعنا على الفيسبوك وانضم لجروب الواتساب عشان تتابع كل جديد وعروضنا أول بأول!</p>
                 <div class="social-buttons-box">
                     <a id="socialPageLinkBtn" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">👍 متابعة صفحة الفيسبوك</a>
@@ -328,58 +327,59 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        db.ref('tabkha_visits_count').transaction(currentCount => {
-            return (currentCount || 0) + 1;
-        });
+        db.ref('tabkha_visits_count').transaction(currentCount => (currentCount || 0) + 1);
 
-        const defaultFeedingMeals = [
-            { id: 'f1', name: 'وجبة إطعام فراخ وأرز بالخلطة', price: 65, details: 'ربع دجاجة متبلة ومطهوة + أرز بالخلطة + خضار/سلطة + عيش', available: true },
-            { id: 'f2', name: 'وجبة إطعام لحمة ومكرونة أو أرز', price: 85, details: 'قطعة لحم مطهوة + أرز بالشعرية أو مكرونة + بطاطس/خضار + عيش', available: true },
-            { id: 'f3', name: 'وجبة إطعام محشي مشكل وبروتين', price: 75, details: 'تشكيلة محشي بيتي + قطعة فراخ أو لحم + شوربة/سلطة', available: true }
-        ];
-
-        let menuData = [];
+        // تحميل فوري من الكاش المحلي لتسريع الفتح ثم التحديث من فايربيس
+        let menuData = JSON.parse(localStorage.getItem('cache_tabkha_menu') || '[]');
+        let categoriesData = JSON.parse(localStorage.getItem('cache_tabkha_cats') || '[]');
         let bannersData = [];
         let reviewsData = [];
-        let categoriesData = [];
-        let feedingMealsData = [...defaultFeedingMeals];
-        let selectedFeedingMealId = null;
         let siteSettings = {};
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
 
-        db.ref('tabkha_menu').on('value', s => { menuData = s.val() ? Object.values(s.val()) : []; renderTopProducts(); });
-        db.ref('tabkha_banners').on('value', s => { bannersData = s.val() ? Object.values(s.val()) : []; initSlider(); });
-        db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()) : []; renderCustomerReviews(); });
-        db.ref('tabkha_marquee').on('value', s => { document.getElementById('marqueeText').innerText = s.val() || ""; });
-        db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); applySiteSettingsToUI(); } });
+        if (categoriesData.length > 0) renderCategoriesGrid();
+        if (menuData.length > 0) {
+            renderTopProducts();
+            populateFeedingMenuSelect();
+        }
+
         db.ref('tabkha_categories').on('value', s => {
-            categoriesData = s.val() ? Object.values(s.val()) : [];
+            categoriesData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+            try { localStorage.setItem('cache_tabkha_cats', JSON.stringify(categoriesData)); } catch(e) {}
             renderCategoriesGrid();
         });
-        db.ref('tabkha_feeding_meals').on('value', s => {
-            if (s.val()) {
-                feedingMealsData = Object.values(s.val());
-            } else {
-                feedingMealsData = [...defaultFeedingMeals];
-            }
-            renderFeedingMeals();
+
+        db.ref('tabkha_menu').on('value', s => {
+            menuData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+            try { localStorage.setItem('cache_tabkha_menu', JSON.stringify(menuData)); } catch(e) {}
+            renderTopProducts();
+            populateFeedingMenuSelect();
+            calculateFeedingFromMenu();
         });
+
+        db.ref('tabkha_banners').on('value', s => { bannersData = s.val() ? Object.values(s.val()).filter(Boolean) : []; initSlider(); });
+        db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()).filter(Boolean) : []; renderCustomerReviews(); });
+        db.ref('tabkha_marquee').on('value', s => { if(s.val()) document.getElementById('marqueeText').innerText = s.val(); });
+        db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); applySiteSettingsToUI(); } });
 
         function renderCategoriesGrid() {
             const container = document.getElementById('categories-container');
-            container.innerHTML = '';
-
-            container.innerHTML += `
+            container.innerHTML = `
                 <div class="category-card feeding-cat" onclick="openFeedingSection()">
-                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=120" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=120" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
                     <span class="cat-name" style="color:var(--gold);">🍱 وجبات الإطعام</span>
                 </div>`;
+
+            if (categoriesData.length === 0) {
+                container.innerHTML += '<p style="grid-column:1/-1; text-align:center; color:#888; font-size:0.8rem;">لا توجد أقسام مضافة بعد.</p>';
+                return;
+            }
 
             categoriesData.forEach(cat => {
                 container.innerHTML += `
                     <div class="category-card" onclick="selectCategory('${cat.id}')">
-                        <img src="${cat.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
+                        <img loading="lazy" src="${cat.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
                         <span class="cat-name">${cat.name}</span>
                     </div>`;
             });
@@ -392,79 +392,59 @@
             document.getElementById('feeding-section').style.display = 'block';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
             document.getElementById('sectionHeadingText').innerText = '🍱 وجبات الإطعام';
-            renderFeedingMeals();
-            calculateFeedingMeals();
+            populateFeedingMenuSelect();
+            calculateFeedingFromMenu();
         }
 
-        function renderFeedingMeals() {
-            const list = document.getElementById('feedingMealsList');
-            if (!list) return;
-            list.innerHTML = '';
-            const activeMeals = feedingMealsData.filter(m => m.available !== false);
-            if (!selectedFeedingMealId && activeMeals.length > 0) {
-                selectedFeedingMealId = activeMeals[0].id;
+        function populateFeedingMenuSelect() {
+            const sel = document.getElementById('feedingMenuSelect');
+            if (!sel) return;
+            const prevVal = sel.value;
+            sel.innerHTML = '';
+            const availableMenu = menuData.filter(item => item && item.available !== false && parseFloat(item.price) > 0);
+            if (availableMenu.length === 0) {
+                sel.innerHTML = '<option value="">لا توجد أصناف متاحة في المنيو حالياً</option>';
+                return;
             }
-            activeMeals.forEach(meal => {
-                const isSel = String(meal.id) === String(selectedFeedingMealId);
-                list.innerHTML += `
-                    <div class="feeding-meal-card ${isSel ? 'selected' : ''}" onclick="selectFeedingMeal('${meal.id}')">
-                        <h4>${meal.name}</h4>
-                        <p>${meal.details || 'وجبة بيتي متكاملة جاهزة للتوزيع'}</p>
-                        <div class="feeding-meal-price">سعر أساسي: ${meal.price} ج</div>
-                    </div>`;
+            availableMenu.forEach((item, idx) => {
+                sel.innerHTML += `<option value="${idx}">${item.name} — (${item.price} ج / ${item.weight || 'وجبة'})</option>`;
             });
+            if (prevVal && sel.options[prevVal]) sel.value = prevVal;
         }
 
-        function selectFeedingMeal(id) {
-            selectedFeedingMealId = id;
-            document.getElementById('feedingSelectionMode').value = 'meal';
-            renderFeedingMeals();
-            calculateFeedingMeals();
-        }
+        function calculateFeedingFromMenu() {
+            const availableMenu = menuData.filter(item => item && item.available !== false && parseFloat(item.price) > 0);
+            const sel = document.getElementById('feedingMenuSelect');
+            const selectedIdx = parseInt(sel.value);
+            const item = (!isNaN(selectedIdx) && availableMenu[selectedIdx]) ? availableMenu[selectedIdx] : availableMenu[0];
 
-        function getActiveFeedingMeal() {
-            const activeMeals = feedingMealsData.filter(m => m.available !== false);
-            return activeMeals.find(m => String(m.id) === String(selectedFeedingMealId)) || activeMeals[0] || null;
-        }
-
-        function calculateFeedingMeals() {
             const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
             const traySelect = document.getElementById('feedingTrayType');
             const trayName = traySelect.value;
             const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
-            const mode = document.getElementById('feedingSelectionMode').value;
-            const meal = getActiveFeedingMeal();
 
-            const basePrice = meal ? (parseFloat(meal.price) || 0) : 0;
+            if (!item) {
+                document.getElementById('feedingSelectedName').innerText = '-';
+                document.getElementById('feedingUnitPrice').innerText = '0';
+                document.getElementById('feedingMealsCount').innerText = '0';
+                document.getElementById('feedingUsedAmount').innerText = '0';
+                document.getElementById('feedingRemainingAmount').innerText = budget;
+                return;
+            }
+
+            const basePrice = parseFloat(item.price) || 0;
             const unitPrice = basePrice + trayExtra;
+            const count = (budget > 0 && unitPrice > 0) ? Math.floor(budget / unitPrice) : 0;
+            const usedAmount = count * unitPrice;
+            const remainingAmount = budget > 0 ? (budget - usedAmount) : 0;
 
-            let mealTitle = '-';
-            let detailsText = 'اختر وجبة وأدخل المبلغ لمعرفة عدد الوجبات والتفاصيل.';
-
-            if (mode === 'chef_choice') {
-                mealTitle = 'وجبات من اختيارك (تشكيلة/اختيار المطبخ)';
-                detailsText = `يتم تجهيز وجبات متنوعة ومختارة بعناية من مطبخ «طبخة على الجاهز» بنوع طبق (${trayName}) بسعر ${unitPrice} جنيه للوجبة شاملاً نوع الطبق.`;
-            } else if (meal) {
-                mealTitle = `${meal.name} (${trayName})`;
-                detailsText = `مكونات الوجبة: ${meal.details || 'طازة ومخدوم بيتي'} | نوع الطبق: ${trayName} (${trayExtra > 0 ? `+${trayExtra} ج` : 'أساسي'}).`;
-            }
-
-            let count = 0;
-            let usedAmount = 0;
-            let remainingAmount = budget;
-
-            if (budget > 0 && unitPrice > 0) {
-                count = Math.floor(budget / unitPrice);
-                usedAmount = count * unitPrice;
-                remainingAmount = budget - usedAmount;
-            }
-
-            document.getElementById('feedingSelectedName').innerText = mealTitle;
+            document.getElementById('feedingSelectedName').innerText = `${item.name} (${trayName})`;
             document.getElementById('feedingUnitPrice').innerText = unitPrice;
             document.getElementById('feedingMealsCount').innerText = count;
             document.getElementById('feedingUsedAmount').innerText = usedAmount;
             document.getElementById('feedingRemainingAmount').innerText = remainingAmount;
-            document.getElementById('feedingMealDetailsText').innerText = detailsText;
+            document.getElementById('feedingMealDetailsText').innerText =
+                `تفاصيل الصنف من المنيو: ${item.desc || item.name} (${item.weight || 'حبة'}) | نوع الطبق: ${trayName} (${trayExtra > 0 ? `+${trayExtra} ج للوجبة` : 'بدون زيادة'}).`;
         }
 
         function getFeedingWhatsAppNumber() {
@@ -475,51 +455,55 @@
             return '201155499777';
         }
 
-        function sendFeedingOrderToWhatsApp() {
+        function sendFeedingOrderToWhatsApp(isCustomChoice) {
+            const waPhone = getFeedingWhatsAppNumber();
             const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
+            const traySelect = document.getElementById('feedingTrayType');
+            const trayName = traySelect.value;
+            const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
+            const notes = document.getElementById('feedingNotesInput').value.trim();
+
+            if (isCustomChoice) {
+                let customMsg = "🍱 *طلب وجبات إطعام (من اختياركم) - طبخة على الجاهز*\n";
+                customMsg += "----------------------------------\n";
+                if (budget > 0) customMsg += `💰 المبلغ المتاح: ${budget} ج\n`;
+                customMsg += `🥡 نوع الطبق المفضل: ${trayName}${trayExtra > 0 ? ` (+${trayExtra} ج للوجبة)` : ''}\n`;
+                customMsg += "✨ أرغب في تجهيز وجبات إطعام من اختياركم وتنسيق التفاصيل.\n";
+                if (notes) customMsg += `📌 ملاحظات: ${notes}\n`;
+                window.open(`https://wa.me/${waPhone}?text=${encodeURI(customMsg)}`, '_blank');
+                return;
+            }
+
             if (budget <= 0) {
                 alert('من فضلك أدخل المبلغ المتاح أولاً.');
                 return;
             }
-            const traySelect = document.getElementById('feedingTrayType');
-            const trayName = traySelect.value;
-            const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
-            const mode = document.getElementById('feedingSelectionMode').value;
-            const meal = getActiveFeedingMeal();
-            const notes = document.getElementById('feedingNotesInput').value.trim();
 
-            const basePrice = meal ? (parseFloat(meal.price) || 0) : 0;
-            const unitPrice = basePrice + trayExtra;
-            if (unitPrice <= 0) {
-                alert('يرجى التأكد من سعر الوجبة.');
+            const availableMenu = menuData.filter(item => item && item.available !== false && parseFloat(item.price) > 0);
+            const selectedIdx = parseInt(document.getElementById('feedingMenuSelect').value);
+            const item = (!isNaN(selectedIdx) && availableMenu[selectedIdx]) ? availableMenu[selectedIdx] : availableMenu[0];
+            if (!item) {
+                alert('اختر صنفاً من المنيو أولاً.');
                 return;
             }
 
+            const unitPrice = (parseFloat(item.price) || 0) + trayExtra;
             const count = Math.floor(budget / unitPrice);
             const usedAmount = count * unitPrice;
             const remainingAmount = budget - usedAmount;
 
-            const mealLabel = mode === 'chef_choice'
-                ? 'وجبات من اختيارك (تشكيلة/اختيار المطبخ)'
-                : (meal ? meal.name : 'وجبة إطعام');
-
-            const mealDetails = mode === 'chef_choice'
-                ? 'تشكيلة وجبات متنوعة ومختارة من المطبخ'
-                : (meal && meal.details ? meal.details : 'وجبة إطعام بيتي');
-
-            let msg = "🍱 *طلب وجبات إطعام - طبخة على الجاهز*\n";
+            let msg = "🍱 *طلب وجبات إطعام من المنيو - طبخة على الجاهز*\n";
             msg += "----------------------------------\n";
-            msg += `🍽️ النوع: ${mealLabel}\n`;
-            msg += `📝 التفاصيل: ${mealDetails}\n`;
+            msg += `🍽️ الصنف: ${item.name}\n`;
+            msg += `📝 التفاصيل: ${item.desc || item.name}\n`;
             msg += `🥡 نوع الطبق: ${trayName}${trayExtra > 0 ? ` (+${trayExtra} ج للوجبة)` : ''}\n`;
-            msg += `💵 سعر الوجبة النهائي: ${unitPrice} ج\n`;
+            msg += `💵 سعر الوجبة شامل الطبق: ${unitPrice} ج\n`;
             msg += `💰 المبلغ المدخل: ${budget} ج\n`;
             msg += `🔢 *عدد الوجبات: ${count} وجبة*\n`;
             msg += `✅ إجمالي الوجبات: ${usedAmount} ج\n`;
             if (remainingAmount > 0) msg += `🪙 المتبقي من المبلغ: ${remainingAmount} ج\n`;
             if (notes) msg += `📌 ملاحظات: ${notes}\n`;
 
-            const waPhone = getFeedingWhatsAppNumber();
             window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
         }
 
@@ -536,7 +520,7 @@
             const container = document.getElementById('reviewsContainer');
             if(!container) return;
             container.innerHTML = '';
-            let appRev = reviewsData.filter(r => r.approved);
+            let appRev = reviewsData.filter(r => r && r.approved);
             if(appRev.length === 0) { container.innerHTML = '<p style="color:#888; font-size:0.8rem;">كن أول من يترك رأياً لنا بعد التجربة!</p>'; return; }
             appRev.forEach(rev => {
                 container.innerHTML += `
@@ -563,13 +547,13 @@
             const wrapper = document.getElementById('slidesWrapper');
             const dotsContainer = document.getElementById('sliderDots');
             wrapper.innerHTML = ''; dotsContainer.innerHTML = '';
-            const activeBanners = bannersData.filter(b => b.active);
+            const activeBanners = bannersData.filter(b => b && b.active);
             if(activeBanners.length === 0) { document.getElementById('sliderContainer').style.display = 'none'; return; }
             document.getElementById('sliderContainer').style.display = 'block';
             activeBanners.forEach((b, idx) => {
                 wrapper.innerHTML += `
                     <div class="slide-card" onclick="addBannerToCart(${b.price}, '${b.title}')">
-                        <img src="${b.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
+                        <img loading="lazy" src="${b.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
                         <div class="slide-overlay"><div class="slide-text"><h3>${b.title} - ${b.price} ج</h3><p>${b.desc}</p></div></div>
                     </div>`;
                 dotsContainer.innerHTML += `<span class="dot ${idx === 0 ? 'active' : ''}" onclick="currentSlide=${idx}; updateSliderPosition();"></span>`;
@@ -591,7 +575,7 @@
         }
         function startSliderInterval() {
             clearInterval(slideInterval);
-            const active = bannersData.filter(b => b.active);
+            const active = bannersData.filter(b => b && b.active);
             if(active.length <= 1) return;
             slideInterval = setInterval(() => { currentSlide = (currentSlide + 1) % active.length; updateSliderPosition(); }, 4000);
         }
@@ -620,7 +604,7 @@
         function renderMenu(category = 'ready', query = '') {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
-            let filtered = menuData.filter(item => item.available);
+            let filtered = menuData.filter(item => item && item.available !== false);
             if(query.trim() !== '') filtered = filtered.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
             else filtered = filtered.filter(item => item.category === category);
             
@@ -656,7 +640,7 @@
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
                         <span class="item-status status-available">🟢 متاح</span>
-                        <img src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                        <img loading="lazy" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
@@ -677,7 +661,7 @@
             const container = document.getElementById('top-products-container');
             if(!container) return;
             container.innerHTML = '';
-            menuData.filter(i => i.top && i.available).forEach(item => {
+            menuData.filter(i => i && i.top && i.available !== false).forEach(item => {
                 let weightHTML = item.hasWeight ? `
                     <div class="options-box" onclick="event.stopPropagation();">
                         <label>اختر الوزن:</label>
@@ -707,7 +691,7 @@
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
                         <span class="item-status status-available">🟢 متاح</span>
-                        <img src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                        <img loading="lazy" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
                         <div class="item-details">
                             <div class="item-info">
                                 <h3>${item.name}</h3>
@@ -751,6 +735,7 @@
 
         function addToCart(id, weightMultiplier = 1, chickenChoice = "", extraPrice = 0) {
             const item = menuData.find(i => i.id === id);
+            if (!item) return;
             let basePrice = item.price;
             let sizeName = "كيلو";
             if(weightMultiplier === 0.5) { basePrice = Math.round(item.price / 2); sizeName = "نصف كيلو"; }
@@ -851,8 +836,6 @@
             cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
 
-        renderFeedingMeals();
-        calculateFeedingMeals();
         saveAndUpdateCart();
     </script>
 </body>
