@@ -52,6 +52,7 @@
 
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-bottom: 25px; }
         .category-card { background: var(--card-bg); border: 1px solid #252525; border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .category-card.feeding-cat { border-color: var(--gold); background: linear-gradient(145deg, #1b1510, #161616); }
         .category-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid #444; }
         .category-card .cat-name { font-size: 0.8rem; font-weight: 700; color: #fff; }
         .category-card:hover { border-color: var(--gold); transform: translateY(-2px); }
@@ -77,7 +78,19 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* زر التواصل المباشر بالواتساب بدلاً من الشات المعقد */
+        /* قسم وجبات الإطعام */
+        #feeding-section { display: none; margin-bottom: 25px; }
+        .feeding-box { background: var(--card-bg); border: 1px solid #2e2a24; border-radius: 16px; padding: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.45); }
+        .feeding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 18px; }
+        .feeding-meal-card { background: #1d1d1d; border: 1px solid #333; border-radius: 12px; padding: 12px; cursor: pointer; transition: all 0.2s; }
+        .feeding-meal-card.selected { border-color: var(--gold); background: #261d14; }
+        .feeding-meal-card h4 { color: #fff; font-size: 0.92rem; margin-bottom: 4px; }
+        .feeding-meal-card p { color: var(--text-muted); font-size: 0.75rem; margin-bottom: 8px; line-height: 1.4; }
+        .feeding-meal-price { color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+        .feeding-summary-box { background: #111; border: 1px solid var(--gold); border-radius: 12px; padding: 14px; margin-top: 12px; margin-bottom: 14px; }
+        .feeding-summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
+        .feeding-wa-btn { width: 100%; height: 46px; background: #25d366; color: #fff; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: bold; cursor: pointer; }
+
         .whatsapp-float-btn { position: fixed; bottom: 75px; right: 15px; background: #25d366; color: white; padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.9rem; font-weight: bold; text-decoration: none; border: 1px solid #fff; }
 
         .reviews-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
@@ -156,6 +169,60 @@
         <div class="categories-grid" id="categories-container"></div>
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
+        <!-- قسم وجبات الإطعام -->
+        <div id="feeding-section">
+            <div class="feeding-box">
+                <h3 style="color: var(--gold); margin-bottom: 6px; font-size: 1.05rem;">🍱 حاسبة وجبات الإطعام</h3>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px;">
+                    اختر نوع الوجبة أو اختار «وجبات من اختيارك»، وحدد المبلغ اللي معاك ونوع الطبق، وهنحسب لك عدد الوجبات وتفاصيلها فوراً.
+                </p>
+
+                <div class="feeding-grid" id="feedingMealsList"></div>
+
+                <div class="row-inputs">
+                    <div class="form-group">
+                        <label>المبلغ المتاح مع حضرتك (جنيه):</label>
+                        <input type="number" id="feedingBudgetInput" min="1" placeholder="مثال: 1000" oninput="calculateFeedingMeals()">
+                    </div>
+                    <div class="form-group">
+                        <label>نوع الطبق:</label>
+                        <select id="feedingTrayType" onchange="calculateFeedingMeals()">
+                            <option value="فويل" data-extra="0">طبق فويل (السعر الأساسي)</option>
+                            <option value="بلاستيك أسود" data-extra="8">طبق بلاستيك أسود (+8 جنيه للوجبة)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>اختيار الوجبات:</label>
+                    <select id="feedingSelectionMode" onchange="calculateFeedingMeals()">
+                        <option value="meal">حسب الوجبة المحددة من المنيو</option>
+                        <option value="chef_choice">وجبات من اختيارك (تشكيلة/اختيار المطبخ)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>ملاحظات أو جهة/مكان التسليم (اختياري):</label>
+                    <input type="text" id="feedingNotesInput" placeholder="مثال: تسليم الساعة 4 عصراً...">
+                </div>
+
+                <div class="feeding-summary-box" id="feedingSummaryBox">
+                    <div class="feeding-summary-row"><span>الوجبة المختارة:</span><strong id="feedingSelectedName">-</strong></div>
+                    <div class="feeding-summary-row"><span>سعر الوجبة شامل نوع الطبق:</span><strong style="color:var(--gold);"><span id="feedingUnitPrice">0</span> ج</strong></div>
+                    <div class="feeding-summary-row"><span>عدد الوجبات بالمبلغ المدخل:</span><strong style="color:#2ecc71; font-size:1rem;"><span id="feedingMealsCount">0</span> وجبة</strong></div>
+                    <div class="feeding-summary-row"><span>إجمالي تكلفة الوجبات:</span><strong><span id="feedingUsedAmount">0</span> ج</strong></div>
+                    <div class="feeding-summary-row" style="margin-bottom:0;"><span>المتبقي من المبلغ:</span><span><span id="feedingRemainingAmount">0</span> ج</span></div>
+                    <div id="feedingMealDetailsText" style="margin-top:10px; padding-top:8px; border-top:1px solid #2a2a2a; font-size:0.78rem; color:#ddd; line-height:1.5;">
+                        تفاصيل الوجبة ستظهر هنا فور اختيار وجبة وإدخال المبلغ.
+                    </div>
+                </div>
+
+                <button class="feeding-wa-btn" onclick="sendFeedingOrderToWhatsApp()">
+                    إرسال طلب وجبات الإطعام على واتساب (01155499777) 📱
+                </button>
+            </div>
+        </div>
+
         <div id="homeExtraSections">
             <div class="section-title">🔥 الأكثر طلبًا</div>
             <div class="menu-grid" id="top-products-container" style="margin-bottom: 25px;"></div>
@@ -187,7 +254,6 @@
         </div>
     </div>
 
-    <!-- زر تواصل سريع مباشر بالواتساب بدلاً من البوت المعطل -->
     <a href="https://wa.me/201129933758" target="_blank" class="whatsapp-float-btn">
         💬 اطلب عبر الواتساب
     </a>
@@ -205,11 +271,11 @@
     <div class="bottom-nav">
         <button class="nav-item active" onclick="showCategoriesView()"><span class="icon">🏠</span>الرئيسية</button>
         <button class="nav-item" onclick="showCategoriesView()"><span class="icon">📋</span>الأقسام</button>
+        <button class="nav-item" onclick="openFeedingSection()"><span class="icon">🍱</span>الإطعام</button>
         <button class="nav-item" onclick="openCheckout()"><span class="icon">🛒</span>السلة</button>
         <a href="https://wa.me/201129933758" target="_blank" class="nav-item"><span class="icon">💬</span>واتساب</a>
     </div>
 
-    <!-- مودال إتمام الأوردر -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeCheckout()">إغلاق ✕</button>
@@ -262,10 +328,22 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        db.ref('tabkha_visits_count').transaction(currentCount => {
+            return (currentCount || 0) + 1;
+        });
+
+        const defaultFeedingMeals = [
+            { id: 'f1', name: 'وجبة إطعام فراخ وأرز بالخلطة', price: 65, details: 'ربع دجاجة متبلة ومطهوة + أرز بالخلطة + خضار/سلطة + عيش', available: true },
+            { id: 'f2', name: 'وجبة إطعام لحمة ومكرونة أو أرز', price: 85, details: 'قطعة لحم مطهوة + أرز بالشعرية أو مكرونة + بطاطس/خضار + عيش', available: true },
+            { id: 'f3', name: 'وجبة إطعام محشي مشكل وبروتين', price: 75, details: 'تشكيلة محشي بيتي + قطعة فراخ أو لحم + شوربة/سلطة', available: true }
+        ];
+
         let menuData = [];
         let bannersData = [];
         let reviewsData = [];
         let categoriesData = [];
+        let feedingMealsData = [...defaultFeedingMeals];
+        let selectedFeedingMealId = null;
         let siteSettings = {};
         let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
         const baseDeliveryFee = 20;
@@ -279,10 +357,25 @@
             categoriesData = s.val() ? Object.values(s.val()) : [];
             renderCategoriesGrid();
         });
+        db.ref('tabkha_feeding_meals').on('value', s => {
+            if (s.val()) {
+                feedingMealsData = Object.values(s.val());
+            } else {
+                feedingMealsData = [...defaultFeedingMeals];
+            }
+            renderFeedingMeals();
+        });
 
         function renderCategoriesGrid() {
             const container = document.getElementById('categories-container');
             container.innerHTML = '';
+
+            container.innerHTML += `
+                <div class="category-card feeding-cat" onclick="openFeedingSection()">
+                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=120" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
+                    <span class="cat-name" style="color:var(--gold);">🍱 وجبات الإطعام</span>
+                </div>`;
+
             categoriesData.forEach(cat => {
                 container.innerHTML += `
                     <div class="category-card" onclick="selectCategory('${cat.id}')">
@@ -290,6 +383,144 @@
                         <span class="cat-name">${cat.name}</span>
                     </div>`;
             });
+        }
+
+        function openFeedingSection() {
+            document.getElementById('categories-container').style.display = 'none';
+            document.getElementById('menu-container').style.display = 'none';
+            document.getElementById('homeExtraSections').style.display = 'none';
+            document.getElementById('feeding-section').style.display = 'block';
+            document.getElementById('backToCatsBtn').style.display = 'inline-block';
+            document.getElementById('sectionHeadingText').innerText = '🍱 وجبات الإطعام';
+            renderFeedingMeals();
+            calculateFeedingMeals();
+        }
+
+        function renderFeedingMeals() {
+            const list = document.getElementById('feedingMealsList');
+            if (!list) return;
+            list.innerHTML = '';
+            const activeMeals = feedingMealsData.filter(m => m.available !== false);
+            if (!selectedFeedingMealId && activeMeals.length > 0) {
+                selectedFeedingMealId = activeMeals[0].id;
+            }
+            activeMeals.forEach(meal => {
+                const isSel = String(meal.id) === String(selectedFeedingMealId);
+                list.innerHTML += `
+                    <div class="feeding-meal-card ${isSel ? 'selected' : ''}" onclick="selectFeedingMeal('${meal.id}')">
+                        <h4>${meal.name}</h4>
+                        <p>${meal.details || 'وجبة بيتي متكاملة جاهزة للتوزيع'}</p>
+                        <div class="feeding-meal-price">سعر أساسي: ${meal.price} ج</div>
+                    </div>`;
+            });
+        }
+
+        function selectFeedingMeal(id) {
+            selectedFeedingMealId = id;
+            document.getElementById('feedingSelectionMode').value = 'meal';
+            renderFeedingMeals();
+            calculateFeedingMeals();
+        }
+
+        function getActiveFeedingMeal() {
+            const activeMeals = feedingMealsData.filter(m => m.available !== false);
+            return activeMeals.find(m => String(m.id) === String(selectedFeedingMealId)) || activeMeals[0] || null;
+        }
+
+        function calculateFeedingMeals() {
+            const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
+            const traySelect = document.getElementById('feedingTrayType');
+            const trayName = traySelect.value;
+            const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
+            const mode = document.getElementById('feedingSelectionMode').value;
+            const meal = getActiveFeedingMeal();
+
+            const basePrice = meal ? (parseFloat(meal.price) || 0) : 0;
+            const unitPrice = basePrice + trayExtra;
+
+            let mealTitle = '-';
+            let detailsText = 'اختر وجبة وأدخل المبلغ لمعرفة عدد الوجبات والتفاصيل.';
+
+            if (mode === 'chef_choice') {
+                mealTitle = 'وجبات من اختيارك (تشكيلة/اختيار المطبخ)';
+                detailsText = `يتم تجهيز وجبات متنوعة ومختارة بعناية من مطبخ «طبخة على الجاهز» بنوع طبق (${trayName}) بسعر ${unitPrice} جنيه للوجبة شاملاً نوع الطبق.`;
+            } else if (meal) {
+                mealTitle = `${meal.name} (${trayName})`;
+                detailsText = `مكونات الوجبة: ${meal.details || 'طازة ومخدوم بيتي'} | نوع الطبق: ${trayName} (${trayExtra > 0 ? `+${trayExtra} ج` : 'أساسي'}).`;
+            }
+
+            let count = 0;
+            let usedAmount = 0;
+            let remainingAmount = budget;
+
+            if (budget > 0 && unitPrice > 0) {
+                count = Math.floor(budget / unitPrice);
+                usedAmount = count * unitPrice;
+                remainingAmount = budget - usedAmount;
+            }
+
+            document.getElementById('feedingSelectedName').innerText = mealTitle;
+            document.getElementById('feedingUnitPrice').innerText = unitPrice;
+            document.getElementById('feedingMealsCount').innerText = count;
+            document.getElementById('feedingUsedAmount').innerText = usedAmount;
+            document.getElementById('feedingRemainingAmount').innerText = remainingAmount;
+            document.getElementById('feedingMealDetailsText').innerText = detailsText;
+        }
+
+        function getFeedingWhatsAppNumber() {
+            const raw = (siteSettings && siteSettings.feedingWaPhone) ? siteSettings.feedingWaPhone : "01155499777";
+            const digits = raw.replace(/\D/g, '');
+            if (digits.startsWith('20')) return digits;
+            if (digits.startsWith('0')) return '2' + digits;
+            return '201155499777';
+        }
+
+        function sendFeedingOrderToWhatsApp() {
+            const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
+            if (budget <= 0) {
+                alert('من فضلك أدخل المبلغ المتاح أولاً.');
+                return;
+            }
+            const traySelect = document.getElementById('feedingTrayType');
+            const trayName = traySelect.value;
+            const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
+            const mode = document.getElementById('feedingSelectionMode').value;
+            const meal = getActiveFeedingMeal();
+            const notes = document.getElementById('feedingNotesInput').value.trim();
+
+            const basePrice = meal ? (parseFloat(meal.price) || 0) : 0;
+            const unitPrice = basePrice + trayExtra;
+            if (unitPrice <= 0) {
+                alert('يرجى التأكد من سعر الوجبة.');
+                return;
+            }
+
+            const count = Math.floor(budget / unitPrice);
+            const usedAmount = count * unitPrice;
+            const remainingAmount = budget - usedAmount;
+
+            const mealLabel = mode === 'chef_choice'
+                ? 'وجبات من اختيارك (تشكيلة/اختيار المطبخ)'
+                : (meal ? meal.name : 'وجبة إطعام');
+
+            const mealDetails = mode === 'chef_choice'
+                ? 'تشكيلة وجبات متنوعة ومختارة من المطبخ'
+                : (meal && meal.details ? meal.details : 'وجبة إطعام بيتي');
+
+            let msg = "🍱 *طلب وجبات إطعام - طبخة على الجاهز*\n";
+            msg += "----------------------------------\n";
+            msg += `🍽️ النوع: ${mealLabel}\n`;
+            msg += `📝 التفاصيل: ${mealDetails}\n`;
+            msg += `🥡 نوع الطبق: ${trayName}${trayExtra > 0 ? ` (+${trayExtra} ج للوجبة)` : ''}\n`;
+            msg += `💵 سعر الوجبة النهائي: ${unitPrice} ج\n`;
+            msg += `💰 المبلغ المدخل: ${budget} ج\n`;
+            msg += `🔢 *عدد الوجبات: ${count} وجبة*\n`;
+            msg += `✅ إجمالي الوجبات: ${usedAmount} ج\n`;
+            if (remainingAmount > 0) msg += `🪙 المتبقي من المبلغ: ${remainingAmount} ج\n`;
+            if (notes) msg += `📌 ملاحظات: ${notes}\n`;
+
+            const waPhone = getFeedingWhatsAppNumber();
+            window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
         }
 
         function applySiteSettingsToUI() {
@@ -367,6 +598,7 @@
 
         function selectCategory(catKey) {
             document.getElementById('categories-container').style.display = 'none';
+            document.getElementById('feeding-section').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'none';
             document.getElementById('menu-container').style.display = 'grid';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
@@ -377,6 +609,7 @@
 
         function showCategoriesView() {
             document.getElementById('categories-container').style.display = 'grid';
+            document.getElementById('feeding-section').style.display = 'none';
             document.getElementById('homeExtraSections').style.display = 'block';
             document.getElementById('menu-container').style.display = 'none';
             document.getElementById('backToCatsBtn').style.display = 'none';
@@ -495,6 +728,7 @@
             const query = document.getElementById('searchInput').value;
             if(query.trim() !== '') {
                 document.getElementById('categories-container').style.display = 'none';
+                document.getElementById('feeding-section').style.display = 'none';
                 document.getElementById('homeExtraSections').style.display = 'none';
                 document.getElementById('menu-container').style.display = 'grid';
                 document.getElementById('backToCatsBtn').style.display = 'inline-block';
@@ -617,6 +851,8 @@
             cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
 
+        renderFeedingMeals();
+        calculateFeedingMeals();
         saveAndUpdateCart();
     </script>
 </body>
