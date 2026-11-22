@@ -60,46 +60,39 @@
         .category-card:hover { border-color: var(--gold); transform: translateY(-2px); }
 
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
-        .menu-item { background: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; }
+        .menu-item { background: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: relative; transition: border-color 0.2s ease, transform 0.2s ease; }
+        .menu-item:hover { border-color: #3a3a3a; transform: translateY(-2px); }
         .item-status { position: absolute; top: 10px; right: 10px; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; z-index: 2; }
-        .status-available { background: rgba(39, 174, 96, 0.85); color: white; }
+        .status-available { background: rgba(39, 174, 96, 0.88); color: white; }
+        .top-badge { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; z-index: 2; background: rgba(255, 159, 67, 0.92); color: #121212; }
 
         .menu-item img { width: 100%; height: 175px; object-fit: cover; background: #111; }
         .item-details { padding: 14px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
-        .item-info h3 { font-size: 0.95rem; margin-bottom: 4px; color: #fff; }
-        .item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
-        .item-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .item-price { color: var(--gold); font-weight: 700; font-size: 1.05rem; }
-        .item-weight { font-size: 0.75rem; color: var(--text-muted); background: #222; padding: 2px 6px; border-radius: 4px; }
+        .item-info h3 { font-size: 0.98rem; margin-bottom: 4px; color: #fff; }
+        .item-desc { font-size: 0.76rem; color: var(--text-muted); margin-bottom: 8px; min-height: 18px; }
+        .item-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .item-price { color: var(--gold); font-weight: 900; font-size: 1.08rem; }
+        .item-weight { font-size: 0.72rem; color: #ddd; background: #222; padding: 2px 8px; border-radius: 6px; border: 1px solid #303030; }
         
         .options-box { margin-bottom: 10px; background: #202020; padding: 8px; border-radius: 8px; border: 1px solid #333; }
         .options-box label { display: block; font-size: 0.75rem; color: #ffcc00; margin-bottom: 3px; }
         .options-box select { width: 100%; padding: 6px; background: #121212; border: 1px solid #444; border-radius: 5px; color: white; font-size: 0.8rem; }
         
-        .card-qty-row { display: flex; align-items: center; justify-content: space-between; background: #202020; padding: 6px 10px; border-radius: 8px; border: 1px solid #333; }
+        .add-cart-btn { width: 100%; padding: 9px 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; transition: opacity 0.2s ease; }
+        .add-cart-btn:hover { opacity: 0.92; }
+        .card-qty-row { display: flex; align-items: center; justify-content: space-between; background: #202020; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--gold); }
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
-        .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
+        .card-qty-num { font-weight: bold; font-size: 0.92rem; color: var(--gold); }
 
-        /* أيقونات وجبات الإطعام */
+        /* قسم الإطعام الاحترافي */
         #feeding-section { display: none; margin-bottom: 25px; }
-        .feeding-box { background: var(--card-bg); border: 1px solid #2e2a24; border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.45); }
-        .feeding-icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 12px; margin-bottom: 16px; }
-        .feeding-icon-card { background: #1b1b1b; border: 2px solid #2d2d2d; border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .feeding-icon-card.selected { border-color: var(--gold); background: #271e14; transform: translateY(-2px); }
-        .feeding-icon-card.custom-card { border-style: dashed; border-color: #25d366; background: #122018; }
-        .feeding-icon-card img { width: 66px; height: 66px; border-radius: 50%; object-fit: cover; border: 2px solid #444; }
-        .feeding-icon-card.selected img { border-color: var(--gold); }
-        .feeding-icon-card.custom-card img { border-color: #25d366; }
-        .feeding-icon-title { font-size: 0.82rem; font-weight: 700; color: #fff; }
-
-        .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        @media(max-width: 600px) { .row-inputs { grid-template-columns: 1fr; } }
-
-        .feeding-count-banner { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; margin-bottom: 14px; text-align: center; }
-        .feeding-count-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2px; }
-        .feeding-count-val { font-size: 1.3rem; font-weight: 900; color: #2ecc71; }
-
-        .feeding-wa-btn { width: 100%; height: 46px; background: #25d366; color: #fff; border: none; border-radius: 10px; font-size: 0.92rem; font-weight: bold; cursor: pointer; }
+        .feeding-toolbar { background: var(--card-bg); border: 1px solid #262626; border-radius: 14px; padding: 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px; }
+        .feeding-search-input { width: 100%; padding: 10px 14px; background: #111; border: 1px solid #2e2e2e; border-radius: 22px; color: #fff; font-size: 0.85rem; outline: none; }
+        .feeding-search-input:focus { border-color: var(--gold); }
+        .feeding-filter-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+        .feeding-filter-tabs::-webkit-scrollbar { display: none; }
+        .feeding-tab-btn { background: #1e1e1e; color: #ccc; border: 1px solid #303030; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; }
+        .feeding-tab-btn.active { background: var(--gold); color: #121212; border-color: var(--gold); }
 
         .whatsapp-float-btn { position: fixed; bottom: 75px; right: 15px; background: #25d366; color: white; padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.9rem; font-weight: bold; text-decoration: none; border: 1px solid #fff; }
 
@@ -181,34 +174,13 @@
         </div>
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- قسم وجبات الإطعام بالأيقونات -->
+        <!-- قسم الإطعام الاحترافي -->
         <div id="feeding-section">
-            <div class="feeding-box">
-                <div class="feeding-icons-grid" id="feedingIconsGrid"></div>
-
-                <div class="row-inputs">
-                    <div class="form-group">
-                        <label>المبلغ (ج):</label>
-                        <input type="number" id="feedingBudgetInput" min="1" placeholder="اكتب المبلغ..." oninput="calculateFeeding()">
-                    </div>
-                    <div class="form-group">
-                        <label>نوع الطبق:</label>
-                        <select id="feedingTrayType" onchange="calculateFeeding()">
-                            <option value="فويل" data-extra="0">طبق فويل</option>
-                            <option value="بلاستيك أسود" data-extra="8">بلاستيك أسود (+8 ج)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="feeding-count-banner">
-                    <div class="feeding-count-label">عدد الوجبات</div>
-                    <div class="feeding-count-val" id="feedingMealsCount">0</div>
-                </div>
-
-                <button class="feeding-wa-btn" onclick="sendFeedingToWhatsApp()">
-                    إرسال الطلب على واتساب 📱
-                </button>
+            <div class="feeding-toolbar">
+                <input type="text" id="feedingSearchInput" class="feeding-search-input" placeholder="ابحث في وجبات الإطعام..." oninput="renderFeedingCards()">
+                <div class="feeding-filter-tabs" id="feedingCategoryTabs"></div>
             </div>
+            <div class="menu-grid" id="feeding-cards-container"></div>
         </div>
 
         <div id="homeExtraSections">
@@ -318,10 +290,20 @@
 
         db.ref('tabkha_visits_count').transaction(currentCount => (currentCount || 0) + 1);
 
+        function parseFirebaseList(val) {
+            if (!val) return [];
+            if (Array.isArray(val)) return val.filter(Boolean);
+            return Object.keys(val)
+                .sort((a, b) => Number(a) - Number(b))
+                .map(k => val[k])
+                .filter(Boolean);
+        }
+
         let menuData = JSON.parse(localStorage.getItem('cache_tabkha_menu') || '[]');
         let categoriesData = JSON.parse(localStorage.getItem('cache_tabkha_cats') || '[]');
         let feedingMealsData = JSON.parse(localStorage.getItem('cache_tabkha_feeding') || '[]');
-        let selectedFeedingId = null;
+        let feedingCatsData = JSON.parse(localStorage.getItem('cache_tabkha_feeding_cats') || '[]');
+        let activeFeedingCat = 'all';
         let bannersData = [];
         let reviewsData = [];
         let siteSettings = {};
@@ -330,29 +312,36 @@
 
         if (categoriesData.length > 0) renderCategoriesGrid();
         if (menuData.length > 0) renderTopProducts();
-        if (feedingMealsData.length > 0) renderFeedingIcons();
+        if (feedingMealsData.length > 0) { renderFeedingCategoryTabs(); renderFeedingCards(); }
 
         db.ref('tabkha_categories').on('value', s => {
-            categoriesData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+            categoriesData = parseFirebaseList(s.val());
             try { localStorage.setItem('cache_tabkha_cats', JSON.stringify(categoriesData)); } catch(e) {}
             renderCategoriesGrid();
         });
 
         db.ref('tabkha_menu').on('value', s => {
-            menuData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
+            menuData = parseFirebaseList(s.val());
             try { localStorage.setItem('cache_tabkha_menu', JSON.stringify(menuData)); } catch(e) {}
             renderTopProducts();
         });
 
-        db.ref('tabkha_feeding_meals').on('value', s => {
-            feedingMealsData = s.val() ? Object.values(s.val()).filter(Boolean) : [];
-            try { localStorage.setItem('cache_tabkha_feeding', JSON.stringify(feedingMealsData)); } catch(e) {}
-            renderFeedingIcons();
-            calculateFeeding();
+        db.ref('tabkha_feeding_cats').on('value', s => {
+            feedingCatsData = parseFirebaseList(s.val());
+            try { localStorage.setItem('cache_tabkha_feeding_cats', JSON.stringify(feedingCatsData)); } catch(e) {}
+            renderFeedingCategoryTabs();
+            renderFeedingCards();
         });
 
-        db.ref('tabkha_banners').on('value', s => { bannersData = s.val() ? Object.values(s.val()).filter(Boolean) : []; initSlider(); });
-        db.ref('tabkha_reviews').on('value', s => { reviewsData = s.val() ? Object.values(s.val()).filter(Boolean) : []; renderCustomerReviews(); });
+        db.ref('tabkha_feeding_meals').on('value', s => {
+            feedingMealsData = parseFirebaseList(s.val());
+            try { localStorage.setItem('cache_tabkha_feeding', JSON.stringify(feedingMealsData)); } catch(e) {}
+            renderFeedingCategoryTabs();
+            renderFeedingCards();
+        });
+
+        db.ref('tabkha_banners').on('value', s => { bannersData = parseFirebaseList(s.val()); initSlider(); });
+        db.ref('tabkha_reviews').on('value', s => { reviewsData = parseFirebaseList(s.val()); renderCustomerReviews(); });
         db.ref('tabkha_marquee').on('value', s => { if(s.val()) document.getElementById('marqueeText').innerText = s.val(); });
         db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); applySiteSettingsToUI(); } });
 
@@ -382,105 +371,110 @@
             document.getElementById('feeding-section').style.display = 'block';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
             document.getElementById('sectionHeadingText').innerText = '🍱 وجبات الإطعام';
-            renderFeedingIcons();
-            calculateFeeding();
+            renderFeedingCategoryTabs();
+            renderFeedingCards();
         }
 
-        function getActiveFeedingMeals() {
-            return feedingMealsData.filter(m => m && m.available !== false && parseFloat(m.price) > 0);
+        function renderFeedingCategoryTabs() {
+            const tabsEl = document.getElementById('feedingCategoryTabs');
+            if (!tabsEl) return;
+            let html = `<button class="feeding-tab-btn ${activeFeedingCat === 'all' ? 'active' : ''}" onclick="filterFeedingByCat('all')">الكل</button>`;
+            feedingCatsData.forEach(c => {
+                const isAct = activeFeedingCat === c.id;
+                html += `<button class="feeding-tab-btn ${isAct ? 'active' : ''}" onclick="filterFeedingByCat('${c.id}')">${c.name}</button>`;
+            });
+            tabsEl.innerHTML = html;
         }
 
-        function getFeedingWaPhone() {
-            const raw = (siteSettings && siteSettings.feedingWaPhone) ? siteSettings.feedingWaPhone : "01155499777";
-            const digits = raw.replace(/\D/g, '');
-            if (digits.startsWith('20')) return digits;
-            if (digits.startsWith('0')) return '2' + digits;
-            return '201155499777';
+        function filterFeedingByCat(catId) {
+            activeFeedingCat = catId;
+            renderFeedingCategoryTabs();
+            renderFeedingCards();
         }
 
-        function openCustomFeedingWhatsApp() {
-            const waPhone = getFeedingWaPhone();
-            const msg = "🍱 *وجبات إطعام*\n----------------------------------\nأرغب في إضافة وجبة إطعام من اختياري / مخصصة.\n";
-            window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
+        function addFeedingMealToCart(mealId) {
+            const meal = feedingMealsData.find(m => m && String(m.id) === String(mealId));
+            if (!meal) return;
+            const cartKey = `feeding-${meal.id}`;
+            const found = cart.find(i => i.cartKey === cartKey);
+            if (found) found.qty++;
+            else cart.push({
+                cartKey,
+                id: meal.id,
+                name: `${meal.name} (إطعام)`,
+                unitPrice: parseFloat(meal.price) || 0,
+                qty: 1
+            });
+            saveAndUpdateCart();
+            renderFeedingCards();
+            renderTopProducts();
         }
 
-        function renderFeedingIcons() {
-            const grid = document.getElementById('feedingIconsGrid');
+        function updateFeedingCartQty(mealId, delta) {
+            const cartKey = `feeding-${mealId}`;
+            const found = cart.find(i => i.cartKey === cartKey);
+            if (found) {
+                found.qty += delta;
+                if (found.qty <= 0) cart = cart.filter(i => i.cartKey !== cartKey);
+            }
+            saveAndUpdateCart();
+            renderFeedingCards();
+            renderTopProducts();
+        }
+
+        function renderFeedingCards() {
+            const grid = document.getElementById('feeding-cards-container');
             if (!grid) return;
-            grid.innerHTML = '';
-            const meals = getActiveFeedingMeals();
+            const q = (document.getElementById('feedingSearchInput')?.value || '').trim().toLowerCase();
 
-            if (meals.length > 0 && (!selectedFeedingId || !meals.some(m => String(m.id) === String(selectedFeedingId)))) {
-                selectedFeedingId = meals[0].id;
+            let list = feedingMealsData.filter(m => m && m.available !== false);
+            if (activeFeedingCat !== 'all') {
+                list = list.filter(m => String(m.category || '') === String(activeFeedingCat));
+            }
+            if (q) {
+                list = list.filter(m =>
+                    (m.name || '').toLowerCase().includes(q) ||
+                    (m.desc || '').toLowerCase().includes(q)
+                );
             }
 
-            meals.forEach(meal => {
-                const isSel = String(meal.id) === String(selectedFeedingId);
+            if (list.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#888; padding:20px; font-size:0.85rem;">لا توجد وجبات إطعام متاحة حالياً.</p>';
+                return;
+            }
+
+            grid.innerHTML = '';
+            list.forEach(meal => {
+                const catObj = feedingCatsData.find(c => String(c.id) === String(meal.category));
+                const catLabel = catObj ? catObj.name : 'وجبة إطعام';
+                const cartItem = cart.find(i => i.cartKey === `feeding-${meal.id}`);
+
+                const actionHtml = cartItem && cartItem.qty > 0
+                    ? `<div class="card-qty-row" onclick="event.stopPropagation();">
+                        <button class="card-qty-btn" onclick="updateFeedingCartQty('${meal.id}', -1)">-</button>
+                        <span class="card-qty-num">${cartItem.qty} في السلة</span>
+                        <button class="card-qty-btn" onclick="updateFeedingCartQty('${meal.id}', 1)">+</button>
+                       </div>`
+                    : `<button class="add-cart-btn" onclick="event.stopPropagation(); addFeedingMealToCart('${meal.id}')">أضف إلى السلة 🛒</button>`;
+
                 grid.innerHTML += `
-                    <div class="feeding-icon-card ${isSel ? 'selected' : ''}" onclick="chooseFeedingMeal('${meal.id}')">
-                        <img loading="lazy" src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200'}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200';">
-                        <span class="feeding-icon-title">${meal.name}</span>
+                    <div class="menu-item" onclick="addFeedingMealToCart('${meal.id}')">
+                        <span class="item-status status-available">🟢 متاح</span>
+                        ${meal.top ? '<span class="top-badge">🔥 الأكثر طلبًا</span>' : ''}
+                        <img loading="lazy" src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400'}" alt="${meal.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                        <div class="item-details">
+                            <div class="item-info">
+                                <h3>${meal.name}</h3>
+                                <div class="item-desc">${meal.desc || ''}</div>
+                                <div class="item-meta">
+                                    <div class="item-price">${meal.price} ج</div>
+                                    <div class="item-weight">${catLabel}</div>
+                                </div>
+                            </div>
+                            ${actionHtml}
+                        </div>
                     </div>`;
             });
-
-            grid.innerHTML += `
-                <div class="feeding-icon-card custom-card" onclick="openCustomFeedingWhatsApp()">
-                    <img loading="lazy" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200';">
-                    <span class="feeding-icon-title">وجبة من اختياركم</span>
-                </div>`;
-        }
-
-        function chooseFeedingMeal(id) {
-            selectedFeedingId = id;
-            renderFeedingIcons();
-            calculateFeeding();
-        }
-
-        function calculateFeeding() {
-            const meals = getActiveFeedingMeals();
-            const meal = meals.find(m => String(m.id) === String(selectedFeedingId)) || meals[0];
-            const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
-            const traySelect = document.getElementById('feedingTrayType');
-            const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
-
-            if (!meal) {
-                document.getElementById('feedingMealsCount').innerText = '0';
-                return;
-            }
-
-            const unitPrice = (parseFloat(meal.price) || 0) + trayExtra;
-            const count = (budget > 0 && unitPrice > 0) ? Math.floor(budget / unitPrice) : 0;
-            document.getElementById('feedingMealsCount').innerText = count;
-        }
-
-        function sendFeedingToWhatsApp() {
-            const waPhone = getFeedingWaPhone();
-            const meals = getActiveFeedingMeals();
-            const meal = meals.find(m => String(m.id) === String(selectedFeedingId)) || meals[0];
-            const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
-            const traySelect = document.getElementById('feedingTrayType');
-            const trayName = traySelect.value;
-            const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
-
-            if (!meal) {
-                openCustomFeedingWhatsApp();
-                return;
-            }
-            if (budget <= 0) {
-                alert('اكتب المبلغ أولاً.');
-                return;
-            }
-
-            const unitPrice = (parseFloat(meal.price) || 0) + trayExtra;
-            const count = Math.floor(budget / unitPrice);
-
-            let msg = "🍱 *طلب وجبات إطعام - طبخة على الجاهز*\n----------------------------------\n";
-            msg += `▪️ ${meal.name} (${trayName}) × ${count}\n`;
-            msg += `----------------------------------\n`;
-            msg += `💰 *المبلغ: ${budget} ج*\n`;
-            msg += `🔢 *عدد الوجبات: ${count}*\n`;
-
-            window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
         }
 
         function applySiteSettingsToUI() {
@@ -611,7 +605,7 @@
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
                         <span class="card-qty-num">${cartItem.qty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>` : '';
+                    </div>` : `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCartFromUI(${item.id})">أضف إلى السلة 🛒</button>`;
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
@@ -662,7 +656,7 @@
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
                         <span class="card-qty-num">${cartItem.qty} في السلة</span>
                         <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>` : '';
+                    </div>` : `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCartFromUI(${item.id})">أضف إلى السلة 🛒</button>`;
 
                 container.innerHTML += `
                     <div class="menu-item" onclick="addToCartFromUI(${item.id})">
@@ -734,7 +728,7 @@
         function changeQty(cartKey, delta) {
             const found = cart.find(i => i.cartKey === cartKey);
             if(found) { found.qty += delta; if(found.qty <= 0) cart = cart.filter(i => i.cartKey !== cartKey); }
-            saveAndUpdateCart(); renderTopProducts(); openCheckout();
+            saveAndUpdateCart(); renderTopProducts(); renderFeedingCards(); openCheckout();
             if(cart.length === 0) closeCheckout();
         }
 
