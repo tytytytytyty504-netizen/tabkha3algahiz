@@ -80,28 +80,26 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.95rem; color: #fff; }
 
-        /* قسم وجبات الإطعام بالأيقونات والصور */
+        /* أيقونات وجبات الإطعام */
         #feeding-section { display: none; margin-bottom: 25px; }
         .feeding-box { background: var(--card-bg); border: 1px solid #2e2a24; border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.45); }
-        .feeding-icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 16px; }
-        .feeding-icon-card { background: #1b1b1b; border: 2px solid #2d2d2d; border-radius: 14px; padding: 10px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 7px; }
+        .feeding-icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .feeding-icon-card { background: #1b1b1b; border: 2px solid #2d2d2d; border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .feeding-icon-card.selected { border-color: var(--gold); background: #271e14; transform: translateY(-2px); }
-        .feeding-icon-card img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid #444; }
+        .feeding-icon-card.custom-card { border-style: dashed; border-color: #25d366; background: #122018; }
+        .feeding-icon-card img { width: 66px; height: 66px; border-radius: 50%; object-fit: cover; border: 2px solid #444; }
         .feeding-icon-card.selected img { border-color: var(--gold); }
-        .feeding-icon-title { font-size: 0.8rem; font-weight: 700; color: #fff; }
-        .feeding-icon-price { font-size: 0.78rem; font-weight: 700; color: var(--gold); }
+        .feeding-icon-card.custom-card img { border-color: #25d366; }
+        .feeding-icon-title { font-size: 0.82rem; font-weight: 700; color: #fff; }
 
         .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         @media(max-width: 600px) { .row-inputs { grid-template-columns: 1fr; } }
 
-        .feeding-result-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; margin-bottom: 14px; text-align: center; }
-        .feeding-stat-box { background: #191919; border-radius: 10px; padding: 10px 8px; }
-        .feeding-stat-label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 3px; }
-        .feeding-stat-val { font-size: 1rem; font-weight: 900; color: var(--gold); }
-        .feeding-stat-val.green { color: #2ecc71; font-size: 1.15rem; }
+        .feeding-count-banner { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; margin-bottom: 14px; text-align: center; }
+        .feeding-count-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2px; }
+        .feeding-count-val { font-size: 1.3rem; font-weight: 900; color: #2ecc71; }
 
-        .feeding-wa-btn { width: 100%; height: 46px; background: #25d366; color: #fff; border: none; border-radius: 10px; font-size: 0.92rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .feeding-custom-btn { width: 100%; height: 42px; background: #222; color: var(--gold); border: 1px solid var(--gold); border-radius: 10px; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
+        .feeding-wa-btn { width: 100%; height: 46px; background: #25d366; color: #fff; border: none; border-radius: 10px; font-size: 0.92rem; font-weight: bold; cursor: pointer; }
 
         .whatsapp-float-btn { position: fixed; bottom: 75px; right: 15px; background: #25d366; color: white; padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 998; font-size: 0.9rem; font-weight: bold; text-decoration: none; border: 1px solid #fff; }
 
@@ -183,14 +181,14 @@
         </div>
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- قسم وجبات الإطعام بالأيقونات والصور المضافة من الأدمن -->
+        <!-- قسم وجبات الإطعام بالأيقونات -->
         <div id="feeding-section">
             <div class="feeding-box">
                 <div class="feeding-icons-grid" id="feedingIconsGrid"></div>
 
                 <div class="row-inputs">
                     <div class="form-group">
-                        <label>المبلغ المتاح (ج):</label>
+                        <label>المبلغ (ج):</label>
                         <input type="number" id="feedingBudgetInput" min="1" placeholder="اكتب المبلغ..." oninput="calculateFeeding()">
                     </div>
                     <div class="form-group">
@@ -202,22 +200,13 @@
                     </div>
                 </div>
 
-                <div class="feeding-result-strip">
-                    <div class="feeding-stat-box">
-                        <div class="feeding-stat-label">سعر الوجبة</div>
-                        <div class="feeding-stat-val"><span id="feedingUnitPrice">0</span> ج</div>
-                    </div>
-                    <div class="feeding-stat-box">
-                        <div class="feeding-stat-label">عدد الوجبات</div>
-                        <div class="feeding-stat-val green"><span id="feedingMealsCount">0</span></div>
-                    </div>
+                <div class="feeding-count-banner">
+                    <div class="feeding-count-label">عدد الوجبات</div>
+                    <div class="feeding-count-val" id="feedingMealsCount">0</div>
                 </div>
 
-                <button class="feeding-wa-btn" onclick="sendFeedingToWhatsApp(false)">
-                    إرسال طلب الإطعام على واتساب (01155499777) 📱
-                </button>
-                <button class="feeding-custom-btn" onclick="sendFeedingToWhatsApp(true)">
-                    ✨ وجبات من اختيارك — واتساب (01155499777)
+                <button class="feeding-wa-btn" onclick="sendFeedingToWhatsApp()">
+                    إرسال الطلب على واتساب 📱
                 </button>
             </div>
         </div>
@@ -375,10 +364,7 @@
                     <span class="cat-name" style="color:var(--gold);">🍱 وجبات الإطعام</span>
                 </div>`;
 
-            if (categoriesData.length === 0) {
-                container.innerHTML += '<p style="grid-column:1/-1; text-align:center; color:#888; font-size:0.8rem;">لا توجد أقسام مضافة بعد.</p>';
-                return;
-            }
+            if (categoriesData.length === 0) return;
 
             categoriesData.forEach(cat => {
                 container.innerHTML += `
@@ -404,27 +390,44 @@
             return feedingMealsData.filter(m => m && m.available !== false && parseFloat(m.price) > 0);
         }
 
+        function getFeedingWaPhone() {
+            const raw = (siteSettings && siteSettings.feedingWaPhone) ? siteSettings.feedingWaPhone : "01155499777";
+            const digits = raw.replace(/\D/g, '');
+            if (digits.startsWith('20')) return digits;
+            if (digits.startsWith('0')) return '2' + digits;
+            return '201155499777';
+        }
+
+        function openCustomFeedingWhatsApp() {
+            const waPhone = getFeedingWaPhone();
+            const msg = "🍱 *وجبات إطعام*\n----------------------------------\nأرغب في إضافة وجبة إطعام من اختياري / مخصصة.\n";
+            window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
+        }
+
         function renderFeedingIcons() {
             const grid = document.getElementById('feedingIconsGrid');
             if (!grid) return;
             grid.innerHTML = '';
             const meals = getActiveFeedingMeals();
-            if (meals.length === 0) {
-                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#888; font-size:0.82rem; padding:10px;">أضف وجبات الإطعام وصورها من لوحة الأدمن لتظهر هنا كأيقونات.</p>';
-                return;
-            }
-            if (!selectedFeedingId || !meals.some(m => String(m.id) === String(selectedFeedingId))) {
+
+            if (meals.length > 0 && (!selectedFeedingId || !meals.some(m => String(m.id) === String(selectedFeedingId)))) {
                 selectedFeedingId = meals[0].id;
             }
+
             meals.forEach(meal => {
                 const isSel = String(meal.id) === String(selectedFeedingId);
                 grid.innerHTML += `
                     <div class="feeding-icon-card ${isSel ? 'selected' : ''}" onclick="chooseFeedingMeal('${meal.id}')">
                         <img loading="lazy" src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200'}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200';">
                         <span class="feeding-icon-title">${meal.name}</span>
-                        <span class="feeding-icon-price">${meal.price} ج</span>
                     </div>`;
             });
+
+            grid.innerHTML += `
+                <div class="feeding-icon-card custom-card" onclick="openCustomFeedingWhatsApp()">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=200';">
+                    <span class="feeding-icon-title">وجبة من اختياركم</span>
+                </div>`;
         }
 
         function chooseFeedingMeal(id) {
@@ -441,63 +444,40 @@
             const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
 
             if (!meal) {
-                document.getElementById('feedingUnitPrice').innerText = '0';
                 document.getElementById('feedingMealsCount').innerText = '0';
                 return;
             }
 
             const unitPrice = (parseFloat(meal.price) || 0) + trayExtra;
             const count = (budget > 0 && unitPrice > 0) ? Math.floor(budget / unitPrice) : 0;
-
-            document.getElementById('feedingUnitPrice').innerText = unitPrice;
             document.getElementById('feedingMealsCount').innerText = count;
         }
 
-        function getFeedingWaPhone() {
-            const raw = (siteSettings && siteSettings.feedingWaPhone) ? siteSettings.feedingWaPhone : "01155499777";
-            const digits = raw.replace(/\D/g, '');
-            if (digits.startsWith('20')) return digits;
-            if (digits.startsWith('0')) return '2' + digits;
-            return '201155499777';
-        }
-
-        function sendFeedingToWhatsApp(isCustomChoice) {
+        function sendFeedingToWhatsApp() {
             const waPhone = getFeedingWaPhone();
+            const meals = getActiveFeedingMeals();
+            const meal = meals.find(m => String(m.id) === String(selectedFeedingId)) || meals[0];
             const budget = parseFloat(document.getElementById('feedingBudgetInput').value) || 0;
             const traySelect = document.getElementById('feedingTrayType');
             const trayName = traySelect.value;
             const trayExtra = parseFloat(traySelect.options[traySelect.selectedIndex].getAttribute('data-extra')) || 0;
 
-            if (isCustomChoice) {
-                let msg = "🍱 *طلب وجبات إطعام (من اختياركم) - طبخة على الجاهز*\n";
-                msg += "----------------------------------\n";
-                if (budget > 0) msg += `💰 المبلغ: ${budget} ج\n`;
-                msg += `🥡 نوع الطبق: ${trayName}\n`;
-                msg += "✨ أرغب في وجبات إطعام من اختياركم.\n";
-                window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
-                return;
-            }
-
-            const meals = getActiveFeedingMeals();
-            const meal = meals.find(m => String(m.id) === String(selectedFeedingId)) || meals[0];
             if (!meal) {
-                alert('اختر وجبة أولاً.');
+                openCustomFeedingWhatsApp();
                 return;
             }
             if (budget <= 0) {
-                alert('أدخل المبلغ أولاً.');
+                alert('اكتب المبلغ أولاً.');
                 return;
             }
 
             const unitPrice = (parseFloat(meal.price) || 0) + trayExtra;
             const count = Math.floor(budget / unitPrice);
 
-            let msg = "🍱 *طلب وجبات إطعام - طبخة على الجاهز*\n";
-            msg += "----------------------------------\n";
-            msg += `🍽️ الوجبة: ${meal.name}\n`;
-            msg += `🥡 نوع الطبق: ${trayName}\n`;
-            msg += `💵 سعر الوجبة: ${unitPrice} ج\n`;
-            msg += `💰 المبلغ: ${budget} ج\n`;
+            let msg = "🍱 *طلب وجبات إطعام - طبخة على الجاهز*\n----------------------------------\n";
+            msg += `▪️ ${meal.name} (${trayName}) × ${count}\n`;
+            msg += `----------------------------------\n`;
+            msg += `💰 *المبلغ: ${budget} ج*\n`;
             msg += `🔢 *عدد الوجبات: ${count}*\n`;
 
             window.open(`https://wa.me/${waPhone}?text=${encodeURI(msg)}`, '_blank');
