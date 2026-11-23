@@ -345,7 +345,7 @@
                 <span id="paymentInstructionText">يرجى تحويل المبلغ وإرسال <strong>صورة التحويل</strong> لنا عبر الواتساب مع الأوردر.</span>
             </div>
             <div class="form-group"><label>ملاحظات (اختياري):</label><input type="text" id="clientNotes" placeholder="أي طلب خاص أو معاد التسليم..."></div>
-            <button class="card-qty-btn" style="width:100%; height:44px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
+            <button id="sendOrderBtn" class="card-qty-btn" style="width:100%; height:44px; background:#25d366; font-size:1rem; border-radius:8px; margin-top:5px;" onclick="sendToWhatsApp()">ابعت الأوردر على واتساب 📱</button>
         </div>
     </div>
 
@@ -418,6 +418,8 @@
         let cart = JSON.parse(localStorage.getItem('tabkha_cart') || '[]');
         const baseDeliveryFee = 20;
         let deliveryMode = localStorage.getItem('tabkha_delivery_mode') || 'delivery';
+        const ORDER_COOLDOWN_MS = 20000;
+        let isSubmittingOrder = false;
 
         function isDeliveryChoiceEnabled() {
             return siteSettings.allowDeliveryChoice !== false;
@@ -1121,6 +1123,16 @@
         }
 
         function sendToWhatsApp() {
+            if (isSubmittingOrder) return;
+
+            const lastSentAt = parseInt(sessionStorage.getItem('tabkha_last_order_ts') || '0', 10);
+            const now = Date.now();
+            if (lastSentAt > 0 && (now - lastSentAt) < ORDER_COOLDOWN_MS) {
+                const secLeft = Math.ceil((ORDER_COOLDOWN_MS - (now - lastSentAt)) / 1000);
+                alert(`تم إرسال طلب مؤخراً، يرجى الانتظار ${secLeft} ثانية قبل إرسال طلب آخر.`);
+                return;
+            }
+
             syncCartWithCatalog();
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
             const isPickup = isDeliveryChoiceEnabled() && deliveryMode === 'pickup';
@@ -1131,8 +1143,14 @@
             const payment = String(document.getElementById('paymentMethod').value || 'كاش عند الاستلام').slice(0, 50);
             const notes = document.getElementById('clientNotes').value.trim().slice(0, 300);
 
-            if(!name || !phone || (!isPickup && (!area || !address))) {
+            if(name.length < 2 || (!isPickup && (!area || !address))) {
                 alert('أكمل بيانات الاسم والموبايل والعنوان.');
+                return;
+            }
+
+            const phoneDigits = phone.replace(/[\s\-+()]/g, '');
+            if (!/^\d{7,15}$/.test(phoneDigits)) {
+                alert('أدخل رقم موبايل صحيحاً.');
                 return;
             }
 
@@ -1151,6 +1169,8 @@
             const sub = cleanItems.reduce((s, item) => s + item.lineTotal, 0);
             const fee = getActiveDeliveryFee();
             const grandTotal = sub + fee;
+            if (grandTotal <= 0) { alert('إجمالي الطلب غير صحيح.'); return; }
+
             const deliveryText = isPickup ? 'بدون توصيل (استلام من المكان)' : 'توصيل داخل سنباط (20 ج)';
 
             let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
@@ -1163,8 +1183,8 @@
             if(notes) msg += `📝 ملاحظات: ${notes}\n`;
 
             const orderPayload = {
-                id: Date.now(),
-                createdAt: new Date().toISOString(),
+                id: now,
+                createdAt: new Date(now).toISOString(),
                 items: cleanItems,
                 subTotal: sub,
                 deliveryFee: fee,
@@ -1180,14 +1200,20 @@
             };
 
             const waUrl = `https://wa.me/201129933758?text=${encodeURIComponent(msg)}`;
+            const sendBtn = document.getElementById('sendOrderBtn');
+            isSubmittingOrder = true;
+            if (sendBtn) sendBtn.disabled = true;
 
             saveOrderToFirebase(orderPayload).finally(() => {
+                try { sessionStorage.setItem('tabkha_last_order_ts', String(Date.now())); } catch(e) {}
                 window.open(waUrl, '_blank', 'noopener,noreferrer');
                 cart = [];
                 try { localStorage.removeItem('tabkha_cart'); } catch(e) {}
                 saveAndUpdateCart();
                 closeCheckout();
                 showCategoriesView();
+                isSubmittingOrder = false;
+                if (sendBtn) sendBtn.disabled = false;
             });
         }
 
