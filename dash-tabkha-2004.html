@@ -100,11 +100,16 @@
     <div id="loginOverlay">
         <div class="login-card">
             <h2>🔐 إدارة طبخة على الجاهز</h2>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">أدخل كلمة المرور للوصول إلى لوحة التحكم الاحترافية</p>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">سجّل دخولك بحساب الإدارة المعتمد للوصول إلى لوحة التحكم</p>
             <div class="form-group">
+                <label>البريد الإلكتروني:</label>
+                <input type="email" id="adminEmailInput" placeholder="tytytytytyty504@gmail.com" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور:</label>
                 <input type="password" id="adminPasswordInput" placeholder="" autocomplete="current-password">
             </div>
-            <button class="btn" style="width:100%; margin-top:10px; padding:11px;" onclick="checkAdminLogin()">تسجيل الدخول 🚀</button>
+            <button class="btn" id="loginSubmitBtn" style="width:100%; margin-top:10px; padding:11px;" onclick="checkAdminLogin()">تسجيل الدخول 🚀</button>
         </div>
     </div>
 
@@ -124,7 +129,7 @@
             <li><button onclick="switchSection('bannersSection', this)">🖼️ البانرات والعروض</button></li>
             <li><button onclick="switchSection('reviewsSection', this)">🗣️ تقييمات العملاء</button></li>
             <li><button onclick="switchSection('settingsSection', this)">⚙️ إعدادات الموقع والهوية</button></li>
-            <li><button onclick="switchSection('securitySection', this)">🛡️ الأمان وكلمة السر</button></li>
+            <li><button onclick="switchSection('securitySection', this)">🛡️ الأمان وحساب الدخول</button></li>
             <li style="margin-top: 30px;"><button style="background:rgba(192,57,43,0.1); color:#c0392b;" onclick="logoutAdmin()">🔒 تسجيل خروج</button></li>
         </ul>
     </aside>
@@ -182,7 +187,7 @@
                     <div class="form-group"><label>القسم التابع له:</label><select id="menuCategorySelect"></select></div>
                 </div>
                 <div class="row-inputs">
-                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="menuPrice" placeholder="150"></div>
+                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="menuPrice" min="0.01" step="any" placeholder="150"></div>
                     <div class="form-group"><label>وحدة الوزن:</label><input type="text" id="menuWeight" placeholder="كيلو / حبة / صينية"></div>
                 </div>
                 <div class="form-group">
@@ -232,7 +237,7 @@
                     <div class="form-group"><label>التصنيف التابع له:</label><select id="feedingMealCatSelect"></select></div>
                 </div>
                 <div class="row-inputs">
-                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="feedingMealPrice" placeholder="65"></div>
+                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="feedingMealPrice" min="0.01" step="any" placeholder="65"></div>
                     <div class="form-group"><label>وصف مختصر (اختياري):</label><input type="text" id="feedingMealDesc" placeholder="ربع فرخة + أرز + سلطة..."></div>
                 </div>
                 <div class="form-group">
@@ -301,7 +306,7 @@
                 <div class="card-header-title">➕ إضافة بانر جديد</div>
                 <div class="form-group"><label>عنوان البانر:</label><input type="text" id="bannerTitle" placeholder="عرض محشي فريش"></div>
                 <div class="row-inputs">
-                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="bannerPrice" placeholder="120"></div>
+                    <div class="form-group"><label>السعر (ج):</label><input type="number" id="bannerPrice" min="0.01" step="any" placeholder="120"></div>
                     <div class="form-group">
                         <label>صورة البانر (اختر من الجهاز 📁):</label>
                         <input type="file" accept="image/*" onchange="previewCompressedImage(this, 'bannerImgBase64', 'bannerImgPreview')">
@@ -363,11 +368,14 @@
 
         <div id="securitySection" class="admin-section">
             <div class="top-header"><h2>🛡️ أمان وحماية لوحة التحكم</h2></div>
-            <div class="admin-card" style="max-width: 500px;">
-                <div class="form-group"><label>كلمة المرور الحالية:</label><input type="password" id="currentPassCheck" placeholder=""></div>
-                <div class="form-group"><label>كلمة المرور الجديدة:</label><input type="password" id="newPassInput" placeholder=""></div>
-                <div class="form-group"><label>تأكيد كلمة المرور الجديدة:</label><input type="password" id="confirmNewPassInput" placeholder=""></div>
-                <button class="btn" style="background:#2a3f54;" onclick="updateAdminPassword()">تحديث كلمة السر للأمان 🔒</button>
+            <div class="admin-card" style="max-width: 520px;">
+                <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 14px;">
+                    الدخول مؤمّن عبر <strong>Firebase Authentication</strong> لحساب الأدمن المعتمد (<strong>tytytytytyty504@gmail.com</strong>)، ولا توجد أي كلمة مرور محفوظة داخل ملفات الكود.
+                </p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn" style="background:#2a3f54;" onclick="sendPasswordResetToAdmin()">إرسال رابط تغيير كلمة المرور للإيميل ✉️</button>
+                    <button class="btn btn-danger" style="padding:9px 16px; font-size:0.82rem;" onclick="logoutAdmin()">تسجيل خروج آمن 🔒</button>
+                </div>
             </div>
         </div>
     </div>
@@ -382,7 +390,7 @@
             <div class="form-group"><label>اسم الأكلة:</label><input type="text" id="editMenuName"></div>
             <div class="form-group"><label>القسم:</label><select id="editMenuCategory"></select></div>
             <div class="row-inputs">
-                <div class="form-group"><label>السعر (ج):</label><input type="number" id="editMenuPrice"></div>
+                <div class="form-group"><label>السعر (ج):</label><input type="number" id="editMenuPrice" min="0.01" step="any"></div>
                 <div class="form-group"><label>وحدة الوزن:</label><input type="text" id="editMenuWeight"></div>
             </div>
             <div class="form-group"><label>وصف المكونات:</label><textarea id="editMenuDesc" rows="2"></textarea></div>
@@ -408,7 +416,7 @@
                 <div class="form-group"><label>التصنيف:</label><select id="editFeedingCat"></select></div>
             </div>
             <div class="row-inputs">
-                <div class="form-group"><label>السعر (ج):</label><input type="number" id="editFeedingPrice"></div>
+                <div class="form-group"><label>السعر (ج):</label><input type="number" id="editFeedingPrice" min="0.01" step="any"></div>
                 <div class="form-group"><label>وصف مختصر:</label><input type="text" id="editFeedingDesc"></div>
             </div>
             <div style="display:flex; gap:20px; margin-bottom:12px; font-size:0.82rem;">
@@ -426,6 +434,7 @@
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
@@ -440,7 +449,33 @@
           measurementId: "G-PK1D1TTD4L"
         };
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.database();
+        const AUTHORIZED_ADMIN_EMAIL = "tytytytytyty504@gmail.com";
+
+        function escapeHtml(val) {
+            return String(val ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function safeUrl(url, fallback) {
+            const str = String(url ?? '').trim();
+            if (!str) return fallback;
+            if (/^https:\/\//i.test(str) || /^data:image\/(jpeg|jpg|png|webp|gif);base64,/i.test(str) || /^(\.\/|\/)?[a-zA-Z0-9._/-]+\.(png|jpg|jpeg|webp|gif)$/i.test(str)) {
+                return str;
+            }
+            return fallback;
+        }
+
+        function parseValidPrice(raw) {
+            const num = parseFloat(raw);
+            if (!Number.isFinite(num) || num <= 0) return null;
+            return num;
+        }
 
         function parseFirebaseList(val) {
             if (!val) return [];
@@ -458,85 +493,71 @@
         let feedingMealsData = [];
         let feedingCatsData = [];
         let siteSettings = {};
-
-        /* تشفير SHA-256 بدون تخزين كلمة المرور كنص صريح */
-        function sha256Pure(str) {
-            function toHex(n) { return (n >>> 0).toString(16).padStart(8, '0'); }
-            const utf8 = unescape(encodeURIComponent(str));
-            const words = [];
-            for (let i = 0; i < utf8.length; i++) {
-                words[i >> 2] |= utf8.charCodeAt(i) << (24 - (i % 4) * 8);
-            }
-            const bitLen = utf8.length * 8;
-            words[bitLen >> 5] |= 0x80 << (24 - (bitLen % 32));
-            const totalWords = Math.max((((bitLen + 64) >> 9) << 4) + 16, 16);
-            while (words.length < totalWords) words.push(0);
-            words[totalWords - 2] = Math.floor(bitLen / 0x100000000);
-            words[totalWords - 1] = bitLen >>> 0;
-
-            const primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311];
-            const h = primes.slice(0, 8).map(p => Math.floor((Math.pow(p, 0.5) % 1) * 4294967296) >>> 0);
-            const k = primes.map(p => Math.floor((Math.pow(p, 1/3) % 1) * 4294967296) >>> 0);
-
-            function rotr(x, n) { return ((x >>> n) | (x << (32 - n))) >>> 0; }
-
-            for (let i = 0; i < totalWords; i += 16) {
-                const w = words.slice(i, i + 16);
-                for (let t = 16; t < 64; t++) {
-                    const s0 = (rotr(w[t-15], 7) ^ rotr(w[t-15], 18) ^ (w[t-15] >>> 3)) >>> 0;
-                    const s1 = (rotr(w[t-2], 17) ^ rotr(w[t-2], 19) ^ (w[t-2] >>> 10)) >>> 0;
-                    w[t] = (w[t-16] + s0 + w[t-7] + s1) >>> 0;
-                }
-                let [a,b,c,d,e,f,g,hh] = h;
-                for (let t = 0; t < 64; t++) {
-                    const S1 = (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) >>> 0;
-                    const ch = ((e & f) ^ ((~e) & g)) >>> 0;
-                    const temp1 = (hh + S1 + ch + k[t] + w[t]) >>> 0;
-                    const S0 = (rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) >>> 0;
-                    const maj = ((a & b) ^ (a & c) ^ (b & c)) >>> 0;
-                    const temp2 = (S0 + maj) >>> 0;
-                    hh = g; g = f; f = e; e = (d + temp1) >>> 0;
-                    d = c; c = b; b = a; a = (temp1 + temp2) >>> 0;
-                }
-                h[0] = (h[0] + a) >>> 0; h[1] = (h[1] + b) >>> 0;
-                h[2] = (h[2] + c) >>> 0; h[3] = (h[3] + d) >>> 0;
-                h[4] = (h[4] + e) >>> 0; h[5] = (h[5] + f) >>> 0;
-                h[6] = (h[6] + g) >>> 0; h[7] = (h[7] + hh) >>> 0;
-            }
-            return h.map(toHex).join('');
-        }
-
-        async function hashPassword(plain) {
-            if (window.crypto && window.crypto.subtle && window.isSecureContext) {
-                const enc = new TextEncoder().encode(plain);
-                const buf = await window.crypto.subtle.digest('SHA-256', enc);
-                return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-            return sha256Pure(plain);
-        }
-
-        const ADMIN_PASS_DIGEST = sha256Pure("ammar089562");
+        let adminListenersAttached = false;
 
         document.getElementById('adminPasswordInput').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') checkAdminLogin();
         });
+        document.getElementById('adminEmailInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') checkAdminLogin();
+        });
 
         async function checkAdminLogin() {
-            const input = document.getElementById('adminPasswordInput').value;
-            const digest = await hashPassword(input);
-            if (digest === ADMIN_PASS_DIGEST) {
+            const emailInput = document.getElementById('adminEmailInput').value.trim();
+            const passInput = document.getElementById('adminPasswordInput').value;
+            const btn = document.getElementById('loginSubmitBtn');
+
+            if (!emailInput || !passInput) {
+                alert('أدخل البريد الإلكتروني وكلمة المرور.');
+                return;
+            }
+
+            try {
+                btn.disabled = true;
+                const cred = await auth.signInWithEmailAndPassword(emailInput, passInput);
+                const signedEmail = (cred.user && cred.user.email || '').toLowerCase();
+                if (signedEmail !== AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
+                    await auth.signOut();
+                    alert('هذا الحساب غير مصرح له بالدخول إلى لوحة الإدارة.');
+                    return;
+                }
                 document.getElementById('adminPasswordInput').value = '';
-                document.getElementById('loginOverlay').style.display = 'none';
-                initAdminPanel();
-            } else {
-                alert('كلمة المرور غير صحيحة!');
+            } catch (err) {
+                alert('تعذر تسجيل الدخول، تأكد من البريد الإلكتروني وكلمة المرور.');
+            } finally {
+                btn.disabled = false;
             }
         }
 
-        function logoutAdmin() {
+        async function logoutAdmin() {
+            try {
+                await auth.signOut();
+            } catch (e) {}
             document.getElementById('adminPasswordInput').value = '';
             document.getElementById('loginOverlay').style.display = 'flex';
         }
+
+        async function sendPasswordResetToAdmin() {
+            try {
+                await auth.sendPasswordResetEmail(AUTHORIZED_ADMIN_EMAIL);
+                alert('تم إرسال رابط تغيير كلمة المرور إلى بريد الإدارة بنجاح.');
+            } catch (err) {
+                alert('تعذر إرسال رابط التغيير حالياً، حاول لاحقاً.');
+            }
+        }
+
+        auth.onAuthStateChanged(async (user) => {
+            const isAuthorized = !!(user && user.email && user.email.toLowerCase() === AUTHORIZED_ADMIN_EMAIL.toLowerCase());
+            if (isAuthorized) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                initAdminPanel();
+            } else {
+                if (user) {
+                    try { await auth.signOut(); } catch (e) {}
+                }
+                document.getElementById('loginOverlay').style.display = 'flex';
+            }
+        });
 
         function toggleMobileSidebar() {
             document.getElementById('sidebarNav').classList.toggle('mobile-open');
@@ -552,6 +573,17 @@
 
         function previewCompressedImage(input, hiddenInputId, previewImgId) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
+                if (!file.type || !file.type.startsWith('image/')) {
+                    alert('يرجى اختيار ملف صورة صالح فقط.');
+                    input.value = '';
+                    return;
+                }
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('حجم الصورة كبير جداً (الحد الأقصى 10 ميجابايت قبل الضغط).');
+                    input.value = '';
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const img = new Image();
@@ -576,11 +608,14 @@
                     };
                     img.src = e.target.result;
                 };
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
         function initAdminPanel() {
+            if (adminListenersAttached) return;
+            adminListenersAttached = true;
+
             db.ref('tabkha_visits_count').on('value', s => {
                 document.getElementById('statVisitsCount').innerText = s.val() || 0;
             });
@@ -625,23 +660,38 @@
             document.getElementById('settingBrandTitle').value = siteSettings.brandTitle || "";
             document.getElementById('settingBrandSub').value = siteSettings.brandSub || "";
             document.getElementById('settingFbLink').value = siteSettings.fbLink || "";
-            if(siteSettings.logoUrl) { document.getElementById('settingLogoPreview').src = siteSettings.logoUrl; document.getElementById('settingLogoPreview').style.display='block'; document.getElementById('settingLogoBase64').value = siteSettings.logoUrl; }
-            if(siteSettings.socialBannerUrl) { document.getElementById('settingSocialPreview').src = siteSettings.socialBannerUrl; document.getElementById('settingSocialPreview').style.display='block'; document.getElementById('settingSocialBase64').value = siteSettings.socialBannerUrl; }
+            if(siteSettings.logoUrl) {
+                const safeLogo = safeUrl(siteSettings.logoUrl, 'logo.png');
+                document.getElementById('settingLogoPreview').src = safeLogo;
+                document.getElementById('settingLogoPreview').style.display='block';
+                document.getElementById('settingLogoBase64').value = safeLogo;
+            }
+            if(siteSettings.socialBannerUrl) {
+                const safeBanner = safeUrl(siteSettings.socialBannerUrl, 'tabka.jpg');
+                document.getElementById('settingSocialPreview').src = safeBanner;
+                document.getElementById('settingSocialPreview').style.display='block';
+                document.getElementById('settingSocialBase64').value = safeBanner;
+            }
             db.ref('tabkha_marquee').once('value', s => { document.getElementById('settingMarqueeText').value = s.val() || ""; });
         }
 
         function saveSiteSettings() {
             siteSettings = {
-                brandTitle: document.getElementById('settingBrandTitle').value,
-                brandSub: document.getElementById('settingBrandSub').value,
-                fbLink: document.getElementById('settingFbLink').value,
-                logoUrl: document.getElementById('settingLogoBase64').value || siteSettings.logoUrl || "",
-                socialBannerUrl: document.getElementById('settingSocialBase64').value || siteSettings.socialBannerUrl || ""
+                brandTitle: document.getElementById('settingBrandTitle').value.trim(),
+                brandSub: document.getElementById('settingBrandSub').value.trim(),
+                fbLink: document.getElementById('settingFbLink').value.trim(),
+                logoUrl: safeUrl(document.getElementById('settingLogoBase64').value || siteSettings.logoUrl || "", "logo.png"),
+                socialBannerUrl: safeUrl(document.getElementById('settingSocialBase64').value || siteSettings.socialBannerUrl || "", "tabka.jpg")
             };
             const marquee = document.getElementById('settingMarqueeText').value;
-            db.ref('tabkha_settings').set(siteSettings);
-            db.ref('tabkha_marquee').set(marquee);
-            alert('تم حفظ وتحديث الإعدادات بنجاح 🚀');
+            Promise.all([
+                db.ref('tabkha_settings').set(siteSettings),
+                db.ref('tabkha_marquee').set(marquee)
+            ]).then(() => {
+                alert('تم حفظ وتحديث الإعدادات بنجاح 🚀');
+            }).catch(() => {
+                alert('تعذر حفظ الإعدادات، تأكد من تسجيل الدخول.');
+            });
         }
 
         function addFeedingCategory() {
@@ -649,8 +699,9 @@
             if (!name) { alert('اكتب اسم التصنيف.'); return; }
             const id = 'fcat_' + Date.now();
             feedingCatsData.push({ id, name });
-            db.ref('tabkha_feeding_cats').set(feedingCatsData);
-            document.getElementById('feedingCatNameInput').value = '';
+            db.ref('tabkha_feeding_cats').set(feedingCatsData).then(() => {
+                document.getElementById('feedingCatNameInput').value = '';
+            }).catch(() => alert('تعذر إضافة التصنيف.'));
         }
 
         function editFeedingCategory(idx) {
@@ -661,13 +712,13 @@
             const trimmed = updatedName.trim();
             if (!trimmed) { alert('اسم التصنيف لا يمكن أن يكون فارغاً.'); return; }
             feedingCatsData[idx].name = trimmed;
-            db.ref('tabkha_feeding_cats').set(feedingCatsData);
+            db.ref('tabkha_feeding_cats').set(feedingCatsData).catch(() => alert('تعذر تعديل التصنيف.'));
         }
 
         function deleteFeedingCategory(idx) {
             if (confirm('حذف هذا التصنيف؟')) {
                 feedingCatsData.splice(idx, 1);
-                db.ref('tabkha_feeding_cats').set(feedingCatsData);
+                db.ref('tabkha_feeding_cats').set(feedingCatsData).catch(() => alert('تعذر حذف التصنيف.'));
             }
         }
 
@@ -680,7 +731,7 @@
             }
             box.innerHTML = feedingCatsData.map((c, idx) => `
                 <span style="background:#f4f6f7; border:1px solid #dcdfe6; padding:5px 10px; border-radius:20px; font-size:0.78rem; display:inline-flex; align-items:center; gap:8px;">
-                    <strong>${c.name}</strong>
+                    <strong>${escapeHtml(c.name)}</strong>
                     <button onclick="editFeedingCategory(${idx})" title="تعديل التصنيف" style="background:none; border:none; color:#d35400; cursor:pointer; font-size:0.78rem;">✏️</button>
                     <button onclick="deleteFeedingCategory(${idx})" title="حذف التصنيف" style="background:none; border:none; color:#c0392b; cursor:pointer; font-weight:bold;">✕</button>
                 </span>`).join('');
@@ -693,7 +744,7 @@
                 const prev = sel.value;
                 sel.innerHTML = '<option value="">بدون تصنيف</option>';
                 feedingCatsData.forEach(c => {
-                    sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                    sel.innerHTML += `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`;
                 });
                 if (prev) sel.value = prev;
             });
@@ -703,7 +754,7 @@
                 const prevFilter = filterSel.value || 'all';
                 filterSel.innerHTML = '<option value="all">كل التصنيفات</option>';
                 feedingCatsData.forEach(c => {
-                    filterSel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                    filterSel.innerHTML += `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`;
                 });
                 filterSel.value = prevFilter;
             }
@@ -712,14 +763,14 @@
         function addFeedingMeal() {
             const name = document.getElementById('feedingMealName').value.trim();
             const category = document.getElementById('feedingMealCatSelect').value;
-            const price = parseFloat(document.getElementById('feedingMealPrice').value) || 0;
+            const price = parseValidPrice(document.getElementById('feedingMealPrice').value);
             const desc = document.getElementById('feedingMealDesc').value.trim();
             const available = document.getElementById('feedingMealAvailable').checked;
             const top = document.getElementById('feedingMealTop').checked;
-            const img = document.getElementById('feedingImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';
+            const img = safeUrl(document.getElementById('feedingImgBase64').value, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400');
 
-            if (!name || price <= 0) {
-                alert('أدخل اسم الوجبة والسعر.');
+            if (!name || !price) {
+                alert('أدخل اسم الوجبة وسعراً صحيحاً أكبر من صفر.');
                 return;
             }
             feedingMealsData.push({
@@ -732,16 +783,17 @@
                 available,
                 top
             });
-            db.ref('tabkha_feeding_meals').set(feedingMealsData);
-            document.getElementById('feedingMealName').value = '';
-            document.getElementById('feedingMealPrice').value = '';
-            document.getElementById('feedingMealDesc').value = '';
-            document.getElementById('feedingMealFileInput').value = '';
-            document.getElementById('feedingImgBase64').value = '';
-            document.getElementById('feedingImgPreview').style.display = 'none';
-            document.getElementById('feedingMealAvailable').checked = true;
-            document.getElementById('feedingMealTop').checked = false;
-            alert('تم إضافة وجبة الإطعام بنجاح 🍱');
+            db.ref('tabkha_feeding_meals').set(feedingMealsData).then(() => {
+                document.getElementById('feedingMealName').value = '';
+                document.getElementById('feedingMealPrice').value = '';
+                document.getElementById('feedingMealDesc').value = '';
+                document.getElementById('feedingMealFileInput').value = '';
+                document.getElementById('feedingImgBase64').value = '';
+                document.getElementById('feedingImgPreview').style.display = 'none';
+                document.getElementById('feedingMealAvailable').checked = true;
+                document.getElementById('feedingMealTop').checked = false;
+                alert('تم إضافة وجبة الإطعام بنجاح 🍱');
+            }).catch(() => alert('تعذر إضافة الوجبة.'));
         }
 
         function renderFeedingTable() {
@@ -753,20 +805,21 @@
 
             feedingMealsData.forEach((meal, idx) => {
                 if (catFilter !== 'all' && String(meal.category || '') !== String(catFilter)) return;
-                if (q && !(meal.name || '').toLowerCase().includes(q) && !(meal.desc || '').toLowerCase().includes(q)) return;
+                if (q && !String(meal.name || '').toLowerCase().includes(q) && !String(meal.desc || '').toLowerCase().includes(q)) return;
                 const catObj = feedingCatsData.find(c => String(c.id) === String(meal.category));
                 const catName = catObj ? catObj.name : 'بدون تصنيف';
                 const isAvail = meal.available !== false;
+                const safeImg = escapeHtml(safeUrl(meal.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=60'));
 
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=60'}" style="width:42px; height:42px; border-radius:6px; object-fit:cover;"></td>
+                        <td><img src="${safeImg}" style="width:42px; height:42px; border-radius:6px; object-fit:cover;"></td>
                         <td>
-                            <strong>${meal.name}</strong> ${meal.top ? '<span style="color:#d35400; font-size:0.7rem;">★ الأكثر طلبًا</span>' : ''}
-                            <br><span style="font-size:0.72rem; color:var(--text-muted);">${meal.desc || ''}</span>
+                            <strong>${escapeHtml(meal.name)}</strong> ${meal.top ? '<span style="color:#d35400; font-size:0.7rem;">★ الأكثر طلبًا</span>' : ''}
+                            <br><span style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(meal.desc || '')}</span>
                         </td>
-                        <td><span class="badge badge-active">${catName}</span></td>
-                        <td><strong>${meal.price} ج</strong></td>
+                        <td><span class="badge badge-active">${escapeHtml(catName)}</span></td>
+                        <td><strong>${escapeHtml(meal.price)} ج</strong></td>
                         <td><span class="badge ${isAvail ? 'badge-active' : 'badge-inactive'}">${isAvail ? 'متاحة' : 'مخفية'}</span></td>
                         <td style="white-space:nowrap;">
                             <button class="btn-muted" onclick="moveFeedingMeal(${idx}, -1)" title="لأعلى">▲</button>
@@ -785,18 +838,18 @@
             const temp = feedingMealsData[idx];
             feedingMealsData[idx] = feedingMealsData[target];
             feedingMealsData[target] = temp;
-            db.ref('tabkha_feeding_meals').set(feedingMealsData);
+            db.ref('tabkha_feeding_meals').set(feedingMealsData).catch(() => alert('تعذر تغيير الترتيب.'));
         }
 
         function toggleFeedingMeal(idx) {
             feedingMealsData[idx].available = feedingMealsData[idx].available === false ? true : false;
-            db.ref('tabkha_feeding_meals').set(feedingMealsData);
+            db.ref('tabkha_feeding_meals').set(feedingMealsData).catch(() => alert('تعذر تحديث حالة الوجبة.'));
         }
 
         function deleteFeedingMeal(idx) {
             if (confirm('حذف هذه الوجبة؟')) {
                 feedingMealsData.splice(idx, 1);
-                db.ref('tabkha_feeding_meals').set(feedingMealsData);
+                db.ref('tabkha_feeding_meals').set(feedingMealsData).catch(() => alert('تعذر حذف الوجبة.'));
             }
         }
 
@@ -811,10 +864,11 @@
             document.getElementById('editFeedingDesc').value = meal.desc || '';
             document.getElementById('editFeedingAvailable').checked = meal.available !== false;
             document.getElementById('editFeedingTop').checked = !!meal.top;
-            document.getElementById('editFeedingImgBase64').value = meal.img || '';
+            const safeMealImg = safeUrl(meal.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400');
+            document.getElementById('editFeedingImgBase64').value = safeMealImg;
             const prev = document.getElementById('editFeedingImgPreview');
-            prev.src = meal.img || '';
-            prev.style.display = meal.img ? 'block' : 'none';
+            prev.src = safeMealImg;
+            prev.style.display = 'block';
             document.getElementById('editFeedingModal').style.display = 'flex';
         }
 
@@ -823,16 +877,16 @@
         }
 
         function saveEditedFeedingMeal() {
-            const idx = parseInt(document.getElementById('editFeedingIndex').value);
+            const idx = parseInt(document.getElementById('editFeedingIndex').value, 10);
             const name = document.getElementById('editFeedingName').value.trim();
             const category = document.getElementById('editFeedingCat').value;
-            const price = parseFloat(document.getElementById('editFeedingPrice').value) || 0;
+            const price = parseValidPrice(document.getElementById('editFeedingPrice').value);
             const desc = document.getElementById('editFeedingDesc').value.trim();
             const available = document.getElementById('editFeedingAvailable').checked;
             const top = document.getElementById('editFeedingTop').checked;
-            const img = document.getElementById('editFeedingImgBase64').value || feedingMealsData[idx].img;
+            const img = safeUrl(document.getElementById('editFeedingImgBase64').value || feedingMealsData[idx].img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400');
 
-            if (!name || price <= 0) { alert('أدخل اسم الوجبة والسعر.'); return; }
+            if (!name || !price) { alert('أدخل اسم الوجبة وسعراً صحيحاً أكبر من صفر.'); return; }
 
             feedingMealsData[idx] = {
                 ...feedingMealsData[idx],
@@ -847,7 +901,7 @@
             db.ref('tabkha_feeding_meals').set(feedingMealsData).then(() => {
                 closeEditFeedingModal();
                 alert('تم حفظ تعديلات الوجبة والتصنيف بنجاح 💾');
-            });
+            }).catch(() => alert('تعذر حفظ التعديلات.'));
         }
 
         function updateCategorySelects() {
@@ -856,7 +910,7 @@
                 if(!sel) return;
                 sel.innerHTML = '';
                 categoriesData.forEach(c => {
-                    sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                    sel.innerHTML += `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`;
                 });
             });
         }
@@ -865,11 +919,12 @@
             const tbody = document.querySelector('#adminCategoriesTable tbody');
             tbody.innerHTML = '';
             categoriesData.forEach((cat, idx) => {
+                const safeImg = escapeHtml(safeUrl(cat.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'));
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${cat.img}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
-                        <td><strong>${cat.name}</strong></td>
-                        <td><code>${cat.id}</code></td>
+                        <td><img src="${safeImg}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
+                        <td><strong>${escapeHtml(cat.name)}</strong></td>
+                        <td><code>${escapeHtml(cat.id)}</code></td>
                         <td><button class="btn btn-danger" onclick="deleteCategory(${idx})">حذف</button></td>
                     </tr>`;
             });
@@ -878,29 +933,34 @@
         function addNewCategory() {
             const id = document.getElementById('catId').value.trim();
             const name = document.getElementById('catName').value.trim();
-            const img = document.getElementById('catImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';
+            const img = safeUrl(document.getElementById('catImgBase64').value, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100');
             if(!id || !name) { alert('أدخل معرف واسم القسم.'); return; }
             categoriesData.push({ id, name, img });
-            db.ref('tabkha_categories').set(categoriesData);
-            document.getElementById('catId').value = ''; document.getElementById('catName').value = '';
-            document.getElementById('catImgBase64').value = ''; document.getElementById('catImgPreview').style.display = 'none';
-            alert('تم إضافة القسم بنجاح!');
+            db.ref('tabkha_categories').set(categoriesData).then(() => {
+                document.getElementById('catId').value = ''; document.getElementById('catName').value = '';
+                document.getElementById('catImgBase64').value = ''; document.getElementById('catImgPreview').style.display = 'none';
+                alert('تم إضافة القسم بنجاح!');
+            }).catch(() => alert('تعذر إضافة القسم.'));
         }
 
         function deleteCategory(idx) {
-            if(confirm('حذف هذا القسم؟')) { categoriesData.splice(idx, 1); db.ref('tabkha_categories').set(categoriesData); }
+            if(confirm('حذف هذا القسم؟')) {
+                categoriesData.splice(idx, 1);
+                db.ref('tabkha_categories').set(categoriesData).catch(() => alert('تعذر حذف القسم.'));
+            }
         }
 
         function renderMenuTable() {
             const tbody = document.querySelector('#adminMenuTable tbody');
             tbody.innerHTML = '';
             menuData.forEach((item, idx) => {
+                const safeImg = escapeHtml(safeUrl(item.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'));
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${item.img}" style="width:38px; height:38px; border-radius:6px; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
-                        <td><strong>${item.name}</strong><br><span style="font-size:0.72rem; color:var(--text-muted);">${item.desc || ''}</span></td>
-                        <td><code>${item.category}</code></td>
-                        <td>${item.price} ج</td>
+                        <td><img src="${safeImg}" style="width:38px; height:38px; border-radius:6px; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=50'"></td>
+                        <td><strong>${escapeHtml(item.name)}</strong><br><span style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(item.desc || '')}</span></td>
+                        <td><code>${escapeHtml(item.category)}</code></td>
+                        <td>${escapeHtml(item.price)} ج</td>
                         <td><span class="badge ${item.available ? 'badge-active' : 'badge-inactive'}">${item.available ? 'متاح' : 'موقف'}</span></td>
                         <td>
                             <button class="btn btn-warning" onclick="openEditModal(${idx})">✏️ تعديل</button>
@@ -914,23 +974,24 @@
         function addNewMenuItem() {
             const name = document.getElementById('menuName').value.trim();
             const category = document.getElementById('menuCategorySelect').value;
-            const price = parseFloat(document.getElementById('menuPrice').value) || 0;
+            const price = parseValidPrice(document.getElementById('menuPrice').value);
             const weight = document.getElementById('menuWeight').value.trim();
-            const img = document.getElementById('menuImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';
+            const img = safeUrl(document.getElementById('menuImgBase64').value, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400');
             const desc = document.getElementById('menuDesc').value.trim();
             const hasWeight = document.getElementById('menuHasWeight').checked;
             const hasChickenOption = document.getElementById('menuHasChicken').checked;
             const top = document.getElementById('menuTop').checked;
 
-            if(!name || !price) { alert('أدخل اسم الأكلة والسعر.'); return; }
+            if(!name || !price) { alert('أدخل اسم الأكلة وسعراً صحيحاً أكبر من صفر.'); return; }
 
             menuData.push({ id: Date.now(), name, category, price, weight: weight || 'حبة', img, desc, hasWeight, hasChickenOption, top, available: true });
-            db.ref('tabkha_menu').set(menuData);
-            alert('تم إضافة الأكلة وصورتها بنجاح للمنيو 🚀');
-            document.getElementById('menuName').value = ''; document.getElementById('menuPrice').value = '';
-            document.getElementById('menuWeight').value = ''; document.getElementById('menuDesc').value = '';
-            document.getElementById('menuImgBase64').value = ''; document.getElementById('menuImgPreview').style.display = 'none';
-            document.getElementById('menuHasWeight').checked = false; document.getElementById('menuHasChicken').checked = false; document.getElementById('menuTop').checked = false;
+            db.ref('tabkha_menu').set(menuData).then(() => {
+                alert('تم إضافة الأكلة وصورتها بنجاح للمنيو 🚀');
+                document.getElementById('menuName').value = ''; document.getElementById('menuPrice').value = '';
+                document.getElementById('menuWeight').value = ''; document.getElementById('menuDesc').value = '';
+                document.getElementById('menuImgBase64').value = ''; document.getElementById('menuImgPreview').style.display = 'none';
+                document.getElementById('menuHasWeight').checked = false; document.getElementById('menuHasChicken').checked = false; document.getElementById('menuTop').checked = false;
+            }).catch(() => alert('تعذر إضافة الأكلة.'));
         }
 
         function openEditModal(idx) {
@@ -941,9 +1002,10 @@
             document.getElementById('editMenuPrice').value = item.price;
             document.getElementById('editMenuWeight').value = item.weight || '';
             document.getElementById('editMenuDesc').value = item.desc || '';
-            document.getElementById('editMenuImgBase64').value = item.img;
+            const safeItemImg = safeUrl(item.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400');
+            document.getElementById('editMenuImgBase64').value = safeItemImg;
             const prev = document.getElementById('editMenuImgPreview');
-            prev.src = item.img;
+            prev.src = safeItemImg;
             prev.style.display = 'block';
             document.getElementById('editItemModal').style.display = 'flex';
         }
@@ -953,15 +1015,15 @@
         }
 
         function saveEditedMenuItem() {
-            const idx = parseInt(document.getElementById('editIndex').value);
+            const idx = parseInt(document.getElementById('editIndex').value, 10);
             const name = document.getElementById('editMenuName').value.trim();
             const category = document.getElementById('editMenuCategory').value;
-            const price = parseFloat(document.getElementById('editMenuPrice').value) || 0;
+            const price = parseValidPrice(document.getElementById('editMenuPrice').value);
             const weight = document.getElementById('editMenuWeight').value.trim();
             const desc = document.getElementById('editMenuDesc').value.trim();
-            const img = document.getElementById('editMenuImgBase64').value;
+            const img = safeUrl(document.getElementById('editMenuImgBase64').value || menuData[idx].img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400');
 
-            if(!name || !price) { alert('أدخل اسم الأكلة والسعر.'); return; }
+            if(!name || !price) { alert('أدخل اسم الأكلة وسعراً صحيحاً أكبر من صفر.'); return; }
 
             menuData[idx].name = name;
             menuData[idx].category = category;
@@ -973,27 +1035,31 @@
             db.ref('tabkha_menu').set(menuData).then(() => {
                 alert('تم تعديل وحفظ بيانات الأكلة ووصفها وقسمها بنجاح فوري 🚀');
                 closeEditModal();
-            });
+            }).catch(() => alert('تعذر حفظ التعديلات.'));
         }
 
         function toggleMenuItem(idx) {
             menuData[idx].available = !menuData[idx].available;
-            db.ref('tabkha_menu').set(menuData);
+            db.ref('tabkha_menu').set(menuData).catch(() => alert('تعذر تحديث حالة الصنف.'));
         }
 
         function deleteMenuItem(idx) {
-            if(confirm('حذف هذه الأكلة؟')) { menuData.splice(idx, 1); db.ref('tabkha_menu').set(menuData); }
+            if(confirm('حذف هذه الأكلة؟')) {
+                menuData.splice(idx, 1);
+                db.ref('tabkha_menu').set(menuData).catch(() => alert('تعذر حذف الصنف.'));
+            }
         }
 
         function renderBannersTable() {
             const tbody = document.querySelector('#adminBannersTable tbody');
             tbody.innerHTML = '';
             bannersData.forEach((b, idx) => {
+                const safeImg = escapeHtml(safeUrl(b.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'));
                 tbody.innerHTML += `
                     <tr>
-                        <td><img src="${b.img}" style="width:40px; height:30px; border-radius:4px; object-fit:cover;"></td>
-                        <td>${b.title}</td>
-                        <td>${b.price} ج</td>
+                        <td><img src="${safeImg}" style="width:40px; height:30px; border-radius:4px; object-fit:cover;"></td>
+                        <td>${escapeHtml(b.title)}</td>
+                        <td>${escapeHtml(b.price)} ج</td>
                         <td><span class="badge ${b.active ? 'badge-active' : 'badge-inactive'}">${b.active ? 'نشط' : 'معطل'}</span></td>
                         <td>
                             <button class="btn" style="padding:4px 8px; font-size:0.7rem;" onclick="toggleBanner(${idx})">${b.active ? 'إيقاف' : 'تفعيل'}</button>
@@ -1004,25 +1070,29 @@
         }
 
         function addNewBanner() {
-            const title = document.getElementById('bannerTitle').value;
-            const price = parseFloat(document.getElementById('bannerPrice').value) || 0;
-            const img = document.getElementById('bannerImgBase64').value || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600';
-            const desc = document.getElementById('bannerDesc').value;
-            if(!title || !price) { alert('أدخل عنوان البانر والسعر.'); return; }
+            const title = document.getElementById('bannerTitle').value.trim();
+            const price = parseValidPrice(document.getElementById('bannerPrice').value);
+            const img = safeUrl(document.getElementById('bannerImgBase64').value, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600');
+            const desc = document.getElementById('bannerDesc').value.trim();
+            if(!title || !price) { alert('أدخل عنوان البانر وسعراً صحيحاً أكبر من صفر.'); return; }
             bannersData.push({ id: Date.now(), title, price, img, desc, active: true });
-            db.ref('tabkha_banners').set(bannersData);
-            document.getElementById('bannerTitle').value = ''; document.getElementById('bannerPrice').value = '';
-            document.getElementById('bannerImgBase64').value = ''; document.getElementById('bannerImgPreview').style.display = 'none';
-            document.getElementById('bannerDesc').value = '';
+            db.ref('tabkha_banners').set(bannersData).then(() => {
+                document.getElementById('bannerTitle').value = ''; document.getElementById('bannerPrice').value = '';
+                document.getElementById('bannerImgBase64').value = ''; document.getElementById('bannerImgPreview').style.display = 'none';
+                document.getElementById('bannerDesc').value = '';
+            }).catch(() => alert('تعذر إضافة البانر.'));
         }
 
         function toggleBanner(idx) {
             bannersData[idx].active = !bannersData[idx].active;
-            db.ref('tabkha_banners').set(bannersData);
+            db.ref('tabkha_banners').set(bannersData).catch(() => alert('تعذر تحديث حالة البانر.'));
         }
 
         function deleteBanner(idx) {
-            if(confirm('حذف البانر؟')) { bannersData.splice(idx, 1); db.ref('tabkha_banners').set(bannersData); }
+            if(confirm('حذف البانر؟')) {
+                bannersData.splice(idx, 1);
+                db.ref('tabkha_banners').set(bannersData).catch(() => alert('تعذر حذف البانر.'));
+            }
         }
 
         function renderReviewsTable() {
@@ -1032,8 +1102,8 @@
             reviewsData.forEach((rev, idx) => {
                 tbody.innerHTML += `
                     <tr>
-                        <td style="color:var(--gold);">${rev.stars}</td>
-                        <td>"${rev.text}"</td>
+                        <td style="color:var(--gold);">${escapeHtml(rev.stars)}</td>
+                        <td>"${escapeHtml(rev.text)}"</td>
                         <td><span class="badge ${rev.approved ? 'badge-active' : 'badge-inactive'}">${rev.approved ? 'معروض' : 'مخفي'}</span></td>
                         <td>
                             <button class="btn" style="padding:4px 8px; font-size:0.7rem;" onclick="toggleReview(${idx})">${rev.approved ? 'إخفاء' : 'عرض'}</button>
@@ -1045,22 +1115,14 @@
 
         function toggleReview(idx) {
             reviewsData[idx].approved = !reviewsData[idx].approved;
-            db.ref('tabkha_reviews').set(reviewsData);
+            db.ref('tabkha_reviews').set(reviewsData).catch(() => alert('تعذر تحديث التقييم.'));
         }
 
         function deleteReview(idx) {
-            if(confirm('حذف التقييم؟')) { reviewsData.splice(idx, 1); db.ref('tabkha_reviews').set(reviewsData); }
-        }
-
-        async function updateAdminPassword() {
-            const curr = document.getElementById('currentPassCheck').value;
-            const nw = document.getElementById('newPassInput').value;
-            const conf = document.getElementById('confirmNewPassInput').value;
-            const currDigest = await hashPassword(curr);
-            if(currDigest !== ADMIN_PASS_DIGEST) { alert('كلمة المرور الحالية غير صحيحة.'); return; }
-            if(!nw || nw.length < 4) { alert('كلمة المرور قصيرة جداً.'); return; }
-            if(nw !== conf) { alert('كلمة المرور الجديدة غير متطابقة.'); return; }
-            alert('مسار الباسورد في قاعدة البيانات مقفول للحماية؛ لو حابب تغيّر كلمة المرور من الكود قولّي الكلمة الجديدة وأنا أركبها لك مشفرة.');
+            if(confirm('حذف التقييم؟')) {
+                reviewsData.splice(idx, 1);
+                db.ref('tabkha_reviews').set(reviewsData).catch(() => alert('تعذر حذف التقييم.'));
+            }
         }
     </script>
 </body>
