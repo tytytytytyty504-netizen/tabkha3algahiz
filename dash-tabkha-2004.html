@@ -48,7 +48,7 @@
         }
         .mobile-menu-btn { display: none; background: var(--dark-sidebar); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; font-size: 0.85rem; }
 
-        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: var(--card-bg); padding: 15px 20px; border-radius: 10px; border: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: var(--card-bg); padding: 15px 20px; border-radius: 10px; border: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.02); flex-wrap: wrap; gap: 10px; }
         .top-header h2 { font-size: 1.1rem; color: var(--dark-sidebar); }
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 15px; margin-bottom: 25px; }
@@ -87,12 +87,15 @@
         .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
         .badge-active { background: #e8f8f5; color: var(--primary); border: 1px solid #a3e4d7; }
         .badge-inactive { background: #fdedec; color: var(--danger); border: 1px solid #f5b7b1; }
-        
+        .badge-new { background: #fef9e7; color: #d68910; border: 1px solid #f9e79f; }
+        .badge-done { background: #eafaf1; color: #1e8449; border: 1px solid #abebc6; }
+
         .img-preview-box { margin-top: 6px; display: flex; align-items: center; gap: 10px; }
         .img-preview-box img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; border: 1px solid #ccc; background: #eee; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
         .modal-content { background: #fff; width: 100%; max-width: 550px; border-radius: 10px; padding: 22px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .order-items-mini { font-size: 0.74rem; color: #34495e; background: #f8f9f9; border: 1px solid #ebedef; border-radius: 6px; padding: 6px 8px; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -123,6 +126,7 @@
         </div>
         <ul class="sidebar-menu">
             <li><button class="active" onclick="switchSection('dashboard', this)">📊 نظرة عامة (Dashboard)</button></li>
+            <li><button onclick="switchSection('ordersSection', this)">📦 الطلبات الواردة</button></li>
             <li><button onclick="switchSection('menuSection', this)">🍲 إدارة المنيو والأصناف</button></li>
             <li><button onclick="switchSection('feedingSection', this)">🍱 إدارة وجبات الإطعام</button></li>
             <li><button onclick="switchSection('categoriesSection', this)">📂 إدارة الأقسام</button></li>
@@ -144,6 +148,10 @@
             </div>
 
             <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info"><h4>إجمالي الطلبات</h4><span id="statOrdersCount">0</span></div>
+                </div>
                 <div class="stat-card">
                     <div class="stat-icon">👁️</div>
                     <div class="stat-info"><h4>إجمالي الزيارات</h4><span id="statVisitsCount">0</span></div>
@@ -173,8 +181,45 @@
             <div class="admin-card">
                 <div class="card-header-title">💡 مركز التحكم الشامل والمطلق</div>
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-                    تحكم كامل في تعديل وتصنيف وترتيب وحذف وإخفاء كل وجبات الإطعام وتصنيفاتها وأصناف المنيو والأقسام والبانرات والتقييمات بشكل فوري.
+                    متابعة الطلبات الواردة من الموقع لحظياً مع إرسال الواتساب، والتحكم في وجبات الإطعام وتصنيفاتها وأصناف المنيو والأقسام والبانرات والتقييمات والإعدادات بشكل فوري.
                 </p>
+            </div>
+        </div>
+
+        <div id="ordersSection" class="admin-section">
+            <div class="top-header">
+                <h2>📦 الطلبات الواردة من الموقع</h2>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                    <select id="ordersStatusFilter" onchange="renderOrdersTable()" style="padding:7px 10px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.78rem;">
+                        <option value="all">كل الحالات</option>
+                        <option value="جديد">جديد</option>
+                        <option value="قيد التجهيز">قيد التجهيز</option>
+                        <option value="مكتمل">مكتمل</option>
+                        <option value="ملغي">ملغي</option>
+                    </select>
+                    <input type="text" id="ordersSearchInput" placeholder="بحث بالاسم أو الهاتف..." oninput="renderOrdersTable()" style="width:190px; padding:7px 10px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.78rem;">
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header-title">
+                    <span>📋 سجل الطلبات المباشر (`tabkha_orders`)</span>
+                    <span id="ordersSummaryBadge" class="badge badge-active">0 طلب</span>
+                </div>
+                <div class="table-responsive">
+                    <table id="adminOrdersTable">
+                        <thead>
+                            <tr>
+                                <th>العميل والتواصل</th>
+                                <th>العنوان والتوصيل</th>
+                                <th>الأصناف والإجمالي</th>
+                                <th>الدفع والوقت</th>
+                                <th>الحالة والتحكم</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -347,6 +392,9 @@
                 <div class="form-group"><label>اسم البراند:</label><input type="text" id="settingBrandTitle"></div>
                 <div class="form-group"><label>الوصف أو الشعار (Slogan):</label><input type="text" id="settingBrandSub"></div>
                 <div class="form-group"><label>رابط الفيسبوك:</label><input type="text" id="settingFbLink"></div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="settingAllowDeliveryChoice" checked style="width:auto;"> إتاحة اختيار (توصيل 20 ج داخل سنباط / بدون توصيل - استلام من المكان) في السلة</label>
+                </div>
                 <div class="row-inputs">
                     <div class="form-group">
                         <label>صورة الشعار (Logo - من الجهاز 📁):</label>
@@ -492,6 +540,7 @@
         let categoriesData = [];
         let feedingMealsData = [];
         let feedingCatsData = [];
+        let ordersData = [];
         let siteSettings = {};
         let adminListenersAttached = false;
 
@@ -612,10 +661,126 @@
             }
         }
 
+        function parseOrdersSnapshot(val) {
+            if (!val || typeof val !== 'object') return [];
+            return Object.keys(val)
+                .map(key => ({ ...val[key], _firebaseKey: key }))
+                .filter(o => o && o._firebaseKey)
+                .sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0));
+        }
+
+        function formatOrderDate(isoStr, fallbackId) {
+            const d = isoStr ? new Date(isoStr) : (fallbackId ? new Date(Number(fallbackId)) : null);
+            if (!d || Number.isNaN(d.getTime())) return '—';
+            try {
+                return d.toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                return d.toISOString().slice(0, 16).replace('T', ' ');
+            }
+        }
+
+        function renderOrdersTable() {
+            const tbody = document.querySelector('#adminOrdersTable tbody');
+            const summaryBadge = document.getElementById('ordersSummaryBadge');
+            if (!tbody) return;
+
+            const statusFilter = document.getElementById('ordersStatusFilter')?.value || 'all';
+            const q = (document.getElementById('ordersSearchInput')?.value || '').trim().toLowerCase();
+
+            const filtered = ordersData.filter(ord => {
+                if (statusFilter !== 'all' && String(ord.status || 'جديد') !== statusFilter) return false;
+                if (q) {
+                    const hay = `${ord.clientName || ''} ${ord.clientPhone || ''} ${ord.clientArea || ''} ${ord.clientAddress || ''}`.toLowerCase();
+                    if (!hay.includes(q)) return false;
+                }
+                return true;
+            });
+
+            if (summaryBadge) {
+                summaryBadge.innerText = `${filtered.length} من ${ordersData.length} طلب`;
+            }
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888; padding:22px;">لا توجد طلبات مطابقة حالياً.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(ord => {
+                const key = escapeHtml(ord._firebaseKey);
+                const statusVal = String(ord.status || 'جديد');
+                const badgeClass = statusVal === 'مكتمل' ? 'badge-done' : (statusVal === 'ملغي' ? 'badge-inactive' : 'badge-new');
+                const itemsList = Array.isArray(ord.items) ? ord.items : [];
+                const itemsHtml = itemsList.length > 0
+                    ? itemsList.map(i => `• ${escapeHtml(i.name)} (×${escapeHtml(i.qty)}) — ${escapeHtml(i.lineTotal)} ج`).join('<br>')
+                    : '—';
+
+                const delivLabel = ord.deliveryMode === 'pickup'
+                    ? '🏪 بدون توصيل (استلام من المكان)'
+                    : `🛵 توصيل (${escapeHtml(ord.deliveryFee ?? 20)} ج)`;
+
+                const statuses = ['جديد', 'قيد التجهيز', 'مكتمل', 'ملغي'];
+                const optionsHtml = statuses.map(st =>
+                    `<option value="${escapeHtml(st)}" ${statusVal === st ? 'selected' : ''}>${escapeHtml(st)}</option>`
+                ).join('');
+
+                return `
+                    <tr>
+                        <td>
+                            <strong>${escapeHtml(ord.clientName || '—')}</strong><br>
+                            <span style="color:var(--primary-dark); font-weight:700;">📱 ${escapeHtml(ord.clientPhone || '—')}</span>
+                        </td>
+                        <td>
+                            <strong>${escapeHtml(ord.clientArea || '—')}</strong><br>
+                            <span style="font-size:0.74rem; color:var(--text-muted);">${escapeHtml(ord.clientAddress || '—')}</span><br>
+                            <span class="badge badge-active" style="margin-top:4px; display:inline-block;">${delivLabel}</span>
+                        </td>
+                        <td>
+                            <strong>الإجمالي: ${escapeHtml(ord.grandTotal ?? 0)} ج</strong>
+                            <span style="font-size:0.72rem; color:var(--text-muted);">(أصناف: ${escapeHtml(ord.subTotal ?? 0)} ج)</span>
+                            <div class="order-items-mini">${itemsHtml}</div>
+                            ${ord.notes ? `<div style="font-size:0.72rem; color:#b7950b; margin-top:4px;">📝 ${escapeHtml(ord.notes)}</div>` : ''}
+                        </td>
+                        <td>
+                            <strong>${escapeHtml(ord.paymentMethod || '—')}</strong><br>
+                            <span style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(formatOrderDate(ord.createdAt, ord.id))}</span>
+                        </td>
+                        <td style="white-space:nowrap;">
+                            <span class="badge ${badgeClass}" style="display:inline-block; margin-bottom:6px;">${escapeHtml(statusVal)}</span><br>
+                            <select onchange="updateOrderStatus('${key}', this.value)" style="padding:5px 8px; border:1px solid #dcdfe6; border-radius:6px; font-size:0.75rem; margin-bottom:6px;">
+                                ${optionsHtml}
+                            </select><br>
+                            <button class="btn btn-danger" onclick="deleteOrderItem('${key}')">حذف</button>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        function updateOrderStatus(firebaseKey, newStatus) {
+            if (!firebaseKey || !newStatus) return;
+            db.ref(`tabkha_orders/${firebaseKey}/status`).set(newStatus).catch(() => {
+                alert('تعذر تحديث حالة الطلب.');
+            });
+        }
+
+        function deleteOrderItem(firebaseKey) {
+            if (!firebaseKey) return;
+            if (confirm('حذف هذا الطلب نهائياً من السجل؟')) {
+                db.ref(`tabkha_orders/${firebaseKey}`).remove().catch(() => {
+                    alert('تعذر حذف الطلب.');
+                });
+            }
+        }
+
         function initAdminPanel() {
             if (adminListenersAttached) return;
             adminListenersAttached = true;
 
+            db.ref('tabkha_orders').on('value', s => {
+                ordersData = parseOrdersSnapshot(s.val());
+                renderOrdersTable();
+                const statEl = document.getElementById('statOrdersCount');
+                if (statEl) statEl.innerText = ordersData.length;
+            });
             db.ref('tabkha_visits_count').on('value', s => {
                 document.getElementById('statVisitsCount').innerText = s.val() || 0;
             });
@@ -660,6 +825,7 @@
             document.getElementById('settingBrandTitle').value = siteSettings.brandTitle || "";
             document.getElementById('settingBrandSub').value = siteSettings.brandSub || "";
             document.getElementById('settingFbLink').value = siteSettings.fbLink || "";
+            document.getElementById('settingAllowDeliveryChoice').checked = siteSettings.allowDeliveryChoice !== false;
             if(siteSettings.logoUrl) {
                 const safeLogo = safeUrl(siteSettings.logoUrl, 'logo.png');
                 document.getElementById('settingLogoPreview').src = safeLogo;
@@ -680,6 +846,7 @@
                 brandTitle: document.getElementById('settingBrandTitle').value.trim(),
                 brandSub: document.getElementById('settingBrandSub').value.trim(),
                 fbLink: document.getElementById('settingFbLink').value.trim(),
+                allowDeliveryChoice: document.getElementById('settingAllowDeliveryChoice').checked,
                 logoUrl: safeUrl(document.getElementById('settingLogoBase64').value || siteSettings.logoUrl || "", "logo.png"),
                 socialBannerUrl: safeUrl(document.getElementById('settingSocialBase64').value || siteSettings.socialBannerUrl || "", "tabka.jpg")
             };
