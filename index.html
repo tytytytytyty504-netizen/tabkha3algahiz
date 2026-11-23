@@ -1040,32 +1040,76 @@
             }
         }
 
+        function saveOrderToFirebase(orderPayload) {
+            if (!orderPayload || typeof db === 'undefined') return Promise.resolve();
+            const newOrderRef = db.ref('tabkha_orders').push();
+            return newOrderRef.set(orderPayload).catch(err => {
+                console.warn('Order save warning:', err);
+            });
+        }
+
         function sendToWhatsApp() {
             syncCartWithCatalog();
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
-            const name = document.getElementById('clientName').value.trim();
-            const phone = document.getElementById('clientPhone').value.trim();
-            const area = document.getElementById('clientArea').value.trim();
-            const address = document.getElementById('clientAddress').value.trim();
-            const payment = document.getElementById('paymentMethod').value;
-            const notes = document.getElementById('clientNotes').value.trim();
+            const name = document.getElementById('clientName').value.trim().slice(0, 100);
+            const phone = document.getElementById('clientPhone').value.trim().slice(0, 30);
+            const area = document.getElementById('clientArea').value.trim().slice(0, 100);
+            const address = document.getElementById('clientAddress').value.trim().slice(0, 300);
+            const payment = String(document.getElementById('paymentMethod').value || 'كاش عند الاستلام').slice(0, 50);
+            const notes = document.getElementById('clientNotes').value.trim().slice(0, 300);
 
             if(!name || !phone || !area || !address) { alert('أكمل بيانات الاسم والموبايل والعنوان.'); return; }
 
-            let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
-            cart.forEach(i => {
+            const cleanItems = cart.map(i => {
                 const unitP = parseFloat(i.unitPrice) || 0;
-                const q = parseInt(i.qty, 10) || 1;
-                msg += `▪️ ${i.name} (×${q}) : ${unitP * q} ج\n`;
+                const q = Math.max(1, parseInt(i.qty, 10) || 1);
+                return {
+                    id: String(i.id ?? ''),
+                    name: String(i.name || 'صنف').slice(0, 120),
+                    unitPrice: unitP,
+                    qty: q,
+                    lineTotal: unitP * q
+                };
             });
-            let sub = cart.reduce((s, i) => s + ((parseFloat(i.unitPrice) || 0) * (parseInt(i.qty, 10) || 1)), 0);
-            msg += `----------------------------------\n💰 *الإجمالي النهائي: ${sub + baseDeliveryFee} ج*\n\n`;
+
+            const sub = cleanItems.reduce((s, item) => s + item.lineTotal, 0);
+            const grandTotal = sub + baseDeliveryFee;
+
+            let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
+            cleanItems.forEach(i => {
+                msg += `▪️ ${i.name} (×${i.qty}) : ${i.lineTotal} ج\n`;
+            });
+            msg += `----------------------------------\n💰 *الإجمالي النهائي: ${grandTotal} ج*\n\n`;
             msg += `👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📍 المنطقة: ${area}\n🏠 العنوان: ${address}\n💳 الدفع: ${payment}\n`;
             if(payment !== "كاش عند الاستلام") msg += `📸 *(تم التحويل وسيرسل العميل صورة التحويل)*\n`;
             if(notes) msg += `📝 ملاحظات: ${notes}\n`;
 
-            window.open(`https://wa.me/201129933758?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
-            cart = []; try { localStorage.removeItem('tabkha_cart'); } catch(e) {} saveAndUpdateCart(); closeCheckout(); showCategoriesView();
+            const orderPayload = {
+                id: Date.now(),
+                createdAt: new Date().toISOString(),
+                items: cleanItems,
+                subTotal: sub,
+                deliveryFee: baseDeliveryFee,
+                grandTotal: grandTotal,
+                clientName: name,
+                clientPhone: phone,
+                clientArea: area,
+                clientAddress: address,
+                paymentMethod: payment,
+                notes: notes,
+                status: 'جديد'
+            };
+
+            const waUrl = `https://wa.me/201129933758?text=${encodeURIComponent(msg)}`;
+
+            saveOrderToFirebase(orderPayload).finally(() => {
+                window.open(waUrl, '_blank', 'noopener,noreferrer');
+                cart = [];
+                try { localStorage.removeItem('tabkha_cart'); } catch(e) {}
+                saveAndUpdateCart();
+                closeCheckout();
+                showCategoriesView();
+            });
         }
 
         saveAndUpdateCart();
