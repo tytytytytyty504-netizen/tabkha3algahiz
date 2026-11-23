@@ -168,6 +168,9 @@
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #1c1c1c; padding: 8px; border-radius: 6px; }
         .qty-controls { display: flex; align-items: center; gap: 6px; }
         .qty-btn { background: #333; color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        .delivery-choice-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .delivery-choice-btn { background: #1c1c1c; color: #ddd; border: 1px solid #3a3a3a; border-radius: 8px; padding: 8px 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-align: center; transition: all 0.2s ease; }
+        .delivery-choice-btn.active { background: rgba(255, 159, 67, 0.16); color: var(--gold); border-color: var(--gold); }
     </style>
 </head>
 <body>
@@ -310,9 +313,18 @@
                 ⏰ الحجز يكون قبلها بيوم على الأقل عشان يجيلك فريش وطازة..
             </div>
             <div id="cartItemsList" style="margin-bottom: 10px;"></div>
+
+            <div class="form-group" id="deliveryChoiceContainer">
+                <label>نظام الاستلام / التوصيل:</label>
+                <div class="delivery-choice-group">
+                    <button type="button" id="btnDeliveryYes" class="delivery-choice-btn active" onclick="setDeliveryMode('delivery')">🛵 توصيل (20 ج داخل سنباط)</button>
+                    <button type="button" id="btnDeliveryNo" class="delivery-choice-btn" onclick="setDeliveryMode('pickup')">🏪 بدون توصيل (استلام من المكان)</button>
+                </div>
+            </div>
+
             <div style="border-top: 1px solid #444; padding-top: 8px; margin-bottom: 12px; font-size: 0.85rem;">
                 <div style="display: flex; justify-content: space-between;"><span>الأصناف:</span><span><span id="subTotal">0</span> ج</span></div>
-                <div style="display: flex; justify-content: space-between;"><span>التوصيل (داخل سنباط):</span><span><span id="deliveryCostText">20</span> ج</span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="deliveryLabelText">التوصيل (داخل سنباط):</span><span><span id="deliveryCostText">20</span> ج</span></div>
                 <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--gold); font-size: 1rem; margin-top: 5px;">
                     <span>الإجمالي النهائي:</span><span><span id="grandTotal">0</span> ج</span>
                 </div>
@@ -405,6 +417,62 @@
         let siteSettings = {};
         let cart = JSON.parse(localStorage.getItem('tabkha_cart') || '[]');
         const baseDeliveryFee = 20;
+        let deliveryMode = localStorage.getItem('tabkha_delivery_mode') || 'delivery';
+
+        function isDeliveryChoiceEnabled() {
+            return siteSettings.allowDeliveryChoice !== false;
+        }
+
+        function getActiveDeliveryFee() {
+            if (!isDeliveryChoiceEnabled()) return baseDeliveryFee;
+            return deliveryMode === 'pickup' ? 0 : baseDeliveryFee;
+        }
+
+        function setDeliveryMode(mode) {
+            deliveryMode = mode === 'pickup' ? 'pickup' : 'delivery';
+            try { localStorage.setItem('tabkha_delivery_mode', deliveryMode); } catch(e) {}
+            updateDeliveryUI();
+            saveAndUpdateCart();
+            const modal = document.getElementById('checkoutModal');
+            if (modal && modal.style.display === 'flex') {
+                const subTotal = cart.reduce((sum, i) => sum + ((parseFloat(i.unitPrice) || 0) * (parseInt(i.qty, 10) || 1)), 0);
+                const fee = getActiveDeliveryFee();
+                document.getElementById('deliveryCostText').innerText = fee;
+                document.getElementById('grandTotal').innerText = subTotal + fee;
+            }
+        }
+
+        function updateDeliveryUI() {
+            const choiceBox = document.getElementById('deliveryChoiceContainer');
+            const btnYes = document.getElementById('btnDeliveryYes');
+            const btnNo = document.getElementById('btnDeliveryNo');
+            const labelEl = document.getElementById('deliveryLabelText');
+            const costEl = document.getElementById('deliveryCostText');
+            const addrInput = document.getElementById('clientAddress');
+
+            if (choiceBox) {
+                choiceBox.style.display = isDeliveryChoiceEnabled() ? 'block' : 'none';
+            }
+
+            const fee = getActiveDeliveryFee();
+            if (btnYes && btnNo) {
+                btnYes.classList.toggle('active', deliveryMode !== 'pickup');
+                btnNo.classList.toggle('active', deliveryMode === 'pickup');
+            }
+            if (labelEl) {
+                labelEl.innerText = deliveryMode === 'pickup' && isDeliveryChoiceEnabled()
+                    ? 'بدون توصيل (استلام من المكان):'
+                    : 'التوصيل (داخل سنباط):';
+            }
+            if (costEl) {
+                costEl.innerText = fee;
+            }
+            if (addrInput) {
+                addrInput.placeholder = deliveryMode === 'pickup' && isDeliveryChoiceEnabled()
+                    ? 'استلام من المكان (أو اكتب عنوانك/ملاحظة)...'
+                    : 'الشارع ورقم البيت...';
+            }
+        }
 
         function resolveCartItemTrusted(rawItem) {
             if (!rawItem || !rawItem.cartKey) return null;
@@ -748,6 +816,8 @@
             document.getElementById('socialPageLinkBtn').href = fbUrl;
             if(siteSettings.logoUrl) document.getElementById('headerLogoImg').src = safeUrl(siteSettings.logoUrl, 'logo.png');
             if(siteSettings.socialBannerUrl) document.getElementById('socialBannerImg').src = safeUrl(siteSettings.socialBannerUrl, 'tabka.jpg');
+            updateDeliveryUI();
+            saveAndUpdateCart();
         }
 
         function renderCustomerReviews() {
@@ -992,7 +1062,7 @@
             if(totalCount > 0) {
                 cartBar.style.display = 'flex';
                 document.getElementById('cartCount').innerText = totalCount;
-                document.getElementById('cartTotal').innerText = subTotal + baseDeliveryFee;
+                document.getElementById('cartTotal').innerText = subTotal + getActiveDeliveryFee();
             } else { cartBar.style.display = 'none'; }
         }
 
@@ -1017,9 +1087,11 @@
                         </div>
                     </div>`;
             });
+            updateDeliveryUI();
+            const fee = getActiveDeliveryFee();
             document.getElementById('subTotal').innerText = subTotal;
-            document.getElementById('deliveryCostText').innerText = baseDeliveryFee;
-            document.getElementById('grandTotal').innerText = subTotal + baseDeliveryFee;
+            document.getElementById('deliveryCostText').innerText = fee;
+            document.getElementById('grandTotal').innerText = subTotal + fee;
             modal.style.display = 'flex'; togglePaymentInstructions();
         }
 
@@ -1051,14 +1123,18 @@
         function sendToWhatsApp() {
             syncCartWithCatalog();
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
+            const isPickup = isDeliveryChoiceEnabled() && deliveryMode === 'pickup';
             const name = document.getElementById('clientName').value.trim().slice(0, 100);
             const phone = document.getElementById('clientPhone').value.trim().slice(0, 30);
-            const area = document.getElementById('clientArea').value.trim().slice(0, 100);
-            const address = document.getElementById('clientAddress').value.trim().slice(0, 300);
+            const area = (document.getElementById('clientArea').value.trim() || (isPickup ? 'استلام من المكان' : '')).slice(0, 100);
+            const address = (document.getElementById('clientAddress').value.trim() || (isPickup ? 'استلام من المكان' : '')).slice(0, 300);
             const payment = String(document.getElementById('paymentMethod').value || 'كاش عند الاستلام').slice(0, 50);
             const notes = document.getElementById('clientNotes').value.trim().slice(0, 300);
 
-            if(!name || !phone || !area || !address) { alert('أكمل بيانات الاسم والموبايل والعنوان.'); return; }
+            if(!name || !phone || (!isPickup && (!area || !address))) {
+                alert('أكمل بيانات الاسم والموبايل والعنوان.');
+                return;
+            }
 
             const cleanItems = cart.map(i => {
                 const unitP = parseFloat(i.unitPrice) || 0;
@@ -1073,13 +1149,15 @@
             });
 
             const sub = cleanItems.reduce((s, item) => s + item.lineTotal, 0);
-            const grandTotal = sub + baseDeliveryFee;
+            const fee = getActiveDeliveryFee();
+            const grandTotal = sub + fee;
+            const deliveryText = isPickup ? 'بدون توصيل (استلام من المكان)' : 'توصيل داخل سنباط (20 ج)';
 
             let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
             cleanItems.forEach(i => {
                 msg += `▪️ ${i.name} (×${i.qty}) : ${i.lineTotal} ج\n`;
             });
-            msg += `----------------------------------\n💰 *الإجمالي النهائي: ${grandTotal} ج*\n\n`;
+            msg += `----------------------------------\n🚚 الاستلام/التوصيل: ${deliveryText}\n💰 *الإجمالي النهائي: ${grandTotal} ج*\n\n`;
             msg += `👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📍 المنطقة: ${area}\n🏠 العنوان: ${address}\n💳 الدفع: ${payment}\n`;
             if(payment !== "كاش عند الاستلام") msg += `📸 *(تم التحويل وسيرسل العميل صورة التحويل)*\n`;
             if(notes) msg += `📝 ملاحظات: ${notes}\n`;
@@ -1089,7 +1167,8 @@
                 createdAt: new Date().toISOString(),
                 items: cleanItems,
                 subTotal: sub,
-                deliveryFee: baseDeliveryFee,
+                deliveryFee: fee,
+                deliveryMode: isPickup ? 'pickup' : 'delivery',
                 grandTotal: grandTotal,
                 clientName: name,
                 clientPhone: phone,
@@ -1112,6 +1191,7 @@
             });
         }
 
+        updateDeliveryUI();
         saveAndUpdateCart();
     </script>
 </body>
