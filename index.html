@@ -91,7 +91,6 @@
         .card-qty-btn { background: var(--primary); color: white; border: none; width: 34px; height: 34px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
         .card-qty-num { font-weight: bold; font-size: 0.92rem; color: var(--gold); }
 
-        /* قسم الإطعام المميز والمدمج */
         #feeding-section { display: none; margin-bottom: 25px; }
         .feeding-calc-card { background: linear-gradient(145deg, #0b1f18, #121816); border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); }
         .feeding-calc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: end; }
@@ -114,7 +113,6 @@
         .feeding-tab-btn { background: #182420; color: #b7d7cc; border: 1px solid #263b34; padding: 5px 12px; border-radius: 18px; font-size: 0.76rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; }
         .feeding-tab-btn.active { background: var(--feeding-accent); color: #06140f; border-color: var(--feeding-accent); }
 
-        /* كروت إطعام أصغر وحجم مضغوط */
         .feeding-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 11px; }
         @media(max-width: 480px) { .feeding-grid { grid-template-columns: repeat(2, 1fr); gap: 9px; } }
         .feeding-card { background: linear-gradient(160deg, #131c19, #161616); border: 1px solid rgba(16, 185, 129, 0.28); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: transform 0.2s ease, border-color 0.2s ease; }
@@ -131,7 +129,6 @@
         .feeding-qty-btn { background: var(--feeding-dark); color: #fff; border: none; width: 24px; height: 24px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 0.95rem; }
         .feeding-qty-num { font-size: 0.74rem; font-weight: 700; color: #6ee7b7; }
 
-        /* أيقونة واتساب جانبية تفصيلية لقسم الإطعام */
         .feeding-side-wa { display: none; position: fixed; left: 10px; top: 44%; transform: translateY(-50%); z-index: 999; background: linear-gradient(160deg, #065f46, #10b981); color: #fff; text-decoration: none; border: 1px solid #6ee7b7; border-radius: 14px; padding: 9px 7px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55); flex-direction: column; align-items: center; gap: 4px; width: 50px; text-align: center; }
         .feeding-side-wa.visible { display: flex; }
         .feeding-side-wa .wa-ic { font-size: 1.25rem; line-height: 1; }
@@ -188,10 +185,10 @@
             </div>
         </div>
         <div class="header-icons">
-            <a id="headerFbLink" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" title="صفحة الفيسبوك">
+            <a id="headerFbLink" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" rel="noopener noreferrer" title="صفحة الفيسبوك">
                 <img id="headerFbImg" src="https://img.utdstc.com/icon/1b4/fca/1b4fca156c1b0ecaa72a636dffbb7611e22f4ee93a076306e367733181746752:600" alt="Facebook" class="icon-img">
             </a>
-            <a href="https://wa.me/201129933758" target="_blank" title="واتساب للطلب">
+            <a href="https://wa.me/201129933758" target="_blank" rel="noopener noreferrer" title="واتساب للطلب">
                 <img src="https://store-images.s-microsoft.com/image/apps.8453.13518859748920827.4d7dd838-9f34-4ad2-9cd7-b861c6398fc1.11cbb3d4-ffd9-42c1-82bd-e3f305d562b1?h=210" alt="WhatsApp" class="icon-img">
             </a>
         </div>
@@ -217,7 +214,6 @@
         </div>
         <div class="menu-grid" id="menu-container" style="display: none;"></div>
 
-        <!-- قسم الإطعام المميز -->
         <div id="feeding-section">
             <div class="feeding-calc-card">
                 <div class="feeding-calc-grid">
@@ -236,7 +232,7 @@
                 </div>
                 <div class="feeding-calc-actions">
                     <button class="feeding-add-bulk-btn" onclick="addCalculatedFeedingToCart()">إضافة العدد للسلة 🛒</button>
-                    <a id="feedingDetailWaBtn" href="https://wa.me/201155499777" target="_blank" class="feeding-wa-inline-btn">💬 اختيار / تفصيل واتساب</a>
+                    <a id="feedingDetailWaBtn" href="https://wa.me/201155499777" target="_blank" rel="noopener noreferrer" class="feeding-wa-inline-btn">💬 اختيار / تفصيل واتساب</a>
                 </div>
             </div>
 
@@ -264,7 +260,7 @@
                         <option value="★★★☆☆">⭐⭐⭐</option>
                     </select>
                 </div>
-                <div class="form-group"><textarea id="clientReviewText" rows="2" placeholder="اكتب رأيك هنا..."></textarea></div>
+                <div class="form-group"><textarea id="clientReviewText" rows="2" maxlength="500" placeholder="اكتب رأيك هنا..."></textarea></div>
                 <button class="card-qty-btn" style="width:100%; height:36px; background:var(--secondary); font-size:0.85rem; border-radius:6px;" onclick="submitClientReview()">إرسال الرأي 🚀</button>
             </div>
 
@@ -272,20 +268,19 @@
                 <img id="socialBannerImg" loading="lazy" src="tabka.jpg" alt="طبخة على الجاهز" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';">
                 <p style="font-size: 0.85rem; color: #ddd; margin-bottom: 10px;">تابعنا على الفيسبوك وانضم لجروب الواتساب عشان تتابع كل جديد وعروضنا أول بأول!</p>
                 <div class="social-buttons-box">
-                    <a id="socialPageLinkBtn" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" class="follow-fb-btn">👍 متابعة صفحة الفيسبوك</a>
-                    <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" class="follow-wa-group-btn">💬 انضم لجروب الواتساب</a>
+                    <a id="socialPageLinkBtn" href="https://www.facebook.com/share/1MVEbmtDN6/" target="_blank" rel="noopener noreferrer" class="follow-fb-btn">👍 متابعة صفحة الفيسبوك</a>
+                    <a href="https://chat.whatsapp.com/CMSsiZB3o5VF3mwxxrIR5L?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" class="follow-wa-group-btn">💬 انضم لجروب الواتساب</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- أيقونة واتساب جانبية تفصيلية لقسم الإطعام -->
-    <a id="feedingSideWaIcon" href="https://wa.me/201155499777" target="_blank" class="feeding-side-wa" title="طلب تفصيلي بالاختيار عبر واتساب">
+    <a id="feedingSideWaIcon" href="https://wa.me/201155499777" target="_blank" rel="noopener noreferrer" class="feeding-side-wa" title="طلب تفصيلي بالاختيار عبر واتساب">
         <span class="wa-ic">💬</span>
         <span class="wa-lbl">طلب بالاختيار</span>
     </a>
 
-    <a href="https://wa.me/201129933758" target="_blank" class="whatsapp-float-btn">
+    <a href="https://wa.me/201129933758" target="_blank" rel="noopener noreferrer" class="whatsapp-float-btn">
         💬 اطلب عبر الواتساب
     </a>
 
@@ -304,7 +299,7 @@
         <button class="nav-item" onclick="showCategoriesView()"><span class="icon">📋</span>الأقسام</button>
         <button class="nav-item" onclick="openFeedingSection()"><span class="icon">🍱</span>الإطعام</button>
         <button class="nav-item" onclick="openCheckout()"><span class="icon">🛒</span>السلة</button>
-        <a href="https://wa.me/201129933758" target="_blank" class="nav-item"><span class="icon">💬</span>واتساب</a>
+        <a href="https://wa.me/201129933758" target="_blank" rel="noopener noreferrer" class="nav-item"><span class="icon">💬</span>واتساب</a>
     </div>
 
     <div class="modal" id="checkoutModal">
@@ -359,7 +354,37 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        db.ref('tabkha_visits_count').transaction(currentCount => (currentCount || 0) + 1);
+        function escapeHtml(val) {
+            return String(val ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function safeUrl(url, fallback) {
+            const str = String(url ?? '').trim();
+            if (!str) return fallback;
+            if (/^https:\/\//i.test(str) || /^data:image\/(jpeg|jpg|png|webp|gif);base64,/i.test(str) || /^(\.\/|\/)?[a-zA-Z0-9._/-]+\.(png|jpg|jpeg|webp|gif)$/i.test(str)) {
+                return str;
+            }
+            return fallback;
+        }
+
+        function safeExternalLink(url, fallback) {
+            const str = String(url ?? '').trim();
+            if (/^https?:\/\//i.test(str)) return str;
+            return fallback;
+        }
+
+        if (!sessionStorage.getItem('tabkha_visit_logged')) {
+            sessionStorage.setItem('tabkha_visit_logged', '1');
+            db.ref('tabkha_visits_count').transaction(currentCount => {
+                if (typeof currentCount === 'number' && currentCount >= 0) return currentCount + 1;
+                return (parseInt(currentCount, 10) || 0) + 1;
+            }).catch(() => {});
+        }
 
         function parseFirebaseList(val) {
             if (!val) return [];
@@ -378,8 +403,86 @@
         let bannersData = [];
         let reviewsData = [];
         let siteSettings = {};
-        let cart = JSON.parse(localStorage.getItem('tabkha_cart')) || [];
+        let cart = JSON.parse(localStorage.getItem('tabkha_cart') || '[]');
         const baseDeliveryFee = 20;
+
+        function resolveCartItemTrusted(rawItem) {
+            if (!rawItem || !rawItem.cartKey) return null;
+            const qty = Math.max(1, parseInt(rawItem.qty, 10) || 1);
+            const key = String(rawItem.cartKey);
+
+            if (key.startsWith('feeding-')) {
+                const mealId = key.replace('feeding-', '');
+                const meal = feedingMealsData.find(m => m && String(m.id) === String(mealId) && m.available !== false);
+                const price = meal ? (parseFloat(meal.price) || 0) : (parseFloat(rawItem.unitPrice) || 0);
+                if (price <= 0) return null;
+                return {
+                    cartKey: key,
+                    id: meal ? meal.id : rawItem.id,
+                    name: meal ? `${meal.name} (إطعام)` : (rawItem.name || 'وجبة إطعام'),
+                    unitPrice: price,
+                    qty
+                };
+            }
+
+            if (key.startsWith('banner-')) {
+                const banner = bannersData.find(b => b && b.active && (`banner-${b.title}` === key || String(b.id) === String(rawItem.id)));
+                const price = banner ? (parseFloat(banner.price) || 0) : (parseFloat(rawItem.unitPrice) || 0);
+                if (price <= 0) return null;
+                return {
+                    cartKey: key,
+                    id: banner ? banner.id : rawItem.id,
+                    name: banner ? `${banner.title} (عرض البانر)` : (rawItem.name || 'عرض البانر'),
+                    unitPrice: price,
+                    qty
+                };
+            }
+
+            const parts = key.split('-');
+            const itemId = parts[0];
+            const weightMult = parts[1] !== undefined ? parseFloat(parts[1]) : 1;
+            const chickenChoice = parts.slice(2).join('-');
+            const menuItem = menuData.find(m => m && String(m.id) === String(itemId) && m.available !== false);
+
+            if (menuItem) {
+                const rawPrice = parseFloat(menuItem.price) || 0;
+                const isHalf = menuItem.hasWeight && weightMult === 0.5;
+                const baseP = isHalf ? Math.round(rawPrice / 2) : rawPrice;
+                const extraP = (menuItem.hasChickenOption && chickenChoice && chickenChoice.includes('+10')) ? 10 : 0;
+                let descName = menuItem.name;
+                if (menuItem.hasWeight) descName += ` (${isHalf ? 'نصف كيلو' : 'كيلو'})`;
+                if (menuItem.hasChickenOption && chickenChoice) descName += ` [${chickenChoice}]`;
+                return {
+                    cartKey: key,
+                    id: menuItem.id,
+                    name: descName,
+                    unitPrice: baseP + extraP,
+                    qty
+                };
+            }
+
+            const fallbackPrice = parseFloat(rawItem.unitPrice) || 0;
+            if (fallbackPrice <= 0) return null;
+            return {
+                cartKey: key,
+                id: rawItem.id,
+                name: String(rawItem.name || 'صنف'),
+                unitPrice: fallbackPrice,
+                qty
+            };
+        }
+
+        function syncCartWithCatalog() {
+            const hasCatalog = menuData.length > 0 || feedingMealsData.length > 0 || bannersData.length > 0;
+            if (!hasCatalog) return;
+            const updated = [];
+            cart.forEach(c => {
+                const resolved = resolveCartItemTrusted(c);
+                if (resolved) updated.push(resolved);
+            });
+            cart = updated;
+            try { localStorage.setItem('tabkha_cart', JSON.stringify(cart)); } catch(e) {}
+        }
 
         if (categoriesData.length > 0) renderCategoriesGrid();
         if (menuData.length > 0) renderTopProducts();
@@ -399,6 +502,8 @@
         db.ref('tabkha_menu').on('value', s => {
             menuData = parseFirebaseList(s.val());
             try { localStorage.setItem('cache_tabkha_menu', JSON.stringify(menuData)); } catch(e) {}
+            syncCartWithCatalog();
+            saveAndUpdateCart();
             renderTopProducts();
         });
 
@@ -412,15 +517,23 @@
         db.ref('tabkha_feeding_meals').on('value', s => {
             feedingMealsData = parseFirebaseList(s.val());
             try { localStorage.setItem('cache_tabkha_feeding', JSON.stringify(feedingMealsData)); } catch(e) {}
+            syncCartWithCatalog();
+            saveAndUpdateCart();
             populateFeedingSelect();
             renderFeedingCategoryTabs();
             renderFeedingCards();
             calculateFeeding();
         });
 
-        db.ref('tabkha_banners').on('value', s => { bannersData = parseFirebaseList(s.val()); initSlider(); });
+        db.ref('tabkha_banners').on('value', s => {
+            bannersData = parseFirebaseList(s.val());
+            syncCartWithCatalog();
+            saveAndUpdateCart();
+            initSlider();
+        });
+
         db.ref('tabkha_reviews').on('value', s => { reviewsData = parseFirebaseList(s.val()); renderCustomerReviews(); });
-        db.ref('tabkha_marquee').on('value', s => { if(s.val()) document.getElementById('marqueeText').innerText = s.val(); });
+        db.ref('tabkha_marquee').on('value', s => { if(s.val() !== null) document.getElementById('marqueeText').innerText = String(s.val()); });
         db.ref('tabkha_settings').on('value', s => { if(s.val()) { siteSettings = s.val(); applySiteSettingsToUI(); } });
 
         function renderCategoriesGrid() {
@@ -434,10 +547,13 @@
             if (categoriesData.length === 0) return;
 
             categoriesData.forEach(cat => {
+                const safeId = escapeHtml(cat.id);
+                const safeName = escapeHtml(cat.name);
+                const safeImg = escapeHtml(safeUrl(cat.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100'));
                 container.innerHTML += `
-                    <div class="category-card" onclick="selectCategory('${cat.id}')">
-                        <img loading="lazy" src="${cat.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
-                        <span class="cat-name">${cat.name}</span>
+                    <div class="category-card" onclick="selectCategory('${safeId}')">
+                        <img loading="lazy" src="${safeImg}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100';">
+                        <span class="cat-name">${safeName}</span>
                     </div>`;
             });
         }
@@ -480,7 +596,7 @@
                 sel.innerHTML = '<option value="">لا توجد وجبات متاحة</option>';
                 return;
             }
-            sel.innerHTML = avail.map(m => `<option value="${m.id}">${m.name} (${m.price} ج)</option>`).join('');
+            sel.innerHTML = avail.map(m => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)} (${escapeHtml(m.price)} ج)</option>`).join('');
             if (prevVal && avail.some(m => String(m.id) === String(prevVal))) {
                 sel.value = prevVal;
             }
@@ -521,8 +637,8 @@
             if (!tabsEl) return;
             let html = `<button class="feeding-tab-btn ${activeFeedingCat === 'all' ? 'active' : ''}" onclick="filterFeedingByCat('all')">الكل</button>`;
             feedingCatsData.forEach(c => {
-                const isAct = activeFeedingCat === c.id;
-                html += `<button class="feeding-tab-btn ${isAct ? 'active' : ''}" onclick="filterFeedingByCat('${c.id}')">${c.name}</button>`;
+                const isAct = String(activeFeedingCat) === String(c.id);
+                html += `<button class="feeding-tab-btn ${isAct ? 'active' : ''}" onclick="filterFeedingByCat('${escapeHtml(c.id)}')">${escapeHtml(c.name)}</button>`;
             });
             tabsEl.innerHTML = html;
         }
@@ -534,7 +650,7 @@
         }
 
         function addFeedingMealToCart(mealId) {
-            const meal = feedingMealsData.find(m => m && String(m.id) === String(mealId));
+            const meal = feedingMealsData.find(m => m && String(m.id) === String(mealId) && m.available !== false);
             if (!meal) return;
             const cartKey = `feeding-${meal.id}`;
             const found = cart.find(i => i.cartKey === cartKey);
@@ -574,8 +690,8 @@
             }
             if (q) {
                 list = list.filter(m =>
-                    (m.name || '').toLowerCase().includes(q) ||
-                    (m.desc || '').toLowerCase().includes(q)
+                    String(m.name || '').toLowerCase().includes(q) ||
+                    String(m.desc || '').toLowerCase().includes(q)
                 );
             }
 
@@ -589,27 +705,33 @@
                 const catObj = feedingCatsData.find(c => String(c.id) === String(meal.category));
                 const catLabel = catObj ? catObj.name : 'إطعام';
                 const cartItem = cart.find(i => i.cartKey === `feeding-${meal.id}`);
+                const safeId = escapeHtml(meal.id);
+                const safeName = escapeHtml(meal.name);
+                const safeDesc = escapeHtml(meal.desc || '');
+                const safePrice = escapeHtml(meal.price);
+                const safeCat = escapeHtml(catLabel);
+                const safeImg = escapeHtml(safeUrl(meal.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300'));
 
                 const actionHtml = cartItem && cartItem.qty > 0
                     ? `<div class="feeding-qty-row" onclick="event.stopPropagation();">
-                        <button class="feeding-qty-btn" onclick="updateFeedingCartQty('${meal.id}', -1)">-</button>
-                        <span class="feeding-qty-num">${cartItem.qty}</span>
-                        <button class="feeding-qty-btn" onclick="updateFeedingCartQty('${meal.id}', 1)">+</button>
+                        <button class="feeding-qty-btn" onclick="updateFeedingCartQty('${safeId}', -1)">-</button>
+                        <span class="feeding-qty-num">${escapeHtml(cartItem.qty)}</span>
+                        <button class="feeding-qty-btn" onclick="updateFeedingCartQty('${safeId}', 1)">+</button>
                        </div>`
-                    : `<button class="feeding-add-btn" onclick="event.stopPropagation(); addFeedingMealToCart('${meal.id}')">أضف للسلة 🛒</button>`;
+                    : `<button class="feeding-add-btn" onclick="event.stopPropagation(); addFeedingMealToCart('${safeId}')">أضف للسلة 🛒</button>`;
 
                 grid.innerHTML += `
-                    <div class="feeding-card" onclick="addFeedingMealToCart('${meal.id}')">
+                    <div class="feeding-card" onclick="addFeedingMealToCart('${safeId}')">
                         <span class="item-status status-available">🟢 متاح</span>
                         ${meal.top ? '<span class="top-badge">🔥 مميز</span>' : ''}
-                        <img loading="lazy" src="${meal.img || 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300'}" alt="${meal.name}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300';">
+                        <img loading="lazy" src="${safeImg}" alt="${safeName}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300';">
                         <div class="feeding-card-body">
                             <div>
-                                <div class="feeding-card-title">${meal.name}</div>
-                                <div class="feeding-card-desc">${meal.desc || ''}</div>
+                                <div class="feeding-card-title">${safeName}</div>
+                                <div class="feeding-card-desc">${safeDesc}</div>
                                 <div class="feeding-card-meta">
-                                    <span class="feeding-card-price">${meal.price} ج</span>
-                                    <span class="feeding-card-cat">${catLabel}</span>
+                                    <span class="feeding-card-price">${safePrice} ج</span>
+                                    <span class="feeding-card-cat">${safeCat}</span>
                                 </div>
                             </div>
                             ${actionHtml}
@@ -621,10 +743,11 @@
         function applySiteSettingsToUI() {
             document.getElementById('headerBrandTitle').innerText = siteSettings.brandTitle || "طبخة على الجاهز";
             document.getElementById('headerBrandSub').innerText = siteSettings.brandSub || "أكل بيتي • جاهز على التسوية";
-            document.getElementById('headerFbLink').href = siteSettings.fbLink || "#";
-            document.getElementById('socialPageLinkBtn').href = siteSettings.fbLink || "#";
-            if(siteSettings.logoUrl) document.getElementById('headerLogoImg').src = siteSettings.logoUrl;
-            if(siteSettings.socialBannerUrl) document.getElementById('socialBannerImg').src = siteSettings.socialBannerUrl;
+            const fbUrl = safeExternalLink(siteSettings.fbLink, "https://www.facebook.com/share/1MVEbmtDN6/");
+            document.getElementById('headerFbLink').href = fbUrl;
+            document.getElementById('socialPageLinkBtn').href = fbUrl;
+            if(siteSettings.logoUrl) document.getElementById('headerLogoImg').src = safeUrl(siteSettings.logoUrl, 'logo.png');
+            if(siteSettings.socialBannerUrl) document.getElementById('socialBannerImg').src = safeUrl(siteSettings.socialBannerUrl, 'tabka.jpg');
         }
 
         function renderCustomerReviews() {
@@ -636,8 +759,8 @@
             appRev.forEach(rev => {
                 container.innerHTML += `
                     <div class="review-card">
-                        <div class="review-stars">${rev.stars}</div>
-                        <p style="font-size:0.80rem; color:#ddd;">"${rev.text}"</p>
+                        <div class="review-stars">${escapeHtml(rev.stars)}</div>
+                        <p style="font-size:0.80rem; color:#ddd;">"${escapeHtml(rev.text)}"</p>
                     </div>`;
             });
         }
@@ -646,10 +769,14 @@
             const stars = document.getElementById('clientReviewStars').value;
             const text = document.getElementById('clientReviewText').value.trim();
             if(!text) { alert('من فضلك ادخل رأيك قبل الإرسال.'); return; }
-            reviewsData.push({ id: Date.now(), stars, text, approved: false });
-            db.ref('tabkha_reviews').set(reviewsData);
-            document.getElementById('clientReviewText').value = '';
-            alert('شكراً لك! تم إرسال رأيك وسيعرض سحابياً بعد المراجعة. 🌟');
+            if(text.length > 500) { alert('الحد الأقصى للرأي 500 حرف.'); return; }
+            const newRef = db.ref('tabkha_reviews').push();
+            newRef.set({ id: Date.now(), stars, text, approved: false }).then(() => {
+                document.getElementById('clientReviewText').value = '';
+                alert('شكراً لك! تم إرسال رأيك وسيعرض سحابياً بعد المراجعة. 🌟');
+            }).catch(() => {
+                alert('تعذر إرسال الرأي حالياً، حاول مرة أخرى.');
+            });
         }
 
         let currentSlide = 0;
@@ -662,10 +789,13 @@
             if(activeBanners.length === 0) { document.getElementById('sliderContainer').style.display = 'none'; return; }
             document.getElementById('sliderContainer').style.display = 'block';
             activeBanners.forEach((b, idx) => {
+                const safePriceNum = parseFloat(b.price) || 0;
+                const safeTitleAttr = escapeHtml(b.title);
+                const safeImg = escapeHtml(safeUrl(b.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'));
                 wrapper.innerHTML += `
-                    <div class="slide-card" onclick="addBannerToCart(${b.price}, '${b.title}')">
-                        <img loading="lazy" src="${b.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
-                        <div class="slide-overlay"><div class="slide-text"><h3>${b.title} - ${b.price} ج</h3><p>${b.desc}</p></div></div>
+                    <div class="slide-card" onclick="addBannerToCart(${safePriceNum}, '${safeTitleAttr}')">
+                        <img loading="lazy" src="${safeImg}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600'">
+                        <div class="slide-overlay"><div class="slide-text"><h3>${escapeHtml(b.title)} - ${escapeHtml(safePriceNum)} ج</h3><p>${escapeHtml(b.desc)}</p></div></div>
                     </div>`;
                 dotsContainer.innerHTML += `<span class="dot ${idx === 0 ? 'active' : ''}" onclick="currentSlide=${idx}; updateSliderPosition();"></span>`;
             });
@@ -673,9 +803,12 @@
         }
 
         function addBannerToCart(price, title) {
-            const cartKey = `banner-${title}`;
+            const matchedBanner = bannersData.find(b => b && b.active && b.title === title);
+            const trustedPrice = matchedBanner ? (parseFloat(matchedBanner.price) || 0) : (parseFloat(price) || 0);
+            const trustedTitle = matchedBanner ? matchedBanner.title : String(title || 'عرض');
+            const cartKey = `banner-${trustedTitle}`;
             const found = cart.find(i => i.cartKey === cartKey);
-            if(found) found.qty++; else cart.push({ cartKey, id: Date.now(), name: title + " (عرض البانر)", unitPrice: price, qty: 1 });
+            if(found) found.qty++; else cart.push({ cartKey, id: matchedBanner ? matchedBanner.id : Date.now(), name: trustedTitle + " (عرض البانر)", unitPrice: trustedPrice, qty: 1 });
             saveAndUpdateCart(); openCheckout();
         }
 
@@ -698,7 +831,7 @@
             document.getElementById('homeExtraSections').style.display = 'none';
             document.getElementById('menu-container').style.display = 'grid';
             document.getElementById('backToCatsBtn').style.display = 'inline-block';
-            const catObj = categoriesData.find(c => c.id === catKey);
+            const catObj = categoriesData.find(c => String(c.id) === String(catKey));
             document.getElementById('sectionHeadingText').innerText = catObj ? catObj.name : 'المنيو';
             renderMenu(catKey);
         }
@@ -714,59 +847,70 @@
             document.getElementById('searchInput').value = '';
         }
 
+        function buildMenuCardHtml(item) {
+            const safeId = escapeHtml(item.id);
+            const safeName = escapeHtml(item.name);
+            const safeDesc = escapeHtml(item.desc || 'طازة ومخدوم على أصوله البيتي');
+            const safePrice = escapeHtml(item.price);
+            const safeWeightUnit = escapeHtml(item.weight || 'حبة');
+            const safeImg = escapeHtml(safeUrl(item.img, 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400'));
+
+            let weightHTML = item.hasWeight ? `
+                <div class="options-box" onclick="event.stopPropagation();">
+                    <label>اختر الوزن:</label>
+                    <select id="weight-${safeId}">
+                        <option value="1">كيلو (${safePrice} ج)</option>
+                        <option value="0.5">نصف كيلو (${escapeHtml(Math.round((parseFloat(item.price) || 0) / 2))} ج)</option>
+                    </select>
+                </div>` : '';
+
+            let chickenHTML = item.hasChickenOption ? `
+                <div class="options-box" onclick="event.stopPropagation();">
+                    <label>قطعة الدجاج (الصدر +10ج):</label>
+                    <select id="chicken-${safeId}">
+                        <option value="وِرك">وِرك (بدون زيادة)</option>
+                        <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
+                    </select>
+                </div>` : '';
+
+            const cartItem = cart.find(i => String(i.id) === String(item.id) && !String(i.cartKey).startsWith('feeding-') && !String(i.cartKey).startsWith('banner-'));
+            let actionArea = cartItem && cartItem.qty > 0 ? `
+                <div class="card-qty-row" onclick="event.stopPropagation();">
+                    <button class="card-qty-btn" onclick="updateCardQty('${safeId}', -1)">-</button>
+                    <span class="card-qty-num">${escapeHtml(cartItem.qty)} في السلة</span>
+                    <button class="card-qty-btn" onclick="updateCardQty('${safeId}', 1)">+</button>
+                </div>` : `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCartFromUI('${safeId}')">أضف إلى السلة 🛒</button>`;
+
+            return `
+                <div class="menu-item" onclick="addToCartFromUI('${safeId}')">
+                    <span class="item-status status-available">🟢 متاح</span>
+                    <img loading="lazy" src="${safeImg}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
+                    <div class="item-details">
+                        <div class="item-info">
+                            <h3>${safeName}</h3>
+                            <div class="item-desc">${safeDesc}</div>
+                            <div class="item-meta">
+                                <div class="item-price">${safePrice} ج</div>
+                                <div class="item-weight">${safeWeightUnit}</div>
+                            </div>
+                        </div>
+                        ${weightHTML} ${chickenHTML}
+                        <div id="action-${safeId}">${actionArea}</div>
+                    </div>
+                </div>`;
+        }
+
         function renderMenu(category = 'ready', query = '') {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
             let filtered = menuData.filter(item => item && item.available !== false);
-            if(query.trim() !== '') filtered = filtered.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
-            else filtered = filtered.filter(item => item.category === category);
+            if(query.trim() !== '') filtered = filtered.filter(item => String(item.name || '').toLowerCase().includes(query.toLowerCase()));
+            else filtered = filtered.filter(item => String(item.category) === String(category));
             
             if(filtered.length === 0) { container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 20px;">عذراً، لم نجد نتائج متاحة مطابقة لبحثك.</p>'; return; }
             
             filtered.forEach(item => {
-                let weightHTML = item.hasWeight ? `
-                    <div class="options-box" onclick="event.stopPropagation();">
-                        <label>اختر الوزن:</label>
-                        <select id="weight-${item.id}">
-                            <option value="1">كيلو (${item.price} ج)</option>
-                            <option value="0.5">نصف كيلو (${Math.round(item.price / 2)} ج)</option>
-                        </select>
-                    </div>` : '';
-
-                let chickenHTML = item.hasChickenOption ? `
-                    <div class="options-box" onclick="event.stopPropagation();">
-                        <label>قطعة الدجاج (الصدر +10ج):</label>
-                        <select id="chicken-${item.id}">
-                            <option value="وِرك">وِرك (بدون زيادة)</option>
-                            <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
-                        </select>
-                    </div>` : '';
-
-                const cartItem = cart.find(i => i.id === item.id);
-                let actionArea = cartItem && cartItem.qty > 0 ? `
-                    <div class="card-qty-row" onclick="event.stopPropagation();">
-                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
-                        <span class="card-qty-num">${cartItem.qty} في السلة</span>
-                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>` : `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCartFromUI(${item.id})">أضف إلى السلة 🛒</button>`;
-
-                container.innerHTML += `
-                    <div class="menu-item" onclick="addToCartFromUI(${item.id})">
-                        <span class="item-status status-available">🟢 متاح</span>
-                        <img loading="lazy" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
-                        <div class="item-details">
-                            <div class="item-info">
-                                <h3>${item.name}</h3>
-                                <div class="item-desc">${item.desc || 'طازة ومخدوم على أصوله البيتي'}</div>
-                                <div class="item-meta">
-                                    <div class="item-price">${item.price} ج</div>
-                                    <div class="item-weight">${item.weight || 'حبة'}</div>
-                                </div>
-                            </div>
-                            ${weightHTML} ${chickenHTML}
-                            <div id="action-${item.id}">${actionArea}</div>
-                        </div>
-                    </div>`;
+                container.innerHTML += buildMenuCardHtml(item);
             });
         }
 
@@ -775,49 +919,7 @@
             if(!container) return;
             container.innerHTML = '';
             menuData.filter(i => i && i.top && i.available !== false).forEach(item => {
-                let weightHTML = item.hasWeight ? `
-                    <div class="options-box" onclick="event.stopPropagation();">
-                        <label>اختر الوزن:</label>
-                        <select id="weight-${item.id}">
-                            <option value="1">كيلو (${item.price} ج)</option>
-                            <option value="0.5">نصف كيلو (${Math.round(item.price / 2)} ج)</option>
-                        </select>
-                    </div>` : '';
-
-                let chickenHTML = item.hasChickenOption ? `
-                    <div class="options-box" onclick="event.stopPropagation();">
-                        <label>قطعة الدجاج (الصدر +10ج):</label>
-                        <select id="chicken-${item.id}">
-                            <option value="وِرك">وِرك (بدون زيادة)</option>
-                            <option value="صَدْر (+10ج)">صَدْر (+10 جنيه)</option>
-                        </select>
-                    </div>` : '';
-
-                const cartItem = cart.find(i => i.id === item.id);
-                let actionArea = cartItem && cartItem.qty > 0 ? `
-                    <div class="card-qty-row" onclick="event.stopPropagation();">
-                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, -1)">-</button>
-                        <span class="card-qty-num">${cartItem.qty} في السلة</span>
-                        <button class="card-qty-btn" onclick="updateCardQty(${item.id}, 1)">+</button>
-                    </div>` : `<button class="add-cart-btn" onclick="event.stopPropagation(); addToCartFromUI(${item.id})">أضف إلى السلة 🛒</button>`;
-
-                container.innerHTML += `
-                    <div class="menu-item" onclick="addToCartFromUI(${item.id})">
-                        <span class="item-status status-available">🟢 متاح</span>
-                        <img loading="lazy" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400';">
-                        <div class="item-details">
-                            <div class="item-info">
-                                <h3>${item.name}</h3>
-                                <div class="item-desc">${item.desc || 'الأكثر طلباً ومفضلة حبايبنا'}</div>
-                                <div class="item-meta">
-                                    <div class="item-price">${item.price} ج</div>
-                                    <div class="item-weight">${item.weight || 'حبة'}</div>
-                                </div>
-                            </div>
-                            ${weightHTML} ${chickenHTML}
-                            <div id="action-top-${item.id}">${actionArea}</div>
-                        </div>
-                    </div>`;
+                container.innerHTML += buildMenuCardHtml(item);
             });
         }
 
@@ -838,7 +940,7 @@
         function addToCartFromUI(id) {
             let weightMultiplier = 1;
             const wElem = document.getElementById(`weight-${id}`);
-            if(wElem) weightMultiplier = parseFloat(wElem.value);
+            if(wElem) weightMultiplier = parseFloat(wElem.value) === 0.5 ? 0.5 : 1;
 
             let chickenChoice = "";
             let extraPrice = 0;
@@ -848,24 +950,29 @@
         }
 
         function addToCart(id, weightMultiplier = 1, chickenChoice = "", extraPrice = 0) {
-            const item = menuData.find(i => i.id === id);
+            const item = menuData.find(i => i && String(i.id) === String(id) && i.available !== false);
             if (!item) return;
-            let basePrice = item.price;
+            let basePrice = parseFloat(item.price) || 0;
             let sizeName = "كيلو";
-            if(weightMultiplier === 0.5) { basePrice = Math.round(item.price / 2); sizeName = "نصف كيلو"; }
-            let finalUnitPrice = basePrice + extraPrice;
+            if(item.hasWeight && weightMultiplier === 0.5) { basePrice = Math.round(basePrice / 2); sizeName = "نصف كيلو"; }
+            const appliedExtra = (item.hasChickenOption && String(chickenChoice).includes("+10")) ? 10 : 0;
+            let finalUnitPrice = basePrice + appliedExtra;
             let descriptiveName = item.name + (item.hasWeight ? ` (${sizeName})` : '');
-            if(chickenChoice) descriptiveName += ` [${chickenChoice}]`;
+            if(item.hasChickenOption && chickenChoice) descriptiveName += ` [${chickenChoice}]`;
 
-            const cartKey = `${id}-${weightMultiplier}-${chickenChoice}`;
+            const cartKey = `${item.id}-${item.hasWeight && weightMultiplier === 0.5 ? 0.5 : 1}-${item.hasChickenOption ? chickenChoice : ''}`;
             const found = cart.find(i => i.cartKey === cartKey);
             if(found) found.qty++; else cart.push({ cartKey, id: item.id, name: descriptiveName, unitPrice: finalUnitPrice, qty: 1 });
             saveAndUpdateCart(); renderTopProducts();
         }
 
         function updateCardQty(id, delta) {
-            const found = cart.find(i => i.id === id);
-            if(found) { found.qty += delta; if(found.qty <= 0) cart = cart.filter(i => i.id !== id); }
+            const matches = cart.filter(i => String(i.id) === String(id) && !String(i.cartKey).startsWith('feeding-') && !String(i.cartKey).startsWith('banner-'));
+            if(matches.length > 0) {
+                const target = matches[matches.length - 1];
+                target.qty += delta;
+                if(target.qty <= 0) cart = cart.filter(i => i.cartKey !== target.cartKey);
+            }
             saveAndUpdateCart(); renderTopProducts();
         }
 
@@ -877,9 +984,10 @@
         }
 
         function saveAndUpdateCart() {
-            localStorage.setItem('tabkha_cart', JSON.stringify(cart));
-            const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
-            const subTotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.qty), 0);
+            syncCartWithCatalog();
+            try { localStorage.setItem('tabkha_cart', JSON.stringify(cart)); } catch(e) {}
+            const totalCount = cart.reduce((sum, i) => sum + (parseInt(i.qty, 10) || 0), 0);
+            const subTotal = cart.reduce((sum, i) => sum + ((parseFloat(i.unitPrice) || 0) * (parseInt(i.qty, 10) || 0)), 0);
             const cartBar = document.getElementById('cartBar');
             if(totalCount > 0) {
                 cartBar.style.display = 'flex';
@@ -889,19 +997,23 @@
         }
 
         function openCheckout() {
+            syncCartWithCatalog();
             if(cart.length === 0) { alert('السلة فارغة!'); return; }
             const modal = document.getElementById('checkoutModal');
             const list = document.getElementById('cartItemsList');
             list.innerHTML = ''; let subTotal = 0;
             cart.forEach(item => {
-                subTotal += item.unitPrice * item.qty;
+                const unitP = parseFloat(item.unitPrice) || 0;
+                const q = parseInt(item.qty, 10) || 1;
+                subTotal += unitP * q;
+                const safeKey = escapeHtml(item.cartKey);
                 list.innerHTML += `
                     <div class="cart-item-row">
-                        <div><strong>${item.name}</strong><br><span style="color:var(--gold); font-size:0.75rem;">${item.unitPrice * item.qty} ج</span></div>
+                        <div><strong>${escapeHtml(item.name)}</strong><br><span style="color:var(--gold); font-size:0.75rem;">${escapeHtml(unitP * q)} ج</span></div>
                         <div class="qty-controls">
-                            <button class="qty-btn" onclick="changeQty('${item.cartKey}', -1)">-</button>
-                            <span style="font-size:0.85rem; font-weight:bold;">${item.qty}</span>
-                            <button class="qty-btn" onclick="changeQty('${item.cartKey}', 1)">+</button>
+                            <button class="qty-btn" onclick="changeQty('${safeKey}', -1)">-</button>
+                            <span style="font-size:0.85rem; font-weight:bold;">${escapeHtml(q)}</span>
+                            <button class="qty-btn" onclick="changeQty('${safeKey}', 1)">+</button>
                         </div>
                     </div>`;
             });
@@ -929,25 +1041,31 @@
         }
 
         function sendToWhatsApp() {
-            const name = document.getElementById('clientName').value;
-            const phone = document.getElementById('clientPhone').value;
-            const area = document.getElementById('clientArea').value;
-            const address = document.getElementById('clientAddress').value;
+            syncCartWithCatalog();
+            if(cart.length === 0) { alert('السلة فارغة!'); return; }
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const area = document.getElementById('clientArea').value.trim();
+            const address = document.getElementById('clientAddress').value.trim();
             const payment = document.getElementById('paymentMethod').value;
-            const notes = document.getElementById('clientNotes').value;
+            const notes = document.getElementById('clientNotes').value.trim();
 
             if(!name || !phone || !area || !address) { alert('أكمل بيانات الاسم والموبايل والعنوان.'); return; }
 
             let msg = "🛒 *أوردر جديد من طبخة على الجاهز*\n----------------------------------\n";
-            cart.forEach(i => msg += `▪️ ${i.name} (×${i.qty}) : ${i.unitPrice * i.qty} ج\n`);
-            let sub = cart.reduce((s, i) => s + (i.unitPrice * i.qty), 0);
+            cart.forEach(i => {
+                const unitP = parseFloat(i.unitPrice) || 0;
+                const q = parseInt(i.qty, 10) || 1;
+                msg += `▪️ ${i.name} (×${q}) : ${unitP * q} ج\n`;
+            });
+            let sub = cart.reduce((s, i) => s + ((parseFloat(i.unitPrice) || 0) * (parseInt(i.qty, 10) || 1)), 0);
             msg += `----------------------------------\n💰 *الإجمالي النهائي: ${sub + baseDeliveryFee} ج*\n\n`;
             msg += `👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📍 المنطقة: ${area}\n🏠 العنوان: ${address}\n💳 الدفع: ${payment}\n`;
             if(payment !== "كاش عند الاستلام") msg += `📸 *(تم التحويل وسيرسل العميل صورة التحويل)*\n`;
             if(notes) msg += `📝 ملاحظات: ${notes}\n`;
 
-            window.open(`https://wa.me/201129933758?text=${encodeURI(msg)}`, '_blank');
-            cart = []; localStorage.removeItem('tabkha_cart'); saveAndUpdateCart(); closeCheckout(); showCategoriesView();
+            window.open(`https://wa.me/201129933758?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+            cart = []; try { localStorage.removeItem('tabkha_cart'); } catch(e) {} saveAndUpdateCart(); closeCheckout(); showCategoriesView();
         }
 
         saveAndUpdateCart();
